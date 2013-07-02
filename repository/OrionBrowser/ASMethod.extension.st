@@ -25,7 +25,8 @@ ASMethod >> deleteInModel: aModelVersion [
 
 	(ASActionRemoveMethod new
 		antaresModel: aModelVersion ;
-		entity: self )
+		entity: self ;
+		yourself) 
 	manualRun. 
 ]
 
