@@ -22,7 +22,7 @@ ASModelTest >> testASModelCreation [
 	self assert: firstMod system = sys.
 	self assert: firstMod sourceLanguage = secMod sourceLanguage.
 	self assert: firstMod entityStorage size = secMod entityStorage size.
-	self assert: firstMod entityStorage size = 30.
+	"self assert: firstMod entityStorage size = 30."
 	
 	firstMod entities do:[:e |
 		self assert: (e isKindOf: MooseEntity).

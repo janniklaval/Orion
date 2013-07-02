@@ -1049,7 +1049,7 @@ ASActionTest >> testOPRemovePackage [
 	"self assert:(antaresModel  includes: (antaresModel entityNamed:#'PackageTest')).
 	self deny:(asM2 includes: (antaresModel entityNamed:#'PackageTest'))."
 	
-	self assert: antaresModel size equals: (asM2 size + 14). "Classes and methods have been removed"
+	self assert: antaresModel size equals: (asM2 size + 15). "Classes and methods have been removed"
 	
 ]
 
