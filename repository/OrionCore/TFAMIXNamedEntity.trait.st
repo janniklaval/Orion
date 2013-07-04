@@ -7,60 +7,60 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXNamedEntity >> annotationInstances [
-	^ self annotationInstancesAS: self currentContext
+	^ self annotationInstancesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXNamedEntity >> annotationInstancesAS: aVersion [
+TFAMIXNamedEntity >> annotationInstancesOR: aVersion [
 	^ self privateAnnotationInstances versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXNamedEntity >> isStub [
-	^ self isStubAS: self currentContext
+	^ self isStubOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXNamedEntity >> isStubAS: aVersion [
+TFAMIXNamedEntity >> isStubOR: aVersion [
 	^ self privateIsStub versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXNamedEntity >> modifiers [
-	^ self modifiersAS: self currentContext
+	^ self modifiersOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXNamedEntity >> modifiersAS: aVersion [
+TFAMIXNamedEntity >> modifiersOR: aVersion [
 	^ self privateModifiers versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXNamedEntity >> name [
-	^ self nameAS: self currentContext
+	^ self nameOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXNamedEntity >> nameAS: aVersion [
+TFAMIXNamedEntity >> nameOR: aVersion [
 	^ self privateName versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXNamedEntity >> parentPackage [
-	^ self parentPackageAS: self currentContext
+	^ self parentPackageOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXNamedEntity >> parentPackageAS: aVersion [
+TFAMIXNamedEntity >> parentPackageOR: aVersion [
 	^ self privateParentPackage versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXNamedEntity >> receivingInvocations [
-	^ self receivingInvocationsAS: self currentContext
+	^ self receivingInvocationsOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXNamedEntity >> receivingInvocationsAS: aVersion [
+TFAMIXNamedEntity >> receivingInvocationsOR: aVersion [
 	^ self privateReceivingInvocations versionIn: aVersion
 ]

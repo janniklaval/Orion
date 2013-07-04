@@ -7,70 +7,70 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXType >> attributes [
-	^ self attributesAS: self currentContext
+	^ self attributesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXType >> attributesAS: aVersion [
+TFAMIXType >> attributesOR: aVersion [
 	^ self privateAttributes versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXType >> behavioursWithDeclaredType [
-	^ self behavioursWithDeclaredTypeAS: self currentContext
+	^ self behavioursWithDeclaredTypeOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXType >> behavioursWithDeclaredTypeAS: aVersion [
+TFAMIXType >> behavioursWithDeclaredTypeOR: aVersion [
 	^ self privateBehavioursWithDeclaredType versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXType >> container [
-	^ self containerAS: self currentContext
+	^ self containerOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXType >> containerAS: aVersion [
+TFAMIXType >> containerOR: aVersion [
 	^ self privateContainer versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXType >> methods [
-	^ self methodsAS: self currentContext
+	^ self methodsOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXType >> methodsAS: aVersion [
+TFAMIXType >> methodsOR: aVersion [
 	^ self privateMethods versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXType >> structuresWithDeclaredType [
-	^ self structuresWithDeclaredTypeAS: self currentContext
+	^ self structuresWithDeclaredTypeOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXType >> structuresWithDeclaredTypeAS: aVersion [
+TFAMIXType >> structuresWithDeclaredTypeOR: aVersion [
 	^ self privateStructuresWithDeclaredType versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXType >> subInheritances [
-	^ self subInheritancesAS: self currentContext
+	^ self subInheritancesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXType >> subInheritancesAS: aVersion [
+TFAMIXType >> subInheritancesOR: aVersion [
 	^ self privateSubInheritances versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXType >> superInheritances [
-	^ self superInheritancesAS: self currentContext
+	^ self superInheritancesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXType >> superInheritancesAS: aVersion [
+TFAMIXType >> superInheritancesOR: aVersion [
 	^ self privateSuperInheritances versionIn: aVersion
 ]

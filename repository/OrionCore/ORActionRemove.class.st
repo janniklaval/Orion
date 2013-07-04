@@ -1,0 +1,20 @@
+Class {
+	#name : #ORActionRemove,
+	#superclass : #ORAction,
+	#category : #'OrionCore-action'
+}
+
+{ #category : #'as yet unclassified' }
+ORActionRemove class >> description [
+	^'remove'
+]
+
+{ #category : #'as yet unclassified' }
+ORActionRemove class >> needs: anElement [
+	^nil
+]
+
+{ #category : #'method execution' }
+ORActionRemove >> postRun [
+	"self orionModel removed at: entity mooseID put: entity"
+]

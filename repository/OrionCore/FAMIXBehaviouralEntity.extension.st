@@ -6,8 +6,8 @@ FAMIXBehaviouralEntity >> privateAccesses [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXBehaviouralEntity >> privateAccesses: anAccess [ 
-	accesses := anAccess
+FAMIXBehaviouralEntity >> privateAccesses: aAccess [
+	 accesses := aAccess
 ]
 
 { #category : #'*OrionCore-model' }
@@ -17,58 +17,65 @@ FAMIXBehaviouralEntity >> privateDeclaredType [
 
 { #category : #'*OrionCore-model' }
 FAMIXBehaviouralEntity >> privateDeclaredType: aType [
-	declaredType :=  aType
+	 declaredType := aType
+]
+
+{ #category : #'*OrionCore-model' }
+FAMIXBehaviouralEntity >> privateImplicitVariables [
+	^ implicitVariables
+]
+
+{ #category : #'*OrionCore-model' }
+FAMIXBehaviouralEntity >> privateImplicitVariables: aImplicitVariable [
+	 implicitVariables := aImplicitVariable
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXBehaviouralEntity >> privateIncomingInvocations [
-	^incomingInvocations
+	^ incomingInvocations
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXBehaviouralEntity >> privateIncomingInvocations: anInvocation [
-	incomingInvocations := anInvocation
+FAMIXBehaviouralEntity >> privateIncomingInvocations: aInvocation [
+	 incomingInvocations := aInvocation
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXBehaviouralEntity >> privateLocalVariables [
-
-	^localVariables
+	^ localVariables
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXBehaviouralEntity >> privateLocalVariables: aLocalVariable [
-	localVariables := aLocalVariable
+	 localVariables := aLocalVariable
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXBehaviouralEntity >> privateOutgoingInvocations [
-	^outgoingInvocations
+	^ outgoingInvocations
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXBehaviouralEntity >> privateOutgoingInvocations: outgoing [
-	outgoingInvocations := outgoing
+FAMIXBehaviouralEntity >> privateOutgoingInvocations: aInvocation [
+	 outgoingInvocations := aInvocation
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXBehaviouralEntity >> privateParameters [
-
-	^parameters
+	^ parameters
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXBehaviouralEntity >> privateParameters: param [
-	parameters := param
+FAMIXBehaviouralEntity >> privateParameters: aParameter [
+	 parameters := aParameter
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXBehaviouralEntity >> privateSignature [
-	^signature
+	^ signature
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXBehaviouralEntity >> privateSignature: aString [
-
-	signature := aString
+	 signature := aString
 ]

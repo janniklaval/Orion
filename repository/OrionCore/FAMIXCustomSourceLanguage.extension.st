@@ -2,10 +2,10 @@ Extension { #name : #FAMIXCustomSourceLanguage }
 
 { #category : #'*OrionCore-model' }
 FAMIXCustomSourceLanguage >> privateName [
-	^name
+	^ name
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXCustomSourceLanguage >> privateName: aString [
-	name := aString
+	 name := aString
 ]

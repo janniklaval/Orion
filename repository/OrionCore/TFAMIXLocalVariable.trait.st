@@ -7,10 +7,10 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXLocalVariable >> parentBehaviouralEntity [
-	^ self parentBehaviouralEntityAS: self currentContext
+	^ self parentBehaviouralEntityOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXLocalVariable >> parentBehaviouralEntityAS: aVersion [
+TFAMIXLocalVariable >> parentBehaviouralEntityOR: aVersion [
 	^ self privateParentBehaviouralEntity versionIn: aVersion
 ]

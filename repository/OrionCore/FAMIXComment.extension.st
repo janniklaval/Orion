@@ -6,16 +6,6 @@ FAMIXComment >> privateContainer [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXComment >> privateContainer: aContainer [
-	container := aContainer
-]
-
-{ #category : #'*OrionCore-model' }
-FAMIXComment >> privateContentString [
-	^ contentString
-]
-
-{ #category : #'*OrionCore-model' }
-FAMIXComment >> privateContentString: aString [
-	contentString := aString
+FAMIXComment >> privateContainer: aSourcedEntity [
+	 container := aSourcedEntity
 ]

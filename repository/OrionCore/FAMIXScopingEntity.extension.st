@@ -6,8 +6,8 @@ FAMIXScopingEntity >> privateChildScopes [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXScopingEntity >> privateChildScopes: aCollectionOfScopingEntity [ 
-	childScopes := aCollectionOfScopingEntity
+FAMIXScopingEntity >> privateChildScopes: aScopingEntity [
+	 childScopes := aScopingEntity
 ]
 
 { #category : #'*OrionCore-model' }
@@ -16,18 +16,18 @@ FAMIXScopingEntity >> privateFunctions [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXScopingEntity >> privateFunctions: aCollectionOfFunctions [
-	functions := aCollectionOfFunctions
+FAMIXScopingEntity >> privateFunctions: aFunction [
+	 functions := aFunction
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXScopingEntity >> privateGlobalVariables [
-	^globalVariables
+	^ globalVariables
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXScopingEntity >> privateGlobalVariables: aGlobalVariable [
-	globalVariables := aGlobalVariable
+	 globalVariables := aGlobalVariable
 ]
 
 { #category : #'*OrionCore-model' }
@@ -36,6 +36,6 @@ FAMIXScopingEntity >> privateParentScope [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXScopingEntity >> privateParentScope: aScopingEntity [ 
-	parentScope := aScopingEntity
+FAMIXScopingEntity >> privateParentScope: aFunction [
+	 parentScope := aFunction
 ]

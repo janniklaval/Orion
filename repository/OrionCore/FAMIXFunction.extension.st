@@ -1,12 +1,21 @@
 Extension { #name : #FAMIXFunction }
 
 { #category : #'*OrionCore-model' }
-FAMIXFunction >> privateParentScope [
+FAMIXFunction >> privateFunctions [
+	^ functions
+]
 
+{ #category : #'*OrionCore-model' }
+FAMIXFunction >> privateFunctions: aFunction [
+	 functions := aFunction
+]
+
+{ #category : #'*OrionCore-model' }
+FAMIXFunction >> privateParentScope [
 	^ parentScope
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXFunction >> privateParentScope: aScopingEntity [ 
-	parentScope := aScopingEntity
+FAMIXFunction >> privateParentScope: aFunction [
+	 parentScope := aFunction
 ]

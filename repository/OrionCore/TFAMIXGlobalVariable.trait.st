@@ -7,10 +7,10 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXGlobalVariable >> parentScope [
-	^ self parentScopeAS: self currentContext
+	^ self parentScopeOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXGlobalVariable >> parentScopeAS: aVersion [
+TFAMIXGlobalVariable >> parentScopeOR: aVersion [
 	^ self privateParentScope versionIn: aVersion
 ]

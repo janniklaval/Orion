@@ -7,20 +7,20 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXAttribute >> hasClassScope [
-	^ self hasClassScopeAS: self currentContext
+	^ self hasClassScopeOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXAttribute >> hasClassScopeAS: aVersion [
+TFAMIXAttribute >> hasClassScopeOR: aVersion [
 	^ self privateHasClassScope versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXAttribute >> parentType [
-	^ self parentTypeAS: self currentContext
+	^ self parentTypeOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXAttribute >> parentTypeAS: aVersion [
+TFAMIXAttribute >> parentTypeOR: aVersion [
 	^ self privateParentType versionIn: aVersion
 ]

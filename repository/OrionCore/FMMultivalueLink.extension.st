@@ -1,8 +1,8 @@
 Extension { #name : #FMMultivalueLink }
 
 { #category : #'*OrionCore-model' }
-FMMultivalueLink >> antaresCopy [
-	"Must copy the associations, or later store will affect both the
+FMMultivalueLink >> orionCopy [
+	"Must the associations, or later store will affect both the
 original and the copy"
 	|copy|
 	
@@ -10,7 +10,7 @@ original and the copy"
 ]
 
 { #category : #'*OrionCore-model' }
-FMMultivalueLink >> antaresRemove: element [
+FMMultivalueLink >> orionRemove: element [
 
 	values remove: (values detect:[:e | e mooseID = element mooseID] ifNone: [nil]) ifAbsent: [nil].
 	

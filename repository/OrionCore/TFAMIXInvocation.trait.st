@@ -7,50 +7,70 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXInvocation >> candidates [
-	^ self candidatesAS: self currentContext
+	^ self candidatesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXInvocation >> candidatesAS: aVersion [
+TFAMIXInvocation >> candidatesOR: aVersion [
 	^ self privateCandidates versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXInvocation >> receiver [
-	^ self receiverAS: self currentContext
+TFAMIXInvocation >> next [
+	^ self nextOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXInvocation >> receiverAS: aVersion [
+TFAMIXInvocation >> nextOR: aVersion [
+	^ self privateNext versionIn: aVersion
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXInvocation >> previous [
+	^ self previousOR: self currentContext
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXInvocation >> previousOR: aVersion [
+	^ self privatePrevious versionIn: aVersion
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXInvocation >> receiver [
+	^ self receiverOR: self currentContext
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXInvocation >> receiverOR: aVersion [
 	^ self privateReceiver versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXInvocation >> receiverSourceCode [
-	^ self receiverSourceCodeAS: self currentContext
+	^ self receiverSourceCodeOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXInvocation >> receiverSourceCodeAS: aVersion [
+TFAMIXInvocation >> receiverSourceCodeOR: aVersion [
 	^ self privateReceiverSourceCode versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXInvocation >> sender [
-	^ self senderAS: self currentContext
+	^ self senderOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXInvocation >> senderAS: aVersion [
+TFAMIXInvocation >> senderOR: aVersion [
 	^ self privateSender versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXInvocation >> signature [
-	^ self signatureAS: self currentContext
+	^ self signatureOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXInvocation >> signatureAS: aVersion [
+TFAMIXInvocation >> signatureOR: aVersion [
 	^ self privateSignature versionIn: aVersion
 ]

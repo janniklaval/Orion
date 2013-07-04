@@ -7,10 +7,10 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXSourceAnchor >> element [
-	^ self elementAS: self currentContext
+	^ self elementOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXSourceAnchor >> elementAS: aVersion [
+TFAMIXSourceAnchor >> elementOR: aVersion [
 	^ self privateElement versionIn: aVersion
 ]

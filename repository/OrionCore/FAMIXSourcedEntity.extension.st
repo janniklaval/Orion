@@ -2,41 +2,30 @@ Extension { #name : #FAMIXSourcedEntity }
 
 { #category : #'*OrionCore-model' }
 FAMIXSourcedEntity >> privateComments [
-	^comments
+	^ comments
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXSourcedEntity >> privateComments: aCollection [
-
-	comments := aCollection
+FAMIXSourcedEntity >> privateComments: aComment [
+	 comments := aComment
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXSourcedEntity >> privateDeclaredSourceLanguage [
-	^declaredSourceLanguage
+	^ declaredSourceLanguage
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXSourcedEntity >> privateDeclaredSourceLanguage: aSourceLanguage [
-	declaredSourceLanguage :=  aSourceLanguage 
+	 declaredSourceLanguage := aSourceLanguage
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXSourcedEntity >> privateSourceAnchor [
-	^sourceAnchor
+	^ sourceAnchor
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXSourcedEntity >> privateSourceAnchor: aSourceAnchor [
-	sourceAnchor := aSourceAnchor
-]
-
-{ #category : #'*OrionCore-model' }
-FAMIXSourcedEntity >> privateSourceLanguage [
-	^ sourceLanguage
-]
-
-{ #category : #'*OrionCore-model' }
-FAMIXSourcedEntity >> privateSourceLanguage: aSourceLanguage [
-	sourceLanguage := aSourceLanguage
+	 sourceAnchor := aSourceAnchor
 ]

@@ -6,8 +6,8 @@ FAMIXAssociation >> privateNext [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXAssociation >> privateNext: anAssociation [
-	next := anAssociation
+FAMIXAssociation >> privateNext: aAssociation [
+	 next := aAssociation
 ]
 
 { #category : #'*OrionCore-model' }
@@ -16,6 +16,6 @@ FAMIXAssociation >> privatePrevious [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXAssociation >> privatePrevious: anAssociation [ 
-	previous := anAssociation
+FAMIXAssociation >> privatePrevious: aAssociation [
+	 previous := aAssociation
 ]

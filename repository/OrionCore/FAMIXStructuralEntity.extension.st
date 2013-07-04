@@ -2,20 +2,20 @@ Extension { #name : #FAMIXStructuralEntity }
 
 { #category : #'*OrionCore-model' }
 FAMIXStructuralEntity >> privateDeclaredType [
-	^declaredType
+	^ declaredType
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXStructuralEntity >> privateDeclaredType: aType [
-	declaredType :=  aType
+	 declaredType := aType
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXStructuralEntity >> privateIncomingAccesses [
-	^incomingAccesses
+	^ incomingAccesses
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXStructuralEntity >> privateIncomingAccesses: anAccess [
-	incomingAccesses := anAccess
+FAMIXStructuralEntity >> privateIncomingAccesses: aAccess [
+	 incomingAccesses := aAccess
 ]

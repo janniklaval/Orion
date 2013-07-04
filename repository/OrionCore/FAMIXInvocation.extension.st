@@ -2,51 +2,50 @@ Extension { #name : #FAMIXInvocation }
 
 { #category : #'*OrionCore-model' }
 FAMIXInvocation >> privateCandidates [
-	^candidates
+	^ candidates
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXInvocation >> privateCandidates: aCollection [ 
-	candidates := aCollection
+FAMIXInvocation >> privateCandidates: aBehaviouralEntity [
+	 candidates := aBehaviouralEntity
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXInvocation >> privateReceiver [
-	^receiver
+	^ receiver
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXInvocation >> privateReceiver: aNamedEntity [
-	receiver := aNamedEntity
+	 receiver := aNamedEntity
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXInvocation >> privateReceiverSourceCode [
-	^receiverSourceCode
+	^ receiverSourceCode
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXInvocation >> privateReceiverSourceCode: aString [
-	receiverSourceCode := aString
+	 receiverSourceCode := aString
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXInvocation >> privateSender [
-	^sender
+	^ sender
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXInvocation >> privateSender: aBehaviouralEntity [
-	sender := aBehaviouralEntity
+	 sender := aBehaviouralEntity
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXInvocation >> privateSignature [
-	^signature
+	^ signature
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXInvocation >> privateSignature: aString [
-
-	signature := aString
+	 signature := aString
 ]

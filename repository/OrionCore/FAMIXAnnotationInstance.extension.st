@@ -6,8 +6,8 @@ FAMIXAnnotationInstance >> privateAnnotatedEntity [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXAnnotationInstance >> privateAnnotatedEntity: anEntity [
-	annotatedEntity := anEntity
+FAMIXAnnotationInstance >> privateAnnotatedEntity: aNamedEntity [
+	 annotatedEntity := aNamedEntity
 ]
 
 { #category : #'*OrionCore-model' }
@@ -16,8 +16,8 @@ FAMIXAnnotationInstance >> privateAnnotationType [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXAnnotationInstance >> privateAnnotationType: anAnnotationType [
-	annotationType := anAnnotationType
+FAMIXAnnotationInstance >> privateAnnotationType: aAnnotationType [
+	 annotationType := aAnnotationType
 ]
 
 { #category : #'*OrionCore-model' }
@@ -26,6 +26,6 @@ FAMIXAnnotationInstance >> privateAttributes [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXAnnotationInstance >> privateAttributes: anAnnotationInstanceAttribute [
-	attributes := anAnnotationInstanceAttribute
+FAMIXAnnotationInstance >> privateAttributes: aAnnotationInstanceAttribute [
+	 attributes := aAnnotationInstanceAttribute
 ]

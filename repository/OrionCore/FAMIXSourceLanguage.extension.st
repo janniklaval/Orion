@@ -6,6 +6,6 @@ FAMIXSourceLanguage >> privateSourcedEntities [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXSourceLanguage >> privateSourcedEntities: aCollection [
-	sourcedEntities := aCollection
+FAMIXSourceLanguage >> privateSourcedEntities: aSourcedEntity [
+	 sourcedEntities := aSourcedEntity
 ]

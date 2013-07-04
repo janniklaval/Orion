@@ -7,10 +7,10 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXCustomSourceLanguage >> name [
-	^ self nameAS: self currentContext
+	^ self nameOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXCustomSourceLanguage >> nameAS: aVersion [
+TFAMIXCustomSourceLanguage >> nameOR: aVersion [
 	^ self privateName versionIn: aVersion
 ]

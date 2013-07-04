@@ -6,6 +6,6 @@ FAMIXClass >> privateIsInterface [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXClass >> privateIsInterface: boolean [
-	isInterface := boolean
+FAMIXClass >> privateIsInterface: aBoolean [
+	 isInterface := aBoolean
 ]

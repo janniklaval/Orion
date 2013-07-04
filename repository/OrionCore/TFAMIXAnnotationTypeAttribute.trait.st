@@ -7,10 +7,10 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXAnnotationTypeAttribute >> annotationAttributeInstances [
-	^ self annotationAttributeInstancesAS: self currentContext
+	^ self annotationAttributeInstancesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXAnnotationTypeAttribute >> annotationAttributeInstancesAS: aVersion [
+TFAMIXAnnotationTypeAttribute >> annotationAttributeInstancesOR: aVersion [
 	^ self privateAnnotationAttributeInstances versionIn: aVersion
 ]

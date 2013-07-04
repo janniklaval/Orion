@@ -6,21 +6,41 @@ Trait {
 }
 
 { #category : #'as yet unclassified' }
-TFAMIXInheritance >> subclass [
-	^ self subclassAS: self currentContext
+TFAMIXInheritance >> next [
+	^ self nextOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXInheritance >> subclassAS: aVersion [
+TFAMIXInheritance >> nextOR: aVersion [
+	^ self privateNext versionIn: aVersion
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXInheritance >> previous [
+	^ self previousOR: self currentContext
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXInheritance >> previousOR: aVersion [
+	^ self privatePrevious versionIn: aVersion
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXInheritance >> subclass [
+	^ self subclassOR: self currentContext
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXInheritance >> subclassOR: aVersion [
 	^ self privateSubclass versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXInheritance >> superclass [
-	^ self superclassAS: self currentContext
+	^ self superclassOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXInheritance >> superclassAS: aVersion [
+TFAMIXInheritance >> superclassOR: aVersion [
 	^ self privateSuperclass versionIn: aVersion
 ]

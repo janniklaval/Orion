@@ -6,11 +6,11 @@ Trait {
 }
 
 { #category : #'as yet unclassified' }
-TFAMIXUnknownSourceLanguage >> name [
-	^ self nameAS: self currentContext
+TFAMIXUnknownSourceLanguage >> sourcedEntities [
+	^ self sourcedEntitiesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXUnknownSourceLanguage >> nameAS: aVersion [
-	^ self privateName versionIn: aVersion
+TFAMIXUnknownSourceLanguage >> sourcedEntitiesOR: aVersion [
+	^ self privateSourcedEntities versionIn: aVersion
 ]

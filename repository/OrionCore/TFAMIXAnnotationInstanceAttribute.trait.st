@@ -7,30 +7,30 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXAnnotationInstanceAttribute >> annotationTypeAttribute [
-	^ self annotationTypeAttributeAS: self currentContext
+	^ self annotationTypeAttributeOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXAnnotationInstanceAttribute >> annotationTypeAttributeAS: aVersion [
+TFAMIXAnnotationInstanceAttribute >> annotationTypeAttributeOR: aVersion [
 	^ self privateAnnotationTypeAttribute versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXAnnotationInstanceAttribute >> parentAnnotationInstance [
-	^ self parentAnnotationInstanceAS: self currentContext
+	^ self parentAnnotationInstanceOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXAnnotationInstanceAttribute >> parentAnnotationInstanceAS: aVersion [
+TFAMIXAnnotationInstanceAttribute >> parentAnnotationInstanceOR: aVersion [
 	^ self privateParentAnnotationInstance versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXAnnotationInstanceAttribute >> value [
-	^ self valueAS: self currentContext
+	^ self valueOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXAnnotationInstanceAttribute >> valueAS: aVersion [
+TFAMIXAnnotationInstanceAttribute >> valueOR: aVersion [
 	^ self privateValue versionIn: aVersion
 ]

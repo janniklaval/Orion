@@ -4,23 +4,6 @@ Trait {
 }
 
 { #category : #'as yet unclassified' }
-TMooseEntity >> antaresID [
-	^ self mooseID
-]
-
-{ #category : #'as yet unclassified' }
-TMooseEntity >> antaresModel [
-	"Answers the model containing the current entity"
-	^ self privateState model
-]
-
-{ #category : #'as yet unclassified' }
-TMooseEntity >> antaresModel: aModel [
-	"Answers the model containing the current entity"
-	^ self mooseModel: aModel
-]
-
-{ #category : #'as yet unclassified' }
 TMooseEntity >> currentContext [
 	"Answers the model containing the current entity"
 	^ self privateState currentContext
@@ -35,21 +18,21 @@ TMooseEntity >> currentContext: aVersion [
 { #category : #'as yet unclassified' }
 TMooseEntity >> defaultStateClass [ 
 	"Answer the default implementator of this element's state."
-	^ASDefaultState
+	^ORDefaultState
 ]
 
 { #category : #'as yet unclassified' }
-TMooseEntity >> isCreatedBetween: anAntaresModel and: anotherAntaresModel [
+TMooseEntity >> isCreatedBetween: anOrionModel and: anotherOrionModel [
 		
-		^(anAntaresModel entityStorage atID: self mooseID ifAbsent:[nil]) isNil
-			and:[(anotherAntaresModel entityStorage atID: self mooseID ifAbsent:[nil]) notNil].
+		^(anOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) isNil
+			and:[(anotherOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) notNil].
 		
 ]
 
 { #category : #'as yet unclassified' }
-TMooseEntity >> isCreatedIn: anAntaresModel [
+TMooseEntity >> isCreatedIn: anOrionModel [
 		|parent|
-		parent := anAntaresModel parentModel.
+		parent := anOrionModel parentModel.
 		parent isNil 
 			ifTrue:[^true]
 			ifFalse:[
@@ -58,18 +41,18 @@ TMooseEntity >> isCreatedIn: anAntaresModel [
 ]
 
 { #category : #'as yet unclassified' }
-TMooseEntity >> isModifiedBetween: anAntaresModel and: anotherAntaresModel [
+TMooseEntity >> isModifiedBetween: anOrionModel and: anotherOrionModel [
 		|old new|
-		old := anAntaresModel entityStorage atID: self mooseID ifAbsent:[^false].
-		new := anotherAntaresModel entityStorage atID: self mooseID ifAbsent:[^false].
+		old := anOrionModel entityStorage atID: self mooseID ifAbsent:[^false].
+		new := anotherOrionModel entityStorage atID: self mooseID ifAbsent:[^false].
 		
 		^old mooseModel ~~ new mooseModel.
 ]
 
 { #category : #'as yet unclassified' }
-TMooseEntity >> isModifiedIn: anAntaresModel [
+TMooseEntity >> isModifiedIn: anOrionModel [
 		|parent|
-		parent := anAntaresModel parentModel.
+		parent := anOrionModel parentModel.
 		parent isNil 
 			ifTrue:[^false]
 			ifFalse:[
@@ -78,49 +61,66 @@ TMooseEntity >> isModifiedIn: anAntaresModel [
 ]
 
 { #category : #'as yet unclassified' }
-TMooseEntity >> isRemovedBetween: anAntaresModel and: anotherAntaresModel [
+TMooseEntity >> isRemovedBetween: anOrionModel and: anotherOrionModel [
 		
-		^(anAntaresModel entityStorage atID: self mooseID ifAbsent:[nil]) notNil
-			and:[(anotherAntaresModel entityStorage atID: self mooseID ifAbsent:[nil]) isNil].
+		^(anOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) notNil
+			and:[(anotherOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) isNil].
 ]
 
 { #category : #'as yet unclassified' }
-TMooseEntity >> isRemovedIn: anAntaresModel [
+TMooseEntity >> isRemovedIn: anOrionModel [
 		|parent|
-		parent := anAntaresModel parentModel.
+		parent := anOrionModel parentModel.
 		parent ifNil:[
-			^(anAntaresModel entityStorage atID: self mooseID ifAbsent:[nil]) isNil
+			^(anOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) isNil
 		].
 		^(parent entityStorage atID: self mooseID ifAbsent:[nil]) notNil
-			and:[(anAntaresModel entityStorage atID: self mooseID ifAbsent:[nil]) isNil].
+			and:[(anOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) isNil].
 ]
 
 { #category : #'as yet unclassified' }
-TMooseEntity >> stateBetween: anAntaresModel and: anotherAntaresModel [
+TMooseEntity >> orionID [
+	^ self mooseID
+]
 
-	(self isCreatedBetween: anAntaresModel and: anotherAntaresModel) ifTrue:[^#isCreated].
-	(self isModifiedBetween: anAntaresModel and: anotherAntaresModel) ifTrue:[^#isModified].
-	(self isRemovedBetween: anAntaresModel and: anotherAntaresModel) ifTrue:[^#isRemoved].
+{ #category : #'as yet unclassified' }
+TMooseEntity >> orionModel [
+	"Answers the model containing the current entity"
+	^ self privateState model
+]
+
+{ #category : #'as yet unclassified' }
+TMooseEntity >> orionModel: aModel [
+	"Answers the model containing the current entity"
+	^ self mooseModel: aModel
+]
+
+{ #category : #'as yet unclassified' }
+TMooseEntity >> stateBetween: anOrionModel and: anotherOrionModel [
+
+	(self isCreatedBetween: anOrionModel and: anotherOrionModel) ifTrue:[^#isCreated].
+	(self isModifiedBetween: anOrionModel and: anotherOrionModel) ifTrue:[^#isModified].
+	(self isRemovedBetween: anOrionModel and: anotherOrionModel) ifTrue:[^#isRemoved].
 	^#notChanged
 	
 ]
 
 { #category : #'as yet unclassified' }
-TMooseEntity >> stateIn: anAntaresModel [
+TMooseEntity >> stateIn: anOrionModel [
 
-	(self isCreatedIn: anAntaresModel) ifTrue:[^#isCreated].
-	(self isModifiedIn: anAntaresModel) ifTrue:[^#isModified].
-	(self isRemovedIn: anAntaresModel) ifTrue:[^#isRemoved].
+	(self isCreatedIn: anOrionModel) ifTrue:[^#isCreated].
+	(self isModifiedIn: anOrionModel) ifTrue:[^#isModified].
+	(self isRemovedIn: anOrionModel) ifTrue:[^#isRemoved].
 	^#notChanged
 	
 ]
 
 { #category : #'as yet unclassified' }
-TMooseEntity >> versionIn: anAntaresModel [
+TMooseEntity >> versionIn: anOrionModel [
 
 	|upEntity|
 	
-	upEntity := anAntaresModel entityStorage atID: self mooseID ifAbsent:[^nil].
-	upEntity currentContext: anAntaresModel.
+	upEntity := anOrionModel entityStorage atID: self mooseID ifAbsent:[^nil].
+	upEntity currentContext: anOrionModel.
 	^upEntity
 ]

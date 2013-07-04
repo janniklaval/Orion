@@ -2,12 +2,12 @@ Extension { #name : #FAMIXType }
 
 { #category : #'*OrionCore-model' }
 FAMIXType >> privateAttributes [
-	^attributes
+	^ attributes
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXType >> privateAttributes: anAttribute [
-	attributes := anAttribute
+FAMIXType >> privateAttributes: aAttribute [
+	 attributes := aAttribute
 ]
 
 { #category : #'*OrionCore-model' }
@@ -16,28 +16,28 @@ FAMIXType >> privateBehavioursWithDeclaredType [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXType >> privateBehavioursWithDeclaredType: aCollectionOfBehaviours [
-	behavioursWithDeclaredType := aCollectionOfBehaviours
+FAMIXType >> privateBehavioursWithDeclaredType: aBehaviouralEntity [
+	 behavioursWithDeclaredType := aBehaviouralEntity
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXType >> privateContainer [
-	^container
+	^ container
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXType >> privateContainer: aContainerEntity [
-	container := aContainerEntity
+	 container := aContainerEntity
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXType >> privateMethods [
-	^methods
+	^ methods
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXType >> privateMethods: aMethod [
-	methods := aMethod
+	 methods := aMethod
 ]
 
 { #category : #'*OrionCore-model' }
@@ -46,26 +46,26 @@ FAMIXType >> privateStructuresWithDeclaredType [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXType >> privateStructuresWithDeclaredType: aCollectionOfStructuralEntities [
-	structuresWithDeclaredType := aCollectionOfStructuralEntities
+FAMIXType >> privateStructuresWithDeclaredType: aStructuralEntity [
+	 structuresWithDeclaredType := aStructuralEntity
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXType >> privateSubInheritances [
-	^subInheritances
+	^ subInheritances
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXType >> privateSubInheritances: anInheritance [
-	subInheritances := anInheritance
+FAMIXType >> privateSubInheritances: aInheritance [
+	 subInheritances := aInheritance
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXType >> privateSuperInheritances [
-	^superInheritances
+	^ superInheritances
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXType >> privateSuperInheritances: anInheritance [
-	superInheritances := anInheritance
+FAMIXType >> privateSuperInheritances: aInheritance [
+	 superInheritances := aInheritance
 ]

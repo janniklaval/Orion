@@ -1,7 +1,7 @@
 Extension { #name : #Object }
 
 { #category : #'*OrionCore-model' }
-Object >> antaresCopy [
+Object >> orionCopy [
 	^self
 ]
 

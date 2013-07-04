@@ -7,20 +7,10 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXComment >> container [
-	^ self containerAS: self currentContext
+	^ self containerOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXComment >> containerAS: aVersion [
+TFAMIXComment >> containerOR: aVersion [
 	^ self privateContainer versionIn: aVersion
-]
-
-{ #category : #'as yet unclassified' }
-TFAMIXComment >> contentString [
-	^ self contentStringAS: self currentContext
-]
-
-{ #category : #'as yet unclassified' }
-TFAMIXComment >> contentStringAS: aVersion [
-	^ self privateContentString versionIn: aVersion
 ]

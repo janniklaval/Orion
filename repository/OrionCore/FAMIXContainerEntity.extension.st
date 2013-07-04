@@ -2,30 +2,30 @@ Extension { #name : #FAMIXContainerEntity }
 
 { #category : #'*OrionCore-model' }
 FAMIXContainerEntity >> privateIncomingReferences [
-	^incomingReferences
+	^ incomingReferences
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXContainerEntity >> privateIncomingReferences: aReference [
-	incomingReferences := aReference
+	 incomingReferences := aReference
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXContainerEntity >> privateOutgoingReferences [
-	^outgoingReferences
+	^ outgoingReferences
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXContainerEntity >> privateOutgoingReferences: aReference [
-	outgoingReferences := aReference
+	 outgoingReferences := aReference
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXContainerEntity >> privateTypes [
-	^types
+	^ types
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXContainerEntity >> privateTypes: aType [
-	types := aType
+	 types := aType
 ]

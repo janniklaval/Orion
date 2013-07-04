@@ -6,21 +6,41 @@ Trait {
 }
 
 { #category : #'as yet unclassified' }
-TFAMIXReference >> source [
-	^ self sourceAS: self currentContext
+TFAMIXReference >> next [
+	^ self nextOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXReference >> sourceAS: aVersion [
+TFAMIXReference >> nextOR: aVersion [
+	^ self privateNext versionIn: aVersion
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXReference >> previous [
+	^ self previousOR: self currentContext
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXReference >> previousOR: aVersion [
+	^ self privatePrevious versionIn: aVersion
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXReference >> source [
+	^ self sourceOR: self currentContext
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXReference >> sourceOR: aVersion [
 	^ self privateSource versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXReference >> target [
-	^ self targetAS: self currentContext
+	^ self targetOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXReference >> targetAS: aVersion [
+TFAMIXReference >> targetOR: aVersion [
 	^ self privateTarget versionIn: aVersion
 ]

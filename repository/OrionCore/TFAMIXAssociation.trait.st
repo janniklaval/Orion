@@ -7,20 +7,20 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXAssociation >> next [
-	^ self nextAS: self currentContext
+	^ self nextOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXAssociation >> nextAS: aVersion [
+TFAMIXAssociation >> nextOR: aVersion [
 	^ self privateNext versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXAssociation >> previous [
-	^ self previousAS: self currentContext
+	^ self previousOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXAssociation >> previousAS: aVersion [
+TFAMIXAssociation >> previousOR: aVersion [
 	^ self privatePrevious versionIn: aVersion
 ]

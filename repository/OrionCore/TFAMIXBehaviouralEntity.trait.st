@@ -7,70 +7,80 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXBehaviouralEntity >> accesses [
-	^ self accessesAS: self currentContext
+	^ self accessesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXBehaviouralEntity >> accessesAS: aVersion [
+TFAMIXBehaviouralEntity >> accessesOR: aVersion [
 	^ self privateAccesses versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXBehaviouralEntity >> declaredType [
-	^ self declaredTypeAS: self currentContext
+	^ self declaredTypeOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXBehaviouralEntity >> declaredTypeAS: aVersion [
+TFAMIXBehaviouralEntity >> declaredTypeOR: aVersion [
 	^ self privateDeclaredType versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXBehaviouralEntity >> incomingInvocations [
-	^ self incomingInvocationsAS: self currentContext
+TFAMIXBehaviouralEntity >> implicitVariables [
+	^ self implicitVariablesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXBehaviouralEntity >> incomingInvocationsAS: aVersion [
+TFAMIXBehaviouralEntity >> implicitVariablesOR: aVersion [
+	^ self privateImplicitVariables versionIn: aVersion
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXBehaviouralEntity >> incomingInvocations [
+	^ self incomingInvocationsOR: self currentContext
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXBehaviouralEntity >> incomingInvocationsOR: aVersion [
 	^ self privateIncomingInvocations versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXBehaviouralEntity >> localVariables [
-	^ self localVariablesAS: self currentContext
+	^ self localVariablesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXBehaviouralEntity >> localVariablesAS: aVersion [
+TFAMIXBehaviouralEntity >> localVariablesOR: aVersion [
 	^ self privateLocalVariables versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXBehaviouralEntity >> outgoingInvocations [
-	^ self outgoingInvocationsAS: self currentContext
+	^ self outgoingInvocationsOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXBehaviouralEntity >> outgoingInvocationsAS: aVersion [
+TFAMIXBehaviouralEntity >> outgoingInvocationsOR: aVersion [
 	^ self privateOutgoingInvocations versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXBehaviouralEntity >> parameters [
-	^ self parametersAS: self currentContext
+	^ self parametersOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXBehaviouralEntity >> parametersAS: aVersion [
+TFAMIXBehaviouralEntity >> parametersOR: aVersion [
 	^ self privateParameters versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXBehaviouralEntity >> signature [
-	^ self signatureAS: self currentContext
+	^ self signatureOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXBehaviouralEntity >> signatureAS: aVersion [
+TFAMIXBehaviouralEntity >> signatureOR: aVersion [
 	^ self privateSignature versionIn: aVersion
 ]

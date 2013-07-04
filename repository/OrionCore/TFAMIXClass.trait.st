@@ -7,10 +7,10 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXClass >> isInterface [
-	^ self isInterfaceAS: self currentContext
+	^ self isInterfaceOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXClass >> isInterfaceAS: aVersion [
+TFAMIXClass >> isInterfaceOR: aVersion [
 	^ self privateIsInterface versionIn: aVersion
 ]

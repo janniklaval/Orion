@@ -6,56 +6,56 @@ FAMIXNamedEntity >> privateAnnotationInstances [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXNamedEntity >> privateAnnotationInstances: anObject [
-	annotationInstances := anObject
+FAMIXNamedEntity >> privateAnnotationInstances: aAnnotationInstance [
+	 annotationInstances := aAnnotationInstance
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXNamedEntity >> privateIsStub [
-	^isStub
+	^ isStub
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXNamedEntity >> privateIsStub: aBoolean [
-	isStub := aBoolean
+	 isStub := aBoolean
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXNamedEntity >> privateModifiers [
-	^modifiers
+	^ modifiers
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXNamedEntity >> privateModifiers: aSet [
-	modifiers := aSet
+FAMIXNamedEntity >> privateModifiers: aString [
+	 modifiers := aString
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXNamedEntity >> privateName [
-	^name
+	^ name
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXNamedEntity >> privateName: aString [
-	name := aString
+	 name := aString
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXNamedEntity >> privateParentPackage [
-	^parentPackage
+	^ parentPackage
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXNamedEntity >> privateParentPackage: aPackage [
-	parentPackage := aPackage
+	 parentPackage := aPackage
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXNamedEntity >> privateReceivingInvocations [
-	^receivingInvocations
+	^ receivingInvocations
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXNamedEntity >> privateReceivingInvocations: anInvocation [
-	receivingInvocations := anInvocation
+FAMIXNamedEntity >> privateReceivingInvocations: aInvocation [
+	 receivingInvocations := aInvocation
 ]

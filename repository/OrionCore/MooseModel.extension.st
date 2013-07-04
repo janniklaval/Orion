@@ -1,7 +1,7 @@
 Extension { #name : #MooseModel }
 
 { #category : #'*OrionCore-modelBuilder' }
-MooseModel >> convertToAntares [
+MooseModel >> convertToOrion [
 	<menuItem: 'Convert to ASModel' category: 'Antares'> 
-	^ASConverter buildFromMooseModel: self.
+	^ORConverter buildFromMooseModel: self.
 ]

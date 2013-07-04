@@ -6,6 +6,6 @@ FAMIXSourceAnchor >> privateElement [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXSourceAnchor >> privateElement: anElement [
-	element := anElement 
+FAMIXSourceAnchor >> privateElement: aSourcedEntity [
+	 element := aSourcedEntity
 ]

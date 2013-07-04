@@ -2,21 +2,20 @@ Extension { #name : #FAMIXInheritance }
 
 { #category : #'*OrionCore-model' }
 FAMIXInheritance >> privateSubclass [
-	^subclass
+	^ subclass
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXInheritance >> privateSubclass: aType [
-	subclass := aType
+	 subclass := aType
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXInheritance >> privateSuperclass [
-	
-	^superclass
+	^ superclass
 ]
 
 { #category : #'*OrionCore-model' }
 FAMIXInheritance >> privateSuperclass: aType [
-	superclass := aType
+	 superclass := aType
 ]

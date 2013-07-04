@@ -7,30 +7,30 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXContainerEntity >> incomingReferences [
-	^ self incomingReferencesAS: self currentContext
+	^ self incomingReferencesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXContainerEntity >> incomingReferencesAS: aVersion [
+TFAMIXContainerEntity >> incomingReferencesOR: aVersion [
 	^ self privateIncomingReferences versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXContainerEntity >> outgoingReferences [
-	^ self outgoingReferencesAS: self currentContext
+	^ self outgoingReferencesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXContainerEntity >> outgoingReferencesAS: aVersion [
+TFAMIXContainerEntity >> outgoingReferencesOR: aVersion [
 	^ self privateOutgoingReferences versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXContainerEntity >> types [
-	^ self typesAS: self currentContext
+	^ self typesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXContainerEntity >> typesAS: aVersion [
+TFAMIXContainerEntity >> typesOR: aVersion [
 	^ self privateTypes versionIn: aVersion
 ]

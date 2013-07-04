@@ -6,8 +6,8 @@ FAMIXMethod >> privateKind [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXMethod >> privateKind: aSymbol [
-	kind := aSymbol
+FAMIXMethod >> privateKind: aString [
+	 kind := aString
 ]
 
 { #category : #'*OrionCore-model' }
@@ -16,6 +16,6 @@ FAMIXMethod >> privateParentType [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXMethod >> privateParentType: aType [ 
-	parentType := aType
+FAMIXMethod >> privateParentType: aType [
+	 parentType := aType
 ]

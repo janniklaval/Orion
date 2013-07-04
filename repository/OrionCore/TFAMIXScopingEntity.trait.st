@@ -6,41 +6,131 @@ Trait {
 }
 
 { #category : #'as yet unclassified' }
-TFAMIXScopingEntity >> childScopes [
-	^ self childScopesAS: self currentContext
+TFAMIXScopingEntity >> annotationInstances [
+	^ self annotationInstancesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXScopingEntity >> childScopesAS: aVersion [
+TFAMIXScopingEntity >> annotationInstancesOR: aVersion [
+	^ self privateAnnotationInstances versionIn: aVersion
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> childScopes [
+	^ self childScopesOR: self currentContext
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> childScopesOR: aVersion [
 	^ self privateChildScopes versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXScopingEntity >> functions [
-	^ self functionsAS: self currentContext
+	^ self functionsOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXScopingEntity >> functionsAS: aVersion [
+TFAMIXScopingEntity >> functionsOR: aVersion [
 	^ self privateFunctions versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXScopingEntity >> globalVariables [
-	^ self globalVariablesAS: self currentContext
+	^ self globalVariablesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXScopingEntity >> globalVariablesAS: aVersion [
+TFAMIXScopingEntity >> globalVariablesOR: aVersion [
 	^ self privateGlobalVariables versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXScopingEntity >> parentScope [
-	^ self parentScopeAS: self currentContext
+TFAMIXScopingEntity >> incomingReferences [
+	^ self incomingReferencesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXScopingEntity >> parentScopeAS: aVersion [
+TFAMIXScopingEntity >> incomingReferencesOR: aVersion [
+	^ self privateIncomingReferences versionIn: aVersion
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> isStub [
+	^ self isStubOR: self currentContext
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> isStubOR: aVersion [
+	^ self privateIsStub versionIn: aVersion
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> modifiers [
+	^ self modifiersOR: self currentContext
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> modifiersOR: aVersion [
+	^ self privateModifiers versionIn: aVersion
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> name [
+	^ self nameOR: self currentContext
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> nameOR: aVersion [
+	^ self privateName versionIn: aVersion
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> outgoingReferences [
+	^ self outgoingReferencesOR: self currentContext
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> outgoingReferencesOR: aVersion [
+	^ self privateOutgoingReferences versionIn: aVersion
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> parentPackage [
+	^ self parentPackageOR: self currentContext
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> parentPackageOR: aVersion [
+	^ self privateParentPackage versionIn: aVersion
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> parentScope [
+	^ self parentScopeOR: self currentContext
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> parentScopeOR: aVersion [
 	^ self privateParentScope versionIn: aVersion
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> receivingInvocations [
+	^ self receivingInvocationsOR: self currentContext
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> receivingInvocationsOR: aVersion [
+	^ self privateReceivingInvocations versionIn: aVersion
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> types [
+	^ self typesOR: self currentContext
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXScopingEntity >> typesOR: aVersion [
+	^ self privateTypes versionIn: aVersion
 ]

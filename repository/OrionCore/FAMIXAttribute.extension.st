@@ -7,8 +7,7 @@ FAMIXAttribute >> privateHasClassScope [
 
 { #category : #'*OrionCore-model' }
 FAMIXAttribute >> privateHasClassScope: aBoolean [
-
-	hasClassScope := aBoolean
+	 hasClassScope := aBoolean
 ]
 
 { #category : #'*OrionCore-model' }
@@ -17,6 +16,6 @@ FAMIXAttribute >> privateParentType [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXAttribute >> privateParentType: aType [ 
-	parentType := aType
+FAMIXAttribute >> privateParentType: aType [
+	 parentType := aType
 ]

@@ -6,6 +6,6 @@ FAMIXGlobalVariable >> privateParentScope [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXGlobalVariable >> privateParentScope: aScopingEntity [ 
-	parentScope := aScopingEntity
+FAMIXGlobalVariable >> privateParentScope: aFunction [
+	 parentScope := aFunction
 ]

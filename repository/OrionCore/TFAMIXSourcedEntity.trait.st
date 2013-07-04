@@ -7,40 +7,30 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXSourcedEntity >> comments [
-	^ self commentsAS: self currentContext
+	^ self commentsOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXSourcedEntity >> commentsAS: aVersion [
+TFAMIXSourcedEntity >> commentsOR: aVersion [
 	^ self privateComments versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXSourcedEntity >> declaredSourceLanguage [
-	^ self declaredSourceLanguageAS: self currentContext
+	^ self declaredSourceLanguageOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXSourcedEntity >> declaredSourceLanguageAS: aVersion [
+TFAMIXSourcedEntity >> declaredSourceLanguageOR: aVersion [
 	^ self privateDeclaredSourceLanguage versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXSourcedEntity >> sourceAnchor [
-	^ self sourceAnchorAS: self currentContext
+	^ self sourceAnchorOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXSourcedEntity >> sourceAnchorAS: aVersion [
+TFAMIXSourcedEntity >> sourceAnchorOR: aVersion [
 	^ self privateSourceAnchor versionIn: aVersion
-]
-
-{ #category : #'as yet unclassified' }
-TFAMIXSourcedEntity >> sourceLanguage [
-	^ self sourceLanguageAS: self currentContext
-]
-
-{ #category : #'as yet unclassified' }
-TFAMIXSourcedEntity >> sourceLanguageAS: aVersion [
-	^ self privateSourceLanguage versionIn: aVersion
 ]

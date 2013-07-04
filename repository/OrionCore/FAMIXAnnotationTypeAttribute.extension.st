@@ -6,6 +6,6 @@ FAMIXAnnotationTypeAttribute >> privateAnnotationAttributeInstances [
 ]
 
 { #category : #'*OrionCore-model' }
-FAMIXAnnotationTypeAttribute >> privateAnnotationAttributeInstances: anObject [
-	annotationAttributeInstances := anObject
+FAMIXAnnotationTypeAttribute >> privateAnnotationAttributeInstances: aAnnotationInstanceAttribute [
+	 annotationAttributeInstances := aAnnotationInstanceAttribute
 ]

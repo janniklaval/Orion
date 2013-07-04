@@ -7,20 +7,20 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXStructuralEntity >> declaredType [
-	^ self declaredTypeAS: self currentContext
+	^ self declaredTypeOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXStructuralEntity >> declaredTypeAS: aVersion [
+TFAMIXStructuralEntity >> declaredTypeOR: aVersion [
 	^ self privateDeclaredType versionIn: aVersion
 ]
 
 { #category : #'as yet unclassified' }
 TFAMIXStructuralEntity >> incomingAccesses [
-	^ self incomingAccessesAS: self currentContext
+	^ self incomingAccessesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXStructuralEntity >> incomingAccessesAS: aVersion [
+TFAMIXStructuralEntity >> incomingAccessesOR: aVersion [
 	^ self privateIncomingAccesses versionIn: aVersion
 ]

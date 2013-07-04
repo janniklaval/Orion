@@ -7,5 +7,5 @@ FAMIXTypeAlias >> privateAliasedType [
 
 { #category : #'*OrionCore-model' }
 FAMIXTypeAlias >> privateAliasedType: aType [
-	aliasedType := aType
+	 aliasedType := aType
 ]

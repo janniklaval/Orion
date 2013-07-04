@@ -6,11 +6,21 @@ Trait {
 }
 
 { #category : #'as yet unclassified' }
-TFAMIXAnnotationType >> instances [
-	^ self instancesAS: self currentContext
+TFAMIXAnnotationType >> container [
+	^ self containerOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXAnnotationType >> instancesAS: aVersion [
-	^ self privateinstances versionIn: aVersion
+TFAMIXAnnotationType >> containerOR: aVersion [
+	^ self privateContainer versionIn: aVersion
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXAnnotationType >> instances [
+	^ self instancesOR: self currentContext
+]
+
+{ #category : #'as yet unclassified' }
+TFAMIXAnnotationType >> instancesOR: aVersion [
+	^ self privateInstances versionIn: aVersion
 ]

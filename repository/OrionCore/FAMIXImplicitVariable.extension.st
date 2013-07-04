@@ -7,5 +7,5 @@ FAMIXImplicitVariable >> privateParentBehaviouralEntity [
 
 { #category : #'*OrionCore-model' }
 FAMIXImplicitVariable >> privateParentBehaviouralEntity: aBehaviouralEntity [
-	parentBehaviouralEntity := aBehaviouralEntity
+	 parentBehaviouralEntity := aBehaviouralEntity
 ]

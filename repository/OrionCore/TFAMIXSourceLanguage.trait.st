@@ -7,10 +7,10 @@ Trait {
 
 { #category : #'as yet unclassified' }
 TFAMIXSourceLanguage >> sourcedEntities [
-	^ self sourcedEntitiesAS: self currentContext
+	^ self sourcedEntitiesOR: self currentContext
 ]
 
 { #category : #'as yet unclassified' }
-TFAMIXSourceLanguage >> sourcedEntitiesAS: aVersion [
+TFAMIXSourceLanguage >> sourcedEntitiesOR: aVersion [
 	^ self privateSourcedEntities versionIn: aVersion
 ]

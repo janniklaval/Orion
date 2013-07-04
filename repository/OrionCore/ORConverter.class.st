@@ -1,0 +1,93 @@
+Class {
+	#name : #ORConverter,
+	#superclass : #Object,
+	#classVars : [
+		'association'
+	],
+	#category : #OrionCore
+}
+
+{ #category : #'initialize-release' }
+ORConverter class >> buildFromMooseModel: aMooseModel [
+	"make all necessary to convert a model"
+	|model system|
+	
+	model := ORConverter convertFromMooseModel: aMooseModel.
+	system := ORSystem new.
+	system sourceModel: model.
+	model system: system.
+	system name: 'Antares ', model name.
+
+	ORSystem add: system.
+	
+	MooseModel root remove: aMooseModel.
+	^model
+]
+
+{ #category : #'initialize-release' }
+ORConverter class >> convertFromMooseModel: aMooseModel [
+	"take a MooseModel and convert it in a ORModel"
+	|model state |
+	model := ORModel new.
+
+	model name: aMooseModel name.
+	model sourceLanguage: aMooseModel sourceLanguage.
+	
+	 aMooseModel entities do:[:anEntity |
+		|myNewClass newAtt|
+		myNewClass := self mapping at: anEntity class ifAbsent:[nil].
+		myNewClass ifNotNil:[
+			anEntity primitiveChangeClassTo: myNewClass new.
+			state := anEntity privateState.
+			state primitiveChangeClassTo: anEntity defaultStateClass new.
+			newAtt := SmallDictionary new.
+			state privateAttributes do:[:attr |
+				newAtt at: attr key put: attr value.
+			].
+			state privateAttributes: newAtt. 
+			anEntity privateState: state.
+		].
+
+		model add: anEntity.
+	].
+	^model
+]
+
+{ #category : #'initialize-release' }
+ORConverter class >> initConverter [
+
+		association := SmallDictionary new.
+		association at: FAMIXClass put: ORClass.
+		association at: FAMIXInvocation put: ORInvocation.
+		association at: FAMIXMethod put: ORMethod.
+		association at: FAMIXNamespace put: ORNamespace.
+		association at: FAMIXPackage put: ORPackage.
+		association at: FAMIXReference put: ORReference.
+		association at: FAMIXInheritance put: ORInheritance.
+		association at: FAMIXAccess put: ORAccess.
+		association at: FAMIXAttribute put: ORAttribute.
+		association at: FAMIXComment put: ORComment.
+		association at: FAMIXFunction put: ORFunction.
+		association at: FAMIXGlobalVariable put: ORGlobalVariable.
+		association at: FAMIXImplicitVariable put: ORImplicitVariable.
+		association at: FAMIXLocalVariable put: ORLocalVariable.
+		association at: FAMIXParameter put: ORParameter.
+		association at: FAMIXPrimitiveType put: ORPrimitiveType.
+		association at: FAMIXUnknownVariable put: ORUnknownVariable.
+		association at: FAMIXAnnotationInstance put: ORAnnotationInstance.
+		association at: FAMIXAnnotationType put: ORAnnotationType.
+		"association at: FAMIXCaughtException put: ORCaughtException.
+		association at: FAMIXDeclaredException put: ORDeclaredException.
+		association at: FAMIXFile put: ORFile.
+		association at: FAMIXFolder put: ORFolder.
+		association at: FAMIXThrownException put: ORThrownException."
+		^association
+]
+
+{ #category : #'initialize-release' }
+ORConverter class >> mapping [
+
+	^association ifNil:[
+		self initConverter
+	]
+]
