@@ -1,5 +1,5 @@
 Class {
-	#name : #ASTest,
+	#name : #ORTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'model'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #accessing }
-ASTest >> model [
+ORTest >> model [
 
 	model isNil ifTrue:[
 		| importer mod system|
@@ -20,8 +20,8 @@ ASTest >> model [
 		importer model: mod; addFromCategories: #( #'Orion-TestModel-Constellation2' #'Orion-TestModel-Constellation1') ; run.
 		
 		
-		model := ASConverter convertFromMooseModel: mod.
-		system := ASSystem new.
+		model := ORConverter convertFromMooseModel: mod.
+		system := ORSystem new.
 		system sourceModel: model.
 		model system: system.
 		
@@ -31,7 +31,7 @@ ASTest >> model [
 ]
 
 { #category : #accessing }
-ASTest >> modelNetwork [
+ORTest >> modelNetwork [
 
 		| importer mod system as|
 		
@@ -42,8 +42,8 @@ ASTest >> modelNetwork [
 	importer runCandidateOperator.
 	importer model: mod; addFromPackagesNamed: (MooseScripts packageNamesFor: 'Network*') ; runWithProgress .
 		
-		as := ASConverter convertFromMooseModel: mod.
-		system := ASSystem new.
+		as := ORConverter convertFromMooseModel: mod.
+		system := ORSystem new.
 		system sourceModel: as.
 		as system: system.
 		^as

@@ -1,21 +1,21 @@
 Class {
-	#name : #ASModelTest,
-	#superclass : #ASTest,
+	#name : #ORModelTest,
+	#superclass : #ORTest,
 	#category : #OrionTest
 }
 
 { #category : #'as yet unclassified' }
-ASModelTest >> testASModelCreation [
+ORModelTest >> testORModelCreation [
 	
 	|firstMod secMod sys|
 	sys := self model system. 
 	firstMod := sys sourceModel.
-	secMod := (ASModel withParent: self model) name: #antaresModel.
+	secMod := (ORModel withParent: self model) name: #orionModel.
 	
 	self assert: TMooseEntity users size = 1.
-	self assert: ASClass traits size = 1.
+	self assert: ORClass traits size = 1.
 	
-	self assert: sys antaresModels size = 2.
+	self assert: sys orionModels size = 2.
 	self assert: (sys sourceModel childrenModel includes: secMod).
 	
 	self assert: firstMod parentModel = nil.
