@@ -1,223 +1,223 @@
 Class {
 	#name : #OrionBrowserTest,
-	#superclass : #ASTest,
+	#superclass : #ORTest,
 	#category : #'OrionBrowser-Test'
 }
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testAddAttribute [
 
-	| asS antaresModel  |
+	| asS orionModel  |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	self assert: (antaresModel entityNamed: 'Smalltalk::Class1.attributeTest') isNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') isNil.
 
-	(antaresModel entityNamed: 'Smalltalk::Class1') addAttributNamed: 'attributeTest' inModel: antaresModel .
+	(orionModel entityNamed: 'Smalltalk::Class1') addAttributNamed: 'attributeTest' inModel: orionModel .
 
-	self deny: (antaresModel entityNamed: 'Smalltalk::Class1.attributeTest') isNil.
-	self assert: (antaresModel entityNamed: 'Smalltalk::Class1.attributeTest') parentType equals: (antaresModel entityNamed: 'Smalltalk::Class1').
+	self deny: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') isNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') parentType equals: (orionModel entityNamed: 'Smalltalk::Class1').
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testAddAttributeNoName [
 
-	| asS antaresModel |
+	| asS orionModel |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	self assert: (antaresModel entityNamed: 'Smalltalk::Class1.attributeTest') isNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') isNil.
 
-	(antaresModel entityNamed: 'Smalltalk::Class1') addAttributNamed: nil inModel: antaresModel .
+	(orionModel entityNamed: 'Smalltalk::Class1') addAttributNamed: nil inModel: orionModel .
 
-	self assert: (antaresModel entityNamed: 'Smalltalk::Class1.attributeTest') isNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') isNil.
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testAddClass [
 
-	| asS antaresModel |
+	| asS orionModel |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	self assert: (antaresModel entityNamed: 'Orion-TestModel-Constellation1::ClassTest') isNil.
+	self assert: (orionModel entityNamed: 'Orion-TestModel-Constellation1::ClassTest') isNil.
 
-	(antaresModel entityNamed: 'Orion-TestModel-Constellation1') addClassNamed: 'ClassTest' inModel: antaresModel .
+	(orionModel entityNamed: 'Orion-TestModel-Constellation1') addClassNamed: 'ClassTest' inModel: orionModel .
 
-	self deny: (antaresModel entityNamed: 'Orion-TestModel-Constellation1::ClassTest') isNil.
-	self assert: (antaresModel entityNamed: 'Orion-TestModel-Constellation1::ClassTest') parentPackage equals: (antaresModel entityNamed: 'Orion-TestModel-Constellation1').
+	self deny: (orionModel entityNamed: 'Orion-TestModel-Constellation1::ClassTest') isNil.
+	self assert: (orionModel entityNamed: 'Orion-TestModel-Constellation1::ClassTest') parentPackage equals: (orionModel entityNamed: 'Orion-TestModel-Constellation1').
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testAddClassNoName [
 
-	| asS antaresModel |
+	| asS orionModel |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	self assert: (antaresModel entityNamed: 'ClassTest') isNil.
+	self assert: (orionModel entityNamed: 'ClassTest') isNil.
 
-	(antaresModel entityNamed: 'Orion-TestModel-Constellation1') addClassNamed: nil inModel: antaresModel .
+	(orionModel entityNamed: 'Orion-TestModel-Constellation1') addClassNamed: nil inModel: orionModel .
 
-	self assert: (antaresModel entityNamed: 'Orion-TestModel-Constellation1::ClassTest') isNil.
+	self assert: (orionModel entityNamed: 'Orion-TestModel-Constellation1::ClassTest') isNil.
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testAddMethod [
 
-	| asS antaresModel |
+	| asS orionModel |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	self assert: (antaresModel entityNamed: 'Smalltalk::Class1.methodTest()') isNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::Class1.methodTest()') isNil.
 
-	(antaresModel entityNamed: 'Smalltalk::Class1') addMethodNamed: 'methodTest' inModel: antaresModel .
+	(orionModel entityNamed: 'Smalltalk::Class1') addMethodNamed: 'methodTest' inModel: orionModel .
 
-	self deny: (antaresModel entityNamed: 'Smalltalk::Class1.methodTest()') isNil.
-	self assert: (antaresModel entityNamed: 'Smalltalk::Class1.methodTest()') parentType equals: (antaresModel entityNamed: 'Smalltalk::Class1')
+	self deny: (orionModel entityNamed: 'Smalltalk::Class1.methodTest()') isNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::Class1.methodTest()') parentType equals: (orionModel entityNamed: 'Smalltalk::Class1')
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testAddMethodNoName [
 
-	| asS antaresModel |
+	| asS orionModel |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	self assert: (antaresModel entityNamed: 'Smalltalk::Class1.methodTest()') isNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::Class1.methodTest()') isNil.
 
-	(antaresModel entityNamed: 'Smalltalk::Class1') addMethodNamed: nil inModel: antaresModel .
+	(orionModel entityNamed: 'Smalltalk::Class1') addMethodNamed: nil inModel: orionModel .
 
-	self assert: (antaresModel entityNamed: 'Smalltalk::Class1.methodTest()') isNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::Class1.methodTest()') isNil.
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testAddPackage [
 
-	| asS antaresModel |
+	| asS orionModel |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	self assert: (antaresModel entityNamed: 'PackageTest') isNil.
+	self assert: (orionModel entityNamed: 'PackageTest') isNil.
 
-	antaresModel addPackageNamed: 'PackageTest'.
+	orionModel addPackageNamed: 'PackageTest'.
 
-	self deny: (antaresModel entityNamed: 'PackageTest') isNil.
+	self deny: (orionModel entityNamed: 'PackageTest') isNil.
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testAddPackageNoName [
 
-	| asS antaresModel |
+	| asS orionModel |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	self assert: (antaresModel entityNamed: 'PackageTest') isNil.
+	self assert: (orionModel entityNamed: 'PackageTest') isNil.
 
-	antaresModel addPackageNamed: nil.
+	orionModel addPackageNamed: nil.
 
-	self assert: (antaresModel entityNamed: 'PackageTest') isNil.
+	self assert: (orionModel entityNamed: 'PackageTest') isNil.
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testClassAddInheritance [
 
-	| asS antaresModel class |
+	| asS orionModel class |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	class := antaresModel entityNamed: 'Smalltalk::Class1'.	
+	class := orionModel entityNamed: 'Smalltalk::Class1'.	
 
 	self assert: class superInheritances size equals: 1.
-	self assert: class superInheritances first to equals: (antaresModel entityNamed: 'Smalltalk::Object').
+	self assert: class superInheritances first to equals: (orionModel entityNamed: 'Smalltalk::Object').
 
-	class addSuperClass: (antaresModel entityNamed: 'Smalltalk::Class5') inModel:  antaresModel .
+	class addSuperClass: (orionModel entityNamed: 'Smalltalk::Class5') inModel:  orionModel .
 	
-	class := antaresModel entityNamed: 'Smalltalk::Class1'.	
+	class := orionModel entityNamed: 'Smalltalk::Class1'.	
 
 	self assert: class superInheritances size equals: 2.
-	self assert: (class superInheritances contains: [:inh | inh to = (antaresModel entityNamed: 'Smalltalk::Object')]).
-	self assert: (class superInheritances contains: [:inh | inh to = (antaresModel entityNamed: 'Smalltalk::Class5')]).
+	self assert: (class superInheritances contains: [:inh | inh to = (orionModel entityNamed: 'Smalltalk::Object')]).
+	self assert: (class superInheritances contains: [:inh | inh to = (orionModel entityNamed: 'Smalltalk::Class5')]).
 
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testClassChangeInheritance [
 
-	| asS antaresModel class |
+	| asS orionModel class |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	class := antaresModel entityNamed: 'Smalltalk::Class1'.	
+	class := orionModel entityNamed: 'Smalltalk::Class1'.	
 
 	self assert: class superInheritances size equals: 1.
-	self assert: class superInheritances first to equals: (antaresModel entityNamed: 'Smalltalk::Object').
+	self assert: class superInheritances first to equals: (orionModel entityNamed: 'Smalltalk::Object').
 
-	class changeSuperClassTo: (antaresModel entityNamed: 'Smalltalk::Class5') inModel:  antaresModel .
+	class changeSuperClassTo: (orionModel entityNamed: 'Smalltalk::Class5') inModel:  orionModel .
 
-	class := antaresModel entityNamed: 'Smalltalk::Class1'.	
+	class := orionModel entityNamed: 'Smalltalk::Class1'.	
 	self assert: (class superInheritances size) equals: 1.
-	self assert: (class superInheritances first to) equals: (antaresModel entityNamed: 'Smalltalk::Class5').
+	self assert: (class superInheritances first to) equals: (orionModel entityNamed: 'Smalltalk::Class5').
 
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testDeleteAttribute [
 
-	| asS antaresModel att |
+	| asS orionModel att |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	att := antaresModel entityNamed: 'Smalltalk::Object.DependentsFields'.	
+	att := orionModel entityNamed: 'Smalltalk::Object.DependentsFields'.	
 
 	self assert: att notNil.
 
-	att deleteInModel: antaresModel .
+	att deleteInModel: orionModel .
 
-	self assert: (antaresModel entityNamed: 'Smalltalk::Object.DependentsFields') isNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::Object.DependentsFields') isNil.
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testDeleteClass [
 
-	| asS antaresModel class |
+	| asS orionModel class |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	class := antaresModel entityNamed: 'Smalltalk::Class1'.	
+	class := orionModel entityNamed: 'Smalltalk::Class1'.	
 
 	self assert: class notNil.
-	class deleteInModel: antaresModel .
+	class deleteInModel: orionModel .
 
-	self assert: (antaresModel entityNamed: 'Smalltalk::Class1') isNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::Class1') isNil.
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testDeleteInvocation [
 
-	| asS antaresModel meth |
+	| asS orionModel meth |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	meth := 	antaresModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.
+	meth := 	orionModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.
 	self assert: meth outgoingInvocations size equals: 1.
 
-	meth outgoingInvocations first deleteInModel: antaresModel.
+	meth outgoingInvocations first deleteInModel: orionModel.
 	
-	meth := 	antaresModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.
+	meth := 	orionModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.
 	self assert: meth outgoingInvocations size equals: 0.
 
 ]
@@ -225,51 +225,51 @@ OrionBrowserTest >> testDeleteInvocation [
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testDeleteMethod [
 
-	| asS antaresModel meth |
+	| asS orionModel meth |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	meth := antaresModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.	
+	meth := orionModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.	
 
 	self assert: meth notNil.
 
-	meth deleteInModel: antaresModel .
+	meth deleteInModel: orionModel .
 
-	self assert: (antaresModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()') isNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()') isNil.
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testDeletePackage [
 
-	| asS antaresModel pckg |
+	| asS orionModel pckg |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: #AsM.
+	orionModel := (ORModel withParent: self model) name: #AsM.
 	
-	pckg := antaresModel entityNamed: 'Orion-TestModel-Constellation1'.	
+	pckg := orionModel entityNamed: 'Orion-TestModel-Constellation1'.	
 
 	self assert: pckg notNil.
 
-	pckg deleteInModel: antaresModel .
+	pckg deleteInModel: orionModel .
 
-	self assert: (antaresModel entityNamed: 'Orion-TestModel-Constellation1') isNil.
+	self assert: (orionModel entityNamed: 'Orion-TestModel-Constellation1') isNil.
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testDeleteReference [
 
-	| asS antaresModel meth |
+	| asS orionModel meth |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	meth := 	antaresModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.
+	meth := 	orionModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.
 	self assert: meth outgoingReferences size equals: 1.
 
-	(meth outgoingReferences first) deleteInModel: antaresModel.
+	(meth outgoingReferences first) deleteInModel: orionModel.
 	
-	meth := 	antaresModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.
+	meth := 	orionModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.
 	self assert: meth outgoingReferences size equals: 0.
 
 ]
@@ -277,202 +277,203 @@ OrionBrowserTest >> testDeleteReference [
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testMergePackage [
 
-	| asS antaresModel pckg1 pckg2 |
+	| asS orionModel pckg1 pckg2 |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	pckg1 := antaresModel entityNamed: 'Orion-TestModel-Constellation1'.	
-	pckg2 := antaresModel entityNamed: 'Orion-TestModel-Constellation2'.
+	pckg1 := orionModel entityNamed: 'Orion-TestModel-Constellation1'.	
+	pckg2 := orionModel entityNamed: 'Orion-TestModel-Constellation2'.
 
 	self assert: pckg1 childNamedEntities size equals: 5.
 	self assert: pckg2 childNamedEntities size equals: 4.
 
-	pckg1 mergePackage: pckg2  inModel: antaresModel.
+	pckg1 mergePackage: pckg2  inModel: orionModel.
 
-	self assert:  (antaresModel entityNamed: 'Orion-TestModel-Constellation1')  equals: nil.
-	"self assert:  (antaresModel entityNamed: 'Orion-TestModel-Constellation2')  equals: nil.     DOESN'T WORK BECAUSE MATCHES Orion-TestModel-Constellation2Orion-TestModel-Constellation1"
+	self assert:  (orionModel entityNamed: 'Orion-TestModel-Constellation1')  equals: nil.
+	"self assert:  (orionModel entityNamed: 'Orion-TestModel-Constellation2')  equals: nil.     DOESN'T WORK BECAUSE MATCHES Orion-TestModel-Constellation2Orion-TestModel-Constellation1"
 
-	self deny:  (antaresModel entityNamed: 'Orion-TestModel-Constellation2Orion-TestModel-Constellation1') isNil.
-	self assert: (antaresModel entityNamed: 'Orion-TestModel-Constellation2Orion-TestModel-Constellation1') childNamedEntities size equals: 9.
+	self deny:  (orionModel entityNamed: 'Orion-TestModel-Constellation2Orion-TestModel-Constellation1') isNil.
+	self assert: (orionModel entityNamed: 'Orion-TestModel-Constellation2Orion-TestModel-Constellation1') childNamedEntities size equals: 9.
 
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testMethodAddInvocation [
 
-	| asS antaresModel meth |
+	| asS orionModel meth |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	meth := 	antaresModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.
+	meth := 	orionModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.
 
 	self assert: meth outgoingInvocations size equals: 1.
-	self assert: meth outgoingInvocations first receiver equals: (antaresModel entityNamed: 'Smalltalk::Class3').
+	self assert: meth outgoingInvocations first receiver equals: (orionModel entityNamed: 'Smalltalk::Class3').
 
-	meth addInvocationTo: (antaresModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()') inModel:  antaresModel .
+	meth addInvocationTo: (orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()') inModel:  orionModel .
 	
-	meth := 	antaresModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.
+	meth := 	orionModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.
 
 	self assert: meth outgoingInvocations size equals: 2.
-	self assert: (meth outgoingInvocations contains: [:inv | inv receiver = (antaresModel entityNamed: 'Smalltalk::Class3')]).
-	self assert: (meth outgoingInvocations contains: [:inv | inv to size =1 and: [ inv to  first = (antaresModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()')]]).
+	self assert: (meth outgoingInvocations contains: [:inv | inv receiver = (orionModel entityNamed: 'Smalltalk::Class3')]).
+	self assert: (meth outgoingInvocations contains: [:inv | inv to size =1 and: [ inv to  first = (orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()')]]).
 
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testMethodAddReference [
 
-	| asS antaresModel meth |
+	| asS orionModel meth |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	meth := 	antaresModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.
+	meth := 	orionModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.
 
 	self assert: meth outgoingReferences size equals: 1.
-	self assert: meth outgoingReferences first to equals: (antaresModel entityNamed: 'Smalltalk::Class3').
+	self assert: meth outgoingReferences first to equals: (orionModel entityNamed: 'Smalltalk::Class3').
 
-	meth addReferenceTo: (antaresModel entityNamed: 'Smalltalk::Class2') inModel:  antaresModel .
+	meth addReferenceTo: (orionModel entityNamed: 'Smalltalk::Class2') inModel:  orionModel .
 	
-	meth := 	antaresModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.
+	meth := 	orionModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.
 
 	self assert: meth outgoingReferences size equals: 2.
-	self assert: (meth outgoingReferences contains: [:inh | inh to = (antaresModel entityNamed: 'Smalltalk::Class3')]).
-	self assert: (meth outgoingReferences contains: [:inh | inh to = (antaresModel entityNamed: 'Smalltalk::Class2')]).
+	self assert: (meth outgoingReferences contains: [:inh | inh to = (orionModel entityNamed: 'Smalltalk::Class3')]).
+	self assert: (meth outgoingReferences contains: [:inh | inh to = (orionModel entityNamed: 'Smalltalk::Class2')]).
 
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testMoveAttribute [
 
-	| asS antaresModel att  |
+	| asS orionModel att  |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	att := antaresModel entityNamed: 'Smalltalk::Object.DependentsFields'.	
+	att := orionModel entityNamed: 'Smalltalk::Object.DependentsFields'.	
 
 	self deny: att isNil.
-	self assert: att parentType equals: (antaresModel entityNamed: 'Smalltalk::Object').	
+	self assert: att parentType equals: (orionModel entityNamed: 'Smalltalk::Object').	
 
-	att moveTo: (antaresModel entityNamed: 'Smalltalk::Class1') inModel: antaresModel.
+	att moveTo: (orionModel entityNamed: 'Smalltalk::Class1') inModel: orionModel.
 
-	att := antaresModel entityNamed: 'Smalltalk::Object.DependentsFields'.	
+	att := orionModel entityNamed: 'Smalltalk::Object.DependentsFields'.	
 	self assert: att isNil.
 	
-	att := antaresModel entityNamed: 'Smalltalk::Class1.DependentsFields'.	
+	att := orionModel entityNamed: 'Smalltalk::Class1.DependentsFields'.	
 	
 	self deny: att isNil.
-	self assert: att parentType equals: (antaresModel entityNamed: 'Smalltalk::Class1').
+	self assert: att parentType equals: (orionModel entityNamed: 'Smalltalk::Class1').
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testMoveClass [
 
-	| asS antaresModel class |
+	| asS orionModel class |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	class := antaresModel entityNamed: 'Smalltalk::Class1'.	
+	class := orionModel entityNamed: 'Smalltalk::Class1'.	
 	self deny: class isNil.
-	self assert: class parentPackage equals: (antaresModel entityNamed: 'Orion-TestModel-Constellation1').	
+	self assert: class parentPackage equals: (orionModel entityNamed: 'Orion-TestModel-Constellation1').	
 
-	class moveTo: (antaresModel entityNamed: 'Orion-TestModel-Constellation2') inModel: antaresModel .
+	class moveTo: (orionModel entityNamed: 'Orion-TestModel-Constellation2') inModel: orionModel .
 
-	class := antaresModel entityNamed: 'Smalltalk::Class1'.	
+	class := orionModel entityNamed: 'Smalltalk::Class1'.	
 	self deny: class isNil.
-	self assert: class parentPackage equals: (antaresModel entityNamed: 'Orion-TestModel-Constellation2').
+	self assert: class parentPackage equals: (orionModel entityNamed: 'Orion-TestModel-Constellation2').
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testMoveMethod [
 
-	| asS antaresModel meth |
+	| asS orionModel meth |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	meth := antaresModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.	
+	meth := orionModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.	
 	self deny: meth isNil.
-	self assert: meth parentType equals: (antaresModel entityNamed: 'Smalltalk::Class5').	
+	self assert: meth parentType equals: (orionModel entityNamed: 'Smalltalk::Class5').	
 
-	meth moveTo: (antaresModel entityNamed: 'Smalltalk::Class1') inModel: antaresModel.
+	meth moveTo: (orionModel entityNamed: 'Smalltalk::Class1') inModel: orionModel.
 
-	meth := antaresModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.	
+	meth := orionModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.	
 	self assert: meth isNil.
 	
-	meth := antaresModel entityNamed: 'Smalltalk::Class1.accessOrion2Class3()'.	
+	meth := orionModel entityNamed: 'Smalltalk::Class1.accessOrion2Class3()'.	
 	self deny: meth isNil.
-	self assert: meth parentType equals: (antaresModel entityNamed: 'Smalltalk::Class1').
+	self assert: meth parentType equals: (orionModel entityNamed: 'Smalltalk::Class1').
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testRenameAttribute [
 
-	| asS antaresModel  |
+	| asS orionModel  |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	self assert: (antaresModel entityNamed: 'Smalltalk::Class1.att1') notNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::Class1.att1') notNil.
 
-	(antaresModel entityNamed: 'Smalltalk::Class1.att1') renameAttribut: 'attributeTest' inModel: antaresModel .
+	(orionModel entityNamed: 'Smalltalk::Class1.att1') renameAttribut: 'attributeTest' inModel: orionModel .
 
-	self deny: (antaresModel entityNamed: 'Smalltalk::Class1.att1') notNil.
-	self deny: (antaresModel entityNamed: 'Smalltalk::Class1.attributeTest') isNil.
-	"self assert: (antaresModel entityNamed: 'Smalltalk::Class1.attributeTest') parentType equals: (antaresModel entityNamed: 'Smalltalk::Class1')."
+	self deny: (orionModel entityNamed: 'Smalltalk::Class1.att1') notNil.
+	self deny: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') isNil.
+	"self assert: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') parentType equals: (orionModel entityNamed: 'Smalltalk::Class1')."
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testRenameClass [
 
-	| asS antaresModel  |
+	| asS orionModel  |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	self assert: (antaresModel entityNamed: 'Smalltalk::Class1') notNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::Class1') notNil.
 
-	(antaresModel entityNamed: 'Smalltalk::Class1') renameClass: 'ClassTest' inModel: antaresModel .
+	(orionModel entityNamed: 'Smalltalk::Class1') renameClass: 'ClassTest' inModel: orionModel .
 
-	self deny: (antaresModel entityNamed: 'Smalltalk::Class1') notNil.
-	self deny: (antaresModel entityNamed: 'Smalltalk::ClassTest') isNil.
-	"self assert: (antaresModel entityNamed: 'Smalltalk::Class1.attributeTest') parentType equals: (antaresModel entityNamed: 'Smalltalk::Class1')."
+	self deny: (orionModel entityNamed: 'Smalltalk::Class1') notNil.
+	self deny: (orionModel entityNamed: 'Smalltalk::ClassTest') isNil.
+	"self assert: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') parentType equals: (orionModel entityNamed: 'Smalltalk::Class1')."
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testRenameMethod [
 
-	| asS antaresModel  |
+	| asS orionModel  |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	self assert: (antaresModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()') notNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()') notNil.
 
-	(antaresModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()') renameMethod: 'methodTest' inModel: antaresModel .
+	(orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()') renameMethod: 'methodTest' inModel: orionModel .
 
-	self deny: (antaresModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()') notNil.
-	self deny: (antaresModel entityNamed: 'Smalltalk::Class1.methodTest()') isNil.
-	"self assert: (antaresModel entityNamed: 'Smalltalk::Class1.attributeTest') parentType equals: (antaresModel entityNamed: 'Smalltalk::Class1')."
+	self assert: (orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()') notNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::Class1.methodTest()') isNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()') name equals: 'methodTest'.
+	"self assert: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') parentType equals: (orionModel entityNamed: 'Smalltalk::Class1')."
 ]
 
 { #category : #'as yet unclassified' }
 OrionBrowserTest >> testRenamePackage [
 
-	| asS antaresModel  |
+	| asS orionModel  |
 
 	asS := self model system.
-	antaresModel := (ASModel withParent: self model) name: 'AsM'.
+	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	self assert: (antaresModel entityNamed: 'Orion-TestModel-Constellation1') notNil.
+	self assert: (orionModel entityNamed: 'Orion-TestModel-Constellation1') notNil.
 
-	(antaresModel entityNamed: 'Orion-TestModel-Constellation1') renamePackage: 'PackageTest' inModel: antaresModel .
+	(orionModel entityNamed: 'Orion-TestModel-Constellation1') renamePackage: 'PackageTest' inModel: orionModel .
 
-	self deny: (antaresModel entityNamed: 'Orion-TestModel-Constellation1') notNil.
-	self deny: (antaresModel entityNamed: 'PackageTest') isNil.
-	"self assert: (antaresModel entityNamed: 'Smalltalk::Class1.attributeTest') parentType equals: (antaresModel entityNamed: 'Smalltalk::Class1')."
+	self deny: (orionModel entityNamed: 'Orion-TestModel-Constellation1') notNil.
+	self deny: (orionModel entityNamed: 'PackageTest') isNil.
+	"self assert: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') parentType equals: (orionModel entityNamed: 'Smalltalk::Class1')."
 ]

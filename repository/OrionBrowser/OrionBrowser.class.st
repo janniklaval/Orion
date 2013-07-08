@@ -14,7 +14,7 @@ Class {
 { #category : #'as yet unclassified' }
 OrionBrowser class >> open [ 
 
-	self new browser openOn: ASSystem root
+	self new browser openOn: ORSystem root
 ]
 
 { #category : #gui }
@@ -45,7 +45,7 @@ OrionBrowser >> browser [
 		browserLinks ;
 		browserSummary.
 	
-	browser subscribe: ASAnnouncement do: [ browser update].
+	browser subscribe: ORAnnouncement do: [ browser update].
 	^ browser
 ]
 
@@ -168,7 +168,7 @@ OrionBrowser >> browserModels [
 		gmlTree := b tree.
 		gmlTree
 			allExpanded;
-			display: [:systems | systems flatCollect: [:aSystem | aSystem antaresModels select:[:versions | versions parentModel isNil]]];
+			display: [:systems | systems flatCollect: [:aSystem | aSystem orionModels select:[:versions | versions parentModel isNil]]];
 			format:[:aVersion | aVersion name];
 			children: [:aVersion | aVersion childrenModel] ;
 
@@ -176,12 +176,12 @@ OrionBrowser >> browserModels [
 
 			selectionAct: [:theList | 
 						theList selection createNewChildVersion.
-						browser announce: ASAnnouncement]
+						browser announce: ORAnnouncement]
 				entitled: 'Create a child version' ;
 
 			selectionAct: [:theList | 
 						theList selection delete.
-						browser announce: ASAnnouncement]
+						browser announce: ORAnnouncement]
 				entitled: 'Delete version'  ;
 
 			selectionAct: [:list | list selection addPackageNamed: (self getNameDialog:  'New package name')] entitled: 'Add a package'.	
@@ -199,7 +199,7 @@ OrionBrowser >> browserPackages [
 		gmlList
 			display: [:model |
 				self selectedVersion: model.
-				(model allWithType: ASPackage) sorted: [:c1 :c2 | c1 name < c2 name] ] ;
+				(model allWithType: ORPackage) sorted: [:c1 :c2 | c1 name < c2 name] ] ;
 			title: [ :each | ' Packages'] ;
 			selectionAct: [:list | list selection inspect] entitled:  'Inspect' ;
 			selectionAct:  [:list | list selection renamePackage: (self getNameDialog:  'New package name') inModel: selectedVersion]  entitled: 'Rename' ;

@@ -1,5 +1,5 @@
 Class {
-	#name : #ASBrowser,
+	#name : #ORBrowser,
 	#superclass : #Object,
 	#instVars : [
 		'selectedVersion'
@@ -8,33 +8,33 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-ASBrowser class >> open [ 
+ORBrowser class >> open [ 
 
-	self new browser openOn: ASSystem root first
+	self new browser openOn: ORSystem root first
 ]
 
 { #category : #'as yet unclassified' }
-ASBrowser >> actionsFor: each [
+ORBrowser >> actionsFor: each [
 	|posAction elements listOfAct |
 
 	elements :=  each selection mooseInterestingEntity.
-	posAction := (((ASAction withAllSubclasses flatCollect: [:act | Pragma allNamed: #AntaresActionFor: in: act class])
+	posAction := (((ORAction withAllSubclasses flatCollect: [:act | Pragma allNamed: #OrionActionFor: in: act class])
 					select:[:e | e arguments includes: elements class asString asSymbol]) collect:[:e | e methodClass soleInstance]) asOrderedCollection.
 	listOfAct := OrderedCollection new.
 	posAction do:[:ie | 
 						|depend|
 						depend := ie needs: elements.
 						depend isNil 
-							ifTrue:[
+							ifTrue:[ 
 								listOfAct add:(
 								(GLMAction new)
 									action:[:anAct | 
 										elements currentContext isModifiable ifTrue:[
-											ie new entity: elements; antaresModel: elements currentContext; manualRun.
-											elements currentContext system announcer announce: ASModelChanged]
+											ie new entity: elements; orionModel: elements currentContext; manualRun.
+											elements currentContext system announcer announce: ORModelChanged]
 										ifFalse:[
 											ie new entity:elements; runOnNewVersionFrom: elements currentContext.
-											elements currentContext system announcer announce: ASModelAdded
+											elements currentContext system announcer announce: ORModelAdded
 										]
 									];
 									title:ie description;
@@ -45,11 +45,11 @@ ASBrowser >> actionsFor: each [
 									(GLMAction new)
 										action:[:anAct | 
 											elements currentContext isModifiable ifTrue:[
-												ie new entity:elements; to:anEl; antaresModel: elements currentContext; manualRun.
-												elements currentContext system announcer announce: ASModelChanged]
+												ie new entity:elements; to:anEl; orionModel: elements currentContext; manualRun.
+												elements currentContext system announcer announce: ORModelChanged]
 											ifFalse:[
 												ie new entity:elements; to:anEl; runOnNewVersionFrom: elements currentContext.
-												elements currentContext system announcer announce: ASModelAdded]
+												elements currentContext system announcer announce: ORModelAdded]
 										];
 										title:anEl mooseName;
 										category:ie description;
@@ -59,9 +59,9 @@ ASBrowser >> actionsFor: each [
 ]
 
 { #category : #'as yet unclassified' }
-ASBrowser >> browser [
+ORBrowser >> browser [
 	"
-		self new browser openOn: ASSystem root
+		self new browser openOn: ORSystem root
 	"
 	| browser  |
 	
@@ -78,12 +78,12 @@ ASBrowser >> browser [
 		b tree
 			allExpanded;
 			format:[:system | system name];
-			display: [:each | each antaresModels select:[:om | om parentModel = nil]];
+			display: [:each | each orionModels select:[:om | om parentModel = nil]];
 			children: [:each | each childrenModel];
 			act: [:each | each selection inspect] entitled: 'inspect';
 			act: [:each | |new|
-				new := each selection createNewChildVersion. ASSystem announcer announce: ASModelAdded. browser announce: ASAnnouncement] entitled: 'create a child version';
-			act: [:each | each selection delete. ASSystem announcer announce: ASModelRemoved. browser announce: ASAnnouncement] entitled: 'delete'.
+				new := each selection createNewChildVersion. ORSystem announcer announce: ORModelAdded. browser announce: ORAnnouncement] entitled: 'create a child version';
+			act: [:each | each selection delete. ORSystem announcer announce: ORModelRemoved. browser announce: ORAnnouncement] entitled: 'delete'.
 	].
 	(browser transmit) to: #changes; from: #versions; andShow: [:b |
 		b list
@@ -97,12 +97,12 @@ ASBrowser >> browser [
 				a custom: self entityNavigation.
 			].
 	 ].
-	browser subscribe: ASAnnouncement do: [browser update].
+	browser subscribe: ORAnnouncement do: [browser update].
 	^ browser
 ]
 
 { #category : #'as yet unclassified' }
-ASBrowser >> displayFor: anObject [
+ORBrowser >> displayFor: anObject [
 	| entity pragmaValueAssociations |
 	entity := anObject mooseInterestingEntity.
 	pragmaValueAssociations := entity complexPropertyPragmas collect: [ :pragma | 
@@ -117,7 +117,7 @@ ASBrowser >> displayFor: anObject [
 ]
 
 { #category : #'as yet unclassified' }
-ASBrowser >> entityNavigation [
+ORBrowser >> entityNavigation [
 	^ GLMListPresentation new
 			title: 'Navigation';
 			display: [ :anObject | |entity |
@@ -130,7 +130,7 @@ ASBrowser >> entityNavigation [
 ]
 
 { #category : #'as yet unclassified' }
-ASBrowser >> groupList [
+ORBrowser >> groupList [
 	^ GLMListPresentation new
 			beMultiple;
 			showOnly: 50;
@@ -149,11 +149,11 @@ ASBrowser >> groupList [
 ]
 
 { #category : #accessing }
-ASBrowser >> selectedVersion [
+ORBrowser >> selectedVersion [
 	^ selectedVersion
 ]
 
 { #category : #accessing }
-ASBrowser >> selectedVersion: anObject [
+ORBrowser >> selectedVersion: anObject [
 	selectedVersion := anObject
 ]
