@@ -16,7 +16,7 @@ ORConverter class >> buildFromMooseModel: aMooseModel [
 	system := ORSystem new.
 	system sourceModel: model.
 	model system: system.
-	system name: 'Antares ', model name.
+	system name: 'Orion ', model name.
 
 	ORSystem add: system.
 	

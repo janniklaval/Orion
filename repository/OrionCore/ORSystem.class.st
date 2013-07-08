@@ -20,7 +20,7 @@ Class {
 ORSystem class >> add: anElement [
 
 	self root add: anElement.
-	self announcer announce: (ASSystemAdded new entity: anElement).
+	self announcer announce: (ORSystemAdded new entity: anElement).
 
 ]
 
@@ -39,7 +39,7 @@ ORSystem class >> announcer: anObject [
 ORSystem class >> remove: anElement [
 
 	self root remove: anElement.
-	self announcer announce: (ASSystemRemoved new entity: anElement).
+	self announcer announce: (ORSystemRemoved new entity: anElement).
 
 ]
 
