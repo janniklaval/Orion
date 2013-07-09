@@ -22,6 +22,7 @@ TFAMIXPackage >> childNamedEntities [
 
 { #category : #'as yet unclassified' }
 TFAMIXPackage >> childNamedEntitiesOR: aVersion [
+
 	^ self privateChildNamedEntities versionIn: aVersion
 ]
 

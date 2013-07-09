@@ -2,6 +2,7 @@ Extension { #name : #FAMIXPackage }
 
 { #category : #'*OrionCore-model' }
 FAMIXPackage >> privateChildNamedEntities [
+
 	^ childNamedEntities
 ]
 

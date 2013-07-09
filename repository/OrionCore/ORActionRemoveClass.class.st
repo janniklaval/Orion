@@ -29,25 +29,13 @@ ORActionRemoveClass >> run [
 		namespace privateTypes:  (namespace privateTypes orionCopy orionRemove: entity).
 	].
 	entity outgoingReferences do:[:each |
-		ORActionRemoveReference new
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
+		each deleteInAction: self.
 	].
 	entity types do:[:each |
-		ORActionRemoveClass new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
+		each deleteInAction: self.
 	].
 	entity incomingReferences do:[:each |
-		ORActionRemoveReference new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
+		each deleteInAction: self.
 	].
 
 	entity subInheritances do:[:each |
@@ -57,49 +45,25 @@ ORActionRemoveClass >> run [
 			from: each subclass; 
 			to: (entity superInheritances first superclass); 
 			run.
-		ORActionRemoveInheritance new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
+		each deleteInAction: self.
 	].
 
 	entity superInheritances do:[:each |
-		ORActionRemoveInheritance new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
+		each deleteInAction: self
 	].
 	entity methods do:[:each |
-		ORActionRemoveMethod new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
+		each deleteInAction: self.
 	].
 
 
 	entity attributes do:[:com |
-		ORActionRemoveAttribute new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:com; 
-			run.
+		com deleteInAction: self.
 	].
-	entity comments do:[:com |
-		ORActionRemoveComment new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:com; 
-			run.
+	entity comments do:[:each |
+		each deleteInAction: self.
 	].
-	entity receivingInvocations do:[:com |
-		ORActionRemoveInvocation new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:com; 
-			run.
+	entity receivingInvocations do:[:each |
+		each deleteInAction: self.
 	].
 
 	self orionModel remove: entity.

@@ -100,6 +100,12 @@ ORAction >> parentAction: anAction [
 ]
 
 { #category : #printing }
+ORAction >> printOn: stream [ 
+
+		stream nextPutAll: self class name , '(' , entity class name , ') ' , entity mooseName
+]
+
+{ #category : #printing }
 ORAction >> printWorkspace [
 
 	^ '>', self class description, '>> ', self entity mooseName

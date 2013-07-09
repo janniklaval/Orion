@@ -17,100 +17,52 @@ ORActionRemovePackage class >> scope [
 
 { #category : #'method execution' }
 ORActionRemovePackage >> run [
-	| pack namespace|
 
-	super run.
+
 	entity childScopes do: [:each |
-		ORActionRemoveNamespace new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
+		each deleteInAction: self.
 	].
 
 	entity childNamedEntities do: [:each |
-		(each isKindOf: ORClass) ifTrue: [
-			ORActionRemoveClass new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
+		((each isKindOf: ORClass) "or: [each isKindOf: ORMethod]") ifTrue: [
+			each deleteInAction: self.
 		]
 	].
 
 	entity childNamedEntities do: [:each |
 		(each isKindOf: ORMethod) ifTrue: [
-			ORActionRemoveMethod new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
+			each deleteInAction: self.
 		]
 	].
 	
 	entity types do:[:each |
 		(each isKindOf: ORClass) ifTrue: [
-			ORActionRemoveClass new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
+			each deleteInAction: self.
 		].
 	].
 
-	entity parentPackage ifNotNil: [
-		pack := (self orionModel retrieveEntity: entity parentPackage).
-		pack privateChildNamedEntities:  (pack privateChildNamedEntities orionCopy orionRemove: entity).
-	].
-	entity parentScope ifNotNil:[
-		namespace := (self orionModel retrieveEntity: entity parentScope).
-		namespace privateChildScopes:  (namespace privateChildScopes orionCopy orionRemove: entity).
+	entity outgoingReferences do: [:each |
+		each deleteInAction: self.
 	].
 
-	entity outgoingReferences do: [:each |
-		ORActionRemoveReference new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
-	].
 	entity incomingReferences do: [:each |
-		ORActionRemoveReference new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
+		each deleteInAction: self.
 	].
 
 	entity comments do: [:com |
-		ORActionRemoveComment new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:com; 
-			run.
+		com deleteInAction: self.
 	].
 	entity functions do: [:com |
-		ORActionRemoveFunction new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:com; 
-			run.
+		com deleteInAction: self.
 	].
 	entity globalVariables do: [:com |
-		ORActionRemoveGlobalVariable new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:com; 
-			run.
+		com deleteInAction: self.
 	].
 	entity receivingInvocations do: [:com |
-		ORActionRemoveInvocation new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:com; 
-			run.
+		com deleteInAction: self.
 	].
 
-	self orionModel remove: entity.
+	self entity deleteInAction: self.
+
 	self postRun.
 ]
