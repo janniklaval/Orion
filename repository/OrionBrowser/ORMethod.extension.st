@@ -21,6 +21,16 @@ ORMethod >> addReferenceTo: aClass inModel: aModelVersion [
 ]
 
 { #category : #'*OrionBrowser' }
+ORMethod >> deleteInAction: anAction [
+
+	ORActionRemoveMethod new
+		parentAction: anAction ;
+		orionModel: anAction orionModel ;
+		entity: self ;
+	run. 
+]
+
+{ #category : #'*OrionBrowser' }
 ORMethod >> deleteInModel: aModelVersion [
 
 	(ORActionRemoveMethod new

@@ -12,6 +12,16 @@ ORPackage >> addClassNamed: aString inModel: aModelVersion [
 ]
 
 { #category : #'*OrionBrowser' }
+ORPackage >> deleteInAction: anAction [
+
+	ORActionRemovePackageOnly new
+		parentAction: anAction ;
+		orionModel: anAction orionModel ;
+		entity: self ;
+	run. 
+]
+
+{ #category : #'*OrionBrowser' }
 ORPackage >> deleteInModel: aModelVersion [
 
 	(ORActionRemovePackage new

@@ -1,6 +1,17 @@
 Extension { #name : #ORAttribute }
 
 { #category : #'*OrionBrowser' }
+ORAttribute >> deleteInAction: anAction [
+
+	ORActionRemoveAttribute new
+		parentAction: anAction ;
+		orionModel: anAction orionModel ;
+		entity: self ;
+		run. 
+
+]
+
+{ #category : #'*OrionBrowser' }
 ORAttribute >> deleteInModel: aModelVersion [
 
 	(ORActionRemoveAttribute new

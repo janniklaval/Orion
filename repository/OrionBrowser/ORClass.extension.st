@@ -44,6 +44,17 @@ ORClass >> changeSuperClassTo: newSuperClass inModel: aModelVersion [
 ]
 
 { #category : #'*OrionBrowser' }
+ORClass >> deleteInAction: anAction [
+
+	ORActionRemoveClass new
+		parentAction: anAction ;
+		orionModel: anAction orionModel ;
+		entity: self ;
+	run. 
+
+]
+
+{ #category : #'*OrionBrowser' }
 ORClass >> deleteInModel: aModelVersion [
 
 	(ORActionRemoveClass new
