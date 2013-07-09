@@ -21,6 +21,7 @@ ORTest >> model [
 		
 		
 		model := ORConverter convertFromMooseModel: mod.
+
 		system := ORSystem new.
 		system sourceModel: model.
 		model system: system.
