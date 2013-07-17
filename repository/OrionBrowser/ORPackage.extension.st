@@ -51,3 +51,12 @@ ORPackage >> renamePackage: aString inModel: aModelVersion [
 			newName: aString )
 		manualRun ]
 ]
+
+{ #category : #'*OrionBrowser' }
+ORPackage >> unsafeDeleteInModel: aModelVersion [
+
+	(ORActionRemovePackageOnly new
+		orionModel: aModelVersion ;
+		entity: self )
+	manualRun. 
+]
