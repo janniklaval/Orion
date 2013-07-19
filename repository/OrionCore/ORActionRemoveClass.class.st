@@ -18,16 +18,7 @@ ORActionRemoveClass class >> scope [
 { #category : #'method execution' }
 ORActionRemoveClass >> run [
 	super run.
-	entity parentPackage ifNotNil:[
-		| pack |
-		pack := (self orionModel retrieveEntity:entity parentPackage).
-		pack privateChildNamedEntities:  (pack privateChildNamedEntities orionCopy orionRemove: entity).
-	].
-	entity container ifNotNil:[
-		| namespace |
-		namespace := (self orionModel retrieveEntity:entity container).
-		namespace privateTypes:  (namespace privateTypes orionCopy orionRemove: entity).
-	].
+	
 	entity outgoingReferences do:[:each |
 		each deleteInAction: self.
 	].
@@ -48,7 +39,7 @@ ORActionRemoveClass >> run [
 		each deleteInAction: self.
 	].
 
-	entity superInheritances do:[:each |
+	entity superInheritances do:[:each | 
 		each deleteInAction: self
 	].
 	entity methods do:[:each |
@@ -66,6 +57,7 @@ ORActionRemoveClass >> run [
 		each deleteInAction: self.
 	].
 
+	entity deleteOnlyInAction: self.
 	self orionModel remove: entity.
 	self postRun.
 ]

@@ -1,6 +1,9 @@
 Class {
 	#name : #ORActionAddClass,
 	#superclass : #ORActionAddEntity,
+	#instVars : [
+		'parent'
+	],
 	#category : #'OrionCore-action'
 }
 
@@ -25,6 +28,16 @@ ORActionAddClass >> initialize [
 	newName := 'newFamixClass'.
 ]
 
+{ #category : #accessing }
+ORActionAddClass >> parent [
+	^ parent
+]
+
+{ #category : #accessing }
+ORActionAddClass >> parent: anObject [
+	parent := anObject
+]
+
 { #category : #'method execution' }
 ORActionAddClass >> run [
 	| newClass |
@@ -34,19 +47,17 @@ ORActionAddClass >> run [
 	self orionModel add: newClass.
 
 	container ifNotNil:[
-		|theNewContainer theNewPackage|
+		|theNewContainer |
 		theNewContainer := (self orionModel retrieveEntity:container).
 		newClass privateContainer: theNewContainer orionCopy.
 		theNewContainer privateTypes: (theNewContainer privateTypes orionCopy unsafeAdd: newClass).
-		
-		(container isKindOf: FAMIXPackage)
-		ifTrue: [ theNewPackage := theNewContainer ]
-		ifFalse: [self orionModel retrieveEntity: theNewContainer parentPackage].
-		theNewPackage ifNotNil: [
-			newClass privateParentPackage: theNewPackage orionCopy.
-			theNewPackage privateChildNamedEntities:
-						 (theNewPackage privateChildNamedEntities orionCopy unsafeAdd: newClass)
-		]
+	].
+	
+	parent ifNotNil: [
+		|theNewParent |
+		theNewParent := (self orionModel retrieveEntity: parent).
+		newClass privateParentPackage: theNewParent orionCopy.
+		theNewParent privateChildNamedEntities: (theNewParent privateChildNamedEntities orionCopy unsafeAdd: newClass).
 	].
 
 	entity := newClass.

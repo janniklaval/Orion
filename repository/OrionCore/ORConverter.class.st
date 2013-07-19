@@ -35,6 +35,7 @@ ORConverter class >> convertFromMooseModel: aMooseModel [
 	
 	 aMooseModel entities do:[:anEntity |
 		|myNewClass newAtt|
+		"Halt if: [anEntity isClass]."
 		myNewClass := self mapping at: anEntity class ifAbsent:[nil].
 		myNewClass ifNotNil:[
 			anEntity primitiveChangeClassTo: myNewClass new.

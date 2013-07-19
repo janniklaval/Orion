@@ -31,25 +31,13 @@ ORActionRemoveMethod >> run [
 	].
 	
 	entity outgoingReferences do:[:each |
-		ORActionRemoveReference new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
+		each deleteInAction: self.
 	].
 	entity incomingReferences do:[:each |
-		ORActionRemoveReference new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
+		each deleteInAction: self.
 	].
 	entity outgoingInvocations do:[:each |
-		ORActionRemoveInvocation new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
+		each deleteInAction: self.
 	].
 	
 	entity incomingInvocations do:[:each |
@@ -72,41 +60,21 @@ ORActionRemoveMethod >> run [
 	]."
 
 	entity accesses do:[:each |
-		ORActionRemoveAccess new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
+		each deleteInAction: self.
 	].
 
 	entity comments do:[:com |
-		ORActionRemoveComment new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:com; 
-			run.
+		com deleteInAction: self.
 	].
 	entity localVariables do:[:com |
-		ORActionRemoveLocalVariable new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:com; 
-			run.
+		com deleteInAction: self.
 	].
 	entity parameters do:[:com |
-		ORActionRemoveParameter new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:com; 
-			run.
+		com deleteInAction: self.
 	].
 
 	entity types do:[:each |
-		ORActionRemoveClass new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
+		each deleteInAction: self.
 	].
 
 	self orionModel remove: entity.

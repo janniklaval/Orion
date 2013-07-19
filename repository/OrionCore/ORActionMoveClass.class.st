@@ -25,24 +25,13 @@ ORActionMoveClass >> run [
 	| theClass theOldpackage|
 	super run.
 	theOldpackage := entity parentPackage.
-	theClass := ORActionSimplyMoveClass new 
-			parentAction: self ;
-			orionModel: self orionModel ;
-			entity: entity;
-			newContainer: newContainer;
-			run.
+	theClass := entity simplyMoveTo: newContainer  inAction: self.
+	
 	theOldpackage :=  theOldpackage versionIn: self currentContext.
 	
 	(newContainer isKindOf: FAMIXPackage) ifTrue:[
 		theClass methods do:[:each |
-			(each parentPackage isNil or:[each parentPackage = theOldpackage ]) ifTrue:[
-			ORActionMoveMethodInPackage new 
-				parentAction: self ;
-				orionModel: self orionModel; 
-				entity: each; 
-				newContainer: theClass parentPackage; 
-				run.
-			].
+			
 			each parentPackage = theClass parentPackage ifTrue:[
 			ORActionUnextendMethod new
 				parentAction: self ;

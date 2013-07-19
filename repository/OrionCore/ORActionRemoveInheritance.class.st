@@ -19,9 +19,10 @@ ORActionRemoveInheritance class >> scope [
 ORActionRemoveInheritance >> run [
 	| subEl superEl|
 	super run.
+
 	subEl := (self orionModel retrieveEntity: entity subclass).
 	superEl := (self orionModel retrieveEntity: entity superclass).
-	
+
 	subEl privateSuperInheritances: (subEl privateSuperInheritances orionCopy orionRemove: entity).
 	superEl privateSubInheritances: (superEl privateSubInheritances orionCopy orionRemove: entity).
 	
