@@ -51,7 +51,7 @@ ORMethod >> moveTo: aClass inModel: aModelVersion [
 ]
 
 { #category : #'*OrionBrowser' }
-ORMethod >> renameMethod: aString inModel: aModelVersion [
+ORMethod >> rename: aString inModel: aModelVersion [
 
 	aString  ifNotNil: [ 
 		(ORActionRenameMethod new

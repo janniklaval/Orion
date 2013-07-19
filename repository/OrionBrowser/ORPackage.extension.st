@@ -3,12 +3,19 @@ Extension { #name : #ORPackage }
 { #category : #'*OrionBrowser' }
 ORPackage >> addClassNamed: aString inModel: aModelVersion [
 
+	self addClassNamed: aString  withNamespace: aModelVersion allNamespaces first  inModel: aModelVersion.
+]
+
+{ #category : #'*OrionBrowser' }
+ORPackage >> addClassNamed: aString withNamespace: aNamespace inModel: aModelVersion [
+
 	aString  ifNotNil: [ 
-		(ORActionAddClass new
+		((ORActionAddClass new
 			orionModel: aModelVersion ;
-			container: self ;
+			parent: self ;
+			container: aNamespace ;
 			newName: aString )
-		manualRun ]
+		manualRun)  ]
 ]
 
 { #category : #'*OrionBrowser' }
@@ -42,7 +49,7 @@ ORPackage >> mergePackage: aPackage inModel: aModelVersion [
 ]
 
 { #category : #'*OrionBrowser' }
-ORPackage >> renamePackage: aString inModel: aModelVersion [
+ORPackage >> rename: aString inModel: aModelVersion [
 
 	aString  ifNotNil: [ 
 		(ORActionRenamePackage new

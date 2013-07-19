@@ -65,6 +65,27 @@ ORClass >> deleteInModel: aModelVersion [
 ]
 
 { #category : #'*OrionBrowser' }
+ORClass >> deleteOnlyInAction: anAction [
+
+	^(ORActionRemoveClassOnly new
+		parentAction: anAction ;
+		orionModel: anAction orionModel  ;
+		entity: self  )
+	run. 
+
+]
+
+{ #category : #'*OrionBrowser' }
+ORClass >> deleteOnlyInModel: aModelVersion [
+
+	(ORActionRemoveClassOnly new
+		orionModel: aModelVersion ;
+		entity: self )
+	manualRun. 
+
+]
+
+{ #category : #'*OrionBrowser' }
 ORClass >> moveTo: aPackage inModel: aModelVersion [
 
 	(ORActionMoveClass new
@@ -76,7 +97,7 @@ ORClass >> moveTo: aPackage inModel: aModelVersion [
 ]
 
 { #category : #'*OrionBrowser' }
-ORClass >> renameClass: aString inModel: aModelVersion [
+ORClass >> rename: aString inModel: aModelVersion [
 
 	aString  ifNotNil: [ 
 		(ORActionRenameClass new
@@ -84,4 +105,16 @@ ORClass >> renameClass: aString inModel: aModelVersion [
 			entity: self ;
 			newName: aString )
 		manualRun ]
+]
+
+{ #category : #'*OrionBrowser' }
+ORClass >> simplyMoveTo: aPackage inAction: anAction [
+
+	^(ORActionSimplyMoveClass new
+		parentAction: anAction ;
+		orionModel: anAction orionModel  ;
+		entity: self ;
+		newContainer: aPackage )
+	run. 
+
 ]

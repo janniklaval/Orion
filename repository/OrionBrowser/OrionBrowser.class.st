@@ -58,7 +58,7 @@ OrionBrowser >> browserAttributes [
 			title: [ :each | ' Attributes'] ;
 			selectionAct: [:list | list selection inspect] entitled:  'Inspect' ;
 		
-			selectionAct:  [:list | list selection renameAttribut: (self getNameDialog:  'New attribute name') inModel: selectedVersion]  entitled: 'Rename' ;
+			selectionAct:  [:list | list selection rename: (self getNameDialog:  'New attribute name') inModel: selectedVersion]  entitled: 'Rename' ;
 			selectionAct: [:list | list selection deleteInModel: selectedVersion] entitled: 'Remove' ;
 			selectionAct: [:list | list selection moveTo: entityInBuffer inModel: selectedVersion] entitled: 'Move to buffered class'.
 	].
@@ -98,7 +98,7 @@ OrionBrowser >> browserClasses [
 			title: [ :each | ' Classes'] ;
 			selectionAct: [:list | list selection inspect] entitled:  'Inspect' ;
 	
-			selectionAct:  [:list | list selection renameClass: (self getNameDialog:  'New class name') inModel: selectedVersion]  entitled: 'Rename' ;
+			selectionAct:  [:list | list selection rename: (self getNameDialog:  'New class name') inModel: selectedVersion]  entitled: 'Rename' ;
 			selectionAct:  [:list | list selection addSuperClass: entityInBuffer inModel: selectedVersion]  entitled: 'Add inheritance from the buffered class' ;
 			selectionAct:  [:list | list selection changeSuperClassTo: entityInBuffer inModel: selectedVersion]  entitled: 'Change super class for the buffered class' ;
 			selectionAct:  [:list | list selection addAttributNamed: (self getNameDialog:  'New attribute name') inModel: selectedVersion]  entitled: 'Add attribute' ;
@@ -152,7 +152,7 @@ OrionBrowser >> browserMethods [
 			title: [ :each | 'Methods'] ;
 			selectionAct: [:list | list selection inspect] entitled:  'Inspect' ;
 
-			selectionAct:  [:list | list selection renameMethod: (self getNameDialog:  'New method name') inModel: selectedVersion]  entitled: 'Rename' ;
+			selectionAct:  [:list | list selection rename: (self getNameDialog:  'New method name') inModel: selectedVersion]  entitled: 'Rename' ;
 			 selectionAct: [:list | list selection deleteInModel: selectedVersion] entitled: 'Remove' ;
 			selectionAct: [:list | list selection moveTo: entityInBuffer inModel: selectedVersion] entitled: 'Move to the buffered class' ;
 			selectionAct: [:list | list selection addReferenceTo: entityInBuffer inModel: selectedVersion] entitled: 'Add reference to the buffered class' ;
@@ -202,7 +202,7 @@ OrionBrowser >> browserPackages [
 				(model allWithType: ORPackage) sorted: [:c1 :c2 | c1 name < c2 name] ] ;
 			title: [ :each | ' Packages'] ;
 			selectionAct: [:list | list selection inspect] entitled:  'Inspect' ;
-			selectionAct:  [:list | list selection renamePackage: (self getNameDialog:  'New package name') inModel: selectedVersion]  entitled: 'Rename' ;
+			selectionAct:  [:list | list selection rename: (self getNameDialog:  'New package name') inModel: selectedVersion]  entitled: 'Rename' ;
 			selectionAct: [:list |  list selection addClassNamed: (self getNameDialog:  'New class name') inModel: selectedVersion]  entitled: 'Add a class' ;
 			selectionAct: [:list | list selection deleteInModel: selectedVersion] entitled: 'Remove' ;
 			selectionAct: [:list | list selection mergePackage: entityInBuffer inModel: selectedVersion] entitled: 'Merge with buffered package' .		

@@ -33,7 +33,7 @@ ORAttribute >> moveTo: aClass inModel: aModelVersion [
 ]
 
 { #category : #'*OrionBrowser' }
-ORAttribute >> renameAttribut: aString inModel: aModelVersion [
+ORAttribute >> rename: aString inModel: aModelVersion [
 
 	aString  ifNotNil: [ 
 		(ORActionRenameAttribute new

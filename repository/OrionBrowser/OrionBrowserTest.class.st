@@ -419,7 +419,7 @@ OrionBrowserTest >> testRenameAttribute [
 
 	self assert: (orionModel entityNamed: 'Smalltalk::Class1.att1') notNil.
 
-	(orionModel entityNamed: 'Smalltalk::Class1.att1') renameAttribut: 'attributeTest' inModel: orionModel .
+	(orionModel entityNamed: 'Smalltalk::Class1.att1') rename: 'attributeTest' inModel: orionModel .
 
 	self deny: (orionModel entityNamed: 'Smalltalk::Class1.att1') notNil.
 	self deny: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') isNil.
@@ -436,7 +436,7 @@ OrionBrowserTest >> testRenameClass [
 
 	self assert: (orionModel entityNamed: 'Smalltalk::Class1') notNil.
 
-	(orionModel entityNamed: 'Smalltalk::Class1') renameClass: 'ClassTest' inModel: orionModel .
+	(orionModel entityNamed: 'Smalltalk::Class1') rename: 'ClassTest' inModel: orionModel .
 
 	self deny: (orionModel entityNamed: 'Smalltalk::Class1') notNil.
 	self deny: (orionModel entityNamed: 'Smalltalk::ClassTest') isNil.
@@ -453,7 +453,7 @@ OrionBrowserTest >> testRenameMethod [
 
 	self assert: (orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()') notNil.
 
-	(orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()') renameMethod: 'methodTest' inModel: orionModel .
+	(orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()') rename: 'methodTest' inModel: orionModel .
 
 	self assert: (orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()') notNil.
 	self assert: (orionModel entityNamed: 'Smalltalk::Class1.methodTest()') isNil.
@@ -471,7 +471,7 @@ OrionBrowserTest >> testRenamePackage [
 
 	self assert: (orionModel entityNamed: 'Orion-TestModel-Constellation1') notNil.
 
-	(orionModel entityNamed: 'Orion-TestModel-Constellation1') renamePackage: 'PackageTest' inModel: orionModel .
+	(orionModel entityNamed: 'Orion-TestModel-Constellation1') rename: 'PackageTest' inModel: orionModel .
 
 	self deny: (orionModel entityNamed: 'Orion-TestModel-Constellation1') notNil.
 	self deny: (orionModel entityNamed: 'PackageTest') isNil.
