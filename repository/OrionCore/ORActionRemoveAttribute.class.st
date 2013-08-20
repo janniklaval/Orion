@@ -13,18 +13,10 @@ ORActionRemoveAttribute class >> description [
 ORActionRemoveAttribute >> run [
 	super run.
 	entity comments do:[:com |
-		ORActionRemoveComment new
-			parentAction: self ;
-			orionModel: self orionModel;
-			entity:com;
-			run.
+		com deleteInAction: self.
 	].
 	entity incomingAccesses do:[:each |
-		ORActionRemoveAccess new
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
+		each deleteInAction: self.
 	].
 	entity parentPackage ifNotNil:[
 		| pack |
@@ -38,11 +30,7 @@ ORActionRemoveAttribute >> run [
 	].
 
 	entity receivingInvocations do:[:com |
-		ORActionRemoveInvocation new
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:com; 
-			run.
+		com deleteInAction: self.
 	].
 	
 
