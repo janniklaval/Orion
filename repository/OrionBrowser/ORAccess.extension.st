@@ -8,3 +8,12 @@ ORAccess >> deleteInAction:  anAction [
 		entity: self ;
 	run. 
 ]
+
+{ #category : #'*OrionBrowser' }
+ORAccess >> deleteInModel:  aModel [
+	ORActionRemoveAccess new
+		orionModel: aModel ;
+		entity: self ;
+	run. 
+	
+]

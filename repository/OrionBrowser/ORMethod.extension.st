@@ -1,6 +1,16 @@
 Extension { #name : #ORMethod }
 
 { #category : #'*OrionBrowser' }
+ORMethod >> addAccessTo: aStructuralEntity inModel: aModelVersion [
+
+	(ORActionAddAccess new
+		orionModel: aModelVersion;
+		from: self ;
+		to: aStructuralEntity )
+	manualRun. 
+]
+
+{ #category : #'*OrionBrowser' }
 ORMethod >> addInvocationTo: aMethod inModel: aModelVersion [
 
 	(ORActionAddInvocation new
