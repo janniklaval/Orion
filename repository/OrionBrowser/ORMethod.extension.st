@@ -11,12 +11,23 @@ ORMethod >> addAccessTo: aStructuralEntity inModel: aModelVersion [
 ]
 
 { #category : #'*OrionBrowser' }
-ORMethod >> addInvocationTo: aMethod inModel: aModelVersion [
+ORMethod >> addInvocationTo: anOrderedCollection inModel: aModelVersion [
 
 	(ORActionAddInvocation new
 		orionModel: aModelVersion;
 		from: self ;
-		to: aMethod)
+		candidates: anOrderedCollection )
+	manualRun. 
+]
+
+{ #category : #'*OrionBrowser' }
+ORMethod >> addInvocationToNew: aClass withSignature: aSymbol inModel: aModelVersion [
+
+	(ORActionAddInvocation new
+		orionModel: aModelVersion;
+		from: self ;
+		receiver: aClass;
+		signature: aSymbol )
 	manualRun. 
 ]
 
@@ -69,4 +80,14 @@ ORMethod >> rename: aString inModel: aModelVersion [
 			entity: self ;
 			newName: aString )
 		manualRun ]
+]
+
+{ #category : #'*OrionBrowser' }
+ORMethod >> updatePackage: aPackage inAnAction: anAction [
+	ORActionMoveMethodInPackage new
+		parentAction: anAction;
+		orionModel: anAction orionModel;
+		entity: self;
+		newContainer: aPackage;
+		run
 ]

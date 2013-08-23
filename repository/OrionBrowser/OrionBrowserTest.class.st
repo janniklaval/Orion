@@ -43,12 +43,12 @@ OrionBrowserTest >> testAddClass [
 	asS := self model system.
 	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	self assert: (orionModel entityNamed: 'Orion-TestModel-Constellation1::ClassTest') isNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::ClassTest') isNil.
 
 	(orionModel entityNamed: 'Orion-TestModel-Constellation1') addClassNamed: 'ClassTest' inModel: orionModel .
 
-	self deny: (orionModel entityNamed: 'Orion-TestModel-Constellation1::ClassTest') isNil.
-	self assert: (orionModel entityNamed: 'Orion-TestModel-Constellation1::ClassTest') parentPackage equals: (orionModel entityNamed: 'Orion-TestModel-Constellation1').
+	self deny: (orionModel entityNamed: 'Smalltalk::ClassTest') isNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::ClassTest') parentPackage equals: (orionModel entityNamed: 'Orion-TestModel-Constellation1').
 ]
 
 { #category : #'as yet unclassified' }
@@ -311,7 +311,7 @@ OrionBrowserTest >> testMethodAddInvocation [
 	self assert: meth outgoingInvocations size equals: 1.
 	self assert: meth outgoingInvocations first receiver equals: (orionModel entityNamed: 'Smalltalk::Class3').
 
-	meth addInvocationTo: (orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()') inModel:  orionModel .
+	meth addInvocationTo: (orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()') asOrderedCollection inModel:  orionModel .
 	
 	meth := 	orionModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()'.
 
