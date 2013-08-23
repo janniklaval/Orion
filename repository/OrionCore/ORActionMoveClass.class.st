@@ -31,7 +31,9 @@ ORActionMoveClass >> run [
 	
 	(newContainer isKindOf: FAMIXPackage) ifTrue:[
 		theClass methods do:[:each |
-			
+			(each parentPackage isNil or:[each parentPackage = theOldpackage ]) ifTrue:[
+				each updatePackage: theClass parentPackage inAnAction: self
+			].
 			each parentPackage = theClass parentPackage ifTrue:[
 			ORActionUnextendMethod new
 				parentAction: self ;

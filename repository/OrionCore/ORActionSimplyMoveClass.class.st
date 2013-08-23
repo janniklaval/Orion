@@ -16,7 +16,7 @@ ORActionSimplyMoveClass >> run [
 	theClass := (self orionModel retrieveEntity:entity).
 	
 	theNewContainer := (self orionModel retrieveEntity:newContainer).
-	
+
 	(theNewContainer isKindOf:FAMIXPackage) ifTrue:[
 		theClass parentPackage ifNotNil:[
 			theOldContainer := (self orionModel retrieveEntity: theClass parentPackage).

@@ -2,7 +2,9 @@ Class {
 	#name : #ORActionAddInvocation,
 	#superclass : #ORActionAddLink,
 	#instVars : [
-		'signature'
+		'signature',
+		'candidates',
+		'receiver'
 	],
 	#category : #'OrionCore-action'
 }
@@ -10,6 +12,26 @@ Class {
 { #category : #'as yet unclassified' }
 ORActionAddInvocation class >> description [
 	^'add invocation'
+]
+
+{ #category : #accessing }
+ORActionAddInvocation >> candidates [
+	^ candidates
+]
+
+{ #category : #accessing }
+ORActionAddInvocation >> candidates: anObject [
+	candidates := anObject
+]
+
+{ #category : #accessing }
+ORActionAddInvocation >> receiver [
+	^ receiver
+]
+
+{ #category : #accessing }
+ORActionAddInvocation >> receiver: anObject [
+	receiver := anObject
 ]
 
 { #category : #'method execution' }
@@ -21,14 +43,14 @@ ORActionAddInvocation >> run [
 	self orionModel add: newInvocation.
 	
 	signature isNil
-		ifTrue: [newInvocation privateSignature: to signature orionCopy, '()'] 
+		ifTrue: [newInvocation privateSignature: candidates first signature orionCopy] 
 		ifFalse: [newInvocation privateSignature: signature orionCopy].
 		
-	to ifNotNil: [
-		|theNewInvoked|
-		theNewInvoked := (self orionModel retrieveEntity: to).
+	candidates ifNotNil: [
+		candidates do: [:c | |theNewInvoked | 
+		theNewInvoked := (self orionModel retrieveEntity: c).
 		newInvocation privateCandidates: (newInvocation privateCandidates orionCopy unsafeAdd: theNewInvoked).
-		theNewInvoked privateIncomingInvocations:  (theNewInvoked privateIncomingInvocations orionCopy unsafeAdd: newInvocation)
+		theNewInvoked privateIncomingInvocations:  (theNewInvoked privateIncomingInvocations orionCopy unsafeAdd: newInvocation)]
 	].
 
 	from ifNotNil: [
@@ -38,6 +60,12 @@ ORActionAddInvocation >> run [
 		theNewInvoker privateOutgoingInvocations:  (theNewInvoker privateOutgoingInvocations orionCopy unsafeAdd: newInvocation)
 	].
 
+	receiver ifNotNil: [  
+		|theNewreceiver|
+		theNewreceiver := (self orionModel retrieveEntity: receiver).
+		newInvocation privateReceiver: theNewreceiver orionCopy.
+		theNewreceiver privateReceivingInvocations:  (theNewreceiver privateReceivingInvocations orionCopy unsafeAdd: newInvocation)
+	].
 	entity := newInvocation.
 	^ entity
 ]
