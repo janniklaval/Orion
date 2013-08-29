@@ -92,6 +92,14 @@ ConfigurationOfOrion >> baseline2: spec [
 	].
 ]
 
+{ #category : #baselines }
+ConfigurationOfOrion >> development: spec [
+	<symbolicVersion: #'development'>
+
+	spec for: #'pharo2.x' version: '2-baseline'.
+	spec for: #'pharo3.x' version: '2-baseline'. 
+]
+
 { #category : #accessing }
 ConfigurationOfOrion >> project [
 
