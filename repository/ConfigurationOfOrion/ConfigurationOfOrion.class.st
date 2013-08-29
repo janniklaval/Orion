@@ -88,7 +88,9 @@ ConfigurationOfOrion >> baseline2: spec [
 			package: 'OrionBrowser';
 			package: 'OrionTest';
 			package: 'Orion-TestModel'.
-						
+		spec repository: 'http://smalltalkhub.com/mc/AnneEtien/FamixDiff/main'.
+		spec 
+			package: 'Famix-Diff-Orion'.
 	].
 ]
 
