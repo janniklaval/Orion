@@ -22,24 +22,24 @@ ORActionMoveClass class >> scope [
 
 { #category : #'method execution' }
 ORActionMoveClass >> run [
-	| theClass theOldpackage|
-	super run.
-	theOldpackage := entity parentPackage.
-	theClass := entity simplyMoveTo: newContainer  inAction: self.
-	
-	theOldpackage :=  theOldpackage versionIn: self currentContext.
-	
-	(newContainer isKindOf: FAMIXPackage) ifTrue:[
-		theClass methods do:[:each |
-			(each parentPackage isNil or:[each parentPackage = theOldpackage ]) ifTrue:[
-				each updatePackage: theClass parentPackage inAnAction: self
-			].
-			each parentPackage = theClass parentPackage ifTrue:[
-			ORActionUnextendMethod new
-				parentAction: self ;
-				orionModel: self orionModel;
-				entity: each
-			].
-	]].
-	^theClass
+	| theClass theOldpackage |
+	entity isAnonymousClass
+		ifFalse: [ 
+			super run.
+			theOldpackage := entity parentPackage.
+			theClass := entity simplyMoveTo: newContainer inAction: self.
+			theOldpackage := theOldpackage versionIn: self currentContext.
+			(newContainer isKindOf: FAMIXPackage)
+				ifTrue: [ 
+					theClass methods
+						do: [ :each | 
+							(each parentPackage isNil or: [ each parentPackage = theOldpackage ])
+								ifTrue: [ each updatePackage: theClass parentPackage inAnAction: self ].
+							each parentPackage = theClass parentPackage
+								ifTrue: [ 
+									ORActionUnextendMethod new
+										parentAction: self;
+										orionModel: self orionModel;
+										entity: each ] ] ].
+			^ theClass ]
 ]

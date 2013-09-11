@@ -18,20 +18,21 @@ ORActionExtendMethod class >> scope [
 { #category : #'method execution' }
 ORActionExtendMethod >> run [
 	| newMethod theNewClass theNewPackage theOldPackage |
-	self flag: #fixme. "should probably not inherit from ORActionMove"
+	self flag: #fixme.	"should probably not inherit from ORActionMove"
 	super run.
-	newMethod := (self orionModel retrieveEntity:entity).
-		
-	theOldPackage := (self orionModel retrieveEntity:entity parentPackage).
-	
-	theOldPackage privateChildNamedEntities:  (theOldPackage privateChildNamedEntities orionCopy orionRemove: newMethod).
-		
-	theNewPackage := (self orionModel retrieveEntity:newContainer).
-	
+	newMethod := self orionModel retrieveEntity: entity.
+	entity parentPackage
+		ifNil: [ 
+			((entity isKindOf: FAMIXClass) and: [ entity parentType parentPackage notNil ])
+				ifTrue: [ 
+					theOldPackage := self orionModel retrieveEntity: entity entity parentType parentPackage.
+					theOldPackage privateChildNamedEntities: (theOldPackage privateChildNamedEntities orionCopy orionRemove: newMethod) ] ]
+		ifNotNil: [ 
+			theOldPackage := self orionModel retrieveEntity: entity parentPackage.
+			theOldPackage privateChildNamedEntities: (theOldPackage privateChildNamedEntities orionCopy orionRemove: newMethod) ].
+	theNewPackage := self orionModel retrieveEntity: newContainer.
 	newMethod privateParentPackage: theNewPackage orionCopy.
-	theNewPackage privateChildNamedEntities:  (theNewPackage privateChildNamedEntities orionCopy unsafeAdd: newMethod).
-		
-	theNewClass := (self orionModel retrieveEntity:entity parentType).
-	
-	^newMethod
+	theNewPackage privateChildNamedEntities: (theNewPackage privateChildNamedEntities orionCopy unsafeAdd: newMethod).
+	theNewClass := self orionModel retrieveEntity: entity parentType.
+	^ newMethod
 ]

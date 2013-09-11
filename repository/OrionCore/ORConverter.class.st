@@ -77,11 +77,12 @@ ORConverter class >> initConverter [
 		association at: FAMIXUnknownVariable put: ORUnknownVariable.
 		association at: FAMIXAnnotationInstance put: ORAnnotationInstance.
 		association at: FAMIXAnnotationType put: ORAnnotationType.
-		"association at: FAMIXCaughtException put: ORCaughtException.
+		association at: FAMIXCaughtException put: ORCaughtException.
 		association at: FAMIXDeclaredException put: ORDeclaredException.
-		association at: FAMIXFile put: ORFile.
-		association at: FAMIXFolder put: ORFolder.
-		association at: FAMIXThrownException put: ORThrownException."
+		association at: FAMIXEnumValue put: OREnumValue.
+		"association at: FAMIXFile put: ORFile.
+		association at: FAMIXFolder put: ORFolder."
+		association at: FAMIXThrownException put: ORThrownException. 
 		^association
 ]
 

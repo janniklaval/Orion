@@ -15,7 +15,7 @@ ORActionMoveMethod >> run [
 	super run.
 	theMethod := (self orionModel retrieveEntity: entity).
 	theNewClass := (self orionModel retrieveEntity: newContainer).
-	theNewPackage := (self orionModel retrieveEntity: theNewClass parentPackage).
+	theNewPackage := theNewClass parentPackage ifNil: [ self orionModel retrieveEntity: theNewClass belongsTo ] ifNotNil: [self orionModel retrieveEntity: theNewClass parentPackage].
 	
 	entity parentType ifNotNil:[
 		theOldClass := (self orionModel retrieveEntity: entity parentType).
