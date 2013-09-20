@@ -16,8 +16,8 @@ OrionBrowserTest >> testAddAttribute [
 
 	(orionModel entityNamed: 'Smalltalk::Class1') addAttributNamed: 'attributeTest' inModel: orionModel .
 
-	self deny: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') isNil.
-	self assert: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') parentType equals: (orionModel entityNamed: 'Smalltalk::Class1').
+	self deny: (orionModel entityNamed: 'attributeTest') isNil.
+	self assert: (orionModel entityNamed: 'attributeTest') parentType equals: (orionModel entityNamed: 'Smalltalk::Class1').
 ]
 
 { #category : #'as yet unclassified' }
@@ -43,12 +43,12 @@ OrionBrowserTest >> testAddClass [
 	asS := self model system.
 	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	self assert: (orionModel entityNamed: 'Smalltalk::ClassTest') isNil.
+	self assert: (orionModel entityNamed: 'ClassTest') isNil.
 
 	(orionModel entityNamed: 'Orion-TestModel-Constellation1') addClassNamed: 'ClassTest' inModel: orionModel .
 
-	self deny: (orionModel entityNamed: 'Smalltalk::ClassTest') isNil.
-	self assert: (orionModel entityNamed: 'Smalltalk::ClassTest') parentPackage equals: (orionModel entityNamed: 'Orion-TestModel-Constellation1').
+	self deny: (orionModel entityNamed: 'ClassTest') isNil.
+	self assert: (orionModel entityNamed: 'ClassTest') parentPackage equals: (orionModel entityNamed: 'Orion-TestModel-Constellation1').
 ]
 
 { #category : #'as yet unclassified' }
@@ -74,12 +74,12 @@ OrionBrowserTest >> testAddMethod [
 	asS := self model system.
 	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
-	self assert: (orionModel entityNamed: 'Smalltalk::Class1.methodTest()') isNil.
+	self assert: (orionModel entityNamed: 'methodTest()') isNil.
 
 	(orionModel entityNamed: 'Smalltalk::Class1') addMethodNamed: 'methodTest' inModel: orionModel .
 
-	self deny: (orionModel entityNamed: 'Smalltalk::Class1.methodTest()') isNil.
-	self assert: (orionModel entityNamed: 'Smalltalk::Class1.methodTest()') parentType equals: (orionModel entityNamed: 'Smalltalk::Class1')
+	self deny: (orionModel entityNamed: 'methodTest()') isNil.
+	self assert: (orionModel entityNamed: 'methodTest()') parentType equals: (orionModel entityNamed: 'Smalltalk::Class1')
 ]
 
 { #category : #'as yet unclassified' }
