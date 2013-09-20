@@ -35,8 +35,8 @@ ORActionAddMethod >> run [
 	| newMethod containerPackage |
 	super run.
 	newMethod := ORMethod new.
-	newMethod name: newName.
 	self orionModel add: newMethod.
+	newMethod name: newName.
 
 	signature isNil
 		ifTrue:[newMethod signature: newName orionCopy, '()'] 
