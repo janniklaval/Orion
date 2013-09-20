@@ -93,7 +93,7 @@ ORDefaultState >> cacheAt: name put: value OR: aVersion [
 { #category : #accessing }
 ORDefaultState >> currentContext [ 
 
-	^( attributes  at: #currentContext ifAbsent: [ nil ]"ifAbsentPut: ORContext currentModel")
+	^( attributes  at: #currentContext "ifAbsentPut: ORContext currentModel")
 ]
 
 { #category : #accessing }
