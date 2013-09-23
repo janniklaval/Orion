@@ -34,8 +34,9 @@ ORActionAddAttribute >> run [
 	| newAttribute |
 	super run.
 	newAttribute := ORAttribute new.
-	self orionModel add: newAttribute.
 	newAttribute name: newName.
+	self orionModel add: newAttribute.
+
 
 
 	newAttribute hasClassScope: classScope orionCopy.

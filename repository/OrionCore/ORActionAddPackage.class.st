@@ -26,9 +26,9 @@ ORActionAddPackage >> run [
 	| newPackage |
 	super run.
 	newPackage := ORPackage new.
-	self orionModel add: newPackage.
 	newPackage name: newName.
-	
+	self orionModel add: newPackage.
+		
 	container ifNotNil:[
 		|theNewPackage|
 		theNewPackage := (self orionModel retrieveEntity: container).

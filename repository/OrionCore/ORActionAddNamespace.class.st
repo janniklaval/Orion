@@ -21,8 +21,9 @@ ORActionAddNamespace >> run [
 	| newNamespace |
 	super run.
 	newNamespace := ORNamespace new.
-	self orionModel add: newNamespace.
 	newNamespace name: newName.
+	self orionModel add: newNamespace.
+
 
 	"package ifNotNil:[
 		|theNewPackage|

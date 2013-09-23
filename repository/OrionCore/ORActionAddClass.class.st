@@ -43,8 +43,9 @@ ORActionAddClass >> run [
 	| newClass |
 	super run.
 	newClass := ORClass new.
-	self orionModel add: newClass.
 	newClass name: newName.
+	self orionModel add: newClass.
+
 	
 
 	container ifNotNil:[
