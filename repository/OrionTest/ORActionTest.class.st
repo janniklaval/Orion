@@ -271,10 +271,10 @@ ORActionTest >> testOPAddNamespace [
 					container: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
 					newName: 'NamespaceTest'.
 	
-	self assert: (orionModel entityNamed: 'NamespaceTest') isNil.
+	self assert: (orionModel entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest') isNil.
 	asAction run.
 	
-	ns := orionModel entityNamed: 'NamespaceTest'.
+	ns := orionModel entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest'.
 	self assert: ns notNil.
 	self assert: (orionModel contains: ns).
 	self deny: (asS sourceModel contains: ns).
@@ -1012,17 +1012,17 @@ ORActionTest >> testOPRemoveNamespace [
 
 	asAction2 := ORActionRemoveNamespace new
 		orionModel: asM2;
-		entity: (asM2 entityNamed:  'NamespaceTest').
+		entity: (asM2 entityNamed:  'Orion-TestModel-Constellation2::NamespaceTest').
 	asAction2 run.
 	
-	self assert: (orionModel contains: (orionModel entityNamed:  'NamespaceTest')).
-	self deny: (asM2 contains: (orionModel entityNamed:  'NamespaceTest')).
+	self assert: (orionModel contains: (orionModel entityNamed:  'Orion-TestModel-Constellation2::NamespaceTest')).
+	self deny: (asM2 contains: (orionModel entityNamed:  'Orion-TestModel-Constellation2::NamespaceTest')).
 	
-	self assert: (orionModel includes: (orionModel entityNamed:  'NamespaceTest')).
-	self deny: (asM2 includes: (orionModel entityNamed:  'NamespaceTest')).
+	self assert: (orionModel includes: (orionModel entityNamed:  'Orion-TestModel-Constellation2::NamespaceTest')).
+	self deny: (asM2 includes: (orionModel entityNamed:  'Orion-TestModel-Constellation2::NamespaceTest')).
 	
-	self assert: ((orionModel entityNamed:  'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed:  'NamespaceTest')).
-	self deny: ((asM2 entityNamed:  'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed:  'NamespaceTest')).
+	self assert: ((orionModel entityNamed:  'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed:  'Orion-TestModel-Constellation2::NamespaceTest')).
+	self deny: ((asM2 entityNamed:  'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed:  'Orion-TestModel-Constellation2::NamespaceTest')).
 	
 	self assert: orionModel size = (asM2 size + 1)
 ]
