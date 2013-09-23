@@ -133,6 +133,11 @@ ORDefaultState >> flushProperties [
 	propertyCache initialize
 ]
 
+{ #category : #testing }
+ORDefaultState >> hasMooseModel [
+	^attributes includesKey: #privateModel
+]
+
 { #category : #accessing }
 ORDefaultState >> includesKey: selector [ 
 	 
