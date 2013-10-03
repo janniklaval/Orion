@@ -68,7 +68,7 @@ ORGenerator >> codeForSelector: aProperty [
 
 { #category : #'as yet unclassified' }
 ORGenerator >> createClassCategoryName: aFamixClass [
-	^ aFamixClass category , '-OrionClass'
+	^ 'OrionClass-', aFamixClass category 
 ]
 
 { #category : #'as yet unclassified' }
@@ -85,7 +85,7 @@ ORGenerator >> createClassName: aFamixClass [
 
 { #category : #'as yet unclassified' }
 ORGenerator >> createTraitCategoryName: aFamixClass [
-	^ aFamixClass category , '-OrionTrait'
+	^ 'OrionTrait-' , aFamixClass category
 ]
 
 { #category : #'as yet unclassified' }
