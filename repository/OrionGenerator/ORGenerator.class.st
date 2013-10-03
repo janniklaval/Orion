@@ -67,6 +67,11 @@ ORGenerator >> codeForSelector: aProperty [
 ]
 
 { #category : #'as yet unclassified' }
+ORGenerator >> createClassCategoryName: aFamixClass [
+	^ aFamixClass category , '-OrionClass'
+]
+
+{ #category : #'as yet unclassified' }
 ORGenerator >> createClassName: aFamixClass [
 	"Create the name of the Orion Class from the FamixClass"
 
@@ -79,6 +84,11 @@ ORGenerator >> createClassName: aFamixClass [
 ]
 
 { #category : #'as yet unclassified' }
+ORGenerator >> createTraitCategoryName: aFamixClass [
+	^ aFamixClass category , '-OrionTrait'
+]
+
+{ #category : #'as yet unclassified' }
 ORGenerator >> createTraitName: aFamixClass [
 	"Create the name of the Orion Class from the FamixClass"
 
@@ -86,6 +96,11 @@ ORGenerator >> createTraitName: aFamixClass [
 
 	name := aFamixClass name asString.
 	^ ('T' , name ) asSymbol 
+]
+
+{ #category : #'as yet unclassified' }
+ORGenerator >> ensureInheritFromMooseEntity: aFamixClass [
+	^ aFamixClass inheritsFrom: MooseEntity 
 ]
 
 { #category : #'as yet unclassified' }
@@ -101,14 +116,14 @@ ORGenerator >> ensureORClass: aFamixClass [
 		instanceVariableNames: ''
 		classVariableNames: ''
 		poolDictionaries: ''
-		category: 'OrionCore-model']
+		category: (self createClassCategoryName: aFamixClass)]
 ]
 
 { #category : #'as yet unclassified' }
 ORGenerator >> ensureORTrait: aFamixClass [
 	"Create a trait corresponding to the FamixClass "
 
-	^ aFamixClass name = #MooseEntity
+	^ (self ensureInheritFromMooseEntity: aFamixClass)
 		ifFalse: [ 
 			| name |
 			name := self createTraitName: aFamixClass.
@@ -117,7 +132,7 @@ ORGenerator >> ensureORTrait: aFamixClass [
 				ifAbsent: [ Trait
 								named: name
 								uses: (self ensureORTrait: aFamixClass superclass)
-								category: 'OrionCore-model-trait' ] ]
+								category: (self createTraitCategoryName: aFamixClass) ] ]
 		ifTrue: [ TMooseEntity ]
 ]
 
@@ -142,7 +157,7 @@ ORGenerator >> makeOR: aFamixClass [
 
 { #category : #'as yet unclassified' }
 ORGenerator >> makeORForAllClasses: aColl [
-	"For all the class of the collection, Create the ASClass corresponding to the FamixClass, add accessors to the trait and accessors to the FamixClass"
+	"For all the class of the collection, Create the ORClass corresponding to the FamixClass, add accessors to the trait and accessors to the FamixClass"
 	
-	aColl do: [ :c | self makeOR: c ]
+	aColl select: [ :aClass | aClass inheritsFrom: FAMIXEntity ] thenDo: [ :c | self makeOR: c ]
 ]
