@@ -61,6 +61,11 @@ TMooseEntity >> isModifiedIn: anOrionModel [
 ]
 
 { #category : #'as yet unclassified' }
+TMooseEntity >> isOrionEntity [
+	^ true
+]
+
+{ #category : #'as yet unclassified' }
 TMooseEntity >> isRemovedBetween: anOrionModel and: anotherOrionModel [
 		
 		^(anOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) notNil
