@@ -124,7 +124,7 @@ ORGenerator >> ensureORTrait: aFamixClass [
 	"Create a trait corresponding to the FamixClass "
 
 	^ (self ensureInheritFromMooseEntity: aFamixClass)
-		ifFalse: [ 
+		ifTrue: [ 
 			| name |
 			name := self createTraitName: aFamixClass.
 			Smalltalk globals
@@ -133,7 +133,7 @@ ORGenerator >> ensureORTrait: aFamixClass [
 								named: name
 								uses: (self ensureORTrait: aFamixClass superclass)
 								category: (self createTraitCategoryName: aFamixClass) ] ]
-		ifTrue: [ TMooseEntity ]
+		ifFalse: [ TMooseEntity ]
 ]
 
 { #category : #'as yet unclassified' }
