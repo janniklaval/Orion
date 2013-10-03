@@ -31,8 +31,8 @@ ORGenerator >> addThePrivateAccessorOf: aProp To: aFamixClass [
 	 	| aMethName |
 		aMethName := 'private', (aProp name) capitalized.
 		(aFamixClass methodDict includesKey: (aMethName asSymbol)) ifFalse: 
-			[aFamixClass compile: (self codeForPrivateGetter: aProp) classified: '*OrionCore-model'.
-			aFamixClass compile: (self codeForPrivateSetter: aProp) classified: '*OrionCore-model'.]
+			[aFamixClass compile: (self codeForPrivateGetter: aProp) classified: ('*', self createClassCategoryName: aFamixClass) .
+			aFamixClass compile: (self codeForPrivateSetter: aProp) classified: ('*', self createClassCategoryName: aFamixClass).]
 	
 ]
 
