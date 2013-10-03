@@ -4,6 +4,11 @@ Trait {
 }
 
 { #category : #'as yet unclassified' }
+TMooseEntity classSide >> isOrionClass [
+	^ true
+]
+
+{ #category : #'as yet unclassified' }
 TMooseEntity >> currentContext [
 	"Answers the model containing the current entity"
 	^ self privateState currentContext
