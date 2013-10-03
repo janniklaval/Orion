@@ -39,18 +39,18 @@ ORActionGenerator >> createActionFor: anOREntity type: action [
 ]
 
 { #category : #'as yet unclassified' }
-ORActionGenerator >> createActionForOREntity: anOREntity [
-	anOREntity isOrionEntity
+ORActionGenerator >> createActionForORClass: anORClass [
+	anORClass isOrionClass
 		ifTrue: [ 
 			#(#Add #Remove #Move #Rename)
 				do: [ :action | 
-					(self isAction: action validFor: anOREntity)
-						ifTrue: [ self createActionFor: anOREntity type: action ] ] ]
+					(self isAction: action validFor: anORClass)
+						ifTrue: [ self createActionFor: anORClass type: action ] ] ]
 ]
 
 { #category : #'as yet unclassified' }
-ORActionGenerator >> createActionsForACollectionOfOREntities: aCollectionOfOREntities [
-	aCollectionOfOREntities do: [ :anEntity | self createActionForOREntity: anEntity ]
+ORActionGenerator >> createActionsForACollectionOfORClasses: aCollectionOfOREntities [
+	aCollectionOfOREntities do: [ :anEntity | self createActionForORClass: anEntity ]
 ]
 
 { #category : #'as yet unclassified' }
