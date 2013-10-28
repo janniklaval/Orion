@@ -29,7 +29,8 @@ ORActionRemoveParameter >> run [
 	entity parentBehaviouralEntity ifNotNil:[
 		| functionOrMethod |
 		functionOrMethod := (self orionModel retrieveEntity:entity parentBehaviouralEntity).
-		functionOrMethod privateLocalVariables:  (functionOrMethod privateLocalVariables orionCopy orionRemove: entity).
+		functionOrMethod privateLocalVariables ifNotEmpty:[ 
+				functionOrMethod privateLocalVariables:  (functionOrMethod privateLocalVariables orionCopy orionRemove: entity)].
 	].
 
 	entity receivingInvocations do:[:com |
