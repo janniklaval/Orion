@@ -22,7 +22,7 @@ ORBrowser >> actionsFor: each [
 					select:[:e | e arguments includes: elements class asString asSymbol]) collect:[:e | e methodClass soleInstance]) asOrderedCollection.
 	listOfAct := OrderedCollection new.
 	posAction do:[:ie | 
-						|depend|
+						|depend| 
 						depend := ie needs: elements.
 						depend isNil 
 							ifTrue:[ 

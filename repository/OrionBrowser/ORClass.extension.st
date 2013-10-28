@@ -23,24 +23,27 @@ ORClass >> addMethodNamed: aString inModel: aModelVersion [
 ]
 
 { #category : #'*OrionBrowser' }
-ORClass >> addSuperClass: newSuperClass inModel: aModelVersion [ 
-
+ORClass >> addSuperClass: newSuperClass inModel: aModelVersion [
+	[ 
 	(ORActionAddInheritance new
-		orionModel: aModelVersion ;
-		from: self ;
-		to:  newSuperClass )
-	manualRun. 
+		orionModel: aModelVersion;
+		from: self;
+		to: newSuperClass) manualRun;
+		addToListOfChanges ]
+		orBrowserExceptionsLauncher: newSuperClass.
 ]
 
 { #category : #'*OrionBrowser' }
 ORClass >> changeSuperClassTo: newSuperClass inModel: aModelVersion [ 
 
-	(ORActionReplaceInheritance new 
+	[(ORActionReplaceInheritance new 
 			orionModel: aModelVersion; 
 			entity: self;
 			from: self ;
 			to: newSuperClass) 
-			manualRun
+			manualRun;
+			addToListOfChanges ]
+		orBrowserExceptionsLauncher: newSuperClass 
 ]
 
 { #category : #'*OrionBrowser' }
@@ -87,12 +90,14 @@ ORClass >> deleteOnlyInModel: aModelVersion [
 
 { #category : #'*OrionBrowser' }
 ORClass >> moveTo: aPackage inModel: aModelVersion [
-
-	(ORActionMoveClass new
+	
+	[(ORActionMoveClass new
 		orionModel: aModelVersion ;
 		entity: self ;
 		newContainer: aPackage )
-	manualRun. 
+	manualRun;
+	addToListOfChanges ]
+	orBrowserExceptionsLauncher: aPackage  
 
 ]
 
@@ -115,6 +120,6 @@ ORClass >> simplyMoveTo: aPackage inAction: anAction [
 		orionModel: anAction orionModel  ;
 		entity: self ;
 		newContainer: aPackage )
-	run. 
+		run. 
 
 ]
