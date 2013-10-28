@@ -23,12 +23,14 @@ ORActionMoveClass class >> scope [
 { #category : #'method execution' }
 ORActionMoveClass >> run [
 	| theClass theOldpackage |
+
 	entity isAnonymousClass
 		ifFalse: [ 
 			super run.
 			theOldpackage := entity parentPackage.
 			theClass := entity simplyMoveTo: newContainer inAction: self.
 			theOldpackage := theOldpackage versionIn: self currentContext.
+
 			(newContainer isKindOf: FAMIXPackage)
 				ifTrue: [ 
 					theClass methods

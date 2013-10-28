@@ -25,10 +25,14 @@ ORModel class >> withParent: aModel [
 
 { #category : #'adding/removing-ok' }
 ORModel >> add: anElement [ 
-	 
 	super add: anElement. 
 	anElement versionIn: self.
 	^anElement
+]
+
+{ #category : #'adding/removing-ok' }
+ORModel >> addToListOfChanges: anAction [ 
+	self changes add: anAction.
 ]
 
 { #category : #'changes-ok' }

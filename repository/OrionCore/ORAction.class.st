@@ -27,6 +27,11 @@ ORAction >> addChildAction: anAction [
 ]
 
 { #category : #accessing }
+ORAction >> addToListOfChanges [
+	orionModel addToListOfChanges: self
+]
+
+{ #category : #accessing }
 ORAction >> childrenActions [
 	^ childrenActions
 ]
@@ -84,7 +89,7 @@ ORAction >> orionModel [
 { #category : #accessing }
 ORAction >> orionModel: anObject [
 	orionModel := anObject.
-	anObject changes add: self
+	"anObject changes add: self"
 ]
 
 { #category : #accessing }
