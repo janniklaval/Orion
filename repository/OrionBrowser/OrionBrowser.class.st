@@ -138,7 +138,7 @@ OrionBrowser >> browserLinks [
 			format: [:aProp | (aProp asString)];
 			selectionAct: [:list | list selection inspect] entitled:  'Inspect' ;
 			
-			selectionAct:  [:list | self remove:( list selection)]  entitled: 'Remove the Link'.
+			selectionAct:  [:list | list selection deleteInModel: selectedVersion]  entitled: 'Remove the Link'.
 		].
 
 ]
@@ -156,7 +156,7 @@ OrionBrowser >> browserMethods [
 			 selectionAct: [:list | list selection deleteInModel: selectedVersion] entitled: 'Remove' ;
 			selectionAct: [:list | list selection moveTo: entityInBuffer inModel: selectedVersion] entitled: 'Move to the buffered class' ;
 			selectionAct: [:list | list selection addReferenceTo: entityInBuffer inModel: selectedVersion] entitled: 'Add reference to the buffered class' ;
-			selectionAct: [:list | list selection addInvocationTo: entityInBuffer inModel: selectedVersion] entitled: 'Add invocation to the buffered method'.
+			selectionAct: [:list | list selection addInvocationTo: entityInBuffer asOrderedCollection inModel: selectedVersion] entitled: 'Add invocation to the buffered method'.
 	].
 
 ]
