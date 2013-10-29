@@ -4,7 +4,7 @@ Extension { #name : #FMMultivalueLink }
 FMMultivalueLink >> orionCopy [
 	"Must the associations, or later store will affect both the
 original and the copy"
-	|copy|
+
 	
 	^ self shallowCopy valueCopy.
 ]

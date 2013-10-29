@@ -173,8 +173,7 @@ ORModel >> initialize [
 
 { #category : #'testing-ok' }
 ORModel >> isModifiable [
-
-	^ self childrenModel isEmpty and:[(self = self system sourceModel) not]
+	^ self childrenModel isEmpty and: [ self ~= self system sourceModel ]
 ]
 
 { #category : #'as yet unclassified' }
