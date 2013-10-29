@@ -7,7 +7,7 @@ ORAttribute >> deleteInAction: anAction [
 		parentAction: anAction ;
 		orionModel: anAction orionModel ;
 		entity: self ;
-		run. 
+		run; addToListOfChanges. 
 
 ]
 
@@ -17,7 +17,7 @@ ORAttribute >> deleteInModel: aModelVersion [
 	(ORActionRemoveAttribute new
 		orionModel: aModelVersion ;
 		entity: self )
-	manualRun. 
+	manualRun; addToListOfChanges. 
 
 ]
 
@@ -41,5 +41,5 @@ ORAttribute >> rename: aString inModel: aModelVersion [
 			orionModel: aModelVersion ;
 			entity: self ;
 			newName: aString )
-		manualRun ]
+		manualRun; addToListOfChanges ]
 ]

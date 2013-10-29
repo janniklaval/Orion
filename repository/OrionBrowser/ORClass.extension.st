@@ -8,7 +8,7 @@ ORClass >> addAttributNamed: aString inModel: aModelVersion [
 			orionModel: aModelVersion ;
 			container: self ;
 			newName: aString )
-		manualRun ]
+		manualRun; addToListOfChanges ]
 ]
 
 { #category : #'*OrionBrowser' }
@@ -19,7 +19,7 @@ ORClass >> addMethodNamed: aString inModel: aModelVersion [
 			orionModel: aModelVersion ;
 			container: self ;
 			newName: aString )
-		manualRun ]
+		manualRun; addToListOfChanges ]
 ]
 
 { #category : #'*OrionBrowser' }
@@ -53,18 +53,17 @@ ORClass >> deleteInAction: anAction [
 		parentAction: anAction ;
 		orionModel: anAction orionModel ;
 		entity: self ;
-	run. 
+	run; addToListOfChanges. 
 
 ]
 
 { #category : #'*OrionBrowser' }
 ORClass >> deleteInModel: aModelVersion [
-
 	(ORActionRemoveClass new
-		orionModel: aModelVersion ;
-		entity: self )
-	manualRun. 
-
+		orionModel: aModelVersion;
+		entity: self)
+		manualRun;
+		addToListOfChanges
 ]
 
 { #category : #'*OrionBrowser' }
@@ -84,7 +83,7 @@ ORClass >> deleteOnlyInModel: aModelVersion [
 	(ORActionRemoveClassOnly new
 		orionModel: aModelVersion ;
 		entity: self )
-	manualRun. 
+	manualRun; addToListOfChanges. 
 
 ]
 
@@ -109,7 +108,7 @@ ORClass >> rename: aString inModel: aModelVersion [
 			orionModel: aModelVersion ;
 			entity: self ;
 			newName: aString )
-		manualRun ]
+		manualRun; addToListOfChanges ]
 ]
 
 { #category : #'*OrionBrowser' }

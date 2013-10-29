@@ -7,7 +7,7 @@ ORMethod >> addAccessTo: aStructuralEntity inModel: aModelVersion [
 		orionModel: aModelVersion;
 		from: self ;
 		to: aStructuralEntity )
-	manualRun. 
+	manualRun; addToListOfChanges . 
 ]
 
 { #category : #'*OrionBrowser' }
@@ -29,7 +29,7 @@ ORMethod >> addInvocationToNew: aClass withSignature: aSymbol inModel: aModelVer
 		from: self ;
 		receiver: aClass;
 		signature: aSymbol )
-	manualRun. 
+	manualRun; addToListOfChanges . 
 ]
 
 { #category : #'*OrionBrowser' }
@@ -51,7 +51,7 @@ ORMethod >> deleteInAction: anAction [
 		parentAction: anAction ;
 		orionModel: anAction orionModel ;
 		entity: self ;
-	run. 
+	run; addToListOfChanges . 
 ]
 
 { #category : #'*OrionBrowser' }
@@ -61,7 +61,7 @@ ORMethod >> deleteInModel: aModelVersion [
 		orionModel: aModelVersion ;
 		entity: self ;
 		yourself) 
-	manualRun. 
+	manualRun; addToListOfChanges . 
 ]
 
 { #category : #'*OrionBrowser' }
@@ -82,7 +82,7 @@ ORMethod >> rename: aString inModel: aModelVersion [
 			orionModel: aModelVersion ;
 			entity: self ;
 			newName: aString )
-		manualRun ]
+		manualRun; addToListOfChanges ]
 ]
 
 { #category : #'*OrionBrowser' }
@@ -92,5 +92,5 @@ ORMethod >> updatePackage: aPackage inAnAction: anAction [
 		orionModel: anAction orionModel;
 		entity: self;
 		newContainer: aPackage;
-		run
+		run; addToListOfChanges 
 ]

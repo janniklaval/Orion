@@ -1,3 +1,7 @@
+"
+Old browser developed by J. Laval
+
+"
 Class {
 	#name : #ORBrowser,
 	#superclass : #Object,
@@ -7,13 +11,13 @@ Class {
 	#category : #OrionBrowser
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #opening }
 ORBrowser class >> open [ 
 
 	self new browser openOn: ORSystem root first
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 ORBrowser >> actionsFor: each [
 	|posAction elements listOfAct |
 
@@ -58,7 +62,7 @@ ORBrowser >> actionsFor: each [
 	^listOfAct.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ORBrowser >> browser [
 	"
 		self new browser openOn: ORSystem root
@@ -81,8 +85,7 @@ ORBrowser >> browser [
 			display: [:each | each orionModels select:[:om | om parentModel = nil]];
 			children: [:each | each childrenModel];
 			act: [:each | each selection inspect] entitled: 'inspect';
-			act: [:each | |new|
-				new := each selection createNewChildVersion. ORSystem announcer announce: ORModelAdded. browser announce: ORAnnouncement] entitled: 'create a child version';
+			act: [:each | each selection createNewChildVersion. ORSystem announcer announce: ORModelAdded. browser announce: ORAnnouncement] entitled: 'create a child version';
 			act: [:each | each selection delete. ORSystem announcer announce: ORModelRemoved. browser announce: ORAnnouncement] entitled: 'delete'.
 	].
 	(browser transmit) to: #changes; from: #versions; andShow: [:b |
@@ -101,7 +104,7 @@ ORBrowser >> browser [
 	^ browser
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #gui }
 ORBrowser >> displayFor: anObject [
 	| entity pragmaValueAssociations |
 	entity := anObject mooseInterestingEntity.

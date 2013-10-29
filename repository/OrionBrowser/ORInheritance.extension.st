@@ -6,7 +6,7 @@ ORInheritance >> deleteInAction:  anAction [
 		parentAction: anAction ;
 		orionModel: anAction orionModel ;
 		entity: self ;
-	run. 
+	run; addToListOfChanges. 
 
 ]
 
@@ -15,6 +15,6 @@ ORInheritance >> deleteInModel:  aModelVersion [
 	(ORActionRemoveInheritance new
 		orionModel: aModelVersion;
 		entity: self )
-	manualRun. 
+	manualRun; addToListOfChanges. 
 
 ]
