@@ -122,7 +122,8 @@ ORActionTest >> testOPAddClass [
 	act := ORActionAddClass new
 					orionModel: mod;
 					parent: (mod entityNamed:#'Orion-TestModel-Constellation2');
-					newName: 'ClassTest'.
+					newName: 'ClassTest';
+					addToListOfChanges .
 	
 	self assert: (mod entityNamed: ':ClassTest') isNil.
 	self assert: mod changes size = 1.
