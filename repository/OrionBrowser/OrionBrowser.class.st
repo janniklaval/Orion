@@ -160,9 +160,9 @@ OrionBrowser >> browserMethods [
 
 			selectionAct:  [:list | list selection rename: (self getNameDialog:  'New method name') inModel: selectedVersion]  entitled: 'Rename' ;
 			 selectionAct: [:list | list selection deleteInModel: selectedVersion] entitled: 'Remove' ;
-			selectionAct: [:list | list selection moveTo: entityInBuffer inModel: selectedVersion] entitled: 'Move to the buffered class' ;
-			selectionAct: [:list | list selection addReferenceTo: entityInBuffer inModel: selectedVersion] entitled: 'Add reference to the buffered class' ;
-			selectionAct: [:list | list selection addInvocationTo: entityInBuffer asOrderedCollection inModel: selectedVersion] entitled: 'Add invocation to the buffered method'.
+			selectionAct: [:list | [list selection moveTo: entityInBuffer inModel: selectedVersion] orBrowserExceptionsUIManager] entitled: 'Move to the buffered class' ;
+			selectionAct: [:list | [list selection addReferenceTo: entityInBuffer inModel: selectedVersion] orBrowserExceptionsUIManager] entitled: 'Add reference to the buffered class' ;
+			selectionAct: [:list | [list selection addInvocationTo: entityInBuffer asOrderedCollection inModel: selectedVersion] orBrowserExceptionsUIManager] entitled: 'Add invocation to the buffered method'.
 	].
 
 ]

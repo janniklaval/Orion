@@ -12,12 +12,13 @@ ORMethod >> addAccessTo: aStructuralEntity inModel: aModelVersion [
 
 { #category : #'*OrionBrowser' }
 ORMethod >> addInvocationTo: anOrderedCollection inModel: aModelVersion [
-
+[ 
 	(ORActionAddInvocation new
 		orionModel: aModelVersion;
 		from: self ;
 		candidates: anOrderedCollection )
-	manualRun. 
+	manualRun; addToListOfChanges ] 
+		orBrowserExceptionsLauncherCollection: anOrderedCollection. 
 ]
 
 { #category : #'*OrionBrowser' }
@@ -33,12 +34,14 @@ ORMethod >> addInvocationToNew: aClass withSignature: aSymbol inModel: aModelVer
 
 { #category : #'*OrionBrowser' }
 ORMethod >> addReferenceTo: aClass inModel: aModelVersion [
+[ 
 
 	(ORActionAddReference new
 		orionModel: aModelVersion;
 		from: self ;
-		to: aClass )
-	manualRun. 
+		to: aClass)
+	manualRun; addToListOfChanges ]
+	orBrowserExceptionsLauncher: aClass. 
 ]
 
 { #category : #'*OrionBrowser' }
@@ -63,12 +66,12 @@ ORMethod >> deleteInModel: aModelVersion [
 
 { #category : #'*OrionBrowser' }
 ORMethod >> moveTo: aClass inModel: aModelVersion [
-
+[ 
 	(ORActionMoveMethod new
 		orionModel: aModelVersion ;
 		entity: self ;
 		newContainer: aClass )
-	manualRun. 
+	manualRun; addToListOfChanges ] orBrowserExceptionsLauncher: aClass.
 ]
 
 { #category : #'*OrionBrowser' }
