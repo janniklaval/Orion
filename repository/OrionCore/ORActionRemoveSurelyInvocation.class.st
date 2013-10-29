@@ -1,6 +1,6 @@
 Class {
 	#name : #ORActionRemoveSurelyInvocation,
-	#superclass : #ORActionRemove,
+	#superclass : #ORActionRemoveLink,
 	#instVars : [
 		'to'
 	],

@@ -1,6 +1,6 @@
 Class {
 	#name : #ORActionRemoveInheritance,
-	#superclass : #ORActionRemove,
+	#superclass : #ORActionRemoveLink,
 	#category : #'OrionCore-action'
 }
 
@@ -13,6 +13,12 @@ ORActionRemoveInheritance class >> description [
 ORActionRemoveInheritance class >> scope [
 	<ORActionFor: #ORInheritance>
 	^self
+]
+
+{ #category : #'method execution' }
+ORActionRemoveInheritance >> printWorkspace [
+
+	^ '>', self class description, '>> ', ' from ', entity subclass mooseName, ' to ', entity superclass mooseName
 ]
 
 { #category : #'method execution' }

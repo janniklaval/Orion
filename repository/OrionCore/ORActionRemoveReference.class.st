@@ -1,6 +1,6 @@
 Class {
 	#name : #ORActionRemoveReference,
-	#superclass : #ORActionRemove,
+	#superclass : #ORActionRemoveLink,
 	#category : #'OrionCore-action'
 }
 
@@ -13,6 +13,12 @@ ORActionRemoveReference class >> description [
 ORActionRemoveReference class >> scope [
 	<ORActionFor: #ORReference>
 	^self
+]
+
+{ #category : #'method execution' }
+ORActionRemoveReference >> printWorkspace [
+
+	^ '>', self class description, '>> ', ' from ', entity source mooseName, ' to ', entity target mooseName
 ]
 
 { #category : #'method execution' }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ORActionRemoveAccess,
-	#superclass : #ORActionRemove,
+	#superclass : #ORActionRemoveLink,
 	#category : #'OrionCore-action'
 }
 
@@ -13,6 +13,12 @@ ORActionRemoveAccess class >> description [
 ORActionRemoveAccess class >> scope [
 	<ORActionFor: #ORAccess>
 	^self
+]
+
+{ #category : #'method execution' }
+ORActionRemoveAccess >> printWorkspace [
+
+	^ '>', self class description, '>> ', ' from ', entity accessor mooseName, ' to ', entity variable mooseName
 ]
 
 { #category : #'method execution' }

@@ -8,8 +8,3 @@ Class {
 ORActionRemoveLink class >> description [
 	^'remove association'
 ]
-
-{ #category : #'as yet unclassified' }
-ORActionRemoveLink >> run [
-	self subclassResponsability.
-]

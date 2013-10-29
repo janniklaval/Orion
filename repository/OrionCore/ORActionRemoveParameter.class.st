@@ -1,6 +1,6 @@
 Class {
 	#name : #ORActionRemoveParameter,
-	#superclass : #ORActionRemove,
+	#superclass : #ORActionRemoveEntity,
 	#category : #'OrionCore-action'
 }
 

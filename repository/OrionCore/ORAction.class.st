@@ -113,7 +113,7 @@ ORAction >> printOn: stream [
 { #category : #printing }
 ORAction >> printWorkspace [
 
-	^ '>', self class description, '>> ', self entity mooseName
+	^ '>', self class description, '>> '
 ]
 
 { #category : #accessing }

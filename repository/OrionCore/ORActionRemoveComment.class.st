@@ -1,6 +1,6 @@
 Class {
 	#name : #ORActionRemoveComment,
-	#superclass : #ORActionRemove,
+	#superclass : #ORActionRemoveEntity,
 	#category : #'OrionCore-action'
 }
 
@@ -12,11 +12,11 @@ ORActionRemoveComment class >> description [
 { #category : #'as yet unclassified' }
 ORActionRemoveComment >> run [
 	super run.
-	entity container ifNotNil:[
+	"entity container ifNotNil:[
 		| namespace |
 		namespace := (self orionModel retrieveEntity:entity container).
 		namespace privateTypes:  (namespace privateTypes orionCopy orionRemove: entity).
-	].
+	]."
 	
 	entity comments do:[:com |
 		ORActionRemoveComment new 

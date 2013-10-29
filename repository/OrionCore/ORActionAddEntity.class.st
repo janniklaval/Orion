@@ -50,5 +50,5 @@ ORActionAddEntity >> newName: aString [
 { #category : #printing }
 ORActionAddEntity >> printWorkspace [
 
-	^ super printWorkspace, ' in ', self container mooseName
+	^ super printWorkspace , self entity mooseName, ' in ', self container mooseName
 ]
