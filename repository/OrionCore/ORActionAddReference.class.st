@@ -17,12 +17,12 @@ ORActionAddReference >> run [
 	
 	self orionModel add: newReference.
 		
-	to ifNotNil: [
+	to isClass ifTrue: [
 		|theNewReferenced|
 		theNewReferenced := (self orionModel retrieveEntity: to).
 		newReference privateTarget: theNewReferenced orionCopy.
 		theNewReferenced privateIncomingReferences:  (theNewReferenced privateIncomingReferences orionCopy unsafeAdd: newReference)
-	].
+	] ifFalse: [MessageNotUnderstood signal: 'privateIncomingReferences' .].
 
 	from ifNotNil: [
 		|theNewReferencer|
@@ -32,5 +32,6 @@ ORActionAddReference >> run [
 	].
 
 	entity := newReference.
+
 	^ entity
 ]
