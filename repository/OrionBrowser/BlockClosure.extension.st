@@ -6,7 +6,7 @@ BlockClosure >> orBrowserExceptionsLauncher: anObject [
 
 	 self on: MessageNotUnderstood
 		do: [
-			 :e |  | mess |
+			 :e |  | mess | 
 			e message ifNotNil:[mess := e message name] ifNil: [ mess := e messageText asString  ].
 			OrionBrowserException
 				signal:

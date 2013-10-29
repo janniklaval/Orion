@@ -60,7 +60,7 @@ OrionBrowser >> browserAttributes [
 		
 			selectionAct:  [:list | list selection rename: (self getNameDialog:  'New attribute name') inModel: selectedVersion]  entitled: 'Rename' ;
 			selectionAct: [:list | list selection deleteInModel: selectedVersion] entitled: 'Remove' ;
-			selectionAct: [:list | list selection moveTo: entityInBuffer inModel: selectedVersion] entitled: 'Move to buffered class'.
+			selectionAct: [:list | [list selection moveTo: entityInBuffer inModel: selectedVersion] orBrowserExceptionsUIManager] entitled: 'Move to buffered class'.
 	].
 
 ]
