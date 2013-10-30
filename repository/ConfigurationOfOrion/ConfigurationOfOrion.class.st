@@ -95,6 +95,25 @@ ConfigurationOfOrion >> baseline2: spec [
 ]
 
 { #category : #baselines }
+ConfigurationOfOrion >> baseline3: spec [ 
+	<version: '3-baseline'>
+	spec for: #common do: [
+		spec blessing: #baseline.
+	
+		spec repository: 'http://smalltalkhub.com/mc/Moose/Orion/main'.
+		spec 
+			package: 'OrionCore';
+			package: 'OrionFamixCore';
+			package: 'OrionBrowser';
+			package: 'OrionTest';
+			package: 'Orion-TestModel'.
+		spec repository: 'http://smalltalkhub.com/mc/AnneEtien/FamixDiff/main'.
+		spec 
+			package: 'Famix-Diff-Orion'.
+	].
+]
+
+{ #category : #baselines }
 ConfigurationOfOrion >> development: spec [
 	<symbolicVersion: #'development'>
 
