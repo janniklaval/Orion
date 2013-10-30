@@ -56,12 +56,15 @@ ORActionGenerator >> createActionsForACollectionOfORClasses: aCollectionOfOREnti
 
 { #category : #preparation }
 ORActionGenerator >> createCommentToAnORAction: anORAction [
-	| aStream |
-	aStream := WriteStream on: ''.
-	aStream nextPutAll: 'A ';
-	nextPutAll: anORAction name;
-	nextPutAll: ' is a generated class useful to Orion. It corresponds to an action that can be performed of a type of model element '.
-	anORAction comment: aStream contents .
+	anORAction
+		comment:
+			(String
+				streamContents: [ :aStream | 
+					aStream
+						nextPutAll: 'A ';
+						nextPutAll: anORAction name;
+						nextPutAll:
+								' is a generated class useful to Orion. It corresponds to an action that can be performed on a type of model element ' ])
 ]
 
 { #category : #'creating method' }

@@ -96,12 +96,15 @@ ORGenerator >> createClassName: aFamixClass [
 
 { #category : #'creating class and trait' }
 ORGenerator >> createCommentToAClass: anORClass [
-	| aStream |
-	aStream := WriteStream on: ''.
-	aStream nextPutAll: 'A ';
-	nextPutAll: anORClass name;
-	nextPutAll: ' is a generated class useful to Orion. All the methods are also generated from the instance variables of the corresponding famix class. '.
-	anORClass classComment: aStream contents .
+	anORClass
+		classComment:
+			(String
+				streamContents: [ :aStream | 
+					aStream
+						nextPutAll: 'A ';
+						nextPutAll: anORClass name;
+						nextPutAll:
+								' is a generated class useful to Orion. All the methods are also generated from the instance variables of the corresponding famix class. ' ])
 ]
 
 { #category : #'creating class and trait' }
