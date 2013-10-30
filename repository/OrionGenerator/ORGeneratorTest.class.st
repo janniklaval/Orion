@@ -136,21 +136,6 @@ ORGeneratorTest >> testCreateTraitNameNotFamix [
 	
 ]
 
-{ #category : #running }
-ORGeneratorTest >> testEnsureInheritFromMooseEntityWithFAMIXClass [
-	self assert: (aGenerator ensureInheritFromMooseEntity: FAMIXClass)
-]
-
-{ #category : #running }
-ORGeneratorTest >> testEnsureInheritFromMooseEntityWithMooseEntity [
-	self deny: (aGenerator ensureInheritFromMooseEntity: MooseEntity)
-]
-
-{ #category : #running }
-ORGeneratorTest >> testEnsureInheritFromMooseEntityWithObject [
-	self deny: (aGenerator ensureInheritFromMooseEntity: Object)
-]
-
 { #category : #tests }
 ORGeneratorTest >> testEnsureORClass [
 	

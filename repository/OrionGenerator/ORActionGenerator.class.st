@@ -13,19 +13,19 @@ Class {
 	#category : #OrionGenerator
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #preparation }
 ORActionGenerator >> createActionCategoryName: anOREntity [
 	^ 'OrionAction-' , anOREntity superclass category.
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #preparation }
 ORActionGenerator >> createActionClassNameWithType: aTypeOfAction for: anOREntity [
 	^ 'ORAction', aTypeOfAction , anOREntity superclass name.
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating Actions' }
 ORActionGenerator >> createActionFor: anOREntity type: action [
 	| aClass |
 	aClass := (self obtainActionSuperClass: anOREntity actionType: action)
@@ -38,7 +38,7 @@ ORActionGenerator >> createActionFor: anOREntity type: action [
 	self generateRequiredMethods: aClass
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating Actions' }
 ORActionGenerator >> createActionForORClass: anORClass [
 	anORClass isOrionClass
 		ifTrue: [ 
@@ -48,18 +48,18 @@ ORActionGenerator >> createActionForORClass: anORClass [
 						ifTrue: [ self createActionFor: anORClass type: action ] ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating Actions' }
 ORActionGenerator >> createActionsForACollectionOfORClasses: aCollectionOfOREntities [
 	aCollectionOfOREntities do: [ :anEntity | self createActionForORClass: anEntity ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating method' }
 ORActionGenerator >> generateRequiredMethods: aClass [
 	aClass compile: 'run
 	self shouldBeImplemented' classified: 'method execution'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #preparation }
 ORActionGenerator >> isAction: action validFor: anOREntity [
 	action = #Move
 		ifTrue: [ 
@@ -72,7 +72,7 @@ ORActionGenerator >> isAction: action validFor: anOREntity [
 	^ true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #preparation }
 ORActionGenerator >> obtainActionSuperClass: anOREntity actionType: anActionType [
 	^ anActionType = #Add
 		ifTrue: [ 

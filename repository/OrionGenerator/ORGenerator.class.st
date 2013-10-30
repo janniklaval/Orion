@@ -1,21 +1,31 @@
+"
+An ORGenerator is tool to easily create the ORXXX classes and associated traits.
+
+You can use it by providing a collection of OREntities: 
+	ORGenerator new  
+	makeORForAllClasses: { MyOREntityClass1 . MyOREntityClass2 }
+
+Instance Variables
+
+"
 Class {
 	#name : #ORGenerator,
 	#superclass : #Object,
 	#category : #OrionGenerator
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating method' }
 ORGenerator >> addAccessorFrom: aFamixClass toTrait: aOrionTrait [
 	"add accessors corresponding to the non heritated properties and relations of the Famix Class to the Orion trait "
 	
 	(self getPropertiesOf: aFamixClass) do: [ :prop | 
-		aOrionTrait compile: (self codeForSelector: prop).
-		aOrionTrait compile: (self codeForORSelector: prop).
+		aOrionTrait compile: (self codeForSelector: prop) classified: 'accessing'.
+		aOrionTrait compile: (self codeForORSelector: prop) classified: 'accessing'.
 		]
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating method' }
 ORGenerator >> addPrivateAccessorTo: aFamixClass [
 	"add private accessors corresponding to the non heritated properties and relations of the Famix Class to it "
 	(self getPropertiesOf: aFamixClass) do: [ :prop | 
@@ -25,7 +35,7 @@ ORGenerator >> addPrivateAccessorTo: aFamixClass [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating method' }
 ORGenerator >> addThePrivateAccessorOf: aProp To: aFamixClass [
 	"add private accessors corresponding to the property to the Famix Class if it does not already exist "
 
@@ -37,21 +47,21 @@ ORGenerator >> addThePrivateAccessorOf: aProp To: aFamixClass [
 			aFamixClass compile: (self codeForPrivateSetter: aProp) classified: '*' , (self createClassCategoryName: aFamixClass) ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating method' }
 ORGenerator >> codeForORSelector: aProperty [
 	^((aProperty name), 'OR: aVersion
 	^ self private' , (aProperty name) capitalized , ' versionIn: aVersion')
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating method' }
 ORGenerator >> codeForPrivateGetter: aProperty [
 	^('private', (aProperty name) capitalized, '
 	^ ' ,  (aProperty name))
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating method' }
 ORGenerator >> codeForPrivateSetter: aProperty [
 	| type|
 	type := ((aProperty type name) asString ) capitalized.
@@ -60,19 +70,19 @@ ORGenerator >> codeForPrivateSetter: aProperty [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating method' }
 ORGenerator >> codeForSelector: aProperty [
 	^((aProperty name), '
 	^ self ' , (aProperty name), 'OR: self currentContext')
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating class and trait' }
 ORGenerator >> createClassCategoryName: aFamixClass [
 	^ 'OrionClass-', aFamixClass category 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating class and trait' }
 ORGenerator >> createClassName: aFamixClass [
 	"Create the name of the Orion Class from the FamixClass"
 
@@ -84,12 +94,32 @@ ORGenerator >> createClassName: aFamixClass [
 	^ ('OR' , name ) asSymbol 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating class and trait' }
+ORGenerator >> createCommentToAClass: anORClass [
+	| aStream |
+	aStream := WriteStream on: ''.
+	aStream nextPutAll: 'A ';
+	nextPutAll: anORClass name;
+	nextPutAll: ' is a generated class useful to Orion. All the methods are also generated from the instance variables of the corresponding famix class. '.
+	anORClass classComment: aStream contents .
+]
+
+{ #category : #'creating class and trait' }
+ORGenerator >> createCommentToATrait: anORTrait [
+	| aStream |
+	aStream := WriteStream on: ''.
+	aStream nextPutAll: 'A ';
+	nextPutAll: anORTrait name;
+	nextPutAll: ' is a generated trait useful to Orion. All the methods are also generated from the instance variables of the corresponding famix class. The use links between the Orion traits follow the hierarchy of the Famix classes. '.
+	anORTrait comment: aStream contents .
+]
+
+{ #category : #'creating class and trait' }
 ORGenerator >> createTraitCategoryName: aFamixClass [
 	^ 'OrionTrait-' , aFamixClass category
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating class and trait' }
 ORGenerator >> createTraitName: aFamixClass [
 	"Create the name of the Orion Class from the FamixClass"
 
@@ -99,12 +129,12 @@ ORGenerator >> createTraitName: aFamixClass [
 	^ ('T' , name ) asSymbol 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating class and trait' }
 ORGenerator >> ensureInheritFromMooseEntity: aFamixClass [
 	^ aFamixClass inheritsFrom: MooseEntity 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating class and trait' }
 ORGenerator >> ensureORClass: aFamixClass [
 	"Create an Orion Class corresponding to the FamixClass and inheriting from it"
 
@@ -120,7 +150,7 @@ ORGenerator >> ensureORClass: aFamixClass [
 		category: (self createClassCategoryName: aFamixClass)]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating class and trait' }
 ORGenerator >> ensureORTrait: aFamixClass [
 	"Create a trait corresponding to the FamixClass "
 
@@ -137,7 +167,7 @@ ORGenerator >> ensureORTrait: aFamixClass [
 		ifFalse: [ TMooseEntity ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating method' }
 ORGenerator >> getPropertiesOf: aFamixClass [
 
 	| metaDesc |
@@ -147,16 +177,17 @@ ORGenerator >> getPropertiesOf: aFamixClass [
 	ifTrue: [ metaDesc attributes select: [:a | "a isDerived not and: ["aFamixClass allInstVarNames includes: (a name) ]] "]" ifFalse: [ OrderedCollection new ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #generator }
 ORGenerator >> makeOR: aFamixClass [
 	"Create the ASClass corresponding to the FamixClass, add accessors to the trait and accessors to the FamixClass"
-	
+	| anORClass |
 	self addAccessorFrom: aFamixClass toTrait: (self ensureORTrait: aFamixClass).
-	self ensureORClass: aFamixClass.
+	anORClass := self ensureORClass: aFamixClass.
+	self createCommentToAClass: anORClass. 
 	self addPrivateAccessorTo: aFamixClass
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #generator }
 ORGenerator >> makeORForAllClasses: aColl [
 	"For all the class of the collection, Create the ORClass corresponding to the FamixClass, add accessors to the trait and accessors to the FamixClass"
 	
