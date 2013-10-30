@@ -2,7 +2,7 @@
 An ORActionGenerator is a tool to easily create the skeleton of ORActions.
 
 You can use it by providing a collection of OREntities: 
-	ORActionGenerator new createActionsForACollectionOfOREntities: { MyOREntityClass1 . MyOREntityClass2 }
+	ORActionGenerator new createActionsForACollectionOfORClasses: { MyOREntityClass1 . MyOREntityClass2 }
 
 Instance Variables
 
@@ -35,6 +35,7 @@ ORActionGenerator >> createActionFor: anOREntity type: action [
 		classVariableNames: ''
 		poolDictionaries: ''
 		category:( self createActionCategoryName: anOREntity).
+	self createCommentToAnORAction: aClass.
 	self generateRequiredMethods: aClass
 ]
 
@@ -51,6 +52,16 @@ ORActionGenerator >> createActionForORClass: anORClass [
 { #category : #'creating Actions' }
 ORActionGenerator >> createActionsForACollectionOfORClasses: aCollectionOfOREntities [
 	aCollectionOfOREntities do: [ :anEntity | self createActionForORClass: anEntity ]
+]
+
+{ #category : #preparation }
+ORActionGenerator >> createCommentToAnORAction: anORAction [
+	| aStream |
+	aStream := WriteStream on: ''.
+	aStream nextPutAll: 'A ';
+	nextPutAll: anORAction name;
+	nextPutAll: ' is a generated class useful to Orion. It corresponds to an action that can be performed of a type of model element '.
+	anORAction comment: aStream contents .
 ]
 
 { #category : #'creating method' }

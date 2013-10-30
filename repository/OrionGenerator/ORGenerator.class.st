@@ -106,12 +106,15 @@ ORGenerator >> createCommentToAClass: anORClass [
 
 { #category : #'creating class and trait' }
 ORGenerator >> createCommentToATrait: anORTrait [
-	| aStream |
-	aStream := WriteStream on: ''.
-	aStream nextPutAll: 'A ';
-	nextPutAll: anORTrait name;
-	nextPutAll: ' is a generated trait useful to Orion. All the methods are also generated from the instance variables of the corresponding famix class. The use links between the Orion traits follow the hierarchy of the Famix classes. '.
-	anORTrait comment: aStream contents .
+	anORTrait
+		comment:
+			(String
+				streamContents: [ :aStream | 
+					aStream
+						nextPutAll: 'A ';
+						nextPutAll: anORTrait name;
+						nextPutAll:
+								' is a generated trait useful to Orion. All the methods are also generated from the instance variables of the corresponding famix class. The use links between the Orion traits follow the hierarchy of the Famix classes. ' ])
 ]
 
 { #category : #'creating class and trait' }
@@ -154,17 +157,22 @@ ORGenerator >> ensureORClass: aFamixClass [
 ORGenerator >> ensureORTrait: aFamixClass [
 	"Create a trait corresponding to the FamixClass "
 
-	^ (self ensureInheritFromMooseEntity: aFamixClass)
+	^(self ensureInheritFromMooseEntity: aFamixClass)
 		ifTrue: [ 
 			| name |
 			name := self createTraitName: aFamixClass.
 			Smalltalk globals
 				at: name
-				ifAbsent: [ Trait
-								named: name
-								uses: (self ensureORTrait: aFamixClass superclass)
-								category: (self createTraitCategoryName: aFamixClass) ] ]
-		ifFalse: [ TMooseEntity ]
+				ifPresent: [:trait | trait]
+				ifAbsent: [ 
+					| aTrait |
+					aTrait := Trait
+						named: name
+						uses: (self ensureORTrait: aFamixClass superclass)
+						category: (self createTraitCategoryName: aFamixClass).
+					self createCommentToATrait: aTrait.
+					aTrait ] ]
+		ifFalse: [  TMooseEntity ]
 ]
 
 { #category : #'creating method' }
