@@ -1,3 +1,14 @@
+"
+An ORAction is an abstract class corresponding to any action that can be performed on an entity.
+
+Instance Variables
+	childrenActions:		corresponds to the collection of actions composing the given action
+	cost:		<Object>
+	entity:		entity on which the action is performed
+	orionModel:		the Orion model on which the action is performed
+	parentAction:		the parent action if it has been performed inside the execution of another action.
+
+"
 Class {
 	#name : #ORAction,
 	#superclass : #Object,
@@ -107,7 +118,12 @@ ORAction >> parentAction: anAction [
 { #category : #printing }
 ORAction >> printOn: stream [ 
 
-		stream nextPutAll: self class name , '(' , entity class name , ') ' , entity mooseName
+	stream 
+		nextPutAll: self class name;
+		nextPut: $(;
+		nextPutAll: entity class name;
+		nextPut: $);
+		nextPutAll:  entity mooseName
 ]
 
 { #category : #printing }

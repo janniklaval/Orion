@@ -1,3 +1,6 @@
+"
+An ORActionRemoveLink is an Orion abstract class for remove link actions
+"
 Class {
 	#name : #ORActionRemoveLink,
 	#superclass : #ORActionRemove,

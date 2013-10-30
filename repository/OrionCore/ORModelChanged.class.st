@@ -1,3 +1,6 @@
+"
+An ORModelChanged is an announcement specifying that an element has been changed
+"
 Class {
 	#name : #ORModelChanged,
 	#superclass : #ORAnnouncement,
