@@ -101,10 +101,11 @@ ConfigurationOfOrion >> baseline3: spec [
 		spec blessing: #baseline.
 	
 		spec repository: 'http://smalltalkhub.com/mc/Moose/Orion/main'.
+		spec group: 'default' with: { 'OrionCore'. 'OrionFamixCore'. 'OrionBrowser'. 'OrionTest'. 'Orion-TestModel'}.
 		spec 
 			package: 'OrionCore';
-			package: 'OrionFamixCore';
-			package: 'OrionBrowser';
+			package: 'OrionFamixCore'  with: [ spec requires: 'OrionCore'];
+			package: 'OrionBrowser' with: [ spec requires: {'OrionCore'. 'OrionFamixCore'}];
 			package: 'OrionTest';
 			package: 'Orion-TestModel'.
 		spec repository: 'http://smalltalkhub.com/mc/AnneEtien/FamixDiff/main'.
