@@ -79,7 +79,12 @@ ORGenerator >> codeForSelector: aProperty [
 
 { #category : #'creating class and trait' }
 ORGenerator >> createClassCategoryName: aFamixClass [
-	^ 'OrionClass-', aFamixClass category 
+	^ String
+		streamContents: [ :stream | 
+			stream
+				nextPutAll: 'Orion';
+				nextPutAll: (aFamixClass category asStringOn: stream delimiter: '');
+				nextPutAll: '-Class' ]
 ]
 
 { #category : #'creating class and trait' }
@@ -122,7 +127,12 @@ ORGenerator >> createCommentToATrait: anORTrait [
 
 { #category : #'creating class and trait' }
 ORGenerator >> createTraitCategoryName: aFamixClass [
-	^ 'OrionTrait-' , aFamixClass category
+	^ String
+		streamContents: [ :stream | 
+			stream
+				nextPutAll: 'Orion';
+				nextPutAll: (aFamixClass category asStringOn: stream delimiter: '');
+				nextPutAll: '-Trait' ]
 ]
 
 { #category : #'creating class and trait' }
