@@ -83,7 +83,9 @@ ORGenerator >> createClassCategoryName: aFamixClass [
 		streamContents: [ :stream | 
 			stream
 				nextPutAll: 'Orion';
-				nextPutAll: (aFamixClass category asStringOn: stream delimiter: '');
+				nextPutAll: (String
+		streamContents: [ :str | 
+			($- split: aFamixClass category) asStringOn: str delimiter: '' ]);
 				nextPutAll: '-Class' ]
 ]
 
@@ -131,7 +133,9 @@ ORGenerator >> createTraitCategoryName: aFamixClass [
 		streamContents: [ :stream | 
 			stream
 				nextPutAll: 'Orion';
-				nextPutAll: (aFamixClass category asStringOn: stream delimiter: '');
+				nextPutAll: (String
+		streamContents: [ :str | 
+			($- split: aFamixClass category) asStringOn: str delimiter: '' ]);
 				nextPutAll: '-Trait' ]
 ]
 

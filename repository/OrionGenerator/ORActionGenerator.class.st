@@ -15,14 +15,13 @@ Class {
 
 { #category : #preparation }
 ORActionGenerator >> createActionCategoryName: anOREntity [
-^ String
+	^ String
 		streamContents: [ :stream | 
 			stream
 				nextPutAll: 'Orion';
-				nextPutAll: (anOREntity superclass category asStringOn: stream delimiter: '');
+				nextPutAll:
+						(String streamContents: [ :str | ($- split: anOREntity superclass category) asStringOn: str delimiter: '' ]);
 				nextPutAll: '-Action' ]
-	
-	
 ]
 
 { #category : #preparation }
