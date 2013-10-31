@@ -101,7 +101,7 @@ ConfigurationOfOrion >> baseline3: spec [
 		spec blessing: #baseline.
 	
 		spec repository: 'http://smalltalkhub.com/mc/Moose/Orion/main'.
-		spec group: 'default' with: { 'OrionCore'. 'OrionFamixCore'. 'OrionBrowser'. 'OrionTest'. 'Orion-TestModel'}.
+		spec group: 'default' with: #( 'OrionCore' 'OrionFamixCore' 'OrionBrowser' 'OrionTest' 'Orion-TestModel').
 		spec 
 			package: 'OrionCore';
 			package: 'OrionFamixCore'  with: [ spec requires: 'OrionCore'];
@@ -118,8 +118,7 @@ ConfigurationOfOrion >> baseline3: spec [
 ConfigurationOfOrion >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'pharo2.x' version: '2-baseline'.
-	spec for: #'pharo3.x' version: '2-baseline'. 
+	spec for: #'pharo2.x' version: '3-baseline'.
 ]
 
 { #category : #accessing }
