@@ -57,7 +57,8 @@ OrionBrowser >> browser [
 		browserLinks ;
 		browserSummary.
 	
-	browser subscribe: ORAnnouncement do: [ browser update].
+	browser subscribe: ORAnnouncement do: [browser update].
+	browser subscribe: GLMBrowserClosing do: [self unsubscribeSelectedVersion].
 	^ browser
 ]
 
@@ -302,7 +303,15 @@ OrionBrowser >> selectedVersion [
 
 { #category : #accessing }
 OrionBrowser >> selectedVersion: anObject [
-	selectedVersion := anObject
+	self unsubscribeSelectedVersion.
+	selectedVersion := anObject.
+	self selectedVersion system announcer subscribe: ORAnnouncement send: #update to: browser
+]
+
+{ #category : #accessing }
+OrionBrowser >> unsubscribeSelectedVersion [
+	self selectedVersion ifNotNil: [ self selectedVersion system announcer unsubscribe: browser ].
+
 ]
 
 { #category : #gui }
