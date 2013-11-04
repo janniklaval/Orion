@@ -11,25 +11,25 @@ TMooseEntity classSide >> isOrionClass [
 	^ true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 TMooseEntity >> currentContext [
 	"Answers the model containing the current entity"
 	^ self privateState currentContext
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 TMooseEntity >> currentContext: aVersion [
 	"Answers the model containing the current entity"
 	^ self privateState currentContext: aVersion
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'initialize-release-ok' }
 TMooseEntity >> defaultStateClass [ 
 	"Answer the default implementator of this element's state."
 	^ORDefaultState
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 TMooseEntity >> isCreatedBetween: anOrionModel and: anotherOrionModel [
 		
 		^(anOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) isNil
@@ -37,7 +37,7 @@ TMooseEntity >> isCreatedBetween: anOrionModel and: anotherOrionModel [
 		
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 TMooseEntity >> isCreatedIn: anOrionModel [
 		|parent|
 		parent := anOrionModel parentModel.
@@ -48,7 +48,7 @@ TMooseEntity >> isCreatedIn: anOrionModel [
 			]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 TMooseEntity >> isModifiedBetween: anOrionModel and: anotherOrionModel [
 		|old new|
 		old := anOrionModel entityStorage atID: self mooseID ifAbsent:[^false].
@@ -57,7 +57,7 @@ TMooseEntity >> isModifiedBetween: anOrionModel and: anotherOrionModel [
 		^old mooseModel ~~ new mooseModel.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 TMooseEntity >> isModifiedIn: anOrionModel [
 		|parent|
 		parent := anOrionModel parentModel.
@@ -68,19 +68,19 @@ TMooseEntity >> isModifiedIn: anOrionModel [
 			]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 TMooseEntity >> isOrionEntity [
 	^ true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 TMooseEntity >> isRemovedBetween: anOrionModel and: anotherOrionModel [
 		
 		^(anOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) notNil
 			and:[(anotherOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) isNil].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 TMooseEntity >> isRemovedIn: anOrionModel [
 		|parent|
 		parent := anOrionModel parentModel.
@@ -91,24 +91,24 @@ TMooseEntity >> isRemovedIn: anOrionModel [
 			and:[(anOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) isNil].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 TMooseEntity >> orionID [
 	^ self mooseID
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 TMooseEntity >> orionModel [
 	"Answers the model containing the current entity"
 	^ self privateState model
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 TMooseEntity >> orionModel: aModel [
 	"Answers the model containing the current entity"
 	^ self mooseModel: aModel
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 TMooseEntity >> stateBetween: anOrionModel and: anotherOrionModel [
 
 	(self isCreatedBetween: anOrionModel and: anotherOrionModel) ifTrue:[^#isCreated].
@@ -118,7 +118,7 @@ TMooseEntity >> stateBetween: anOrionModel and: anotherOrionModel [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 TMooseEntity >> stateIn: anOrionModel [
 
 	(self isCreatedIn: anOrionModel) ifTrue:[^#isCreated].
@@ -128,7 +128,7 @@ TMooseEntity >> stateIn: anOrionModel [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 TMooseEntity >> versionIn: anOrionModel [
 
 	|upEntity|

@@ -7,7 +7,7 @@ Class {
 	#category : #'OrionCore-action'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 ORActionRemoveEntity >> printWorkspace [
 
 	^ super printWorkspace , self entity mooseName.
