@@ -3,6 +3,8 @@ A TFAMIXSourceLanguage is a generated trait useful to Orion. All the methods are
 "
 Trait {
 	#name : #TFAMIXSourceLanguage,
+	#traits : 'TFAMIXEntity',
+	#classTraits : 'TFAMIXEntity classTrait',
 	#category : #'OrionFamixCore-Trait'
 }
 
