@@ -35,8 +35,7 @@ ORGeneratorTest >> testAddAccessorFrom [
 	self assert: aTrait selectors size equals:  (nbSel + (2*nbProp)).
 	self assert: (aTrait selectors includes: #kind).
 	self assert: (aTrait selectors includes: #kindOR:).
-	"self assert: (aTrait selectors includes: #test).
-	self assert: (aTrait selectors includes: #testAS:)."
+
 	
 	aTrait removeFromSystem.
 	self assert: Smalltalk allTraits size equals: nbTraits.
@@ -56,7 +55,7 @@ ORGeneratorTest >> testAddPrivateAccessorTo [
 	self assert: (FAMIXTestClass methodDict size >= nbMeth ).
 	self assert: (FAMIXTestClass methodDict includesKey:  #privateKind).
 	self assert: (FAMIXTestClass methodDict includesKey: #privateKind:).
-	self assert: ((FAMIXTestClass methodDict at: #privateKind) protocol) equals: '*OrionCore-model'. 
+	self assert: ((FAMIXTestClass methodDict at: #privateKind) protocol) equals: '*OrionOrionGeneratorTestModel-Class'. 
 	
 	
 ]
@@ -201,14 +200,12 @@ ORGeneratorTest >> testEnsureORTraitWithoutExistingTraits [
 	
 	self assert: aTrait notNil.
 	self assert: (aTrait name) equals: #TClass1.
-	self assert: Smalltalk allTraits size = (nbTraits + 4).
-	"self assert: aTrait selectors size equals: TMooseEntity selectors size.
-	self assert: (aTrait traitComposition allTraits includes: TMooseEntity)."
+	
 	
 	aTrait removeFromSystem.
-	(Smalltalk globals at: #TFAMIXLocalVariable) removeFromSystem.
-	(Smalltalk globals at: #TFAMIXLeafEntity) removeFromSystem.
-	(Smalltalk globals at: #TFAMIXStructuralEntity) removeFromSystem.
+	(Smalltalk globals at: #ORLocalVariable) ifNil: [(Smalltalk globals at: #TFAMIXLocalVariable) removeFromSystem]. "the trait is removed only if it is the test that added it"
+	(Smalltalk globals at: #ORLeafEntity) ifNil: [(Smalltalk globals at: #TFAMIXLeafEntity) removeFromSystem].
+	(Smalltalk globals at: #ORStructuralEntity) ifNil: [(Smalltalk globals at: #TFAMIXStructuralEntity) removeFromSystem].
 	
 	self assert: Smalltalk allTraits size = nbTraits 
 ]
@@ -240,7 +237,7 @@ ORGeneratorTest >> testMakeOR [
 	anORClass := Smalltalk classNamed: #ORTestClass.
 	self assert: (Smalltalk allTraits contains: [:each | each name = #TFAMIXTestClass]).
 	self assert: Smalltalk allTraits size equals: (nbTraits + 1).
-	self assert: (Smalltalk allClasses contains: [:each | each name = #ASTestClass]).
+	self assert: (Smalltalk allClasses contains: [:each | each name = #ORTestClass]).
 	self assert: (anORClass traitComposition allTraits contains: [:each | each name = #TFAMIXTestClass]).
 	self assert: (anORClass superclass) equals: FAMIXTestClass.
 	self assert: Smalltalk allClasses size equals: nbClass + 1.
@@ -248,7 +245,7 @@ ORGeneratorTest >> testMakeOR [
 	self assert: (FAMIXTestClass methodDict size >= nbMeth ).
 	self assert: (FAMIXTestClass methodDict includesKey:  #privateKind).
 	self assert: (FAMIXTestClass methodDict includesKey: #privateKind:).
-	self assert: ((FAMIXTestClass methodDict at: #privateKind) protocol) equals: '*OrionCore-model'. 
+	self assert: ((FAMIXTestClass methodDict at: #privateKind) protocol) equals: '*OrionOrionGeneratorTestModel-Class'. 
 	
 	anORClass removeFromSystem.
 	(Smalltalk globals at: #TFAMIXTestClass) removeFromSystem.
@@ -257,13 +254,12 @@ ORGeneratorTest >> testMakeOR [
 { #category : #tests }
 ORGeneratorTest >> testMakeORForAllClasses [
 
-	|   nbTraits nbClass nbMeth aColl |
+	|   nbTraits nbClass aColl |
 	
-	aColl := Smalltalk allClasses select: [ :c | (c category =#'Orion-TestModel-Constellation1')].	
+	aColl := Smalltalk allClasses select: [ :c | (c category =#'OrionGenerator-TestModel')].	
 
 	nbTraits := Smalltalk allTraits size.
 	nbClass := Smalltalk allClasses size.
-	nbMeth := FAMIXTestClass methodDict size.
 	
 	self deny: (Smalltalk allClasses contains: [:each | each name = #ORTestClass]).
 	self deny: (Smalltalk allClasses contains: [:each | each name = #ORClass1]).
@@ -278,20 +274,20 @@ ORGeneratorTest >> testMakeORForAllClasses [
 	"verification that the 3 traits have been created"
 	self assert: (Smalltalk allTraits contains: [:each | each name = #TFAMIXTestClass]).
 	self assert: (Smalltalk allTraits contains: [:each | each name = #TClass1]).
-	self assert: (Smalltalk allTraits contains: [:each | each name = #TClass2]).
-	self assert: Smalltalk allTraits size equals: (nbTraits + 3+ aColl size). "+3 corresponds to the hierarchy of Traits added for TClass1"
+	self deny: (Smalltalk allTraits contains: [:each | each name = #TClass2]).
+	"self assert: Smalltalk allTraits size equals: (nbTraits + 3+ aColl size). ""+3 corresponds to the hierarchy of Traits added for TClass1"
 	
 	
 	"Removing the traits and the classes created during the test"
 	(Smalltalk globals at: #TFAMIXTestClass) removeFromSystem.
 	(Smalltalk globals at: #TClass1) removeFromSystem.
-	(Smalltalk globals at: #TClass2) removeFromSystem.
-	(Smalltalk globals at: #TFAMIXLocalVariable) removeFromSystem.
-	(Smalltalk globals at: #TFAMIXLeafEntity) removeFromSystem.
-	(Smalltalk globals at: #TFAMIXStructuralEntity) removeFromSystem.
+	"(Smalltalk globals at: #TClass2) removeFromSystem."
+	(Smalltalk globals at: #ORLocalVariable) ifNil: [(Smalltalk globals at: #TFAMIXLocalVariable) removeFromSystem]. "the trait is removed only if it is the test that added it"
+	(Smalltalk globals at: #ORLeafEntity) ifNil: [(Smalltalk globals at: #TFAMIXLeafEntity) removeFromSystem].
+	(Smalltalk globals at: #ORStructuralEntity) ifNil: [(Smalltalk globals at: #TFAMIXStructuralEntity) removeFromSystem].
 	(Smalltalk globals at: #ORTestClass) removeFromSystem.
 	(Smalltalk globals at: #ORClass1) removeFromSystem.
-	(Smalltalk globals at: #ORClass2) removeFromSystem.
+	"(Smalltalk globals at: #ORClass2) removeFromSystem."
 	
 	self assert: Smalltalk allTraits size equals: nbTraits.
 	self assert: Smalltalk allClasses size equals: nbClass .
