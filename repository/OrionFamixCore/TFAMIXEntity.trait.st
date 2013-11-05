@@ -25,7 +25,7 @@ TFAMIXEntity >> currentContext: aVersion [
 	^ self privateState currentContext: aVersion
 ]
 
-{ #category : #private }
+{ #category : #'initialize-release-ok' }
 TFAMIXEntity >> defaultStateClass [ 
 	"Answer the default implementator of this element's state."
 	^ORDefaultState

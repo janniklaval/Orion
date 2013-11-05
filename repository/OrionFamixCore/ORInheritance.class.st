@@ -97,11 +97,6 @@ ORInheritance >> isModifiedIn: anOrionModel [
 			]
 ]
 
-{ #category : #'*OrionCore-model' }
-ORInheritance >> isOrionEntity [
-	^ true
-]
-
 { #category : #testing }
 ORInheritance >> isRemovedBetween: anOrionModel and: anotherOrionModel [
 		
@@ -205,14 +200,4 @@ ORInheritance >> superclass [
 { #category : #accessing }
 ORInheritance >> superclassOR: aVersion [
 	^ self privateSuperclass versionIn: aVersion
-]
-
-{ #category : #'*OrionCore-model' }
-ORInheritance >> versionIn: anOrionModel [
-
-	|upEntity|
-	
-	upEntity := anOrionModel entityStorage atID: self mooseID ifAbsent:[^nil].
-	upEntity currentContext: anOrionModel.
-	^upEntity
 ]

@@ -3,8 +3,6 @@ A TFAMIXAnnotationInstance is  a generated trait useful to Orion. All the method
 "
 Trait {
 	#name : #TFAMIXAnnotationInstance,
-	#traits : 'TFAMIXEntity',
-	#classTraits : 'TFAMIXEntity classTrait',
 	#category : #'OrionFamixCore-Trait'
 }
 

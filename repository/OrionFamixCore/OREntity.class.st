@@ -4,8 +4,6 @@ A OREntity is a generated class useful to Orion. All the methods are also genera
 Class {
 	#name : #OREntity,
 	#superclass : #FAMIXEntity,
-	#traits : 'TFAMIXEntity',
-	#classTraits : 'TFAMIXEntity classTrait',
 	#category : #'OrionFamixCore-Class'
 }
 

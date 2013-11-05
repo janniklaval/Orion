@@ -81,11 +81,6 @@ ORSourceAnchor >> isModifiedIn: anOrionModel [
 			]
 ]
 
-{ #category : #'*OrionCore-model' }
-ORSourceAnchor >> isOrionEntity [
-	^ true
-]
-
 { #category : #testing }
 ORSourceAnchor >> isRemovedBetween: anOrionModel and: anotherOrionModel [
 		
@@ -139,14 +134,4 @@ ORSourceAnchor >> stateIn: anOrionModel [
 	(self isRemovedIn: anOrionModel) ifTrue:[^#isRemoved].
 	^#notChanged
 	
-]
-
-{ #category : #'*OrionCore-model' }
-ORSourceAnchor >> versionIn: anOrionModel [
-
-	|upEntity|
-	
-	upEntity := anOrionModel entityStorage atID: self mooseID ifAbsent:[^nil].
-	upEntity currentContext: anOrionModel.
-	^upEntity
 ]

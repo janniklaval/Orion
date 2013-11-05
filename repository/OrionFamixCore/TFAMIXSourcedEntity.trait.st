@@ -3,8 +3,8 @@ A TFAMIXSourcedEntity is a generated trait useful to Orion. All the methods are 
 "
 Trait {
 	#name : #TFAMIXSourcedEntity,
-	#traits : 'TFAMIXEntity',
-	#classTraits : 'TFAMIXEntity classTrait',
+	#traits : 'AnObsoleteTFAMIXEntity',
+	#classTraits : 'AnObsoleteTFAMIXEntity classTrait',
 	#category : #'OrionFamixCore-Trait'
 }
 
