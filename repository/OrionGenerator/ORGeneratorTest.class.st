@@ -28,7 +28,6 @@ ORGeneratorTest >> testAddAccessorFrom [
 	"check the creation of the trait"
 	self assert: aTrait notNil.
 	self assert: (aTrait name) equals: #TFAMIXTestClass.
-	self assert: Smalltalk allTraits size equals: (nbTraits + 1).
 	self assert: aTrait selectors size equals: TMooseEntity selectors size.
 	self assert: (aTrait traitComposition allTraits includes: TMooseEntity).
 	
@@ -39,6 +38,7 @@ ORGeneratorTest >> testAddAccessorFrom [
 
 	
 	aTrait removeFromSystem.
+	Smalltalk globals at: #OREntity ifAbsent: [(Smalltalk globals at: #TFAMIXEntity) removeFromSystem].
 	self assert: Smalltalk allTraits size equals: nbTraits.
 	self deny: (Smalltalk allTraits includes: aTrait).
 ]
@@ -153,40 +153,52 @@ ORGeneratorTest >> testEnsureORClass [
 	
 	anORClass removeFromSystem.
 	(Smalltalk globals at: #TFAMIXTestClass) removeFromSystem.
+	Smalltalk globals at: #OREntity ifAbsent: [(Smalltalk globals at: #TFAMIXEntity) removeFromSystem].
 ]
 
 { #category : #tests }
 ORGeneratorTest >> testEnsureORTrait [
 	
-	|   aTrait nbTraits |
+	|   aTrait |
 
-	nbTraits := Smalltalk allTraits size.
 
 	aTrait := aGenerator ensureORTrait: FAMIXTestClass .
 	
 	self assert: aTrait notNil.
 	self assert: (aTrait name) equals: #TFAMIXTestClass.
-	self assert: Smalltalk allTraits size equals: (nbTraits + 1).
+	self assert: (Smalltalk globals at: #TFAMIXTestClass) notNil.
 	self assert: aTrait selectors size equals: TMooseEntity selectors size.
 	self assert: (aTrait traitComposition allTraits includes: TMooseEntity).
 	
 	aTrait removeFromSystem.
+	Smalltalk globals at: #OREntity ifAbsent: [(Smalltalk globals at: #TFAMIXEntity) removeFromSystem].
 ]
 
 { #category : #tests }
 ORGeneratorTest >> testEnsureORTraitExisting [
+	"In order to be sure that we apply the method ensureORTrait on an existing trait, we apply it twice "
+	|   aTrait aTrait2 nbTraits |
+
+	"self assert: (Smalltalk globals at: #TFAMIXTestClass) ."
 	
-	|   aTrait nbMeth nbTraits |
-
-	nbTraits := Trait allInstances size.
-	nbMeth := TFAMIXClass selectors size.
-
-	aTrait := aGenerator ensureORTrait: FAMIXClass .
-
+	aTrait := aGenerator ensureORTrait: FAMIXTestClass .
+	
 	self assert: aTrait notNil.
-	self assert: (aTrait name) equals: #TFAMIXClass.
+	self assert: (aTrait name) equals: #TFAMIXTestClass.
+	self assert: (Smalltalk globals at: #TFAMIXTestClass) notNil.
+	
+	nbTraits := Trait allInstances size.
+	
+	aTrait2 := aGenerator ensureORTrait: FAMIXTestClass .
+
+	self assert: aTrait2  notNil.
+	self assert: (aTrait2 name) equals: #TFAMIXTestClass.
+	self assert: aTrait equals: aTrait2.
 	self assert: Trait allInstances size equals: nbTraits.
-	self assert: aTrait selectors size equals: nbMeth.
+	self assert: aTrait2 selectors size equals: aTrait selectors size.
+	
+	aTrait removeFromSystem.
+	Smalltalk globals at: #ORFAMIXEntity ifAbsent: [(Smalltalk globals at: #TFAMIXEntity) removeFromSystem].
 	
 ]
 
@@ -204,10 +216,13 @@ ORGeneratorTest >> testEnsureORTraitWithoutExistingTraits [
 	
 	
 	aTrait removeFromSystem.
-	(Smalltalk globals at: #ORLocalVariable) ifNil: [(Smalltalk globals at: #TFAMIXLocalVariable) removeFromSystem]. "the trait is removed only if it is the test that added it"
-	(Smalltalk globals at: #ORLeafEntity) ifNil: [(Smalltalk globals at: #TFAMIXLeafEntity) removeFromSystem].
-	(Smalltalk globals at: #ORStructuralEntity) ifNil: [(Smalltalk globals at: #TFAMIXStructuralEntity) removeFromSystem].
-	
+	Smalltalk globals at: #ORLocalVariable ifAbsent: [(Smalltalk globals at: #TFAMIXLocalVariable) removeFromSystem]. "the trait is removed only if it is the test that added it"
+	Smalltalk globals at: #ORLeafEntity ifAbsent: [(Smalltalk globals at: #TFAMIXLeafEntity) removeFromSystem].
+	Smalltalk globals at: #ORStructuralEntity ifAbsent: [(Smalltalk globals at: #TFAMIXStructuralEntity) removeFromSystem].
+	Smalltalk globals at: #ORNamedEntity ifAbsent: [(Smalltalk globals at: #TFAMIXNamedEntity) removeFromSystem].
+	Smalltalk globals at: #ORSourcedEntity ifAbsent: [(Smalltalk globals at: #TFAMIXSourcedEntity) removeFromSystem].
+	Smalltalk globals at: #OREntity ifAbsent: [(Smalltalk globals at: #TFAMIXEntity) removeFromSystem].
+		
 	self assert: Smalltalk allTraits size = nbTraits 
 ]
 
@@ -237,7 +252,6 @@ ORGeneratorTest >> testMakeOR [
 	aGenerator makeOR: FAMIXTestClass .
 	anORClass := Smalltalk classNamed: #ORTestClass.
 	self assert: (Smalltalk allTraits contains: [:each | each name = #TFAMIXTestClass]).
-	self assert: Smalltalk allTraits size equals: (nbTraits + 1).
 	self assert: (Smalltalk allClasses contains: [:each | each name = #ORTestClass]).
 	self assert: (anORClass traitComposition allTraits contains: [:each | each name = #TFAMIXTestClass]).
 	self assert: (anORClass superclass) equals: FAMIXTestClass.
@@ -250,6 +264,8 @@ ORGeneratorTest >> testMakeOR [
 	
 	anORClass removeFromSystem.
 	(Smalltalk globals at: #TFAMIXTestClass) removeFromSystem.
+	Smalltalk globals at: #OREntity ifAbsent: [(Smalltalk globals at: #TFAMIXEntity) removeFromSystem].
+	"self assert: (Smalltalk allTraits) equals: nbTraits."
 ]
 
 { #category : #tests }
@@ -283,9 +299,13 @@ ORGeneratorTest >> testMakeORForAllClasses [
 	(Smalltalk globals at: #TFAMIXTestClass) removeFromSystem.
 	(Smalltalk globals at: #TClass1) removeFromSystem.
 	"(Smalltalk globals at: #TClass2) removeFromSystem."
-	(Smalltalk globals at: #ORLocalVariable) ifNil: [(Smalltalk globals at: #TFAMIXLocalVariable) removeFromSystem]. "the trait is removed only if it is the test that added it"
-	(Smalltalk globals at: #ORLeafEntity) ifNil: [(Smalltalk globals at: #TFAMIXLeafEntity) removeFromSystem].
-	(Smalltalk globals at: #ORStructuralEntity) ifNil: [(Smalltalk globals at: #TFAMIXStructuralEntity) removeFromSystem].
+	Smalltalk globals at: #ORLocalVariable ifAbsent: [(Smalltalk globals at: #TFAMIXLocalVariable) removeFromSystem]. "the trait is removed only if it is the test that added it"
+	Smalltalk globals at: #ORLeafEntity ifAbsent: [(Smalltalk globals at: #TFAMIXLeafEntity) removeFromSystem].
+	Smalltalk globals at: #ORStructuralEntity ifAbsent: [(Smalltalk globals at: #TFAMIXStructuralEntity) removeFromSystem].
+	Smalltalk globals at: #ORNamedEntity ifAbsent: [(Smalltalk globals at: #TFAMIXNamedEntity) removeFromSystem].
+	Smalltalk globals at: #ORSourcedEntity ifAbsent: [(Smalltalk globals at: #TFAMIXSourcedEntity) removeFromSystem].
+	Smalltalk globals at: #OREntity ifAbsent: [(Smalltalk globals at: #TFAMIXEntity) removeFromSystem].
+	
 	(Smalltalk globals at: #ORTestClass) removeFromSystem.
 	(Smalltalk globals at: #ORClass1) removeFromSystem.
 	"(Smalltalk globals at: #ORClass2) removeFromSystem."
