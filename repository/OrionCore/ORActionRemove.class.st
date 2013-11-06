@@ -17,8 +17,3 @@ ORActionRemove class >> description [
 ORActionRemove class >> needs: anElement [
 	^nil
 ]
-
-{ #category : #'method execution' }
-ORActionRemove >> postRun [
-	"self orionModel removed at: entity mooseID put: entity"
-]
