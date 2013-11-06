@@ -7,5 +7,5 @@ ORModel >> addPackageNamed: aString [
 		(ORActionAddPackage new
 			orionModel: self;
 			newName: aString )
-		manualRun; addToListOfChanges ]
+		manualRun; postRun ]
 ]

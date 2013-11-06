@@ -7,7 +7,7 @@ ORMethod >> addAccessTo: aStructuralEntity inModel: aModelVersion [
 		orionModel: aModelVersion;
 		from: self ;
 		to: aStructuralEntity )
-	manualRun; addToListOfChanges . 
+	manualRun; postRun . 
 ]
 
 { #category : #'*OrionBrowser' }
@@ -17,7 +17,7 @@ ORMethod >> addInvocationTo: anOrderedCollection inModel: aModelVersion [
 		orionModel: aModelVersion;
 		from: self ;
 		candidates: anOrderedCollection )
-	manualRun; addToListOfChanges ] 
+	manualRun; postRun ] 
 		orBrowserExceptionsLauncherCollection: anOrderedCollection. 
 ]
 
@@ -29,7 +29,7 @@ ORMethod >> addInvocationToNew: aClass withSignature: aSymbol inModel: aModelVer
 		from: self ;
 		receiver: aClass;
 		signature: aSymbol )
-	manualRun; addToListOfChanges . 
+	manualRun; postRun . 
 ]
 
 { #category : #'*OrionBrowser' }
@@ -40,7 +40,7 @@ ORMethod >> addReferenceTo: aClass inModel: aModelVersion [
 		orionModel: aModelVersion;
 		from: self ;
 		to: aClass)
-	manualRun; addToListOfChanges ]
+	manualRun; postRun ]
 	orBrowserExceptionsLauncher: aClass. 
 ]
 
@@ -51,7 +51,7 @@ ORMethod >> deleteInAction: anAction [
 		parentAction: anAction ;
 		orionModel: anAction orionModel ;
 		entity: self ;
-	run; addToListOfChanges . 
+	run; postRun . 
 ]
 
 { #category : #'*OrionBrowser' }
@@ -61,7 +61,7 @@ ORMethod >> deleteInModel: aModelVersion [
 		orionModel: aModelVersion ;
 		entity: self ;
 		yourself) 
-	manualRun; addToListOfChanges . 
+	manualRun; postRun . 
 ]
 
 { #category : #'*OrionBrowser' }
@@ -71,7 +71,7 @@ ORMethod >> moveTo: aClass inModel: aModelVersion [
 		orionModel: aModelVersion ;
 		entity: self ;
 		newContainer: aClass )
-	manualRun; addToListOfChanges ] orBrowserExceptionsLauncher: aClass.
+	manualRun; postRun ] orBrowserExceptionsLauncher: aClass.
 ]
 
 { #category : #'*OrionBrowser' }
@@ -82,7 +82,7 @@ ORMethod >> rename: aString inModel: aModelVersion [
 			orionModel: aModelVersion ;
 			entity: self ;
 			newName: aString )
-		manualRun; addToListOfChanges ]
+		manualRun; postRun ]
 ]
 
 { #category : #'*OrionBrowser' }
@@ -92,5 +92,5 @@ ORMethod >> updatePackage: aPackage inAnAction: anAction [
 		orionModel: anAction orionModel;
 		entity: self;
 		newContainer: aPackage;
-		run; addToListOfChanges 
+		run; postRun 
 ]

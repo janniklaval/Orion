@@ -7,7 +7,7 @@ ORReference >> deleteInAction: anAction [
 		parentAction: anAction ;
 		orionModel: anAction orionModel ;
 		entity: self ;
-		run; addToListOfChanges . 
+		run; postRun . 
 
 ]
 
@@ -16,5 +16,5 @@ ORReference >> deleteInModel:  aModelVersion [
 	(ORActionRemoveReference new
 		orionModel: aModelVersion;
 		entity: self )
-	manualRun; addToListOfChanges . 
+	manualRun; postRun . 
 ]

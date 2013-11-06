@@ -6,7 +6,7 @@ ORAccess >> deleteInAction:  anAction [
 		parentAction: anAction ;
 		orionModel: anAction orionModel ;
 		entity: self ;
-	run; addToListOfChanges. 
+	run; postRun. 
 ]
 
 { #category : #'*OrionBrowser' }
@@ -14,6 +14,6 @@ ORAccess >> deleteInModel:  aModel [
 	ORActionRemoveAccess new
 		orionModel: aModel ;
 		entity: self ;
-	run; addToListOfChanges. 
+	run; postRun. 
 	
 ]

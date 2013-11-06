@@ -6,7 +6,7 @@ ORInvocation >> deleteInAction:  anAction [
 		parentAction: anAction;
 		orionModel: anAction orionModel ;
 		entity: self ;
-		run; addToListOfChanges . 
+		run; postRun . 
 
 ]
 
@@ -15,6 +15,6 @@ ORInvocation >> deleteInModel:  aModelVersion [
 	(ORActionRemoveInvocation new
 		orionModel: aModelVersion;
 		entity: self )
-	manualRun; addToListOfChanges . 
+	manualRun; postRun . 
 
 ]

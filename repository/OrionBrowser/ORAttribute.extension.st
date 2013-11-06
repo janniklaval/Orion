@@ -7,7 +7,7 @@ ORAttribute >> deleteInAction: anAction [
 		parentAction: anAction ;
 		orionModel: anAction orionModel ;
 		entity: self ;
-		run; addToListOfChanges. 
+		run; postRun. 
 
 ]
 
@@ -17,7 +17,7 @@ ORAttribute >> deleteInModel: aModelVersion [
 	(ORActionRemoveAttribute new
 		orionModel: aModelVersion ;
 		entity: self )
-	manualRun; addToListOfChanges. 
+	manualRun; postRun. 
 
 ]
 
@@ -28,7 +28,7 @@ ORAttribute >> moveTo: aClass inModel: aModelVersion [
 		orionModel: aModelVersion ;
 		entity: self ;
 		newContainer: aClass )
-	manualRun; addToListOfChanges ]
+	manualRun; postRun ]
 		orBrowserExceptionsLauncher: aClass.
 
 ]
@@ -41,5 +41,5 @@ ORAttribute >> rename: aString inModel: aModelVersion [
 			orionModel: aModelVersion ;
 			entity: self ;
 			newName: aString )
-		manualRun; addToListOfChanges ]
+		manualRun; postRun ]
 ]

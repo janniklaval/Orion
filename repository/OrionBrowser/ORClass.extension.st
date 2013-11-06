@@ -8,7 +8,7 @@ ORClass >> addAttributNamed: aString inModel: aModelVersion [
 			orionModel: aModelVersion ;
 			container: self ;
 			newName: aString )
-		manualRun; addToListOfChanges ]
+		manualRun; postRun ]
 ]
 
 { #category : #'*OrionBrowser' }
@@ -19,7 +19,7 @@ ORClass >> addMethodNamed: aString inModel: aModelVersion [
 			orionModel: aModelVersion ;
 			container: self ;
 			newName: aString )
-		manualRun; addToListOfChanges ]
+		manualRun; postRun ]
 ]
 
 { #category : #'*OrionBrowser' }
@@ -29,7 +29,7 @@ ORClass >> addSuperClass: newSuperClass inModel: aModelVersion [
 		orionModel: aModelVersion;
 		from: self;
 		to: newSuperClass) manualRun;
-		addToListOfChanges ]
+		postRun ]
 		orBrowserExceptionsLauncher: newSuperClass.
 ]
 
@@ -42,7 +42,7 @@ ORClass >> changeSuperClassTo: newSuperClass inModel: aModelVersion [
 			from: self ;
 			to: newSuperClass) 
 			manualRun;
-			addToListOfChanges ]
+			postRun ]
 		orBrowserExceptionsLauncher: newSuperClass 
 ]
 
@@ -53,7 +53,7 @@ ORClass >> deleteInAction: anAction [
 		parentAction: anAction ;
 		orionModel: anAction orionModel ;
 		entity: self ;
-	run; addToListOfChanges. 
+	run; postRun. 
 
 ]
 
@@ -63,7 +63,7 @@ ORClass >> deleteInModel: aModelVersion [
 		orionModel: aModelVersion;
 		entity: self)
 		manualRun;
-		addToListOfChanges
+		postRun
 ]
 
 { #category : #'*OrionBrowser' }
@@ -83,7 +83,7 @@ ORClass >> deleteOnlyInModel: aModelVersion [
 	(ORActionRemoveClassOnly new
 		orionModel: aModelVersion ;
 		entity: self )
-	manualRun; addToListOfChanges. 
+	manualRun; postRun. 
 
 ]
 
@@ -95,7 +95,7 @@ ORClass >> moveTo: aPackage inModel: aModelVersion [
 		entity: self ;
 		newContainer: aPackage )
 	manualRun;
-	addToListOfChanges ]
+	postRun ]
 	orBrowserExceptionsLauncher: aPackage  
 
 ]
@@ -108,7 +108,7 @@ ORClass >> rename: aString inModel: aModelVersion [
 			orionModel: aModelVersion ;
 			entity: self ;
 			newName: aString )
-		manualRun; addToListOfChanges ]
+		manualRun; postRun ]
 ]
 
 { #category : #'*OrionBrowser' }

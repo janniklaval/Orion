@@ -14,7 +14,7 @@ ORPackage >> addClassNamed: aString withNamespace: aNamespace inModel: aModelVer
 				orionModel: aModelVersion;
 				parent: self;
 				container: aNamespace;
-				newName: aString) manualRun; addToListOfChanges ]
+				newName: aString) manualRun; postRun ]
 ]
 
 { #category : #'*OrionBrowser' }
@@ -24,7 +24,7 @@ ORPackage >> deleteInAction: anAction [
 		parentAction: anAction ;
 		orionModel: anAction orionModel ;
 		entity: self ;
-	run; addToListOfChanges . 
+	run; postRun . 
 ]
 
 { #category : #'*OrionBrowser' }
@@ -33,7 +33,7 @@ ORPackage >> deleteInModel: aModelVersion [
 	(ORActionRemovePackage new
 		orionModel: aModelVersion ;
 		entity: self )
-	manualRun; addToListOfChanges . 
+	manualRun; postRun . 
 ]
 
 { #category : #'*OrionBrowser' }
@@ -43,7 +43,7 @@ ORPackage >> mergePackage: aPackage inModel: aModelVersion [
 		orionModel: aModelVersion ;
 		entity: self ;
 		newContainer: aPackage )
-	manualRun; addToListOfChanges . 
+	manualRun; postRun . 
 
 ]
 
