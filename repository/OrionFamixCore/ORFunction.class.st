@@ -168,6 +168,11 @@ ORFunction >> isModifiedIn: anOrionModel [
 ]
 
 { #category : #testing }
+ORFunction >> isOrionEntity [
+	^ true
+]
+
+{ #category : #testing }
 ORFunction >> isRemovedBetween: anOrionModel and: anotherOrionModel [
 		
 		^(anOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) notNil
@@ -350,4 +355,14 @@ ORFunction >> types [
 { #category : #accessing }
 ORFunction >> typesOR: aVersion [
 	^ self privateTypes versionIn: aVersion
+]
+
+{ #category : #accessing }
+ORFunction >> versionIn: anOrionModel [
+
+	|upEntity|
+	
+	upEntity := anOrionModel entityStorage atID: self mooseID ifAbsent:[^nil].
+	upEntity currentContext: anOrionModel.
+	^upEntity
 ]

@@ -108,6 +108,11 @@ ORInvocation >> isModifiedIn: anOrionModel [
 ]
 
 { #category : #testing }
+ORInvocation >> isOrionEntity [
+	^ true
+]
+
+{ #category : #testing }
 ORInvocation >> isRemovedBetween: anOrionModel and: anotherOrionModel [
 		
 		^(anOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) notNil
@@ -230,4 +235,14 @@ ORInvocation >> stateIn: anOrionModel [
 	(self isRemovedIn: anOrionModel) ifTrue:[^#isRemoved].
 	^#notChanged
 	
+]
+
+{ #category : #accessing }
+ORInvocation >> versionIn: anOrionModel [
+
+	|upEntity|
+	
+	upEntity := anOrionModel entityStorage atID: self mooseID ifAbsent:[^nil].
+	upEntity currentContext: anOrionModel.
+	^upEntity
 ]

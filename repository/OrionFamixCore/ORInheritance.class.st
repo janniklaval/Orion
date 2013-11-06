@@ -98,6 +98,11 @@ ORInheritance >> isModifiedIn: anOrionModel [
 ]
 
 { #category : #testing }
+ORInheritance >> isOrionEntity [
+	^ true
+]
+
+{ #category : #testing }
 ORInheritance >> isRemovedBetween: anOrionModel and: anotherOrionModel [
 		
 		^(anOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) notNil
@@ -200,4 +205,14 @@ ORInheritance >> superclass [
 { #category : #accessing }
 ORInheritance >> superclassOR: aVersion [
 	^ self privateSuperclass versionIn: aVersion
+]
+
+{ #category : #accessing }
+ORInheritance >> versionIn: anOrionModel [
+
+	|upEntity|
+	
+	upEntity := anOrionModel entityStorage atID: self mooseID ifAbsent:[^nil].
+	upEntity currentContext: anOrionModel.
+	^upEntity
 ]

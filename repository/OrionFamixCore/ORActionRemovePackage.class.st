@@ -67,5 +67,5 @@ ORActionRemovePackage >> run [
 
 	self entity deleteInAction: self.
 
-	self postRun.
+
 ]

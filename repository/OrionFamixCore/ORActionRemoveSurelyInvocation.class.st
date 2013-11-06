@@ -59,7 +59,7 @@ ORActionRemoveSurelyInvocation >> run [
 	
 		self orionModel remove: entity.
 	].
-	self postRun.
+
 ]
 
 { #category : #accessing }

@@ -108,6 +108,11 @@ ORAccess >> isModifiedIn: anOrionModel [
 ]
 
 { #category : #testing }
+ORAccess >> isOrionEntity [
+	^ true
+]
+
+{ #category : #testing }
 ORAccess >> isRemovedBetween: anOrionModel and: anotherOrionModel [
 		
 		^(anOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) notNil
@@ -210,4 +215,14 @@ ORAccess >> variable [
 { #category : #accessing }
 ORAccess >> variableOR: aVersion [
 	^ self privateVariable versionIn: aVersion
+]
+
+{ #category : #accessing }
+ORAccess >> versionIn: anOrionModel [
+
+	|upEntity|
+	
+	upEntity := anOrionModel entityStorage atID: self mooseID ifAbsent:[^nil].
+	upEntity currentContext: anOrionModel.
+	^upEntity
 ]

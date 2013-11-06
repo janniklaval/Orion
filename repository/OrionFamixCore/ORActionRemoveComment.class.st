@@ -30,5 +30,5 @@ ORActionRemoveComment >> run [
 	].
 
 	self orionModel remove: entity.
-	self postRun.
+
 ]

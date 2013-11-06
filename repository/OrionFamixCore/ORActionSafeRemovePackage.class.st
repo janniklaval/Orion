@@ -102,6 +102,6 @@ ORActionSafeRemovePackage >> run [
 	].
 
 	self orionModel remove: entity.
-	self postRun.
+
 
 ]

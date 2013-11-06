@@ -92,5 +92,5 @@ ORActionRemoveNamespace >> run [
 		ifTrue:[scope privateParentScope: nil].
 	].
 	self orionModel remove: entity.
-	self postRun.
+
 ]

@@ -62,5 +62,5 @@ ORActionRemoveClass >> run [
 
 	entity deleteOnlyInAction: self.
 	self orionModel remove: entity.
-	self postRun.
+
 ]
