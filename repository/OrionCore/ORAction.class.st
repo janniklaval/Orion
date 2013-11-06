@@ -38,11 +38,6 @@ ORAction >> addChildAction: anAction [
 ]
 
 { #category : #accessing }
-ORAction >> addToListOfChanges [
-	orionModel addToListOfChanges: self
-]
-
-{ #category : #accessing }
 ORAction >> childrenActions [
 	^ childrenActions
 ]
@@ -113,6 +108,12 @@ ORAction >> parentAction: anAction [
 	parentAction ifNotNil: [parentAction removeChildAction: self].
 	parentAction := anAction.
 	anAction ifNotNil: [anAction addChildAction: self].
+]
+
+{ #category : #accessing }
+ORAction >> postRun [
+	orionModel addToListOfChanges: self.	
+	orionModel system announcer announce: ORAnnouncement.
 ]
 
 { #category : #printing }
