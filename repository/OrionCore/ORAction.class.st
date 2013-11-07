@@ -112,6 +112,7 @@ ORAction >> parentAction: anAction [
 
 { #category : #accessing }
 ORAction >> postRun [
+
 	orionModel addToListOfChanges: self.	
 	orionModel system announcer announce: ORAnnouncement.
 ]

@@ -32,7 +32,7 @@ ORActionMove >> newContainer: anObject [
 { #category : #printing }
 ORActionMove >> printWorkspace [
 
-	^ super printWorkspace, ' in ', self to mooseName
+	^ super printWorkspace, self entity name , ' in ', self to mooseName
 ]
 
 { #category : #accessing }
