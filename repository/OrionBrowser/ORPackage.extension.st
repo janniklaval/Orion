@@ -1,6 +1,22 @@
 Extension { #name : #ORPackage }
 
 { #category : #'*OrionBrowser' }
+ORPackage >> addClassNamed: aString  inAction: anAction [
+	aString
+		ifNotNil: [ | addedClass  action |
+			action := (ORActionAddClass new
+				parentAction: 	anAction ;
+				orionModel: anAction orionModel;
+				parent: self;
+				container: anAction orionModel allNamespaces first;
+				newName: aString).
+			addedClass :=  action run.
+			action postRun.
+			^addedClass ]
+	ifNil: [ OrionNoNameException new signal ]
+]
+
+{ #category : #'*OrionBrowser' }
 ORPackage >> addClassNamed: aString inModel: aModelVersion [
 
 	self addClassNamed: aString  withNamespace: aModelVersion allNamespaces first  inModel: aModelVersion.

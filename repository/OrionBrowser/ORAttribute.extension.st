@@ -22,7 +22,22 @@ ORAttribute >> deleteInModel: aModelVersion [
 ]
 
 { #category : #'*OrionBrowser' }
+ORAttribute >> moveTo: aClass inAction: anAction [
+
+[ 
+	(ORActionMoveAttribute  new
+		parentAction: anAction ;
+		orionModel: anAction orionModel ;
+		entity: self ;
+		newContainer: aClass )
+	run ; postRun]
+		orBrowserExceptionsLauncher: aClass.
+
+]
+
+{ #category : #'*OrionBrowser' }
 ORAttribute >> moveTo: aClass inModel: aModelVersion [
+
 [ 
 	(ORActionMoveAttribute  new
 		orionModel: aModelVersion ;

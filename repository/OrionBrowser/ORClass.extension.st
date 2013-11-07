@@ -1,6 +1,18 @@
 Extension { #name : #ORClass }
 
 { #category : #'*OrionBrowser' }
+ORClass >> addAttributNamed: aString inAction: anAction [
+
+	aString  ifNotNil: [ 
+		(ORActionAddAttribute new
+			parentAction: anAction ;
+			orionModel: anAction orionModel ;
+			container: self ;
+			newName: aString )
+		run ]
+]
+
+{ #category : #'*OrionBrowser' }
 ORClass >> addAttributNamed: aString inModel: aModelVersion [
 
 	aString  ifNotNil: [ 
@@ -9,6 +21,18 @@ ORClass >> addAttributNamed: aString inModel: aModelVersion [
 			container: self ;
 			newName: aString )
 		manualRun; postRun ]
+]
+
+{ #category : #'*OrionBrowser' }
+ORClass >> addMethodNamed: aString inAction: anAction [ 
+
+	aString  ifNotNil: [ 
+		(ORActionAddMethod new
+			parentAction: anAction ;
+			orionModel: anAction orionModel ;
+			container: self ;
+			newName: aString )
+		run ]
 ]
 
 { #category : #'*OrionBrowser' }
@@ -85,6 +109,23 @@ ORClass >> deleteOnlyInModel: aModelVersion [
 		entity: self )
 	manualRun; postRun. 
 
+]
+
+{ #category : #'*OrionBrowser' }
+ORClass >> extractClassFromClass: aString selectedAttributes: aList inModel: aModelVersion [
+
+"|teste|"
+	"aString  ifNotNil: [ "
+		( "teste :=" ORActionExtractClass new
+			orionModel: aModelVersion ;
+			container: self;
+			entity: self;
+			selectedAttributes: aList;
+			newName: aString)
+			 manualRun; postRun"]."
+		
+	"Transcript show: teste entity ."
+	
 ]
 
 { #category : #'*OrionBrowser' }

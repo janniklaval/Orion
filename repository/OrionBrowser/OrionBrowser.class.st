@@ -123,6 +123,8 @@ OrionBrowser >> browserClasses [
 							entitled: 'Add attribute';
 						selectionAct: [ :list | list selection addMethodNamed: (self getNameDialog: 'New method name') inModel: selectedVersion ]
 							entitled: 'Add method';
+						selectionAct: [ :list | [list selection extractClassFromClass: 'FFF' selectedAttributes:  list selection attributes inModel: selectedVersion] orBrowserExceptionsUIManager]
+							entitled: 'Extract Class';	
 						selectionAct: [ :list | list selection deleteInModel: selectedVersion ] entitled: 'Remove';
 						selectionAct: [ :list | [list selection moveTo: entityInBuffer inModel: selectedVersion] orBrowserExceptionsUIManager ]
 							entitled: 'Move to buffered package' ]

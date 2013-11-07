@@ -65,6 +65,17 @@ ORMethod >> deleteInModel: aModelVersion [
 ]
 
 { #category : #'*OrionBrowser' }
+ORMethod >> moveTo: aClass inAction: anAction [
+[ 
+	(ORActionMoveMethod new
+		parentAction: anAction ;
+		orionModel: anAction  orionModel ;
+		entity: self ;
+		newContainer: aClass )
+	run; postRun ] orBrowserExceptionsLauncher: aClass.
+]
+
+{ #category : #'*OrionBrowser' }
 ORMethod >> moveTo: aClass inModel: aModelVersion [
 [ 
 	(ORActionMoveMethod new
