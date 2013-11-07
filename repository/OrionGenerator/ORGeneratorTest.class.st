@@ -198,7 +198,7 @@ ORGeneratorTest >> testEnsureORTraitExisting [
 	self assert: aTrait2 selectors size equals: aTrait selectors size.
 	
 	aTrait removeFromSystem.
-	Smalltalk globals at: #ORFAMIXEntity ifAbsent: [(Smalltalk globals at: #TFAMIXEntity) removeFromSystem].
+	Smalltalk globals at: #OREntity ifAbsent: [(Smalltalk globals at: #TFAMIXEntity) removeFromSystem].
 	
 ]
 
