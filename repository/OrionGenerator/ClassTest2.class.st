@@ -1,10 +1,10 @@
 Class {
-	#name : #Class2,
-	#superclass : #MooseEntity,
+	#name : #ClassTest2,
+	#superclass : #Object,
 	#category : #'OrionGenerator-TestModel'
 }
 
 { #category : #'as yet unclassified' }
-Class2 >> accessOrion1Class1 [
+ClassTest2 >> accessOrion1Class1 [
 	^Class1 new.
 ]

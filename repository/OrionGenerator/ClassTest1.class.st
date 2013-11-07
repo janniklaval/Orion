@@ -1,5 +1,5 @@
 Class {
-	#name : #Class1,
+	#name : #ClassTest1,
 	#superclass : #FAMIXLocalVariable,
 	#instVars : [
 		'att1'
@@ -8,11 +8,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-Class1 >> accessOrion1Class2 [
+ClassTest1 >> accessOrion1Class2 [
 	^Class2 new.
 ]
 
 { #category : #'as yet unclassified' }
-Class1 >> accessOrion2Class3 [
+ClassTest1 >> accessOrion2Class3 [
 	^Class3 new.
 ]
