@@ -66,6 +66,7 @@ ORActionAddClass >> run [
 	].
 
 	entity := newClass.
+	
 
 	^ entity
 
