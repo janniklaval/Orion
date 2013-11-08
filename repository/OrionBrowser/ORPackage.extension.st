@@ -71,7 +71,7 @@ ORPackage >> rename: aString inModel: aModelVersion [
 			orionModel: aModelVersion ;
 			entity: self ;
 			newName: aString )
-		manualRun ]
+		manualRun; postRun ]
 ]
 
 { #category : #'*OrionBrowser' }

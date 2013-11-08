@@ -105,3 +105,12 @@ ORMethod >> updatePackage: aPackage inAnAction: anAction [
 		newContainer: aPackage;
 		run; postRun 
 ]
+
+{ #category : #'*OrionBrowser' }
+ORMethod >> updatePackage: aPackage inModel: aModel [
+	ORActionMoveMethodInPackage new
+		orionModel: aModel;
+		entity: self;
+		newContainer: aPackage;
+		run; postRun 
+]
