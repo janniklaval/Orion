@@ -283,9 +283,9 @@ ORActionTest >> testOPAddNamespace [
 	self assert:(orionModel  includes: ns).
 	self deny:(asS sourceModel includes: ns).
 	
-	self assert: ns parentPackage equals: (orionModel entityNamed: 'Orion-TestModel-Constellation2').
-	self assert: ((orionModel entityNamed:#'Orion-TestModel-Constellation2') childNamedEntities includes: ns).
-	self deny: ((asS sourceModel entityNamed:#'Orion-TestModel-Constellation2') childNamedEntities includes: ns).
+	self assert: ns parentScope equals: (orionModel entityNamed: 'Orion-TestModel-Constellation2').
+	self assert: ((orionModel entityNamed:#'Orion-TestModel-Constellation2') childScopes includes: ns).
+	self deny: ((asS sourceModel entityNamed:#'Orion-TestModel-Constellation2') childScopes includes: ns).
 	
 	self assert: (orionModel size) equals: (asS sourceModel size + 1).
 	
@@ -1041,8 +1041,8 @@ ORActionTest >> testOPRemoveNamespace [
 	self assert: (orionModel includes: (orionModel entityNamed:  'Orion-TestModel-Constellation2::NamespaceTest')).
 	self deny: (asM2 includes: (orionModel entityNamed:  'Orion-TestModel-Constellation2::NamespaceTest')).
 	
-	self assert: ((orionModel entityNamed:  'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed:  'Orion-TestModel-Constellation2::NamespaceTest')).
-	self deny: ((asM2 entityNamed:  'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed:  'Orion-TestModel-Constellation2::NamespaceTest')).
+	self assert: ((orionModel entityNamed:  'Orion-TestModel-Constellation2') childScopes  includes: (orionModel entityNamed:  'Orion-TestModel-Constellation2::NamespaceTest')).
+	self deny: ((asM2 entityNamed:  'Orion-TestModel-Constellation2') childScopes includes: (orionModel entityNamed:  'Orion-TestModel-Constellation2::NamespaceTest')).
 	
 	self assert: orionModel size = (asM2 size + 1)
 ]
