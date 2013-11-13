@@ -73,13 +73,21 @@ ORConverter class >> initConverter [
 		association at: FAMIXImplicitVariable put: ORImplicitVariable.
 		association at: FAMIXLocalVariable put: ORLocalVariable.
 		association at: FAMIXParameter put: ORParameter.
+		association at: FAMIXParameterType put: ORParameterType.
+		association at: FAMIXParameterizableClass put: ORParameterizableClass.
+		association at: FAMIXParameterizedType put: ORParameterizedType.
 		association at: FAMIXPrimitiveType put: ORPrimitiveType.
 		association at: FAMIXUnknownVariable put: ORUnknownVariable.
 		association at: FAMIXAnnotationInstance put: ORAnnotationInstance.
+		association at: FAMIXAnnotationInstanceAttribute put: ORAnnotationInstanceAttribute.
 		association at: FAMIXAnnotationType put: ORAnnotationType.
+		association at: FAMIXAnnotationTypeAttribute put: ORAnnotationTypeAttribute.
 		association at: FAMIXCaughtException put: ORCaughtException.
 		association at: FAMIXDeclaredException put: ORDeclaredException.
 		association at: FAMIXEnumValue put: OREnumValue.
+		association at: FAMIXEnum put: OREnum.
+		association at: FAMIXType put: ORType.
+		association at: FAMIXJavaSourceLanguage put: ORJavaSourceLanguage.
 		"association at: FAMIXFile put: ORFile.
 		association at: FAMIXFolder put: ORFolder."
 		association at: FAMIXThrownException put: ORThrownException. 
