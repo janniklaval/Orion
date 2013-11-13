@@ -118,7 +118,8 @@ ConfigurationOfOrion >> baseline3: spec [
 ConfigurationOfOrion >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'pharo2.x' version: '3-baseline'.
+	spec for: #'pharo2.x' version: '3-baseline'.	
+	spec for: #'pharo3.x' version: '3-baseline'.
 ]
 
 { #category : #accessing }
