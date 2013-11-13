@@ -35,23 +35,14 @@ ORActionAddNamespace >> run [
 		theNewPackage privateChildNamedEntities:  (theNewPackage privateChildNamedEntities orionCopy unsafeAdd: newNamespace)
 	]."
 	container ifNotNil:[
-		| theNewContainer theNewPackage |
+		| theNewContainer |
 		theNewContainer := (self orionModel retrieveEntity:container).
 		newNamespace privateParentScope: theNewContainer orionCopy.
 		theNewContainer privateChildScopes: (theNewContainer privateChildScopes orionCopy unsafeAdd: newNamespace).
-
-		(container isKindOf: FAMIXPackage)
-		ifTrue: [ theNewPackage := theNewContainer ]
-		ifFalse: [self orionModel retrieveEntity: theNewContainer parentPackage].
-		theNewPackage ifNotNil: [
-			newNamespace privateParentPackage: theNewPackage orionCopy.
-			theNewPackage privateChildNamedEntities:
-						 (theNewPackage privateChildNamedEntities orionCopy unsafeAdd: newNamespace)
-		]
 	].
 
 	entity := newNamespace.
 	
-	^ entity
+	^  entity
 
 ]
