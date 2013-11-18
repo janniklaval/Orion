@@ -54,6 +54,7 @@ ORActionAddMethod >> run [
 			theNewClass := (self orionModel retrieveEntity:container).
 			newMethod privateParentType: theNewClass orionCopy.
 			theNewClass privateMethods: (theNewClass privateMethods orionCopy unsafeAdd: newMethod).
+			
 			containerPackage := container parentPackage orionCopy
 		].
 		(container isKindOf: FAMIXPackage) 
@@ -67,7 +68,7 @@ ORActionAddMethod >> run [
 		newMethod parentType privateParentPackage: theNewPackage orionCopy.
 		theNewPackage privateChildNamedEntities:  (theNewPackage privateChildNamedEntities orionCopy unsafeAdd: newMethod).
 	].
-
+	newMethod resetMooseName.
 	entity := newMethod.
 	
 	^ entity
