@@ -108,6 +108,14 @@ ConfigurationOfOrion >> baseline3: spec [
 			package: 'OrionBrowser' with: [ spec requires: {'OrionCore'. 'OrionFamixCore'}];
 			package: 'OrionTest';
 			package: 'Orion-TestModel'.
+		spec group: 'java' with: #( 'OrionCore' 'OrionFamixCore' 'OrionBrowser' 'OrionTest' 'Orion-TestModel' 'OrionFamixJava').
+		spec 
+			package: 'OrionCore';
+			package: 'OrionFamixCore'  with: [ spec requires: 'OrionCore'];
+			package: 'OrionBrowser' with: [ spec requires: {'OrionCore'. 'OrionFamixCore'}];
+			package: 'OrionFamixJava'  with: [ spec requires: 'OrionFamixCore'];
+			package: 'OrionTest';
+			package: 'Orion-TestModel'.
 		spec repository: 'http://smalltalkhub.com/mc/AnneEtien/FamixDiff/main'.
 		spec 
 			package: 'Famix-Diff-Orion'.
