@@ -241,21 +241,21 @@ ORActionTest >> testOPAddMethod [
 					container: (orionModel entityNamed: 'Smalltalk::Class5').
 	asAction run.
 
-	self assert: (orionModel entityNamed: 'methodTest()') notNil.
-	self assert: (orionModel contains: (orionModel entityNamed: 'methodTest()')).
-	self deny: (asS sourceModel contains: (orionModel entityNamed: 'methodTest()')).
+	self assert: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()') notNil.
+	self assert: (orionModel contains: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
+	self deny: (asS sourceModel contains: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
 	
-	self assert:((orionModel entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'methodTest()')).
-	self deny:((asS sourceModel entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'methodTest()')).
+	self assert:((orionModel entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
+	self deny:((asS sourceModel entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
 	
-	self assert:(orionModel  includes: (orionModel entityNamed: 'methodTest()')).
-	self deny:(asS sourceModel includes: (orionModel entityNamed: 'methodTest()')).
+	self assert:(orionModel  includes: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
+	self deny:(asS sourceModel includes: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
 	
-	self assert:((orionModel entityNamed: 'Smalltalk::Class5') methods includes: (orionModel entityNamed: 'methodTest()')).
-	self deny:((asS sourceModel entityNamed: 'Smalltalk::Class5') methods includes: (orionModel entityNamed: 'methodTest()')).
+	self assert:((orionModel entityNamed: 'Smalltalk::Class5') methods includes: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
+	self deny:((asS sourceModel entityNamed: 'Smalltalk::Class5') methods includes: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
 	
-	self assert:(orionModel entityNamed: 'methodTest()') parentPackage = (orionModel entityNamed: 'Orion-TestModel-Constellation2').
-	self assert:(orionModel entityNamed: 'methodTest()') parentType = (orionModel entityNamed: 'Smalltalk::Class5').
+	self assert:(orionModel entityNamed: 'Smalltalk::Class5.methodTest()') parentPackage = (orionModel entityNamed: 'Orion-TestModel-Constellation2').
+	self assert:(orionModel entityNamed: 'Smalltalk::Class5.methodTest()') parentType = (orionModel entityNamed: 'Smalltalk::Class5').
 
 	self assert: orionModel size equals: (asS sourceModel size + 1)
 ]
@@ -665,8 +665,8 @@ ORActionTest >> testOPRemoveClassWithInvocationFrom [
 
 	asAction := ORActionAddInvocation new
 					orionModel: orionModel ;
-					candidates:  (orionModel entityNamed: 'aMethodTo()') asOrderedCollection ; "candidates is a collection of candidates methods and manage as such in the run"
-					from:  (orionModel entityNamed: 'aMethodFrom()').
+					candidates:  (orionModel entityNamed: 'ClassTestTo.aMethodTo()') asOrderedCollection ; "candidates is a collection of candidates methods and manage as such in the run"
+					from:  (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()').
 	asAction run.
 
 	asM2 := (ORModel withParent: orionModel) name: 'AsM2'.
@@ -679,7 +679,7 @@ ORActionTest >> testOPRemoveClassWithInvocationFrom [
 	self assert: (orionModel entityNamed: 'ClassTestFrom') notNil.
 	self assert: (asM2 entityNamed: 'ClassTestFrom') isNil.
 	
-	self assert: (orionModel entityNamed: 'aMethodFrom()') notNil.
+	self assert: (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()') notNil.
 	self assert: (asM2 entityNamed: 'ClassTestFrom.aMethodFrom()') isNil.
 	
 	self assert:(orionModel  includes: (orionModel entityNamed: 'ClassTestFrom')).
@@ -688,7 +688,7 @@ ORActionTest >> testOPRemoveClassWithInvocationFrom [
 	self assert:((orionModel entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'ClassTestFrom')).
 	"self deny:((asM2 entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'Orion-TestModel-Constellation2::ClassTestFrom'))."
 	
-	self assert: (orionModel entityNamed: 'aMethodTo()') incomingInvocations size equals: 1.
+	self assert: (orionModel entityNamed: 'ClassTestTo.aMethodTo()') incomingInvocations size equals: 1.
 	self assert: (asM2 entityNamed: 'ClassTestTo.aMethodTo()') incomingInvocations size equals: 0.
 
 	self assert: (orionModel size) equals: (asM2 size + 3).     "removed: ClassTestFrom , aMethodFrom , Invocation"
@@ -728,8 +728,8 @@ ORActionTest >> testOPRemoveClassWithInvocationTo [
 
 	asAction := ORActionAddInvocation new
 					orionModel: orionModel ;
-					candidates:  (orionModel entityNamed: 'aMethodTo()') asOrderedCollection ; "candidates is a collection of candidates methods and manage as such in the run"
-					from:  (orionModel entityNamed: 'aMethodFrom()').
+					candidates:  (orionModel entityNamed: 'ClassTestTo.aMethodTo()') asOrderedCollection ; "candidates is a collection of candidates methods and manage as such in the run"
+					from:  (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()').
 	asAction run.
 
 	asM2 := (ORModel withParent: orionModel) name: 'AsM2'.
@@ -742,7 +742,7 @@ ORActionTest >> testOPRemoveClassWithInvocationTo [
 	self assert: (orionModel entityNamed: 'ClassTestTo') notNil.
 	self assert: (asM2 entityNamed: 'ClassTestTo') isNil.
 	
-	self assert: (orionModel entityNamed: 'aMethodTo()') notNil.
+	self assert: (orionModel entityNamed: 'ClassTestTo.aMethodTo()') notNil.
 	self assert: (asM2 entityNamed: 'ClassTestTo.aMethodTo()') isNil.
 	
 	self assert:(orionModel  includes: (orionModel entityNamed: 'ClassTestTo')).
@@ -751,7 +751,7 @@ ORActionTest >> testOPRemoveClassWithInvocationTo [
 	self assert:((orionModel entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'ClassTestTo')).
 	"self deny:((asM2 entityNamed:#'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed:#'ClassTestTo'))."
 	
-	self assert: (orionModel entityNamed: 'aMethodFrom()') outgoingInvocations size equals: 1.
+	self assert: (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()') outgoingInvocations size equals: 1.
 	self assert: (asM2 entityNamed: 'ClassTestFrom.aMethodFrom()') outgoingInvocations size equals: 0.
 
 	self assert: (orionModel size) equals: (asM2 size + 3).     "removed: ClassTestTo , aMethodTo , Invocation"
@@ -784,7 +784,7 @@ ORActionTest >> testOPRemoveClassWithReferenceFrom [
 	asAction := ORActionAddReference new
 					orionModel: orionModel ;
 					to:  (orionModel entityNamed: 'ClassTestTo');
-					from:  (orionModel entityNamed: 'aMethodFrom()').
+					from:  (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()').
 	asAction run.
 
 	asM2 := (ORModel withParent: orionModel) name: 'AsM2'.
@@ -797,7 +797,7 @@ ORActionTest >> testOPRemoveClassWithReferenceFrom [
 	self assert: (orionModel entityNamed: 'ClassTestFrom') notNil.
 	self assert: (asM2 entityNamed: 'ClassTestFrom') isNil.
 	
-	self assert: (orionModel entityNamed: 'aMethodFrom()') notNil.
+	self assert: (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()') notNil.
 	self assert: (asM2 entityNamed: 'ClassTestFrom.aMethodFrom()') isNil.
 	
 	self assert:(orionModel  includes: (orionModel entityNamed: 'ClassTestFrom')).
@@ -806,7 +806,7 @@ ORActionTest >> testOPRemoveClassWithReferenceFrom [
 	self assert:((orionModel entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'ClassTestFrom')).
 	"self deny:((asM2 entityNamed:#'Orion-TestModel-Constellation2') childNamedEntities includes: (asM2 entityNamed:#'ClassTestFrom'))."
 
-	self assert: ((orionModel entityNamed: 'aMethodFrom()') notNil).
+	self assert: ((orionModel entityNamed: 'ClassTestFrom.aMethodFrom()') notNil).
 	self assert: ((asM2 entityNamed: 'ClassTestFrom.aMethodFrom()') isNil).
 
 	self assert: (orionModel entityNamed: 'ClassTestTo') incomingReferences size equals: 1.
@@ -842,7 +842,7 @@ ORActionTest >> testOPRemoveClassWithReferenceTo [
 	asAction := ORActionAddReference new
 					orionModel: orionModel ;
 					to:  (orionModel entityNamed:  'ClassTestTo');
-					from:  (orionModel entityNamed: 'aMethodFrom()').
+					from:  (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()').
 	asAction run.
 
 	asM2 := (ORModel withParent: orionModel) name: 'AsM2'.
@@ -861,7 +861,7 @@ ORActionTest >> testOPRemoveClassWithReferenceTo [
 	self assert:((orionModel entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'ClassTestTo')).
 	"self deny:((asM2 entityNamed:#'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed:#'ClassTestTo'))."
 	
-	self assert: (orionModel entityNamed: 'aMethodFrom()') outgoingReferences size equals: 1.
+	self assert: (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()') outgoingReferences size equals: 1.
 	self assert: (asM2 entityNamed: 'ClassTestFrom.aMethodFrom()') outgoingReferences size equals: 0.
 
 	self assert: (orionModel size) equals: (asM2 size + 2).    "ClassTestTo , Reference"
@@ -994,25 +994,25 @@ ORActionTest >> testOPRemoveMethod [
 	asM2 := (ORModel withParent: orionModel) name: 'AsM2'.
 	asAction2 := ORActionRemoveMethod new
 					orionModel: asM2;
-					entity: (asM2 entityNamed: 'methodTest()').
+					entity: (asM2 entityNamed: 'Smalltalk::Class5.methodTest()').
 	asAction2 run.
 
 
-	self assert: (orionModel entityNamed: 'methodTest()') notNil.
-	self deny: (asM2 entityNamed: 'methodTest()') notNil.
+	self assert: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()') notNil.
+	self deny: (asM2 entityNamed: 'Smalltalk::Class5.methodTest()') notNil.
 	
-	self assert: (orionModel contains: (orionModel entityNamed: 'methodTest()')).
-	self deny: (asM2 contains: (orionModel entityNamed: 'methodTest()')).
+	self assert: (orionModel contains: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
+	self deny: (asM2 contains: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
 	
-	self assert:((orionModel entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'methodTest()')).
-	self deny:((asM2 entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'methodTest()')).
+	self assert:((orionModel entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
+	self deny:((asM2 entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
 	
-	self assert:(orionModel  includes: (orionModel entityNamed: 'methodTest()')).
-	self deny:(asM2 includes: (orionModel entityNamed: 'methodTest()')).
+	self assert:(orionModel  includes: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
+	self deny:(asM2 includes: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
 	
-	self assert:((orionModel entityNamed: 'Smalltalk::Class5') methods includes: (orionModel entityNamed: 'methodTest()')).
+	self assert:((orionModel entityNamed: 'Smalltalk::Class5') methods includes: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
 	
-	self deny:((asM2 entityNamed: 'Smalltalk::Class5') methods includes: (orionModel entityNamed: 'methodTest()')).
+	self deny:((asM2 entityNamed: 'Smalltalk::Class5') methods includes: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
 	
 	self assert: orionModel size equals: (asM2 size + 1).
 ]
