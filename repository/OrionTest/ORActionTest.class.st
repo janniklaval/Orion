@@ -538,14 +538,14 @@ ORActionTest >> testOPMoveNamespaceInNamespace [
 	
 	self deny: (asS sourceModel entityNamed: 'Smalltalk') = (orionModel entityNamed: 'NamespaceTest::Smalltalk').
 	
-	self assert:((orionModel entityNamed: 'NamespaceTest::Smalltalk') types includes: (orionModel entityNamed: 'Smalltalk::Class5')).
+	self assert:((orionModel entityNamed: 'NamespaceTest::Smalltalk') types includes: (orionModel entityNamed: 'NamespaceTest::Smalltalk::Class5')).
 	
-	self assert:((asS sourceModel entityNamed: 'Smalltalk') types includes: (orionModel entityNamed: 'Smalltalk::Class5')).
+	self assert:((asS sourceModel entityNamed: 'Smalltalk') types includes: (orionModel entityNamed: 'NamespaceTest::Smalltalk::Class5')).
 	
 	self assert:((orionModel entityNamed: 'NamespaceTest') childScopes includes: (orionModel entityNamed: 'NamespaceTest::Smalltalk')).
 	self assert:((orionModel entityNamed: 'NamespaceTest::Smalltalk') parentScope = (orionModel entityNamed: 'NamespaceTest')).
 	
-	self assert:(orionModel entityNamed: 'Smalltalk::Class5') container = (orionModel entityNamed: 'NamespaceTest::Smalltalk').
+	self assert:(orionModel entityNamed: 'NamespaceTest::Smalltalk::Class5') container = (orionModel entityNamed: 'NamespaceTest::Smalltalk').
 ]
 
 { #category : #testing }
