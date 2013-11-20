@@ -97,13 +97,13 @@ ORActionTest >> testMultipleActions [
 
 	
 	act := ORActionMoveClass new
-						entity: (orionModel entityNamed:#'Smalltalk::HTTPSocket');
+						entity: (orionModel entityNamed:#'Smalltalk::Socket');
 						newContainer: (orionModel entityNamed:#'Network-Url');
 						runOnNewVersionFrom: orionModel.
 		
 
 	ORActionMoveClass new
-						entity: (orionModel entityNamed:#'Smalltalk::HTTPSocket');
+						entity: (orionModel entityNamed:#'Smalltalk::Socket');
 						newContainer: (orionModel entityNamed:#'Network-Kernel');
 						runOnNewVersionFrom: act orionModel.
 						
