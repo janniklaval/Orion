@@ -26,6 +26,7 @@ ORActionMoveNamespace >> run [
 			theOlContainer privateChildScopes:  (theOlContainer privateChildScopes orionCopy orionRemove: theNamespace)].
 		theNewContainer privateChildScopes:  (theNewContainer privateChildScopes orionCopy unsafeAdd: theNamespace).
 		theNamespace privateParentPackage: theNewContainer.
+		theNamespace resetMooseName.
 	].
 	
 	(theNewContainer isKindOf:FAMIXNamespace) ifTrue:[
@@ -34,6 +35,7 @@ ORActionMoveNamespace >> run [
 			theOlContainer privateChildScopes: (theOlContainer privateChildScopes orionCopy orionRemove: theNamespace)].
 		theNewContainer privateChildScopes: (theNewContainer privateChildScopes orionCopy unsafeAdd: theNamespace).
 		theNamespace privateParentScope: theNewContainer.
+		theNamespace resetMooseName.
 	].
 	^theNamespace
 ]
