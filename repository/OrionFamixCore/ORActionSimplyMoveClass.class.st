@@ -18,7 +18,6 @@ ORActionSimplyMoveClass >> run [
 	super run.
 	theClass := self orionModel retrieveEntity: entity.
 	theNewContainer := self orionModel retrieveEntity: newContainer.
-
 	(theNewContainer isKindOf: FAMIXPackage)
 		ifTrue: [ 
 			theClass parentPackage
@@ -37,6 +36,7 @@ ORActionSimplyMoveClass >> run [
 							theOldContainer privateTypes: (theOldContainer privateTypes orionCopy orionRemove: theClass) ].
 					theNewContainer privateTypes: (theNewContainer privateTypes orionCopy unsafeAdd: theClass).
 					theClass privateContainer: theNewContainer ]
-				ifFalse: [ MessageNotUnderstood signal: 'privateChildNamedEntities or privateTypes' . ]	 ].
+				ifFalse: [ MessageNotUnderstood signal: 'privateChildNamedEntities or privateTypes' ] ].
+			theClass resetMooseName.
 	^ theClass
 ]
