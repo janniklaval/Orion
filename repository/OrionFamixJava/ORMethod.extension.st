@@ -2,7 +2,7 @@ Extension { #name : #ORMethod }
 
 { #category : #'*OrionFamixJava' }
 ORMethod >> addClassNamed: aString inModel: aModelVersion [
-	aString
+	^aString
 		ifNotNil: [ 
 			(ORActionAddClass new
 				orionModel: aModelVersion;

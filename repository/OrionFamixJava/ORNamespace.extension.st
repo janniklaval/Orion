@@ -2,7 +2,7 @@ Extension { #name : #ORNamespace }
 
 { #category : #'*OrionFamixJava' }
 ORNamespace >> addClassNamed: aString inModel: aModelVersion [
-	aString
+	^aString
 		ifNotNil: [ 
 			(ORActionAddClass new
 				orionModel: aModelVersion;
@@ -13,7 +13,7 @@ ORNamespace >> addClassNamed: aString inModel: aModelVersion [
 { #category : #'*OrionFamixJava' }
 ORNamespace >> moveTo: aNamespace inModel: aModelVersion [
 	
-	(ORActionMoveNamespace new
+	^(ORActionMoveNamespace new
 		orionModel: aModelVersion ;
 		entity: self ;
 		newContainer: aNamespace )

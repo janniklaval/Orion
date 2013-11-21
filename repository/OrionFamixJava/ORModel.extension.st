@@ -20,5 +20,5 @@ ORModel >> addNamespaceNamed: aString inORNamespace: aNamespace [
 { #category : #'*OrionFamixJava' }
 ORModel >> addPackageNamed: aString inORPackage: aPackage [
 
-	self addPackageNamed: aString inORPackage: nil.
+	^self addPackageNamed: aString inORPackage: nil.
 ]
