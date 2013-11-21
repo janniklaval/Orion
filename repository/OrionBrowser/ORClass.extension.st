@@ -131,7 +131,7 @@ ORClass >> extractClassFromClass: aString selectedAttributes: aList inModel: aMo
 { #category : #'*OrionBrowser' }
 ORClass >> moveTo: aPackage inModel: aModelVersion [
 	
-	[(ORActionMoveClass new
+	[^(ORActionMoveClass new
 		orionModel: aModelVersion ;
 		entity: self ;
 		newContainer: aPackage )

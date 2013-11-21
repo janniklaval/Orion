@@ -78,7 +78,7 @@ ORMethod >> moveTo: aClass inAction: anAction [
 { #category : #'*OrionBrowser' }
 ORMethod >> moveTo: aClass inModel: aModelVersion [
 [ 
-	(ORActionMoveMethod new
+	^(ORActionMoveMethod new
 		orionModel: aModelVersion ;
 		entity: self ;
 		newContainer: aClass )
@@ -108,7 +108,7 @@ ORMethod >> updatePackage: aPackage inAnAction: anAction [
 
 { #category : #'*OrionBrowser' }
 ORMethod >> updatePackage: aPackage inModel: aModel [
-	ORActionMoveMethodInPackage new
+	^ORActionMoveMethodInPackage new
 		orionModel: aModel;
 		entity: self;
 		newContainer: aPackage;

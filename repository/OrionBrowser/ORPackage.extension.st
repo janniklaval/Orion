@@ -19,12 +19,12 @@ ORPackage >> addClassNamed: aString  inAction: anAction [
 { #category : #'*OrionBrowser' }
 ORPackage >> addClassNamed: aString inModel: aModelVersion [
 
-	self addClassNamed: aString  withNamespace: aModelVersion allNamespaces first  inModel: aModelVersion.
+	^self addClassNamed: aString  withNamespace: aModelVersion allNamespaces first  inModel: aModelVersion.
 ]
 
 { #category : #'*OrionBrowser' }
 ORPackage >> addClassNamed: aString withNamespace: aNamespace inModel: aModelVersion [
-	aString
+	^aString
 		ifNotNil: [ 
 			(ORActionAddClass new
 				orionModel: aModelVersion;

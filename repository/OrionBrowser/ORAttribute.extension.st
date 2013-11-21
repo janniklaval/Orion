@@ -39,7 +39,7 @@ ORAttribute >> moveTo: aClass inAction: anAction [
 ORAttribute >> moveTo: aClass inModel: aModelVersion [
 
 [ 
-	(ORActionMoveAttribute  new
+	^(ORActionMoveAttribute  new
 		orionModel: aModelVersion ;
 		entity: self ;
 		newContainer: aClass )
