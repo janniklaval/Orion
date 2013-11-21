@@ -442,11 +442,11 @@ ORActionTest >> testOPMoveClassInNamespace [
 	self deny:((orionModel entityNamed: 'Smalltalk') types includes: (orionModel entityNamed: 'NamespaceTest::Class5')).
 	self assert:((asS sourceModel entityNamed: 'Smalltalk') types includes: (asS sourceModel entityNamed: 'Smalltalk::Class5')).
 	
-	self assert:((orionModel entityNamed: 'NamespaceTest::Class5') methods includes: (orionModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()')).
+	self assert:((orionModel entityNamed: 'NamespaceTest::Class5') methods includes: (orionModel entityNamed: 'NamespaceTest::Class5.accessOrion2Class3()')).
 	
 	
 	self assert:(orionModel entityNamed: 'NamespaceTest::Class5') parentPackage = (orionModel entityNamed: 'Orion-TestModel-Constellation2').
-	self assert:(orionModel entityNamed: 'Smalltalk::Class5.accessOrion2Class3()') parentPackage = (orionModel entityNamed: 'Orion-TestModel-Constellation2').
+	self assert:(orionModel entityNamed: 'NamespaceTest::Class5.accessOrion2Class3()') parentPackage = (orionModel entityNamed: 'Orion-TestModel-Constellation2').
 ]
 
 { #category : #testing }
