@@ -15,7 +15,7 @@ ORClass >> addAttributNamed: aString inAction: anAction [
 { #category : #'*OrionBrowser' }
 ORClass >> addAttributNamed: aString inModel: aModelVersion [
 
-	aString  ifNotNil: [ 
+	^aString  ifNotNil: [ 
 		(ORActionAddAttribute new
 			orionModel: aModelVersion ;
 			container: self ;
