@@ -220,7 +220,7 @@ OrionBrowser >> browserPackages [
 		gmlList
 			display: [:model |
 				self selectedVersion: model.
-				(model allWithType: ORPackage) sorted: [:c1 :c2 | c1 name < c2 name] ] ;
+				((model allWithType: ORPackage) union: (model allWithType: ORNamespace)) sorted: [:c1 :c2 | c1 name < c2 name] ] ;
 			title: [ :each | ' Packages'] ;
 			selectionAct: [:list | list selection inspect] entitled:  'Inspect' ;
 			selectionAct:  [:list | list selection rename: (self getNameDialog:  'New package name') inModel: selectedVersion]  entitled: 'Rename' ;
