@@ -50,7 +50,7 @@ ORActionRemoveMethod >> run [
 			entity:com; 
 			run.
 	]."
-
+"Halt if: [entity accesses notEmpty]."
 	entity accesses do:[:each |
 		each deleteInAction: self.
 	].
@@ -58,15 +58,15 @@ ORActionRemoveMethod >> run [
 	entity comments do:[:com |
 		com deleteInAction: self.
 	].
+	
+	entity types do:[:each |
+		each deleteInAction: self.
+	].
 	entity localVariables do:[:com |
 		com deleteInAction: self.
 	].
 	entity parameters do:[:com |
 		com deleteInAction: self.
-	].
-
-	entity types do:[:each |
-		each deleteInAction: self.
 	].
 
 	entity parentPackage ifNotNil:[
