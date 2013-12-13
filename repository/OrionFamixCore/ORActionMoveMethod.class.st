@@ -31,10 +31,10 @@ ORActionMoveMethod >> run [
 	].
 
 	theNewClass privateMethods:(theNewClass privateMethods unsafeAdd: theMethod).
-	theNewPackage privateChildNamedEntities:  (theNewPackage privateChildNamedEntities orionCopy unsafeAdd: theMethod).
+	"theNewPackage privateChildNamedEntities:  (theNewPackage privateChildNamedEntities orionCopy unsafeAdd: theMethod)."
 	
 	theMethod privateParentType: theNewClass orionCopy.
-	theMethod privateParentPackage: theNewPackage orionCopy.
+	"theMethod privateParentPackage: theNewPackage orionCopy."
 	
 	^theMethod
 ]
