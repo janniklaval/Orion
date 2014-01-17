@@ -9,3 +9,13 @@ ORNamespace >> deleteInAction: anAction [
 		entity: self ;
 		run. 
 ]
+
+{ #category : #'*OrionBrowser' }
+ORNamespace >> deleteInModel: aModelVersion [
+
+	(ORActionRemoveNamespace new
+		orionModel: aModelVersion ;
+		entity: self ;
+		yourself) 
+	manualRun; postRun .
+]
