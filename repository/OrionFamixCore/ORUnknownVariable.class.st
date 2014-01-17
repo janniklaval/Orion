@@ -13,3 +13,12 @@ Class {
 ORUnknownVariable class >> isOrionClass [
 	^ true
 ]
+
+{ #category : #'as yet unclassified' }
+ORUnknownVariable >> deleteInModel: aModelVersion [
+	(ORActionRemoveUnknownVariable new
+		orionModel: aModelVersion;
+		entity: self)
+		manualRun;
+		postRun
+]
