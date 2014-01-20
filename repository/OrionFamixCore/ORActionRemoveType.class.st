@@ -10,7 +10,7 @@ Class {
 { #category : #'method execution' }
 ORActionRemoveType >> run [
 	super run.
-	Halt if: [ entity name = 'AnnouncementsAPIDocumentation' ].
+	"Halt if: [ entity name = 'AnnouncementsAPIDocumentation' ]."
 	entity outgoingReferences do: [ :each | each deleteInAction: self ].
 	entity types do: [ :each | each deleteInAction: self ].
 	entity incomingReferences do: [ :each | each deleteInAction: self ].
