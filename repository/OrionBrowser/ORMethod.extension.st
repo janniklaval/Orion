@@ -22,12 +22,13 @@ ORMethod >> addInvocationTo: anOrderedCollection inModel: aModelVersion [
 ]
 
 { #category : #'*OrionBrowser' }
-ORMethod >> addInvocationToNew: aClass withSignature: aSymbol inModel: aModelVersion [
+ORMethod >> addInvocationTo: aCollection receiver: receiver withSignature: aSymbol inModel: aModelVersion [ 
 
 	(ORActionAddInvocation new
 		orionModel: aModelVersion;
 		from: self ;
-		receiver: aClass;
+		receiver: receiver;
+		to: aCollection;
 		signature: aSymbol )
 	manualRun; postRun . 
 ]
