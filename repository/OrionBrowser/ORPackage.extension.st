@@ -66,7 +66,7 @@ ORPackage >> mergePackage: aPackage inModel: aModelVersion [
 { #category : #'*OrionBrowser' }
 ORPackage >> rename: aString inModel: aModelVersion [
 
-	aString  ifNotNil: [ 
+	^aString  ifNotNil: [ 
 		(ORActionRenamePackage new
 			orionModel: aModelVersion ;
 			entity: self ;

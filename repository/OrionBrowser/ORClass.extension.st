@@ -83,6 +83,7 @@ ORClass >> deleteInAction: anAction [
 
 { #category : #'*OrionBrowser' }
 ORClass >> deleteInModel: aModelVersion [
+"Halt if: [self name = 'ACAnHelp']."
 	(ORActionRemoveClass new
 		orionModel: aModelVersion;
 		entity: self)
@@ -144,7 +145,7 @@ ORClass >> moveTo: aPackage inModel: aModelVersion [
 { #category : #'*OrionBrowser' }
 ORClass >> rename: aString inModel: aModelVersion [
 
-	aString  ifNotNil: [ 
+	^aString  ifNotNil: [ 
 		(ORActionRenameClass new
 			orionModel: aModelVersion ;
 			entity: self ;

@@ -89,7 +89,7 @@ ORMethod >> moveTo: aClass inModel: aModelVersion [
 { #category : #'*OrionBrowser' }
 ORMethod >> rename: aString inModel: aModelVersion [
 
-	aString  ifNotNil: [ 
+	^aString  ifNotNil: [ 
 		(ORActionRenameMethod new
 			orionModel: aModelVersion ;
 			entity: self ;
