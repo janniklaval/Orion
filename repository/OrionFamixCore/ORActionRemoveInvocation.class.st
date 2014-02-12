@@ -34,10 +34,10 @@ ORActionRemoveInvocation >> printWorkspace [
 ORActionRemoveInvocation >> run [
 	| fromEl toEl recEl|
 	super run.
-	fromEl := (self orionModel retrieveEntity:entity sender).
+	fromEl := (self orionModel retrieveEntity: entity sender).
 	toEl := entity candidates collect:[:e | self orionModel retrieveEntity: e  ].
 	entity receiver ifNotNil:[
-		recEl := (self orionModel retrieveEntity:entity receiver).
+		recEl := (self orionModel retrieveEntity: entity receiver).
 		recEl privateReceivingInvocations: (recEl privateReceivingInvocations orionCopy orionRemove: entity).
 	].
 	

@@ -1,19 +1,14 @@
 "
-A ORActionRemoveParameter is a generated class useful to Orion. It corresponds to an action that can be performed on a type of model element 
+An ORActionRemoveImplicitVariable is a generated class useful to Orion. It corresponds to an action that can be performed on a type of model element 
 "
 Class {
-	#name : #ORActionRemoveParameter,
+	#name : #ORActionRemoveImplicitVariable,
 	#superclass : #ORActionRemoveEntity,
 	#category : #'OrionFamixCore-Action'
 }
 
-{ #category : #'as yet unclassified' }
-ORActionRemoveParameter class >> description [
-	^'remove parameter'
-]
-
 { #category : #'method execution' }
-ORActionRemoveParameter >> run [
+ORActionRemoveImplicitVariable >> run [
 	super run.
 	entity comments do:[:com |
 		ORActionRemoveComment new 
@@ -22,7 +17,13 @@ ORActionRemoveParameter >> run [
 			entity:com; 
 			run.
 	].
-	
+	entity incomingAccesses do:[:each |
+		ORActionRemoveAccess new 
+			parentAction: self ;
+			orionModel: self orionModel; 
+			entity:each; 
+			run.
+	].
 	entity parentPackage ifNotNil:[
 		| pack |
 		pack := (self orionModel retrieveEntity:entity parentPackage).
@@ -32,8 +33,7 @@ ORActionRemoveParameter >> run [
 	entity parentBehaviouralEntity ifNotNil:[
 		| functionOrMethod |
 		functionOrMethod := (self orionModel retrieveEntity:entity parentBehaviouralEntity).
-		functionOrMethod privateParameters ifNotEmpty:[ 
-				functionOrMethod privateParameters:  (functionOrMethod privateParameters orionCopy orionRemove: entity)].
+		functionOrMethod privateImplicitVariables:  (functionOrMethod privateImplicitVariables orionCopy orionRemove: entity).
 	].
 
 	entity receivingInvocations do:[:com |
