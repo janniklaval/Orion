@@ -24,6 +24,17 @@ Class {
 }
 
 { #category : #opening }
+OrionBrowser class >> menuCommandOn: aBuilder [
+	<worldMenu>
+	(aBuilder item: #'Orion')
+		order: 10.0; 
+		parent: #Moose;
+		label: 'Orion Panel';
+		action:[OrionBrowser open];
+		withSeparatorAfter 
+]
+
+{ #category : #opening }
 OrionBrowser class >> open [ 
 
 	self new browser openOn: ORSystem root
