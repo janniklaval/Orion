@@ -10,18 +10,17 @@ Class {
 { #category : #'initialize-release' }
 ORConverter class >> buildFromMooseModel: aMooseModel [
 	"make all necessary to convert a model"
-	|model system|
-	
+
+	| model system |
 	model := ORConverter convertFromMooseModel: aMooseModel.
 	system := ORSystem new.
 	system sourceModel: model.
 	model system: system.
-	system name: 'Orion ', model name.
-
+	system name: 'Orion ' , model name.
 	ORSystem add: system.
-	
-	MooseModel root remove: aMooseModel.
-	^model
+	(MooseModel root includes: aMooseModel)
+		ifTrue: [ MooseModel root remove: aMooseModel ].
+	^ model
 ]
 
 { #category : #'initialize-release' }
