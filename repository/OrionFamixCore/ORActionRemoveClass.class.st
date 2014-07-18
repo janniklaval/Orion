@@ -17,10 +17,3 @@ ORActionRemoveClass class >> scope [
 	<OrionActionFor: #ORClass>
 	^self
 ]
-
-{ #category : #'method execution' }
-ORActionRemoveClass >> run [
-	super run.
-	
-
-]
