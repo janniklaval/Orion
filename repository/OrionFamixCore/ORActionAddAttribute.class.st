@@ -41,7 +41,6 @@ ORActionAddAttribute >> run [
 	self orionModel add: newAttribute.
 
 
-
 	newAttribute hasClassScope: classScope orionCopy.
 
 	(container isMemberOf: ORClass) ifTrue:[ 
@@ -51,6 +50,7 @@ ORActionAddAttribute >> run [
 		theNewClass privateAttributes: (theNewClass privateAttributes orionCopy unsafeAdd: newAttribute)
 		].
 
+	newAttribute resetMooseName.
 	entity := newAttribute.
 
 	^ entity

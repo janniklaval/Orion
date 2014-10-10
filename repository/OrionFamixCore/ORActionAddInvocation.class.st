@@ -27,6 +27,16 @@ ORActionAddInvocation >> candidates: anObject [
 	candidates := anObject
 ]
 
+{ #category : #'method execution' }
+ORActionAddInvocation >> postRun [
+
+	from ifNotNil: [ 
+		| sender |
+		sender := (self orionModel retrieveEntity: from).
+		sender parentType resetMooseName ].
+	super postRun.
+]
+
 { #category : #accessing }
 ORActionAddInvocation >> receiver [
 	^ receiver
