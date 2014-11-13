@@ -13,12 +13,13 @@ ORTest >> model [
 	model isNil ifTrue:[
 		| importer mod system|
 		mod := MooseModel new.
-		importer := MooseCategoryImporterTask new.
+		importer := MoosePharoImporterTask new.
 		importer importingContext mergeClassAndMetaclass. 
 		importer candidateClass: CandidateListOperator.
 		importer importerClass: SmalltalkImporter.
-		importer model: mod; addFromCategories: #( #'Orion-TestModel-Constellation2' #'Orion-TestModel-Constellation1') ; run.
-		
+		importer model: mod; 
+			addFromPackagesNamed: #(#'Orion-TestModel-Constellation2' 'Orion-TestModel-Constellation1');
+			run.
 		
 		model := ORConverter convertFromMooseModel: mod.
 
