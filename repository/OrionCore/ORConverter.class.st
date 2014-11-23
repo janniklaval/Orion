@@ -26,9 +26,10 @@ ORConverter class >> buildFromMooseModel: aMooseModel [
 { #category : #'initialize-release' }
 ORConverter class >> convertFromMooseModel: aMooseModel [
 	"take a MooseModel and convert it in a ORModel"
-	|model state |
+	| model state |
+	aMooseModel allPackages do: #createPackagesFromCategories.
+	
 	model := ORModel new.
-
 	model name: aMooseModel name.
 	model sourceLanguage: aMooseModel sourceLanguage.
 	
