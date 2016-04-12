@@ -55,6 +55,11 @@ ConfigurationOfOrion class >> loadBleedingEdge [
 ]
 
 { #category : #accessing }
+ConfigurationOfOrion class >> loadDevelopment [
+	(self project version: #development) load.
+]
+
+{ #category : #accessing }
 ConfigurationOfOrion class >> project [
 
 	^self new project
@@ -127,6 +132,7 @@ ConfigurationOfOrion >> development: spec [
 
 	spec for: #'pharo2.x' version: '3-baseline'.	
 	spec for: #'pharo3.x' version: '3-baseline'.
+	spec for: #'common' version: '3-baseline'.
 ]
 
 { #category : #accessing }
