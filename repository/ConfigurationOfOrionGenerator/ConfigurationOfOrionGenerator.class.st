@@ -54,6 +54,11 @@ ConfigurationOfOrionGenerator class >> loadBleedingEdge [
 	(self project version: #bleedingEdge) load.
 ]
 
+{ #category : #loading }
+ConfigurationOfOrionGenerator class >> loadDevelopment [
+	(self project version: #development) load.
+]
+
 { #category : #accessing }
 ConfigurationOfOrionGenerator class >> project [
 
@@ -78,8 +83,9 @@ ConfigurationOfOrionGenerator >> baseline10: spec [
 ConfigurationOfOrionGenerator >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'pharo2.x' version: '1-baseline'.
-
+	spec for: #'pharo2.x' version: '1.0-baseline'.	
+	spec for: #'pharo3.x' version: '1.0-baseline'.
+	spec for: #'common' version: '1.0-baseline'.
 ]
 
 { #category : #'as yet unclassified' }
