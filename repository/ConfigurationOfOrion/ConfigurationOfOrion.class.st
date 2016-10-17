@@ -66,8 +66,8 @@ ConfigurationOfOrion class >> project [
 ]
 
 { #category : #baselines }
-ConfigurationOfOrion >> baseline1: spec [ 
-	<version: '1-baseline'>
+ConfigurationOfOrion >> baseline01: spec [ 
+	<version: '01-baseline'>
 	spec for: #common do: [
 		spec blessing: #baseline.
 	
@@ -83,8 +83,8 @@ ConfigurationOfOrion >> baseline1: spec [
 ]
 
 { #category : #baselines }
-ConfigurationOfOrion >> baseline2: spec [ 
-	<version: '2-baseline'>
+ConfigurationOfOrion >> baseline02: spec [ 
+	<version: '02-baseline'>
 	spec for: #common do: [
 		spec blessing: #baseline.
 	
@@ -102,8 +102,8 @@ ConfigurationOfOrion >> baseline2: spec [
 ]
 
 { #category : #baselines }
-ConfigurationOfOrion >> baseline3: spec [
-	<version: '3-baseline'>
+ConfigurationOfOrion >> baseline03: spec [
+	<version: '03-baseline'>
 
 	spec for: #'common' do: [
 		spec blessing: #'baseline'.
@@ -130,9 +130,9 @@ ConfigurationOfOrion >> baseline3: spec [
 ConfigurationOfOrion >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'pharo2.x' version: '3-baseline'.	
-	spec for: #'pharo3.x' version: '3-baseline'.
-	spec for: #'common' version: '3-baseline'.
+	spec for: #'pharo2.x' version: '03-baseline'.	
+	spec for: #'pharo3.x' version: '03-baseline'.
+	spec for: #'common' version: '03-baseline'.
 ]
 
 { #category : #accessing }
