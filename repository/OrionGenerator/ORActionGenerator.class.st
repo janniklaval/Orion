@@ -4,7 +4,7 @@ An ORActionGenerator is a tool to easily create the skeleton of ORActions.
 You can use it by providing a collection of OREntities: 
 	ORActionGenerator new createActionsForACollectionOfORClasses: { MyOREntityClass1 . MyOREntityClass2 }
 
-Instance Variables
+Look at the class side method for actual usage.
 
 "
 Class {
@@ -13,15 +13,28 @@ Class {
 	#category : #OrionGenerator
 }
 
+{ #category : #running }
+ORActionGenerator class >> createActionsForORClasses: aCollectionOfClasses [
+	^ ORActionGenerator new
+		createActionsForACollectionOfORClasses: aCollectionOfClasses
+]
+
+{ #category : #running }
+ORActionGenerator class >> runOnOrionExistingClasses [
+
+	^ self
+		createActionsForORClasses:
+			((RPackage organizer packageNamed: 'OrionFamixCore')
+				classesForClassTag: 'Class')
+]
+
 { #category : #preparation }
 ORActionGenerator >> createActionCategoryName: anOREntity [
 	^ String
 		streamContents: [ :stream | 
-			stream
-				nextPutAll: 'Orion';
-				nextPutAll:
-						(String streamContents: [ :str | ($- split: anOREntity superclass category) asStringOn: str delimiter: '' ]);
-				nextPutAll: '-Action' ]
+			stream nextPutAll: 'Orion'.
+			($- split: anOREntity superclass category) asStringOn: stream delimiter: ''.
+			stream nextPutAll: '-Action' ]
 ]
 
 { #category : #preparation }

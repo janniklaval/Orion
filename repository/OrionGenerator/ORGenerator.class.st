@@ -14,6 +14,22 @@ Class {
 	#category : #OrionGenerator
 }
 
+{ #category : #running }
+ORGenerator class >> makeORForClasses: aCollectionOfClasses [
+	^ self new
+		makeORForAllClasses:
+			(((RPackage organizer packageNamed: 'OrionFamixCore')
+				classesForClassTag: 'Class') collect: #superclass)
+]
+
+{ #category : #running }
+ORGenerator class >> runOnOrionExistingClasses [
+	^ self
+		makeORForClasses:
+			(((RPackage organizer packageNamed: 'OrionFamixCore')
+				classesForClassTag: 'Class') collect: #superclass)
+]
+
 { #category : #'creating method' }
 ORGenerator >> addAccessorFrom: aFamixClass toTrait: aOrionTrait [
 	"add accessors corresponding to the non heritated properties and relations of the Famix Class to the Orion trait "
@@ -29,14 +45,14 @@ ORGenerator >> addAccessorFrom: aFamixClass toTrait: aOrionTrait [
 ORGenerator >> addPrivateAccessorTo: aFamixClass [
 	"add private accessors corresponding to the non heritated properties and relations of the Famix Class to it "
 	(self getPropertiesOf: aFamixClass) do: [ :prop | 
-		self addThePrivateAccessorOf: prop To: aFamixClass
+		self addThePrivateAccessorOf: prop to: aFamixClass
 		]
 	
 	
 ]
 
 { #category : #'creating method' }
-ORGenerator >> addThePrivateAccessorOf: aProp To: aFamixClass [
+ORGenerator >> addThePrivateAccessorOf: aProp to: aFamixClass [
 	"add private accessors corresponding to the property to the Famix Class if it does not already exist "
 
 	| aMethName |
@@ -81,12 +97,9 @@ ORGenerator >> codeForSelector: aProperty [
 ORGenerator >> createClassCategoryName: aFamixClass [
 	^ String
 		streamContents: [ :stream | 
-			stream
-				nextPutAll: 'Orion';
-				nextPutAll: (String
-		streamContents: [ :str | 
-			($- split: aFamixClass category) asStringOn: str delimiter: '' ]);
-				nextPutAll: '-Class' ]
+			stream nextPutAll: 'Orion'.
+			($- split: aFamixClass category) asStringOn: stream delimiter: ''.
+			stream nextPutAll: '-Class' ]
 ]
 
 { #category : #'creating class and trait' }
@@ -94,11 +107,11 @@ ORGenerator >> createClassName: aFamixClass [
 	"Create the name of the Orion Class from the FamixClass"
 
 	| name |
-
 	name := aFamixClass name asString.
-	name := (name beginsWith: 'FAMIX') ifTrue:  [name copyAfter: $X]
-					ifFalse: [name].
-	^ ('OR' , name ) asSymbol 
+	name := (name beginsWith: 'FAMIX')
+		ifTrue: [ name copyAfter: $X ]
+		ifFalse: [ name ].
+	^ ('OR' , name) asSymbol
 ]
 
 { #category : #'creating class and trait' }
@@ -131,12 +144,9 @@ ORGenerator >> createCommentToATrait: anORTrait [
 ORGenerator >> createTraitCategoryName: aFamixClass [
 	^ String
 		streamContents: [ :stream | 
-			stream
-				nextPutAll: 'Orion';
-				nextPutAll: (String
-		streamContents: [ :str | 
-			($- split: aFamixClass category) asStringOn: str delimiter: '' ]);
-				nextPutAll: '-Trait' ]
+			stream nextPutAll: 'Orion'.
+			($- split: aFamixClass category) asStringOn: stream delimiter: ''.
+			stream nextPutAll: '-Trait' ]
 ]
 
 { #category : #'creating class and trait' }
@@ -174,22 +184,20 @@ ORGenerator >> ensureORClass: aFamixClass [
 ORGenerator >> ensureORTrait: aFamixClass [
 	"Create a trait corresponding to the FamixClass "
 
-	^(self ensureInheritFromMooseEntity: aFamixClass)
-		ifTrue: [ 
-			| name |
+	^ (self ensureInheritFromMooseEntity: aFamixClass)
+		ifTrue: [ | name |
 			name := self createTraitName: aFamixClass.
 			Smalltalk globals
 				at: name
-				ifPresent: [:trait | trait]
-				ifAbsent: [ 
-					| aTrait |
+				ifPresent: [ :trait | trait ]
+				ifAbsent: [ | aTrait |
 					aTrait := Trait
 						named: name
 						uses: (self ensureORTrait: aFamixClass superclass)
 						category: (self createTraitCategoryName: aFamixClass).
 					self createCommentToATrait: aTrait.
 					aTrait ] ]
-		ifFalse: [  TMooseEntity ]
+		ifFalse: [ TMooseEntity ]
 ]
 
 { #category : #'creating method' }
