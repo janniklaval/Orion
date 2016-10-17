@@ -61,6 +61,16 @@ FAMIXBehaviouralEntity >> privateOutgoingInvocations: aInvocation [
 ]
 
 { #category : #'*OrionFamixCore-Class' }
+FAMIXBehaviouralEntity >> privateOutgoingReferences [
+	^ outgoingReferences
+]
+
+{ #category : #'*OrionFamixCore-Class' }
+FAMIXBehaviouralEntity >> privateOutgoingReferences: aReference [
+	 outgoingReferences := aReference
+]
+
+{ #category : #'*OrionFamixCore-Class' }
 FAMIXBehaviouralEntity >> privateParameters [
 	^ parameters
 ]

@@ -13,7 +13,7 @@ TFAMIXSourceAnchor classSide >> isOrionClass [
 	^ true
 ]
 
-{ #category : #requirements }
+{ #category : #accessing }
 TFAMIXSourceAnchor >> element [
 	^ self elementOR: self currentContext
 ]

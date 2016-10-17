@@ -20,6 +20,5 @@ TFAMIXPackage >> childNamedEntities [
 
 { #category : #accessing }
 TFAMIXPackage >> childNamedEntitiesOR: aVersion [
-
 	^ self privateChildNamedEntities versionIn: aVersion
 ]

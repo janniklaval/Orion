@@ -10,7 +10,6 @@ Class {
 { #category : #'method execution' }
 ORActionRemoveType >> run [
 	super run.
-	entity outgoingReferences do: [ :each | each deleteInAction: self ].
 	entity types do: [ :each | each deleteInAction: self ].
 	entity incomingReferences do: [ :each | each deleteInAction: self ].
 	entity subInheritances

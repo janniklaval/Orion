@@ -44,13 +44,7 @@ ORActionRemovePackage >> run [
 		].
 	].
 
-	entity outgoingReferences do: [:each |
-		each deleteInAction: self.
-	].
-
-	entity incomingReferences do: [:each |
-		each deleteInAction: self.
-	].
+	
 
 	entity comments do: [:com |
 		com deleteInAction: self.

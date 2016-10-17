@@ -14,23 +14,13 @@ TFAMIXContainerEntity classSide >> isOrionClass [
 ]
 
 { #category : #accessing }
-TFAMIXContainerEntity >> incomingReferences [
-	^ self incomingReferencesOR: self currentContext
+TFAMIXContainerEntity >> functions [
+	^ self functionsOR: self currentContext
 ]
 
 { #category : #accessing }
-TFAMIXContainerEntity >> incomingReferencesOR: aVersion [
-	^ self privateIncomingReferences versionIn: aVersion
-]
-
-{ #category : #accessing }
-TFAMIXContainerEntity >> outgoingReferences [
-	^ self outgoingReferencesOR: self currentContext
-]
-
-{ #category : #accessing }
-TFAMIXContainerEntity >> outgoingReferencesOR: aVersion [
-	^ self privateOutgoingReferences versionIn: aVersion
+TFAMIXContainerEntity >> functionsOR: aVersion [
+	^ self privateFunctions versionIn: aVersion
 ]
 
 { #category : #accessing }

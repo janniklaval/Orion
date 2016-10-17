@@ -14,6 +14,16 @@ TFAMIXFunction classSide >> isOrionClass [
 ]
 
 { #category : #accessing }
+TFAMIXFunction >> container [
+	^ self containerOR: self currentContext
+]
+
+{ #category : #accessing }
+TFAMIXFunction >> containerOR: aVersion [
+	^ self privateContainer versionIn: aVersion
+]
+
+{ #category : #accessing }
 TFAMIXFunction >> functions [
 	^ self functionsOR: self currentContext
 ]

@@ -29,12 +29,12 @@ TFAMIXNamedEntity >> famixClass [
 	^ super famixClass superclass
 ]
 
-{ #category : #testing }
+{ #category : #accessing }
 TFAMIXNamedEntity >> isStub [
 	^ self isStubOR: self currentContext
 ]
 
-{ #category : #testing }
+{ #category : #accessing }
 TFAMIXNamedEntity >> isStubOR: aVersion [
 	^ self privateIsStub versionIn: aVersion
 ]

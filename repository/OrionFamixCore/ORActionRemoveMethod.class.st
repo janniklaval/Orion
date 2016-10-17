@@ -25,9 +25,6 @@ ORActionRemoveMethod >> run [
 	entity outgoingReferences do:[:each |
 		each deleteInAction: self.
 	].
-	entity incomingReferences do:[:each |
-		each deleteInAction: self.
-	].
 	entity outgoingInvocations do:[:each |
 		each deleteInAction: self.
 	].

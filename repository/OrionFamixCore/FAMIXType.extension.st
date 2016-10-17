@@ -31,6 +31,16 @@ FAMIXType >> privateContainer: aContainerEntity [
 ]
 
 { #category : #'*OrionFamixCore-Class' }
+FAMIXType >> privateIncomingReferences [
+	^ incomingReferences
+]
+
+{ #category : #'*OrionFamixCore-Class' }
+FAMIXType >> privateIncomingReferences: aReference [
+	 incomingReferences := aReference
+]
+
+{ #category : #'*OrionFamixCore-Class' }
 FAMIXType >> privateMethods [
 	^ methods
 ]

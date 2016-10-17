@@ -13,12 +13,12 @@ TFAMIXClass classSide >> isOrionClass [
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : #accessing }
 TFAMIXClass >> isInterface [
 	^ self isInterfaceOR: self currentContext
 ]
 
-{ #category : #testing }
+{ #category : #accessing }
 TFAMIXClass >> isInterfaceOR: aVersion [
 	^ self privateIsInterface versionIn: aVersion
 ]

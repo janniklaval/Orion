@@ -14,6 +14,16 @@ TFAMIXAnnotationType classSide >> isOrionClass [
 ]
 
 { #category : #accessing }
+TFAMIXAnnotationType >> container [
+	^ self containerOR: self currentContext
+]
+
+{ #category : #accessing }
+TFAMIXAnnotationType >> containerOR: aVersion [
+	^ self privateContainer versionIn: aVersion
+]
+
+{ #category : #accessing }
 TFAMIXAnnotationType >> instances [
 	^ self instancesOR: self currentContext
 ]
