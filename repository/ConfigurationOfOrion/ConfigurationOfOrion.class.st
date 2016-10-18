@@ -25,6 +25,43 @@ ConfigurationOfOrion class >> bootstrapPackage: aString from: aPath [
 			version workingCopy repositoryGroup addRepository: repository]
 ]
 
+{ #category : #catalog }
+ConfigurationOfOrion class >> catalogChangeLog [
+	"Returns a paragraph describing the most important changes in the configuration class."
+	^ 'No release yet! But works under Moose 6.1 (Pharo 6)'"'- Version number - Date - topics
+[[[
+	ConfigurationOfXXX project version: ''xx'' ) load					
+]]]
+or simply
+- Version number - Date - topics
+- Version number - Date - topics
+- Version number - Date - topics.'"
+]
+
+{ #category : #catalog }
+ConfigurationOfOrion class >> catalogContactInfo [
+	"Returns a paragraph describing contact information such as email, mailing lists and website."
+	^ 'Orion is an amazing project . You can get in contact with our great programmers: Jannik Laval <jannik.laval@univ-lyon2.fr>, Nicolas Anquetil <Nicolas.Anquetil@inria.fr> & Anne Etien <anne.etien@univ-lille1.fr>.'
+]
+
+{ #category : #catalog }
+ConfigurationOfOrion class >> catalogDescription [
+	"Returns a paragraph describing the project"
+	^ 'Orion is an interactive prototyping tool for reengineering, to simulate changes and compare their impact on multiple versions of software source code models.'
+]
+
+{ #category : #catalog }
+ConfigurationOfOrion class >> catalogKeyClassesAndExample [
+	"Returns a paragraph or more describing the key classes of your project. You can use Pillar/Pier syntax to layout out the text i.e., ==Code== and - for bullet."
+	^ 'Orion is too complex to be explained in these few lines. But to play with it, first create a Moose model (or import it), in the moose panel, do a right click and do Orion > Convert to ORModel. Now, open the Orion panel: you can create a child model and begin to create, delete, modify the entities.'
+]
+
+{ #category : #catalog }
+ConfigurationOfOrion class >> catalogKeywords [
+	"Returns an array of symbols"
+	^ #(Moose model delta versioning) 
+]
+
 { #category : #private }
 ConfigurationOfOrion class >> ensureMetacello [
 	Smalltalk at: #MetacelloProject ifAbsent: [
