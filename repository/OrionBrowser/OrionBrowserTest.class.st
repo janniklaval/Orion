@@ -18,7 +18,7 @@ OrionBrowserTest >> testAddAttribute [
 
 	self deny: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') isNil.
 	self assert: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') parentType equals: (orionModel entityNamed: 'Smalltalk::Class1').
-	self assert: orionModel changes size = 1.
+	self assert: orionModel changes size equals: 1.
 ]
 
 { #category : #tests }
