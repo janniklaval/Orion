@@ -15,16 +15,6 @@ ORActionAddClass class >> description [
 	^'add class'
 ]
 
-{ #category : #accessing }
-ORActionAddClass >> container [
-	^ container
-]
-
-{ #category : #accessing }
-ORActionAddClass >> container: anObject [
-	container := anObject
-]
-
 { #category : #'initialize-release' }
 ORActionAddClass >> initialize [
 	super initialize.

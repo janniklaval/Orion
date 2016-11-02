@@ -41,36 +41,28 @@ ORActionAddMethod >> run [
 	newMethod name: newName.
 	self orionModel add: newMethod.
 	
-	signature isNil
-		ifTrue:[newMethod signature: newName orionCopy, '()'] 
-		ifFalse:[newMethod signature: signature orionCopy].
-	
+	signature ifNil: [ newMethod signature: newName orionCopy , '()' ] ifNotNil: [ newMethod signature: signature orionCopy ].
 	newMethod hasClassScope: classScope orionCopy.
-
-	container ifNotNil: [ 
-		|theNewClass|
-		(container isKindOf: FAMIXType) 
-		ifTrue: [
-			theNewClass := (self orionModel retrieveEntity:container).
-			newMethod privateParentType: theNewClass orionCopy.
-			theNewClass privateMethods: (theNewClass privateMethods orionCopy unsafeAdd: newMethod).
+	
+	container
+		ifNotNil: [ | theNewClass |
+			(container isKindOf: FAMIXType)
+				ifTrue: [ theNewClass := self orionModel retrieveEntity: container.
+					newMethod privateParentType: theNewClass orionCopy.
+					theNewClass privateMethods: (theNewClass privateMethods orionCopy unsafeAdd: newMethod).
+					containerPackage := container parentPackage orionCopy ].
+			(container isKindOf: FAMIXPackage)
+				ifTrue: [ containerPackage := container orionCopy ] ].
 			
-			containerPackage := container parentPackage orionCopy
-		].
-		(container isKindOf: FAMIXPackage) 
-		ifTrue: [ containerPackage := container orionCopy ]
-	].
-
-	containerPackage ifNotNil:[
-		|theNewPackage|
-		theNewPackage := (self orionModel retrieveEntity: containerPackage).
-		newMethod privateParentPackage: theNewPackage orionCopy.
-		newMethod parentType privateParentPackage: theNewPackage orionCopy.
-		theNewPackage privateChildNamedEntities:  (theNewPackage privateChildNamedEntities orionCopy unsafeAdd: newMethod).
-	].
+	containerPackage
+		ifNotNil: [ | theNewPackage |
+			theNewPackage := self orionModel retrieveEntity: containerPackage.
+			newMethod privateParentPackage: theNewPackage orionCopy.
+			newMethod parentType privateParentPackage: theNewPackage orionCopy.
+			theNewPackage privateChildNamedEntities: (theNewPackage privateChildNamedEntities orionCopy unsafeAdd: newMethod) ].
+		
 	newMethod resetMooseName.
 	entity := newMethod.
-	
 	^ entity
 ]
 

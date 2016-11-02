@@ -36,6 +36,7 @@ ORActionAddAttribute >> initialize [
 ORActionAddAttribute >> run [
 	| newAttribute |
 	super run.
+
 	newAttribute := ORAttribute new.
 	newAttribute name: newName.
 	self orionModel add: newAttribute.

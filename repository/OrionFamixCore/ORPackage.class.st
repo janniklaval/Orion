@@ -13,3 +13,13 @@ Class {
 ORPackage class >> isOrionClass [
 	^ true
 ]
+
+{ #category : #accessing }
+ORPackage >> clientTypes [
+	^ self clientTypesOR: self currentContext
+]
+
+{ #category : #accessing }
+ORPackage >> clientTypesOR: aVersion [
+	^ super clientTypes versionIn: aVersion
+]
