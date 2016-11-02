@@ -35,19 +35,19 @@ ORModel class >> withParent: aModel [
 	^ self new withParent:aModel
 ]
 
-{ #category : #'adding/removing-ok' }
+{ #category : #'adding/removing' }
 ORModel >> add: anElement [ 
 	super add: anElement. 
 	anElement versionIn: self.
 	^anElement
 ]
 
-{ #category : #'adding/removing-ok' }
+{ #category : #'adding/removing' }
 ORModel >> addToListOfChanges: anAction [ 
 	self changes add: anAction.
 ]
 
-{ #category : #'changes-ok' }
+{ #category : #changes }
 ORModel >> allChanges [
 
 	|collection current|
@@ -63,78 +63,72 @@ ORModel >> allChanges [
 	
 ]
 
-{ #category : #'navigation-ok' }
-ORModel >> allWithType: aMetaDesription [ 
-	|try|
-	try := ORConverter mapping at: aMetaDesription ifAbsent:[aMetaDesription].
-	^ 
-			MooseGroup 
-				withAll: (self entityStorage selectAllWithType: try)
-				withDescription: 'All ' , try name asLowercase
+{ #category : #navigation }
+ORModel >> allWithType: aMetaDesription [
+	| try |
+	try := ORConverter mapping at: aMetaDesription ifAbsent: [ aMetaDesription ].
+	^ MooseGroup withAll: (self entityStorage selectAllWithType: try) withDescription: 'All ' , try name asLowercase
 ]
 
-{ #category : #'navigation-ok' }
+{ #category : #navigation }
 ORModel >> at: anID [
 
 	^self entityStorage at:anID.
 ]
 
-{ #category : #'accessing-ok' }
+{ #category : #accessing }
 ORModel >> baseName [
 	|op|
 	op := 1.
 	^self name copyFrom: 1 to: ((self name indexOf:$_ ifAbsent:[op := 0.self name size]) - op)
 ]
 
-{ #category : #'accessing-ok' }
+{ #category : #accessing }
 ORModel >> cache [
 	^ cache
 ]
 
-{ #category : #'accessing-ok' }
+{ #category : #accessing }
 ORModel >> cache: anObject [
 	cache := anObject
 ]
 
-{ #category : #'accessing-ok' }
+{ #category : #accessing }
 ORModel >> changes [
 	^ changes
 ]
 
-{ #category : #'accessing-ok' }
+{ #category : #accessing }
 ORModel >> changes: anObject [
 	changes := anObject
 ]
 
-{ #category : #'accessing-ok' }
+{ #category : #accessing }
 ORModel >> childrenModel [
 	^ childrenModel
 ]
 
-{ #category : #'accessing-ok' }
+{ #category : #accessing }
 ORModel >> childrenModel: anObject [
 	childrenModel := anObject
 ]
 
-{ #category : #'testing-ok' }
+{ #category : #testing }
 ORModel >> contains: anElement [
 	^ anElement orionModel = self.
 ]
 
-{ #category : #'creating-ok' }
-ORModel >> createEntityFrom: anEntity [ 
+{ #category : #creating }
+ORModel >> createEntityFrom: anEntity [
 	| newEntity |
 	self remove: anEntity.
-	
-	
 	newEntity := anEntity shallowCopy.
 	newEntity privateState: (ORDefaultState with: newEntity).
 	newEntity orionModel: self.
-	
 	^ newEntity
 ]
 
-{ #category : #'creating-ok' }
+{ #category : #creating }
 ORModel >> createNewChildVersion [
 	|newModel|
 	newModel := ORModel withParent: self.
@@ -143,14 +137,14 @@ ORModel >> createNewChildVersion [
 	^newModel
 ]
 
-{ #category : #'initialize-release-ok' }
+{ #category : #'initialize-release' }
 ORModel >> defaultStateClass [ 
 	"Answer the default implementator of this element's state." 
 	 
 	^ORDefaultState
 ]
 
-{ #category : #'adding/removing-ok' }
+{ #category : #'adding/removing' }
 ORModel >> delete [
 	"remove the version and all its children"
 	
@@ -167,13 +161,13 @@ ORModel >> delete [
 	^ self
 ]
 
-{ #category : #'adding/removing-ok' }
+{ #category : #'adding/removing' }
 ORModel >> error [
 
 	Transcript show: 'should not be there'
 ]
 
-{ #category : #'initialize-release-ok' }
+{ #category : #'initialize-release' }
 ORModel >> initialize [ 
 	super initialize.
 	childrenModel := OrderedCollection new.
@@ -183,12 +177,12 @@ ORModel >> initialize [
 	state currentContext: self.
 ]
 
-{ #category : #'testing-ok' }
+{ #category : #testing }
 ORModel >> isModifiable [
 	^ self childrenModel isEmpty and: [ self ~= self system sourceModel ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ORModel >> mooseInterestingEntity [ 
 	"-- interestingEntity is called before UI actions, hence we optimize for runtime --" 
 	
@@ -196,55 +190,51 @@ ORModel >> mooseInterestingEntity [
 	^ self
 ]
 
-{ #category : #'accessing-ok' }
+{ #category : #accessing }
 ORModel >> parentModel [
 	^ parentModel
 ]
 
-{ #category : #'accessing-ok' }
+{ #category : #accessing }
 ORModel >> parentModel: anObject [
 	parentModel := anObject
 ]
 
-{ #category : #'creating-ok' }
+{ #category : #creating }
 ORModel >> populateModel [
-	
 	self sourceLanguage: self parentModel sourceLanguage.
-	self parentModel entityStorage do: [:anElement |
-		self entityStorage add: anElement
-		].
+	self parentModel entityStorage do: [ :anElement | self entityStorage add: anElement ]
 ]
 
-{ #category : #'adding/removing-ok' }
+{ #category : #'adding/removing' }
 ORModel >> remove [
 
 	^self delete
 ]
 
-{ #category : #'adding/removing-ok' }
+{ #category : #'adding/removing' }
 ORModel >> remove: anElement [
 	"remove an entity in the version"
 	
 	^self entityStorage remove:anElement ifAbsent:[self error.]
 ]
 
-{ #category : #'creating-ok' }
+{ #category : #creating }
 ORModel >> retrieveEntity: anEntity [
-	^(self contains: anEntity) 
-		ifTrue:[anEntity]
-		ifFalse:[
-			|old new|
-			old := (self at: anEntity orionID). 
+	^ (self contains: anEntity)
+		ifTrue: [ anEntity ]
+		ifFalse: [ | old new |
+			old := self at: anEntity orionID.
 			new := self createEntityFrom: old.
-			new].
+			new ]
 ]
 
-{ #category : #'accessing-ok' }
+{ #category : #accessing }
 ORModel >> system [
 	^ system
 ]
 
-{ #category : #'accessing-ok' }
+{ #category : #accessing }
 ORModel >> system: anObject [
 
 	system := anObject.
@@ -252,7 +242,7 @@ ORModel >> system: anObject [
 	"ORContext currentModel: self."
 ]
 
-{ #category : #'creating-ok' }
+{ #category : #creating }
 ORModel >> withParent: aModel [
 	self parentModel: aModel.
 	aModel childrenModel add: self.

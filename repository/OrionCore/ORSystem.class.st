@@ -69,8 +69,8 @@ ORSystem >> announcer: anObject [
 
 { #category : #'initialize-release' }
 ORSystem >> initialize [
-	orionModels := OrderedCollection new initialize.
-	announcer := Announcer new.
+	orionModels := OrderedCollection new.
+	announcer := Announcer new
 ]
 
 { #category : #accessing }

@@ -110,7 +110,7 @@ ORAction >> parentAction: anAction [
 	anAction ifNotNil: [anAction addChildAction: self].
 ]
 
-{ #category : #accessing }
+{ #category : #'initialize-release' }
 ORAction >> postRun [
 
 	orionModel addToListOfChanges: self.	
