@@ -48,6 +48,7 @@ ORActionAddAttribute >> run [
 		|theNewClass|
 		theNewClass := (self orionModel retrieveEntity: container).
 		newAttribute privateParentType: theNewClass orionCopy.
+
 		theNewClass privateAttributes: (theNewClass privateAttributes orionCopy unsafeAdd: newAttribute)
 		].
 

@@ -26,22 +26,18 @@ ORActionRemoveReference >> printWorkspace [
 
 { #category : #'method execution' }
 ORActionRemoveReference >> run [
-	| fromEl toEl|
+	| fromEl toEl |
 	super run.
-	fromEl := (self orionModel retrieveEntity:entity source).
-	toEl := (self orionModel retrieveEntity:entity target).
-	
+	fromEl := self orionModel retrieveEntity: entity source.
+	toEl := self orionModel retrieveEntity: entity target.
 	fromEl privateOutgoingReferences: (fromEl privateOutgoingReferences orionCopy orionRemove: entity).
 	toEl privateIncomingReferences: (toEl privateIncomingReferences orionCopy orionRemove: entity).
-	
-	entity comments do:[:com |
-		ORActionRemoveComment new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:com; 
-			run.
-	].
-	
-	self orionModel remove: entity.
-
+	entity comments
+		do: [ :com | 
+			ORActionRemoveComment new
+				parentAction: self;
+				orionModel: self orionModel;
+				entity: com;
+				run ].
+	self orionModel remove: entity
 ]

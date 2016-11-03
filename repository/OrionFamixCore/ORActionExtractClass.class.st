@@ -41,7 +41,7 @@ ORActionExtractClass >> run [
 		
 	"change to get just the selected attributes"
 	self selectedAttributes do: [ :attributeToMove |  attributeToMove moveTo: theNewClass inAction: self  ].
-	entity addAttributNamed: newName inAction: self .	
+	entity addAttributeNamed: newName inAction: self .	
 	
 	"get all the accessors"
 	self selectedAttributes
