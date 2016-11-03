@@ -1,7 +1,7 @@
 Extension { #name : #ORClass }
 
 { #category : #'*OrionBrowser' }
-ORClass >> addAttributNamed: aString inAction: anAction [
+ORClass >> addAttributeNamed: aString inAction: anAction [
 
 	aString  ifNotNil: [ 
 		(ORActionAddAttribute new
@@ -13,7 +13,7 @@ ORClass >> addAttributNamed: aString inAction: anAction [
 ]
 
 { #category : #'*OrionBrowser' }
-ORClass >> addAttributNamed: aString inModel: aModelVersion [
+ORClass >> addAttributeNamed: aString inModel: aModelVersion [
 
 	^aString  ifNotNil: [ 
 		(ORActionAddAttribute new
@@ -21,6 +21,16 @@ ORClass >> addAttributNamed: aString inModel: aModelVersion [
 			container: self ;
 			newName: aString )
 		manualRun; postRun ]
+]
+
+{ #category : #'*OrionBrowser' }
+ORClass >> addClassNamed: aString inModel: aModelVersion [
+	^aString
+		ifNotNil: [ 
+			(ORActionAddClass new
+				orionModel: aModelVersion;
+				container: self;
+				newName: aString) manualRun; postRun ]
 ]
 
 { #category : #'*OrionBrowser' }
@@ -43,6 +53,18 @@ ORClass >> addMethodNamed: aString inModel: aModelVersion [
 			orionModel: aModelVersion ;
 			container: self ;
 			newName: aString )
+		manualRun; postRun ]
+]
+
+{ #category : #'*OrionBrowser' }
+ORClass >> addMethodNamed: aString withSignature: aSignature inModel: aModelVersion [
+
+	aString  ifNotNil: [ 
+		(ORActionAddMethod new
+			orionModel: aModelVersion ;
+			container: self ;
+			newName: aString ;
+			signature: aSignature)
 		manualRun; postRun ]
 ]
 

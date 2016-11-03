@@ -2,23 +2,27 @@ Extension { #name : #ORMethod }
 
 { #category : #'*OrionBrowser' }
 ORMethod >> addAccessTo: aStructuralEntity inModel: aModelVersion [
-
 	(ORActionAddAccess new
 		orionModel: aModelVersion;
-		from: self ;
-		to: aStructuralEntity )
-	manualRun; postRun . 
+		from: self;
+		to: aStructuralEntity)
+		manualRun;
+		postRun
+]
+
+{ #category : #'*OrionBrowser' }
+ORMethod >> addAccessToVarNamed: aMooseName inModel: aModelVersion [
+	^ self addAccessTo: (aModelVersion entityNamed: aMooseName) inModel: aModelVersion
 ]
 
 { #category : #'*OrionBrowser' }
 ORMethod >> addInvocationTo: anOrderedCollection inModel: aModelVersion [
-[ 
-	(ORActionAddInvocation new
+	[ (ORActionAddInvocation new
 		orionModel: aModelVersion;
-		from: self ;
-		candidates: anOrderedCollection )
-	manualRun; postRun ] 
-		orBrowserExceptionsLauncherCollection: anOrderedCollection. 
+		from: self;
+		candidates: anOrderedCollection)
+		manualRun;
+		postRun ] orBrowserExceptionsLauncherCollection: anOrderedCollection
 ]
 
 { #category : #'*OrionBrowser' }

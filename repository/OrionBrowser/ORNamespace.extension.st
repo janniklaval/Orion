@@ -19,3 +19,14 @@ ORNamespace >> deleteInModel: aModelVersion [
 		yourself) 
 	manualRun; postRun .
 ]
+
+{ #category : #'*OrionBrowser' }
+ORNamespace >> moveTo: aNamespace inModel: aModelVersion [
+	
+	^(ORActionMoveNamespace new
+		orionModel: aModelVersion ;
+		entity: self ;
+		newContainer: aNamespace )
+	manualRun;
+	postRun
+]

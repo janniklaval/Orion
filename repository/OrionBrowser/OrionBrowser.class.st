@@ -130,7 +130,7 @@ OrionBrowser >> browserClasses [
 							entitled: 'Add inheritance from the buffered class';
 						selectionAct: [ :list | [ list selection changeSuperClassTo: entityInBuffer inModel: selectedVersion ] orBrowserExceptionsUIManager ]
 							entitled: 'Change super class for the buffered class';
-						selectionAct: [ :list | list selection addAttributNamed: (self getNameDialog: 'New attribute name') inModel: selectedVersion ]
+						selectionAct: [ :list | list selection addAttributeNamed: (self getNameDialog: 'New attribute name') inModel: selectedVersion ]
 							entitled: 'Add attribute';
 						selectionAct: [ :list | list selection addMethodNamed: (self getNameDialog: 'New method name') inModel: selectedVersion ]
 							entitled: 'Add method';

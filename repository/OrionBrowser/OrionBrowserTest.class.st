@@ -14,7 +14,7 @@ OrionBrowserTest >> testAddAttribute [
 
 	self assert: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') isNil.
 
-	(orionModel entityNamed: 'Smalltalk::Class1') addAttributNamed: 'attributeTest' inModel: orionModel .
+	(orionModel entityNamed: 'Smalltalk::Class1') addAttributeNamed: 'attributeTest' inModel: orionModel .
 
 	self deny: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') isNil.
 	self assert: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') parentType equals: (orionModel entityNamed: 'Smalltalk::Class1').
@@ -31,7 +31,7 @@ OrionBrowserTest >> testAddAttributeNoName [
 
 	self assert: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') isNil.
 
-	(orionModel entityNamed: 'Smalltalk::Class1') addAttributNamed: nil inModel: orionModel .
+	(orionModel entityNamed: 'Smalltalk::Class1') addAttributeNamed: nil inModel: orionModel .
 
 	self assert: (orionModel entityNamed: 'Smalltalk::Class1.attributeTest') isNil.
 	
