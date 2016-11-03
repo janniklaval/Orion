@@ -67,7 +67,7 @@ ORModel >> allChanges [
 ORModel >> allWithType: aMetaDesription [
 	| try |
 	try := ORConverter mapping at: aMetaDesription ifAbsent: [ aMetaDesription ].
-	^ MooseGroup withAll: (self entityStorage selectAllWithType: try) withDescription: 'All ' , try name asLowercase
+	^ MooseGroup withAll: (self entityStorage selectAllWithType: try) withDescription: 'All ' , try mooseName asLowercase
 ]
 
 { #category : #navigation }

@@ -23,7 +23,7 @@ TMooseEntity >> currentContext: aVersion [
 	^ self privateState currentContext: aVersion
 ]
 
-{ #category : #'initialize-release-ok' }
+{ #category : #'initialize-release' }
 TMooseEntity >> defaultStateClass [ 
 	"Answer the default implementator of this element's state."
 	^ORDefaultState

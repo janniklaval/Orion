@@ -11,5 +11,5 @@ original and the copy"
 
 { #category : #'*OrionCore-model' }
 Collection >> versionIn: aVersion [
-	^ self collect:[:e | e versionIn: aVersion]
+	^ self collect: [ :e | e versionIn: aVersion ]
 ]
