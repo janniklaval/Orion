@@ -98,6 +98,16 @@ TFAMIXEnum >> famixClass [
 ]
 
 { #category : #accessing }
+TFAMIXEnum >> functions [
+	^ self functionsOR: self currentContext
+]
+
+{ #category : #accessing }
+TFAMIXEnum >> functionsOR: aVersion [
+	^ self privateFunctions versionIn: aVersion
+]
+
+{ #category : #accessing }
 TFAMIXEnum >> incomingReferences [
 	^ self incomingReferencesOR: self currentContext
 ]

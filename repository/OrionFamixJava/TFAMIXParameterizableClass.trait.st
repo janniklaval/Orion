@@ -98,6 +98,16 @@ TFAMIXParameterizableClass >> famixClass [
 ]
 
 { #category : #accessing }
+TFAMIXParameterizableClass >> functions [
+	^ self functionsOR: self currentContext
+]
+
+{ #category : #accessing }
+TFAMIXParameterizableClass >> functionsOR: aVersion [
+	^ self privateFunctions versionIn: aVersion
+]
+
+{ #category : #accessing }
 TFAMIXParameterizableClass >> incomingReferences [
 	^ self incomingReferencesOR: self currentContext
 ]
