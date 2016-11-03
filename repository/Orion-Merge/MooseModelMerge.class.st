@@ -21,7 +21,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'snapshot',
-		'orionVersionedModel'
+		'orionVersionedModel',
+		'actions'
 	],
 	#category : #'Orion-Merge'
 }
@@ -77,6 +78,12 @@ MooseModelMerge >> addStubNamespace: aFamixStubNamespace [
 ]
 
 { #category : #accessing }
+MooseModelMerge >> baseModel [
+	
+	^ snapshot base
+]
+
+{ #category : #accessing }
 MooseModelMerge >> changes [
 	"Return a dictionary of FamixChange"
 	^ snapshot changes
@@ -100,7 +107,7 @@ MooseModelMerge >> createAddAttribute [
 			(chg entity belongsTo isInnerClass or: [ chg entity belongsTo isAnonymousClass ])
 				ifFalse: [ 
 					(self orionVersionedModel entityNamed: chg entity belongsTo mooseName)
-						addAttributNamed: chg entityName
+						addAttributeNamed: chg entityName
 						inModel: self orionVersionedModel ] ]
 ]
 
@@ -136,7 +143,8 @@ MooseModelMerge >> createAddInvocation [
 						addInvocationTo: (cand "retrouver les versions orion de ces éléments" ) 
 						inModel: self orionVersionedModel ]
 				ifTrue: [(self orionVersionedModel entityNamed: chg entity from mooseName)
-						addInvocationToNew: (self orionVersionedModel entityNamed: chg entity receiver mooseName) 
+						addInvocationTo: (self orionVersionedModel entityNamed: chg entity to mooseName) 
+						receiver: (self orionVersionedModel entityNamed: chg entity receiver mooseName) 
 						withSignature: chg entity signature 
 						inModel: self orionVersionedModel   ] ]
 ]
@@ -246,10 +254,10 @@ MooseModelMerge >> createMoveMethod [
 					chg entity
 						moveTo: (self orionVersionedModel entityNamed: chg targetEntity belongsTo mooseName)
 						inModel: self orionVersionedModel ].
-			chg entity parentPackage mooseName = chg targetEntity parentPackage mooseName
+			chg entity packageScope mooseName = chg targetEntity packageScope mooseName
 				ifFalse: [ 
 					chg entity
-						updatePackage: (self orionVersionedModel entityNamed: chg targetEntity parentPackage mooseName)
+						updatePackage: (self orionVersionedModel entityNamed: chg targetEntity packageScope mooseName)
 						inModel: self orionVersionedModel]  ].
 				
 ]
@@ -375,41 +383,27 @@ MooseModelMerge >> createRenamePackage [
 { #category : #run }
 MooseModelMerge >> createVersion [
 	"create the new version of the OrionModel by successively calling all message creating ORActions"
-	snapshot diff.
 
-	orionVersionedModel := self orionModel createNewChildVersion.
-	
+	snapshot diff.
+	orionVersionedModel := self baseModel createNewChildVersion.
 	self createAddScopingEntity.
 	self createAddType.
 	self createAddMethod.
 	self createAddAccess.
-	"self createAddInvocation."
+	self createAddInvocation.
 	self createAddAttribute.
-	self createAddReference .
+	self createAddReference.
 	self createMoveClass.
 	self createMoveMethod.
 	self createRename.
-	self createRemove.
-
+	self createRemove
 ]
 
 { #category : #initialize }
 MooseModelMerge >> initialize [
 
-	actions := OrderedCollection new.
+	actions := OrderedCollection new. 
 	snapshot := nil.
-]
-
-{ #category : #accessing }
-MooseModelMerge >> mooseModel [
-	
-	^ snapshot target
-]
-
-{ #category : #accessing }
-MooseModelMerge >> orionModel [
-	
-	^ snapshot base
 ]
 
 { #category : #accessing }
@@ -629,10 +623,16 @@ MooseModelMerge >> sortAddScopingEntityChanges: aDictionary [
 	^ collection.
 ]
 
+{ #category : #accessing }
+MooseModelMerge >> targetModel [
+	
+	^ snapshot target
+]
+
 { #category : #initialize }
 MooseModelMerge >> withBase: base  target: target [
 	"base should be an Orion modelbase
-	 target should be a mooseModel"
+	 target should be a MooseModel"
 	
 	(base isKindOf: ORModel) should beTrue.
 	(target isKindOf: MooseModel) should beTrue.
