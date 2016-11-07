@@ -128,9 +128,11 @@ ConfigurationOfOrionMerge >> baseline01: spec [
 					repository: 'http://smalltalkhub.com/mc/Moose/Orion/main/' ].
 		spec 
 			package: 'Orion-Merge' with: [
-				spec requires: #('Orion' 'FamixDiff' ). ];
+				spec requires: #('Orion' 'FamixDiff' 'OrionFamixJava' ). ];
 			package: 'Orion-Merge-Tests' with: [
-				spec requires: #('Orion-Merge' ). ]. ].
+				spec requires: #('Orion-Merge' ). ];
+			package: 'OrionFamixJava' with: [
+				spec requires: #('Orion' ). ]. ].
 
 ]
 
