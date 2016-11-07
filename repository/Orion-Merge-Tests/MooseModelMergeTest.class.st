@@ -4,7 +4,7 @@ A MooseModelMergeTest is a test class for testing the behavior of MooseModelMerg
 Class {
 	#name : #MooseModelMergeTest,
 	#superclass : #MooseModelMergeAbstractTest,
-	#traits : 'TMooseModelMergeTest - {#testCreateAddAccess. #testCreateAddInvocation. #testCreateAddReference. #testCreateMoveClass}',
+	#traits : 'TMooseModelMergeTest',
 	#classTraits : 'TMooseModelMergeTest classTrait',
 	#category : #'Orion-Merge-Tests'
 }

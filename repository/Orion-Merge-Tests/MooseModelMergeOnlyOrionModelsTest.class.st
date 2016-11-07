@@ -1,7 +1,7 @@
 Class {
 	#name : #MooseModelMergeOnlyOrionModelsTest,
 	#superclass : #MooseModelMergeTest,
-	#traits : 'TMooseModelMergeTest - {#testSetOfRenameMethodChanges}',
+	#traits : 'TMooseModelMergeTest',
 	#classTraits : 'TMooseModelMergeTest classTrait',
 	#category : #'Orion-Merge-Tests'
 }
