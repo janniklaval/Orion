@@ -69,7 +69,7 @@ MooseModelMerge >> addStubNamespace: aFamixStubNamespace [
 { #category : #'private-run' }
 MooseModelMerge >> createAddAccess [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
-	self setOfAddAccessChanges do: [ :chg |
+	self result setOfAddAccessChanges do: [ :chg |
 		(self orionVersionedModel entityNamed: chg entity from mooseName) 
 								addAccessTo: (self orionVersionedModel entityNamed: chg entity to mooseName) inModel: self orionVersionedModel.]
 	
@@ -79,7 +79,7 @@ MooseModelMerge >> createAddAccess [
 MooseModelMerge >> createAddAttribute [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
-	self setOfAddAttributeChanges
+	self result setOfAddAttributeChanges
 		do: [ :chg | 
 			(chg entity belongsTo isInnerClass or: [ chg entity belongsTo isAnonymousClass ])
 				ifFalse: [ 
@@ -110,7 +110,7 @@ MooseModelMerge >> createAddInnerClass [
 MooseModelMerge >> createAddInvocation [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
-	self setOfAddInvocationChanges
+	self result  setOfAddInvocationChanges
 		do: [ :chg | |cand|
 			(chg entity candidates isEmpty)
 				ifFalse: [ 
@@ -130,7 +130,7 @@ MooseModelMerge >> createAddInvocation [
 MooseModelMerge >> createAddMethod [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
-	self setOfAddMethodChanges
+	self result setOfAddMethodChanges
 		do: [ :chg | 
 			(chg entity belongsTo isInnerClass or: [ chg entity belongsTo isAnonymousClass ])
 				ifFalse: [ 
@@ -144,7 +144,7 @@ MooseModelMerge >> createAddMethod [
 MooseModelMerge >> createAddMethodOfInnerClass [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
-	self setOfAddMethodChanges
+	self result setOfAddMethodChanges
 		do: [ :chg | 
 			(chg entity belongsTo isInnerClass or: [ chg entity belongsTo isAnonymousClass ])
 				ifTrue: [ 
@@ -158,7 +158,7 @@ MooseModelMerge >> createAddMethodOfInnerClass [
 MooseModelMerge >> createAddReference [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
-	self setOfAddReferenceChanges
+	self result setOfAddReferenceChanges
 		do: [ :chg | 
 			chg entity to isStub
 				ifTrue: [ self addReferenceFrom: chg entity from 
@@ -173,7 +173,7 @@ MooseModelMerge >> createAddReference [
 MooseModelMerge >> createAddScopingEntity [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
-	(self sortAddScopingEntityChanges: self setOfAddScopingEntityChanges) do: [ :chg | 
+	(self sortAddScopingEntityChanges: self result setOfAddScopingEntityChanges) do: [ :chg | 
 		chg entity isPackage
 			ifTrue: [ self orionVersionedModel addPackageNamed: chg entityName].
 		chg entity isNamespace
@@ -191,7 +191,7 @@ MooseModelMerge >> createAddType [
 			(chg isAddition and:[ chg isForType and: [ chg entity isInnerClass not and: [ chg entity isAnonymousClass not ] ]])
 				ifTrue: [ "
 
-	self setOfAddClassChanges
+	self result setOfAddClassChanges
 		do: [ :chg | 
 			chg entity parentPackage
 				ifNotNil: [ 
@@ -207,7 +207,7 @@ MooseModelMerge >> createAddType [
 { #category : #'private-run' }
 MooseModelMerge >> createMoveAttribute [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
-	self setOfMoveAttributeChanges do: [ :chg | chg entity moveTo: 
+	self result setOfMoveAttributeChanges do: [ :chg | chg entity moveTo: 
 		(self orionVersionedModel entityNamed:( chg targetEntity belongsTo mooseName) ) inModel: self orionVersionedModel ]
 ]
 
@@ -215,7 +215,7 @@ MooseModelMerge >> createMoveAttribute [
 MooseModelMerge >> createMoveClass [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 	"distinction is done between parentPackage and belongsTo (that correspond to the container in ST en Java)"
-	self setOfMoveClassChanges do: [ :chg | chg targetEntity parentPackage ifNil: [ chg entity moveTo: 
+	self result setOfMoveClassChanges do: [ :chg | chg targetEntity parentPackage ifNil: [ chg entity moveTo: 
 		(self orionVersionedModel entityNamed: (chg targetEntity belongsTo mooseName)) inModel: self orionVersionedModel ] ifNotNil: [chg entity moveTo: 
 		(self orionVersionedModel entityNamed: (chg targetEntity parentPackage mooseName)) inModel: self orionVersionedModel] ]
 ]
@@ -224,7 +224,7 @@ MooseModelMerge >> createMoveClass [
 MooseModelMerge >> createMoveMethod [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
-	self setOfMoveMethodChanges
+	self result setOfMoveMethodChanges
 		do: [ :chg | 
 			chg entity belongsTo mooseName = chg targetEntity belongsTo mooseName
 				ifFalse: [ 
@@ -245,7 +245,7 @@ MooseModelMerge >> createMoveNamespace [
 
 	"distinction is done between parentPackage and belongsTo (that correspond to the container in ST en Java)"
 
-	self setOfMoveNamespaceChanges
+	self result setOfMoveNamespaceChanges
 		do: [ :chg | 
 			chg targetEntity parentScope
 				ifNotNil: [ 
@@ -257,26 +257,24 @@ MooseModelMerge >> createMoveNamespace [
 { #category : #'private-run' }
 MooseModelMerge >> createRemove [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
-	| coll | 
-	coll := OrderedCollection new.
-	
-	"The order in which the changes are added in the collection is relevant"
-	coll addAll: self setOfRemoveAccessChanges.
-	coll addAll: self setOfRemoveReferenceChanges.
-	coll addAll: self setOfRemoveAttributeChanges.
-	coll addAll: self setOfRemoveMethodChanges.
-	coll addAll: self setOfRemoveClassChanges.
-	coll addAll: self setOfRemovePackageChanges.
 
-	coll do: [ :chg | 
-		chg entity deleteInModel: self orionVersionedModel.]
-	
+	| coll |
+	coll := OrderedCollection new.
+
+	"The order in which the changes are added in the collection is relevant"
+	coll addAll: self result setOfRemoveAccessChanges.
+	coll addAll: self result setOfRemoveReferenceChanges.
+	coll addAll: self result setOfRemoveAttributeChanges.
+	coll addAll: self result setOfRemoveMethodChanges.
+	coll addAll: self result setOfRemoveClassChanges.
+	coll addAll: self result setOfRemovePackageChanges.
+	coll do: [ :chg | chg entity deleteInModel: self orionVersionedModel ]
 ]
 
 { #category : #'private-run' }
 MooseModelMerge >> createRemoveAccess [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
-	self setOfRemoveAccessChanges do: [ :chg |
+	self result  setOfRemoveAccessChanges do: [ :chg |
 		(self orionVersionedModel entityNamed: chg entity mooseName) 
 								deleteInModel: self orionVersionedModel.
 								
@@ -287,7 +285,7 @@ MooseModelMerge >> createRemoveAccess [
 { #category : #'private-run' }
 MooseModelMerge >> createRemoveAttribute [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
-	self setOfRemoveAttributeChanges do: [ :chg |
+	self result setOfRemoveAttributeChanges do: [ :chg |
 		chg entity deleteInModel: self orionVersionedModel.]
 	
 ]
@@ -295,7 +293,7 @@ MooseModelMerge >> createRemoveAttribute [
 { #category : #'private-run' }
 MooseModelMerge >> createRemoveInvocation [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
-	self setOfRemoveInvocationChanges do: [ :chg |
+	self result setOfRemoveInvocationChanges do: [ :chg |
 		(self orionVersionedModel entityNamed: chg entity mooseName) 
 								deleteInModel: self orionVersionedModel.
 								
@@ -306,7 +304,7 @@ MooseModelMerge >> createRemoveInvocation [
 { #category : #'private-run' }
 MooseModelMerge >> createRemoveMethod [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
-	self setOfRemoveMethodChanges do: [ :chg |
+	self result setOfRemoveMethodChanges do: [ :chg |
 		chg entity deleteInModel: self orionVersionedModel.]
 	
 ]
@@ -314,7 +312,7 @@ MooseModelMerge >> createRemoveMethod [
 { #category : #'private-run' }
 MooseModelMerge >> createRemoveReference [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
-	self setOfRemoveReferenceChanges do: [ :chg |
+	self result setOfRemoveReferenceChanges do: [ :chg |
 		(self orionVersionedModel entityNamed: chg entity mooseName) 
 								deleteInModel: self orionVersionedModel.
 								
@@ -325,35 +323,35 @@ MooseModelMerge >> createRemoveReference [
 { #category : #'private-run' }
 MooseModelMerge >> createRename [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
-	self setOfRenameChanges do: [ :chg | chg entity rename:  
+	self result  setOfRenameChanges do: [ :chg | chg entity rename:  
 		(chg targetEntity name) inModel: self orionVersionedModel ]
 ]
 
 { #category : #'private-run' }
 MooseModelMerge >> createRenameAttribute [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
-	self setOfRenameAttributeChanges do: [ :chg | chg entity rename:  
+	self result setOfRenameAttributeChanges do: [ :chg | chg entity rename:  
 		(chg targetEntity name) inModel: self orionVersionedModel ]
 ]
 
 { #category : #'private-run' }
 MooseModelMerge >> createRenameClass [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
-	self setOfRenameClassChanges do: [ :chg | chg entity rename:  
+	self result setOfRenameClassChanges do: [ :chg | chg entity rename:  
 		(chg targetEntity name) inModel: self orionVersionedModel ]
 ]
 
 { #category : #'private-run' }
 MooseModelMerge >> createRenameMethod [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
-	self setOfRenameMethodChanges do: [ :chg | chg entity rename:  
+	self result setOfRenameMethodChanges do: [ :chg | chg entity rename:  
 		(chg targetEntity name) inModel: self orionVersionedModel ]
 ]
 
 { #category : #'private-run' }
 MooseModelMerge >> createRenamePackage [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
-	self setOfRenamePackageChanges do: [ :chg | chg entity rename:  
+	self result setOfRenamePackageChanges do: [ :chg | chg entity rename:  
 		(chg targetEntity name) inModel: self orionVersionedModel ]
 ]
 
@@ -393,193 +391,6 @@ MooseModelMerge >> orionVersionedModel: anObject [
 { #category : #accessing }
 MooseModelMerge >> run [
 	self createVersion.
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfAddAccessChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-
-	^ self result assocChanges select: [ :chg | chg isAddition and: [ chg entity isAccess ] ]
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfAddAttributeChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	^self changes select: [ :chg |
-		(chg isAddition and: [chg entity isAttribute ])
-	]
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfAddClassChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	"Only the classes that are neither inner nor anonymous classes are considered"
-
-	^ self changes
-		select: [ :chg | chg isAddition and: [ chg entity isClass and: [ chg entity isInnerClass not and: [ chg entity isAnonymousClass not ] ] ] ]
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfAddInvocationChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-
-	^ self orchestrator assocChanges
-		select: [ :chg | chg isAddition and: [ chg entity isInvocation ] ]
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfAddMethodChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	^self changes select: [ :chg | (chg isAddition and: [chg entity isMethod ])]
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfAddReferenceChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-
-	^ self orchestrator assocChanges
-		select: [ :chg | 
-			chg isAddition
-				and: [ chg entity isReference
-						and: [ chg entity target isClass
-								and: [ chg entity target isInnerClass not
-										and: [ chg entity target isAnonymousClass not ] ] ] ] ]
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfAddScopingEntityChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	^self changes select: [ :chg |
-		(chg isAddition and: [chg isForScopingEntity ])
-	]
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfMoveAttributeChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	^(self changes select: [ :chg |
-		(chg isMove and: [chg entity isAttribute ])
-	] )asSet
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfMoveClassChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	^(self changes select: [ :chg |
-		(chg isMove and: [chg entity isClass and: [ (chg entity isKindOf: FAMIXParameterizableClass) not ] ])
-	]) asSet 
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfMoveMethodChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	^ (self changes select: [ :chg | chg isMove and: [ chg entity isMethod ] ]) asSet
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfMoveNamespaceChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	^(self changes select: [ :chg |
-		(chg isMove and: [chg isForScopingEntity ])
-	]) asSet 
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfRemoveAccessChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-
-	^ self orchestrator assocChanges
-		select: [ :chg | chg isRemoval and: [ chg entity isAccess ] ]
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfRemoveAttributeChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	^self changes select: [ :chg |
-		(chg isRemoval and: [chg entity isAttribute ])
-	]
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfRemoveChanges [
-	"select the FamixChanges of the dictionnary according to their type"
-	^ self changes select: [ :chg | chg isRemoval ]
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfRemoveClassChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	^self changes select: [ :chg |
-		(chg isRemoval and: [chg entity isClass ])
-	]
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfRemoveInvocationChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	^self snapshot assocChanges select: [ :chg |
-		(chg isRemoval and: [chg entity isInvocation ])
-	]
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfRemoveMethodChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	^self changes select: [ :chg |
-		(chg isRemoval and: [chg entity isMethod ])
-	]
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfRemovePackageChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	^self changes select: [ :chg |
-		(chg isRemoval and: [chg entity isPackage ])
-	]
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfRemoveReferenceChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-
-	^ self orchestrator assocChanges
-		select: [ :chg | chg isRemoval and: [ chg entity isReference ] ]
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfRenameAttributeChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	^ (self changes select: [ :chg | chg isRename and: [ chg entity isAttribute ] ]) asSet
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfRenameChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	^ (self changes select: [ :chg | chg isRename ]) asSet
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfRenameClassChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	^(self changes select: [ :chg |
-		(chg isRename and: [chg entity isClass ])
-	]) asSet
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfRenameMethodChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	^(self changes select: [ :chg |
-		(chg isRename and: [chg entity isMethod ])
-	]) asSet
-]
-
-{ #category : #categorizing }
-MooseModelMerge >> setOfRenamePackageChanges [
-	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
-	^(self changes select: [ :chg |
-		(chg isRename and: [chg entity isPackage ])
-	]) asSet
 ]
 
 { #category : #deprecated }
