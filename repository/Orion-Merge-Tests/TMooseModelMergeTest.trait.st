@@ -282,23 +282,28 @@ TMooseModelMergeTest >> testCreateRemove [
 
 { #category : #'tests-create' }
 TMooseModelMergeTest >> testCreateRemoveAccess [
-
 	| var1 |
-	var1 := self modelMerger snapshot base entityNamed: 'Smalltalk::A3diff.att1'.
-	ORActionAddAccess new 		
-			orionModel: self modelMerger snapshot base; 
-			from: (self modelMerger snapshot base entityNamed: 'Smalltalk::A3diff.b3()') ; 
-			to: var1; 
-			run.
-	
+	var1 := self modelMerger snapshot baseModel
+		entityNamed: 'Smalltalk::A3diff.att1'.
+	ORActionAddAccess new
+		orionModel: self modelMerger snapshot baseModel;
+		from:
+			(self modelMerger snapshot baseModel
+				entityNamed: 'Smalltalk::A3diff.b3()');
+		to: var1;
+		run.
 	self modelMerger snapshot diff.
-	self modelMerger orionVersionedModel: (self modelMerger baseModel createNewChildVersion).
+	self modelMerger
+		orionVersionedModel: self modelMerger baseModel createNewChildVersion.
 	self modelMerger createRemoveAccess.
-
-	self assert: ((self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.att1') incomingAccesses) notEmpty.
-	self assert: ((self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.att1') incomingAccesses) isEmpty .
-
-	
+	self
+		assert:
+			(self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.att1')
+				incomingAccesses notEmpty.
+	self
+		assert:
+			(self modelMerger orionVersionedModel
+				entityNamed: 'Smalltalk::A3diff.att1') incomingAccesses isEmpty
 ]
 
 { #category : #'tests-create' }
@@ -317,19 +322,29 @@ TMooseModelMergeTest >> testCreateRemoveAttribute [
 { #category : #'tests-create' }
 TMooseModelMergeTest >> testCreateRemoveInvocation [
 	| var1 cand |
-	var1 := self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.b3()'.
-	cand := {(self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.c3()').
-	(self modelMerger baseModel entityNamed: 'Smalltalk::B3diff.c3()')} asOrderedCollection.
+	var1 := self modelMerger baseModel
+		entityNamed: 'Smalltalk::A3diff.b3()'.
+	cand := {(self modelMerger baseModel
+		entityNamed: 'Smalltalk::A3diff.c3()').
+	(self modelMerger baseModel entityNamed: 'Smalltalk::B3diff.c3()')}
+		asOrderedCollection.
 	ORActionAddInvocation new
-		orionModel: self modelMerger snapshot base;
+		orionModel: self modelMerger snapshot baseModel;
 		from: var1;
 		candidates: cand;
 		run.
 	self diff.
-	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
+	self modelMerger
+		orionVersionedModel: self modelMerger baseModel createNewChildVersion.
 	self modelMerger createRemoveInvocation.
-	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.b3()') outgoingInvocations isNotEmpty.
-	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.b3()') outgoingInvocations isEmpty
+	self
+		assert:
+			(self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.b3()')
+				outgoingInvocations isNotEmpty.
+	self
+		assert:
+			(self modelMerger orionVersionedModel
+				entityNamed: 'Smalltalk::A3diff.b3()') outgoingInvocations isEmpty
 ]
 
 { #category : #'tests-create' }
