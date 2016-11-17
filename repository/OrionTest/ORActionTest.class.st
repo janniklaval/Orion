@@ -10,7 +10,6 @@ Class {
 { #category : #'testing OrionModel' }
 ORActionTest >> setUp [
 	orionModel := (ORModel withParent: self model) name: #orionModel.
-	self assert: orionModel isGraphConnected
 ]
 
 { #category : #'testing OrionModel' }
