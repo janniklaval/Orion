@@ -11,32 +11,9 @@ Class {
 
 { #category : #running }
 MooseModelMergeTest >> setUp [
-	| importer |
-	importer := MoosePharoImporterTask new.
-	importer importingContext mergeClassAndMetaclass.
-	importer candidateClass: CandidateListOperator.
-	importer importerClass: SmalltalkImporter.
-	importer
-		model: MooseModel new;
-		addFromPackagesNamed:
-			#(#'Moose-TestResources-ModelDiff-P4' #'Moose-TestResources-ModelDiff-P3');
-		run.
-	model1 := importer model.
-	model1 name: 'base'.
+	model1 := self importModelNamed: 'base' fromPackages: #(#'Moose-TestResources-ModelDiff-P4' #'Moose-TestResources-ModelDiff-P3').
 	model1 := model1 convertToOrion.
 	model1 install.	"required by convertToOrion, otherwise useless"
-	importer := MoosePharoImporterTask new.
-	importer importingContext mergeClassAndMetaclass.
-	importer candidateClass: CandidateListOperator.
-	importer importerClass: SmalltalkImporter.
-	importer
-		model: MooseModel new;
-		addFromPackagesNamed:
-			#(#'Moose-TestResources-ModelDiff-P2' #'Moose-TestResources-ModelDiff-P3');
-		run.
-	model2 := importer model.
-	model2 name: 'target'.
-	self modelMerger: (MooseModelMerge new
-		withBase: model1
-		target: model2)
+	model2 := self importModelNamed: 'target' fromPackages: #(#'Moose-TestResources-ModelDiff-P2' #'Moose-TestResources-ModelDiff-P3').
+	self modelMerger: (FXDiff baseModel: model1 targetModel: model2 diffTransformers: {MooseModelMerge})
 ]

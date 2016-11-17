@@ -1,6 +1,8 @@
 Class {
 	#name : #MooseModelMergeAbstractTest,
 	#superclass : #TestCase,
+	#traits : 'TMooseSmalltalkModelImporterForTests',
+	#classTraits : 'TMooseSmalltalkModelImporterForTests classTrait',
 	#instVars : [
 		'modelMerger',
 		'model2',
@@ -17,7 +19,7 @@ MooseModelMergeAbstractTest >> baseModel [
 
 { #category : #'as yet unclassified' }
 MooseModelMergeAbstractTest >> diff [
-	diff ifNil: [ diff := self modelMerger snapshot diff ].
+	diff ifNil: [ diff := self modelMerger run result ].
 	^ diff
 ]
 
@@ -39,6 +41,11 @@ MooseModelMergeAbstractTest >> modelMerger [
 { #category : #accessing }
 MooseModelMergeAbstractTest >> modelMerger: anObject [
 	modelMerger := anObject
+]
+
+{ #category : #'as yet unclassified' }
+MooseModelMergeAbstractTest >> mooseModelMerge [
+	^ self modelMerger diffTransformers first
 ]
 
 { #category : #'as yet unclassified' }

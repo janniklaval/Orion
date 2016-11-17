@@ -7,11 +7,8 @@ Class {
 }
 
 { #category : #running }
-MooseModelMergeOnlyOrionModelsTest >> setUp [ 
+MooseModelMergeOnlyOrionModelsTest >> setUp [
 	super setUp.
-	
 	model2 := model2 convertToOrion.
-	
-
-	modelMerger := MooseModelMerge new withBase: model1 target: model2.
+	self modelMerger: (FXDiff baseModel: model1 targetModel: model2 diffTransformers: {MooseModelMerge})
 ]
