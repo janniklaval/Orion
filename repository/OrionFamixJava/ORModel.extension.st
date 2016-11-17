@@ -22,3 +22,12 @@ ORModel >> addPackageNamed: aString inORPackage: aPackage [
 
 	^self addPackageNamed: aString inORPackage: nil.
 ]
+
+{ #category : #'*OrionFamixJava' }
+ORModel >> addStubNamespace: aFAMIXNamespace [
+	aFAMIXNamespace parentScope
+		ifNotNil: [ :parentScope | 
+			(self entityNamed: parentScope mooseName) ifNil: [ self addStubNamespace: parentScope ].
+			self addNamespaceNamed: aFAMIXNamespace name inORNamespace: (self entityNamed: parentScope mooseName) ]
+		ifNil: [ self addNamespaceNamed: aFAMIXNamespace name ]
+]
