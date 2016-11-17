@@ -133,7 +133,7 @@ TMooseEntity >> versionIn: anOrionModel [
 
 	|upEntity|
 	
-	upEntity := anOrionModel entityStorage atID: self mooseID ifAbsent:[^nil].
+	upEntity := anOrionModel entityStorage atID: self mooseID ifAbsent: [^nil].
 	upEntity currentContext: anOrionModel.
-	^upEntity
+	^ upEntity
 ]
