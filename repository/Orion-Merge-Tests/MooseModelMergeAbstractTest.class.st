@@ -12,12 +12,12 @@ Class {
 	#category : #'Orion-Merge-Tests'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MooseModelMergeAbstractTest >> baseModel [
 	^ self model1
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MooseModelMergeAbstractTest >> diff [
 	diff ifNil: [ diff := self modelMerger run result ].
 	^ diff
@@ -43,12 +43,12 @@ MooseModelMergeAbstractTest >> modelMerger: anObject [
 	modelMerger := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MooseModelMergeAbstractTest >> mooseModelMerge [
 	^ self modelMerger diffTransformers first
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MooseModelMergeAbstractTest >> targetModel [
 	^ self model2
 ]
