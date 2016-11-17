@@ -161,12 +161,8 @@ MooseModelMerge >> createAddReference [
 	self result setOfAddReferenceChanges
 		do: [ :chg | 
 			chg entity to isStub
-				ifTrue: [ self addReferenceFrom: chg entity from 
-						toStub: chg entity to ]
-				ifFalse: [ 
-					self addReferenceFrom: chg entity from 
-						to: chg entity to
-						] ]
+				ifTrue: [ self orionVersionedModel addReferenceFrom: chg entity from toStub: chg entity to ]
+				ifFalse: [ self orionVersionedModel addReferenceFrom: chg entity from to: chg entity to ] ]
 ]
 
 { #category : #'private-run' }
@@ -363,13 +359,14 @@ MooseModelMerge >> createVersion [
 	self createAddScopingEntity.
 	self createAddType.
 	self createAddMethod.
+	self createRename.
 	self createAddAccess.
 	self createAddInvocation.
 	self createAddAttribute.
 	self createAddReference.
 	self createMoveClass.
 	self createMoveMethod.
-	self createRename.
+	
 	self createRemove
 ]
 
