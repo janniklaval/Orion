@@ -24,6 +24,23 @@ ORModel >> addPackageNamed: aString inORPackage: aPackage [
 ]
 
 { #category : #'*OrionFamixJava' }
+ORModel >> addReferenceFrom: aFamixMethod to: aFamixClass [
+	(aFamixMethod belongsTo isAnonymousClass not and: [ aFamixMethod belongsTo isInnerClass not ])
+		ifTrue: [ (self entityNamed: aFamixMethod mooseName) addReferenceTo: (self entityNamed: aFamixClass mooseName) inModel: self ]
+]
+
+{ #category : #'*OrionFamixJava' }
+ORModel >> addReferenceFrom: aFAMIXMethod toStub: aFAMIXClass [
+	(self entityNamed: aFAMIXClass mooseName) ifNil: [ self addStubClass: aFAMIXClass ] ifNotNil: [ self addReferenceFrom: aFAMIXMethod to: aFAMIXClass ]
+]
+
+{ #category : #'*OrionFamixJava' }
+ORModel >> addStubClass: aFAMIXClass [
+	(self entityNamed: aFAMIXClass container mooseName) ifNil: [ self addStubNamespace: aFAMIXClass container ].
+	(self entityNamed: aFAMIXClass container mooseName) addClassNamed: aFAMIXClass name inModel: self
+]
+
+{ #category : #'*OrionFamixJava' }
 ORModel >> addStubNamespace: aFAMIXNamespace [
 	aFAMIXNamespace parentScope
 		ifNotNil: [ :parentScope | 
