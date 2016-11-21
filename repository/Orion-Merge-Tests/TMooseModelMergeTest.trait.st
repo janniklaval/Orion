@@ -27,15 +27,17 @@ Trait {
 
 { #category : #'tests-create' }
 TMooseModelMergeTest >> testCreateAddAccess [
-	| var2 |
+	| var2 access |
 	var2 := self modelMerger targetModel entityNamed: 'Smalltalk::A3diff.att1'.
-	FAMIXAccess new
+	access := FAMIXAccess new
 		variable: var2;
 		accessor: (self modelMerger targetModel entityNamed: 'Smalltalk::A3diff.b3()').
+	self modelMerger targetModel add: access.
+	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.att1') incomingAccesses isEmpty.
 	self modelMerger run.
 	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
 	self mooseModelMerge createAddAccess.
-	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.att1') incomingAccesses first isNil.
+	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.att1') incomingAccesses size equals: 0.
 	self
 		assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.att1') incomingAccesses first accessor
 		equals: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.b3()')
@@ -618,11 +620,14 @@ TMooseModelMergeTest >> testSetOfMoveClassChanges [
 
 { #category : #'tests-set' }
 TMooseModelMergeTest >> testSetOfMoveMethodChanges [
-	(self modelMerger targetModel entityNamed: 'Smalltalk::A3diff.c3()') parentType: (self modelMerger targetModel entityNamed: 'Smalltalk::A2diff').
+	(self modelMerger targetModel entityNamed: 'Smalltalk::A3diff.c3()')
+		parentType: (self modelMerger targetModel entityNamed: 'Smalltalk::A2diff').
 	self diff.
 	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
 	self assert: self modelMerger result setOfMoveMethodChanges notNil.
-	self assert: self modelMerger result setOfMoveMethodChanges size equals: (self diff count: [ :e | e isMove and: [ e entity isBehaviouralEntity ] ]) / 2.	"Because of the move on both sides"
+	self
+		assert: self modelMerger result setOfMoveMethodChanges size
+		equals: (self diff count: [ :e | e isMove and: [ e entity isBehaviouralEntity ] ]).
 	self assert: (self modelMerger result setOfMoveMethodChanges collect: [ :e | e entity mooseName = 'Smalltalk::A3diff.c3()' ]) isNotEmpty
 ]
 

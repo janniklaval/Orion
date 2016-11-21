@@ -1,7 +1,7 @@
 Class {
 	#name : #MooseModelMergeSimpleTest,
 	#superclass : #MooseModelMergeAbstractTest,
-	#traits : 'TMooseModelMergeTest - {#testCreateAddType. #testCreateAddScopingEntity. #testCreateAddReference. #testCreateMoveClass. #testCreateMoveExtendedMethod. #testCreateRemove. #testCreateRename. #testCreateRenameMethod. #testCreateRenamePackage. #testSetOfAddMethodChanges. #testSetOfRenamePackageChanges. #testSetOfRenameMethodChanges. #testSetOfRenameAttributeChanges}',
+	#traits : 'TMooseModelMergeTest - {#testCreateAddType. #testCreateAddScopingEntity. #testCreateAddReference. #testCreateMoveClass. #testCreateMoveExtendedMethod. #testCreateRemove. #testCreateRename. #testCreateRenameMethod. #testCreateRenamePackage. #testSetOfAddMethodChanges. #testSetOfRenamePackageChanges. #testSetOfRenameMethodChanges. #testSetOfRenameAttributeChanges. #testSetOfMoveClassChanges. #testSetOfMoveMethodChanges}',
 	#classTraits : 'TMooseModelMergeTest classTrait',
 	#category : #'Orion-Merge-Tests'
 }
