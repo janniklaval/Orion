@@ -26,3 +26,10 @@ original and the copy"
 	values := values collect: [ :val |
 		val ifNotNil: [ val shallowCopy ] ].
 ]
+
+{ #category : #'*OrionCore-model' }
+FMMultivalueLink >> versionIn: aVersion [
+	^ self
+		collect: [ :e | e versionIn: aVersion ]
+		thenSelect: #isNotNil
+]
