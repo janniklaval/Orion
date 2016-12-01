@@ -22,7 +22,7 @@ BlockClosure >> orBrowserExceptionsLauncherCollection: anObject [
 		on: MessageNotUnderstood
 		do: [ :e | 
 			| mess |
-			mess := e message ifNotNil: [ e message name ] ifNil: [ e messageText asString ].
+			mess := e message ifNotNil: [ e message selector ] ifNil: [ e messageText asString ].
 			OrionBrowserException
 				signal:
 					('The "' , mess , '" message is not supported by "' , anObject first class name
