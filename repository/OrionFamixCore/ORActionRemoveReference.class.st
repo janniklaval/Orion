@@ -32,12 +32,6 @@ ORActionRemoveReference >> run [
 	toEl := self orionModel retrieveEntity: entity target.
 	fromEl privateOutgoingReferences: (fromEl privateOutgoingReferences orionCopy orionRemove: entity).
 	toEl privateIncomingReferences: (toEl privateIncomingReferences orionCopy orionRemove: entity).
-	entity comments
-		do: [ :com | 
-			ORActionRemoveComment new
-				parentAction: self;
-				orionModel: self orionModel;
-				entity: com;
-				run ].
+	entity comments do: [ :com | com deleteInAction: self ].
 	self orionModel remove: entity
 ]

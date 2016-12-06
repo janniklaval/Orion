@@ -52,33 +52,9 @@ ORActionSafeRemovePackage >> run [
 				ifFalse: [ class privateParentPackage: pack.
 					pack privateTypes: (pack privateTypes orionCopy unsafeAdd: class) ]
 				ifTrue: [ class privateParentPackage: nil ] ].
-	entity comments
-		do: [ :com | 
-			ORActionRemoveComment new
-				parentAction: self;
-				orionModel: self orionModel;
-				entity: com;
-				run ].
-	entity functions
-		do: [ :com | 
-			ORActionRemoveFunction new
-				parentAction: self;
-				orionModel: self orionModel;
-				entity: com;
-				run ].
-	entity globalVariables
-		do: [ :com | 
-			ORActionRemoveGlobalVariable new
-				parentAction: self;
-				orionModel: self orionModel;
-				entity: com;
-				run ].
-	entity receivingInvocations
-		do: [ :com | 
-			ORActionRemoveInvocation new
-				parentAction: self;
-				orionModel: self orionModel;
-				entity: com;
-				run ].
+	entity comments do: [ :com | com deleteInAction: self ].
+	entity functions do: [ :com | com deleteInAction: self ].
+	entity globalVariables do: [ :com | com deleteInAction: self ].
+	entity receivingInvocations do: [ :com | com deleteInAction: self ].
 	self orionModel remove: entity
 ]

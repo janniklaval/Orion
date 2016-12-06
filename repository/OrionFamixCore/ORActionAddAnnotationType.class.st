@@ -9,5 +9,12 @@ Class {
 
 { #category : #'method execution' }
 ORActionAddAnnotationType >> run [
-	self shouldBeImplemented
+	| newAnnotationType |
+	super run.
+	newAnnotationType := ORAnnotationType named: newName.
+	self orionModel add: newAnnotationType.
+	(self container isModel not and: [ self container isMethod ])
+		ifTrue: [ newAnnotationType privateContainer: self container orionCopy ].
+	entity := newAnnotationType.
+	^ entity
 ]

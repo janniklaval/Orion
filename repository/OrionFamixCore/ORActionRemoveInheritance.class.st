@@ -26,23 +26,12 @@ ORActionRemoveInheritance >> printWorkspace [
 
 { #category : #'method execution' }
 ORActionRemoveInheritance >> run [
-	| subEl superEl|
+	| subEl superEl |
 	super run.
-
-	subEl := (self orionModel retrieveEntity: entity subclass).
-	superEl := (self orionModel retrieveEntity: entity superclass).
-
+	subEl := self orionModel retrieveEntity: entity subclass.
+	superEl := self orionModel retrieveEntity: entity superclass.
 	subEl privateSuperInheritances: (subEl privateSuperInheritances orionCopy orionRemove: entity).
 	superEl privateSubInheritances: (superEl privateSubInheritances orionCopy orionRemove: entity).
-	
-	entity comments do: [ :com |
-		ORActionRemoveComment new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity: com; 
-			run.
-	].
-	
-	self orionModel remove: entity.
-
+	entity comments do: [ :com | com deleteInAction: self ].
+	self orionModel remove: entity
 ]

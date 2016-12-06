@@ -9,5 +9,11 @@ Class {
 
 { #category : #'method execution' }
 ORActionRemoveAnnotationType >> run [
-	self shouldBeImplemented
+	super run.
+	entity instances do: [ :com | com deleteInAction: self ].
+	entity container
+		ifNotNil: [ | pack |
+			pack := self orionModel retrieveEntity: entity container.
+			self flag: #'TODO Implement removal from container entity but private accessors are not defined because it uses private state...' ].
+	self orionModel remove: entity
 ]

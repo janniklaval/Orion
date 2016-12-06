@@ -26,23 +26,13 @@ ORActionRemoveAccess >> printWorkspace [
 
 { #category : #'method execution' }
 ORActionRemoveAccess >> run [
-	| fromEl toEl|
+	| fromEl toEl |
 	super run.
-	fromEl := (self orionModel retrieveEntity:entity accessor).
-	toEl := (self orionModel retrieveEntity: entity variable).
-	
+	fromEl := self orionModel retrieveEntity: entity accessor.
+	toEl := self orionModel retrieveEntity: entity variable.
 	fromEl privateAccesses: (fromEl privateAccesses orionCopy orionRemove: entity).
-
 	toEl privateIncomingAccesses: (toEl privateIncomingAccesses orionCopy orionRemove: entity).
-
-	entity comments do:[:com |
-		ORActionRemoveComment new
-			parentAction: self ;
-			orionModel: self orionModel;
-			entity:com;
-			run.
-	].
+	entity comments do: [ :com | com deleteInAction: self ].
 	self orionModel remove: entity.
-	
-	self postRun.
+	self postRun
 ]

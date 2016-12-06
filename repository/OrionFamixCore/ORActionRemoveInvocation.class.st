@@ -32,28 +32,15 @@ ORActionRemoveInvocation >> printWorkspace [
 
 { #category : #'method execution' }
 ORActionRemoveInvocation >> run [
-	| fromEl toEl recEl|
+	| fromEl toEl recEl |
 	super run.
-	fromEl := (self orionModel retrieveEntity: entity sender).
-	toEl := entity candidates collect:[:e | self orionModel retrieveEntity: e  ].
-	entity receiver ifNotNil:[
-		recEl := (self orionModel retrieveEntity: entity receiver).
-		recEl privateReceivingInvocations: (recEl privateReceivingInvocations orionCopy orionRemove: entity).
-	].
-	
+	fromEl := self orionModel retrieveEntity: entity sender.
+	toEl := entity candidates collect: [ :e | self orionModel retrieveEntity: e ].
+	entity receiver
+		ifNotNil: [ recEl := self orionModel retrieveEntity: entity receiver.
+			recEl privateReceivingInvocations: (recEl privateReceivingInvocations orionCopy orionRemove: entity) ].
 	fromEl privateOutgoingInvocations: (fromEl privateOutgoingInvocations orionCopy orionRemove: entity).
-	
-	toEl do:[:each|
-		each privateIncomingInvocations: (each privateIncomingInvocations orionCopy orionRemove: entity).].
-	
-	entity comments do:[:com |
-		ORActionRemoveComment new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:com; 
-			run.
-	].
-	
-	self orionModel remove: entity.
-
+	toEl do: [ :each | each privateIncomingInvocations: (each privateIncomingInvocations orionCopy orionRemove: entity) ].
+	entity comments do: [ :com | com deleteInAction: self ].
+	self orionModel remove: entity
 ]

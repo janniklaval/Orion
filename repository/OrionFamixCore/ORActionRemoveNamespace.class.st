@@ -20,10 +20,11 @@ ORActionRemoveNamespace class >> scope [
 
 { #category : #'method execution' }
 ORActionRemoveNamespace >> run [
-	| namespace pack |
+	| namespace |
 	super run.
 	entity parentPackage
-		ifNotNil: [ pack := self orionModel retrieveEntity: entity parentPackage.
+		ifNotNil: [ | pack |
+			pack := self orionModel retrieveEntity: entity parentPackage.
 			pack privateChildNamedEntities: (pack privateChildNamedEntities orionCopy orionRemove: entity) ].
 	entity parentScope
 		ifNotNil: [ namespace := self orionModel retrieveEntity: entity parentScope.
@@ -32,45 +33,21 @@ ORActionRemoveNamespace >> run [
 		do: [ :each | 
 			| class |
 			class := self orionModel retrieveEntity: each.
-			entity parentScope isNil
-				ifFalse: [ class privateContainer: namespace.
+			entity parentScope
+				ifNotNil: [ class privateContainer: namespace.
 					namespace privateTypes: (namespace privateTypes orionCopy unsafeAdd: class) ]
-				ifTrue: [ class privateContainer: nil ] ].
-	entity comments
-		do: [ :com | 
-			ORActionRemoveComment new
-				parentAction: self;
-				orionModel: self orionModel;
-				entity: com;
-				run ].
-	entity functions
-		do: [ :com | 
-			ORActionRemoveFunction new
-				parentAction: self;
-				orionModel: self orionModel;
-				entity: com;
-				run ].
-	entity globalVariables
-		do: [ :com | 
-			ORActionRemoveGlobalVariable new
-				parentAction: self;
-				orionModel: self orionModel;
-				entity: com;
-				run ].
-	entity receivingInvocations
-		do: [ :com | 
-			ORActionRemoveInvocation new
-				parentAction: self;
-				orionModel: self orionModel;
-				entity: com;
-				run ].
+				ifNil: [ class privateContainer: nil ] ].
+	entity comments do: [ :com | com deleteInAction: self ].
+	entity functions do: [ :fun | fun deleteInAction: self ].
+	entity globalVariables do: [ :com | com deleteInAction: self ].
+	entity receivingInvocations do: [ :com | com deleteInAction: self ].
 	entity childScopes
 		do: [ :each | 
 			| scope |
 			scope := self orionModel retrieveEntity: each.
-			entity parentScope isNil
-				ifFalse: [ scope privateParentScope: namespace.
+			entity parentScope
+				ifNotNil: [ scope privateParentScope: namespace.
 					namespace privateChildScopes: (namespace privateChildScopes orionCopy unsafeAdd: scope) ]
-				ifTrue: [ scope privateParentScope: nil ] ].
+				ifNil: [ scope privateParentScope: nil ] ].
 	self orionModel remove: entity
 ]

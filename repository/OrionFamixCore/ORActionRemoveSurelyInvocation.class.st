@@ -49,13 +49,7 @@ ORActionRemoveSurelyInvocation >> run [
 		toEl do:[:each|
 			each privateIncomingInvocations: (each privateIncomingInvocations orionCopy orionRemove: entity).].
 	
-		entity comments do:[:com |
-			ORActionRemoveComment new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:com; 
-			run.
-		].
+		entity comments do:[:com | com deleteInAction: self 		].
 	
 		self orionModel remove: entity.
 	].

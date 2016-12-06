@@ -15,7 +15,7 @@ ORActionExtractClass class >> description [
 	^'extract class'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ORActionExtractClass >> initialize [
 	super initialize.
 	self entity: nil.
@@ -28,7 +28,7 @@ ORActionExtractClass >> printWorkspace [
 	^ '>', self class description , '>> ', ' to ', self newName
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'method execution' }
 ORActionExtractClass >> run [
 	| packageToPutTheNewClass theNewClass methodsAccessors |
 	super run.

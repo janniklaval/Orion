@@ -10,41 +10,16 @@ Class {
 { #category : #'method execution' }
 ORActionRemoveImplicitVariable >> run [
 	super run.
-	entity comments do:[:com |
-		ORActionRemoveComment new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:com; 
-			run.
-	].
-	entity incomingAccesses do:[:each |
-		ORActionRemoveAccess new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:each; 
-			run.
-	].
-	entity parentPackage ifNotNil:[
-		| pack |
-		pack := (self orionModel retrieveEntity:entity parentPackage).
-		pack privateChildNamedEntities:  (pack privateChildNamedEntities orionCopy orionRemove: entity).
-	].
-
-	entity parentBehaviouralEntity ifNotNil:[
-		| functionOrMethod |
-		functionOrMethod := (self orionModel retrieveEntity:entity parentBehaviouralEntity).
-		functionOrMethod privateImplicitVariables:  (functionOrMethod privateImplicitVariables orionCopy orionRemove: entity).
-	].
-
-	entity receivingInvocations do:[:com |
-		ORActionRemoveInvocation new 
-			parentAction: self ;
-			orionModel: self orionModel; 
-			entity:com; 
-			run.
-	].
-	
-
-	self orionModel remove: entity.
-
+	entity comments do: [ :com | com deleteInAction: self ].
+	entity incomingAccesses do: [ :each | each deleteInAction: self ].
+	entity parentPackage
+		ifNotNil: [ | pack |
+			pack := self orionModel retrieveEntity: entity parentPackage.
+			pack privateChildNamedEntities: (pack privateChildNamedEntities orionCopy orionRemove: entity) ].
+	entity parentBehaviouralEntity
+		ifNotNil: [ | functionOrMethod |
+			functionOrMethod := self orionModel retrieveEntity: entity parentBehaviouralEntity.
+			functionOrMethod privateImplicitVariables: (functionOrMethod privateImplicitVariables orionCopy orionRemove: entity) ].
+	entity receivingInvocations do: [ :com | com deleteInAction: self ].
+	self orionModel remove: entity
 ]

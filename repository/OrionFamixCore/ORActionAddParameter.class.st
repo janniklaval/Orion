@@ -7,7 +7,7 @@ Class {
 	#category : #'OrionFamixCore-Action'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'method execution' }
 ORActionAddParameter >> run [
 	| newParameter newBehavioural |
 	super run.
