@@ -43,7 +43,7 @@ TOrionMergeTest >> testCreateAddAccess [
 		equals: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.b3()')
 ]
 
-{ #category : #tests }
+{ #category : #'tests-create' }
 TOrionMergeTest >> testCreateAddAnnotation [
 	| method annotationType |
 	method := self modelMerger targetModel entityNamed: 'Smalltalk::A3diff.c3()'.
@@ -76,6 +76,8 @@ TOrionMergeTest >> testCreateAddAttribute [
 	self mooseModelMerge createAddType.
 	self mooseModelMerge createAddAttribute.
 	self mooseModelMerge createAddMethod.
+	self mooseModelMerge createAddAnnotationType.
+	self mooseModelMerge createAddAnnotationInstance.
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.attAdded') isNil.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.attAdded') isNotNil.
 	self assert: self modelMerger orionVersionedModel changes size equals: diff numberOfAdds
@@ -122,6 +124,8 @@ TOrionMergeTest >> testCreateAddMethod [
 	self mooseModelMerge createAddType.
 	self mooseModelMerge createAddMethod.
 	self mooseModelMerge createAddAttribute.
+	self mooseModelMerge createAddAnnotationType.
+	self mooseModelMerge createAddAnnotationInstance.
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.toto()') isNil.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.toto()') notNil.
 	self assert: self modelMerger orionVersionedModel changes size equals: self diff numberOfAdds
@@ -550,7 +554,7 @@ TOrionMergeTest >> testSetOfAddAccessChanges [
 		equals: (self diff assocChanges count: [ :e | e isAddition and: [ e entity isAccess ] ])
 ]
 
-{ #category : #tests }
+{ #category : #'tests-set' }
 TOrionMergeTest >> testSetOfAddAnnotationInstanceChanges [
 	| method annotationType |
 	method := self modelMerger targetModel entityNamed: 'Smalltalk::A3diff.c3()'.
@@ -568,7 +572,7 @@ TOrionMergeTest >> testSetOfAddAnnotationInstanceChanges [
 	self assert: self modelMerger result setOfAddAnnotationInstanceChanges size equals: (self diff entityChanges count: [ :e | e isAddition and: [ e entity isAnnotationInstance ] ])
 ]
 
-{ #category : #tests }
+{ #category : #'tests-set' }
 TOrionMergeTest >> testSetOfAddAnnotationTypeChanges [
 	| var2 |
 	self modelMerger targetModel add: (FAMIXAnnotationType named: 'newAnnotationType').

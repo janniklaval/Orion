@@ -119,7 +119,7 @@ OrionMergeJavaTest >> testAddContainedStubNamespace3 [
 
 { #category : #tests }
 OrionMergeJavaTest >> testAddReference [
-	| cl meth ref |
+	| cl meth ref changedReference |
 	cl := modelMerger targetModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2'.
 	meth := modelMerger targetModel entityNamed: 'NamespaceTest::Class1.supersimple()'.
 	ref := FAMIXReference new
@@ -128,12 +128,13 @@ OrionMergeJavaTest >> testAddReference [
 		yourself.
 	modelMerger targetModel add: ref.
 	modelMerger run.
-
 	modelMerger orionVersionedModel: modelMerger baseModel createNewChildVersion.
-	modelMerger orionVersionedModel addReferenceFrom: modelMerger result setOfAddReferenceChanges first entity from to: modelMerger result setOfAddReferenceChanges first entity to.
-	self assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()') outgoingReferences isNotNil.
+	changedReference := modelMerger result setOfAddReferenceChanges first entity.
+	self assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()') outgoingReferences isEmpty.
+	modelMerger orionVersionedModel addReferenceFrom: changedReference from to: changedReference to.
+	self assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()') outgoingReferences isNotEmpty.
 	self
-		assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()') outgoingReferences first to
+		assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()') outgoingReferences second to
 		equals: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2')
 ]
 
