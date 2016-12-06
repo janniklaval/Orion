@@ -42,3 +42,8 @@ TFAMIXAnnotationInstance >> attributes [
 TFAMIXAnnotationInstance >> attributesOR: aVersion [
 	^ self privateAttributes versionIn: aVersion
 ]
+
+{ #category : #accessing }
+TFAMIXAnnotationInstance >> famixClass [
+	^ super famixClass superclass
+]

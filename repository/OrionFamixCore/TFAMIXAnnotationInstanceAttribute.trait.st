@@ -24,6 +24,11 @@ TFAMIXAnnotationInstanceAttribute >> annotationTypeAttributeOR: aVersion [
 ]
 
 { #category : #accessing }
+TFAMIXAnnotationInstanceAttribute >> famixClass [
+	^ super famixClass superclass
+]
+
+{ #category : #accessing }
 TFAMIXAnnotationInstanceAttribute >> parentAnnotationInstance [
 	^ self parentAnnotationInstanceOR: self currentContext
 ]
