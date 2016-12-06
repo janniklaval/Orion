@@ -44,16 +44,6 @@ TFAMIXType >> containerOR: aVersion [
 ]
 
 { #category : #accessing }
-TFAMIXType >> incomingReferences [
-	^ self incomingReferencesOR: self currentContext
-]
-
-{ #category : #accessing }
-TFAMIXType >> incomingReferencesOR: aVersion [
-	^ self privateIncomingReferences versionIn: aVersion
-]
-
-{ #category : #accessing }
 TFAMIXType >> methods [
 	^ self methodsOR: self currentContext
 ]
