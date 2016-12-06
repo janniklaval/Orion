@@ -43,6 +43,17 @@ ORModel >> add: anElement [
 ]
 
 { #category : #'adding/removing' }
+ORModel >> addAnnotationTypeNamed: aString inModel: aModelVersion [
+	aString
+		ifNotNil: [ (ORActionAddAnnotationType new
+				orionModel: aModelVersion;
+				container: self ;
+				newName: aString)
+				manualRun;
+				postRun ]
+]
+
+{ #category : #'adding/removing' }
 ORModel >> addToListOfChanges: anAction [ 
 	self changes add: anAction.
 ]
