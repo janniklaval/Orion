@@ -11,11 +11,9 @@ original and the copy"
 
 { #category : #'*OrionCore-model' }
 FMMultivalueLink >> orionRemove: element [
-
-	values remove: (values detect:[:e | e mooseID = element mooseID] ifNone: [nil]) ifAbsent: [nil].
-	
-	
-
+	values
+		remove: (values detect: [ :e | e mooseID = element mooseID ] ifNone: [ nil ])
+		ifAbsent: [ nil ]
 ]
 
 { #category : #'*OrionCore-model' }
