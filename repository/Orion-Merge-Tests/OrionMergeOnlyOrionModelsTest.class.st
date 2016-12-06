@@ -22,17 +22,17 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #MooseModelMergeOnlyOrionModelsTest,
-	#superclass : #MooseModelMergeTest,
-	#traits : 'TMooseModelMergeTest - {#testSetOfRenamePackageChanges. #testSetOfRenameMethodChanges. #testCreateRename. #testCreateRenamePackage. #testCreateRenameMethod}',
-	#classTraits : 'TMooseModelMergeTest classTrait',
+	#name : #OrionMergeOnlyOrionModelsTest,
+	#superclass : #OrionMergeTest,
+	#traits : 'TOrionMergeTest - {#testSetOfRenamePackageChanges. #testSetOfRenameMethodChanges. #testCreateRename. #testCreateRenamePackage. #testCreateRenameMethod}',
+	#classTraits : 'TOrionMergeTest classTrait',
 	#category : #'Orion-Merge-Tests'
 }
 
 { #category : #running }
-MooseModelMergeOnlyOrionModelsTest >> setUp [
+OrionMergeOnlyOrionModelsTest >> setUp [
 	super setUp.
 	self skip.
 	model2 := model2 convertToOrion.
-	self modelMerger: (FXDiff baseModel: model1 targetModel: model2 diffTransformers: {MooseModelMerge})
+	self modelMerger: (FXDiff baseModel: model1 targetModel: model2 diffTransformers: {OrionMerge})
 ]

@@ -1,5 +1,5 @@
 Class {
-	#name : #MooseModelMergeAbstractTest,
+	#name : #OrionMergeAbstractTest,
 	#superclass : #TestCase,
 	#traits : 'TMooseSmalltalkModelImporterForTests',
 	#classTraits : 'TMooseSmalltalkModelImporterForTests classTrait',
@@ -13,48 +13,48 @@ Class {
 }
 
 { #category : #accessing }
-MooseModelMergeAbstractTest >> baseModel [
+OrionMergeAbstractTest >> baseModel [
 	^ self model1
 ]
 
 { #category : #accessing }
-MooseModelMergeAbstractTest >> diff [
+OrionMergeAbstractTest >> diff [
 	diff ifNil: [ diff := self modelMerger run result ].
 	^ diff
 ]
 
 { #category : #accessing }
-MooseModelMergeAbstractTest >> model1 [
+OrionMergeAbstractTest >> model1 [
 	^ model1
 ]
 
 { #category : #accessing }
-MooseModelMergeAbstractTest >> model2 [
+OrionMergeAbstractTest >> model2 [
 	^ model2
 ]
 
 { #category : #accessing }
-MooseModelMergeAbstractTest >> modelMerger [
+OrionMergeAbstractTest >> modelMerger [
 	^ modelMerger
 ]
 
 { #category : #accessing }
-MooseModelMergeAbstractTest >> modelMerger: anObject [
+OrionMergeAbstractTest >> modelMerger: anObject [
 	modelMerger := anObject
 ]
 
 { #category : #accessing }
-MooseModelMergeAbstractTest >> mooseModelMerge [
+OrionMergeAbstractTest >> mooseModelMerge [
 	^ self modelMerger diffTransformers first
 ]
 
 { #category : #accessing }
-MooseModelMergeAbstractTest >> targetModel [
+OrionMergeAbstractTest >> targetModel [
 	^ self model2
 ]
 
 { #category : #running }
-MooseModelMergeAbstractTest >> tearDown [
+OrionMergeAbstractTest >> tearDown [
 
 	ORSystem root notEmpty
 		ifTrue: [ 

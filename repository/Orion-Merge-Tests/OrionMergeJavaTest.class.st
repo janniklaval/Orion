@@ -1,5 +1,5 @@
 Class {
-	#name : #MooseModelMergeJavaTest,
+	#name : #OrionMergeJavaTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'modelMerger'
@@ -8,17 +8,17 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-MooseModelMergeJavaTest >> mooseModelMerge [
+OrionMergeJavaTest >> mooseModelMerge [
 	^ modelMerger diffTransformers first
 ]
 
 { #category : #accessing }
-MooseModelMergeJavaTest >> orionVersionedModel: anORModel [
+OrionMergeJavaTest >> orionVersionedModel: anORModel [
 	self mooseModelMerge orionVersionedModel: anORModel
 ]
 
 { #category : #running }
-MooseModelMergeJavaTest >> setUp [
+OrionMergeJavaTest >> setUp [
 	| model1 model2 |
 	model1 := MooseModel new.
 	model1 importFromMSEStream: self wholeMSE readStream.
@@ -26,18 +26,18 @@ MooseModelMergeJavaTest >> setUp [
 	model2 := MooseModel new.
 	model2 importFromMSEStream: self wholeMSE readStream.
 	model2 name: 'base02'.
-	modelMerger := FXDiff baseModel: model1 convertToOrion targetModel: model2 diffTransformers: {MooseModelMerge}
+	modelMerger := FXDiff baseModel: model1 convertToOrion targetModel: model2 diffTransformers: {OrionMerge}
 ]
 
 { #category : #tests }
-MooseModelMergeJavaTest >> test [
+OrionMergeJavaTest >> test [
 	"comment stating purpose of message"
 
 	self assert: modelMerger baseModel notEmpty
 ]
 
 { #category : #tests }
-MooseModelMergeJavaTest >> testAddContainedStubNamespace [
+OrionMergeJavaTest >> testAddContainedStubNamespace [
 	"The parent namespace is a stub and does not already exist in the model"
 
 	| ns nsc |
@@ -63,7 +63,7 @@ MooseModelMergeJavaTest >> testAddContainedStubNamespace [
 ]
 
 { #category : #tests }
-MooseModelMergeJavaTest >> testAddContainedStubNamespace2 [
+OrionMergeJavaTest >> testAddContainedStubNamespace2 [
 	"The parent namespace is not a stub and already exist in the model"
 
 	| ns |
@@ -91,7 +91,7 @@ MooseModelMergeJavaTest >> testAddContainedStubNamespace2 [
 ]
 
 { #category : #tests }
-MooseModelMergeJavaTest >> testAddContainedStubNamespace3 [
+OrionMergeJavaTest >> testAddContainedStubNamespace3 [
 	"The parent namespace is a stub and already exists in the model"
 
 	| ns |
@@ -118,7 +118,7 @@ MooseModelMergeJavaTest >> testAddContainedStubNamespace3 [
 ]
 
 { #category : #tests }
-MooseModelMergeJavaTest >> testAddReference [
+OrionMergeJavaTest >> testAddReference [
 	| cl meth ref |
 	cl := modelMerger targetModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2'.
 	meth := modelMerger targetModel entityNamed: 'NamespaceTest::Class1.supersimple()'.
@@ -138,7 +138,7 @@ MooseModelMergeJavaTest >> testAddReference [
 ]
 
 { #category : #tests }
-MooseModelMergeJavaTest >> testAddReference2 [
+OrionMergeJavaTest >> testAddReference2 [
 	| cl meth ref |
 	cl := modelMerger targetModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2'.
 	meth := FAMIXMethod new
@@ -163,7 +163,7 @@ MooseModelMergeJavaTest >> testAddReference2 [
 ]
 
 { #category : #tests }
-MooseModelMergeJavaTest >> testAddReferenceFromMethOfAnonymousClass [
+OrionMergeJavaTest >> testAddReferenceFromMethOfAnonymousClass [
 	| cl meth |
 	cl := FAMIXClass new
 		name: 'AnonymousClass';
@@ -193,7 +193,7 @@ MooseModelMergeJavaTest >> testAddReferenceFromMethOfAnonymousClass [
 ]
 
 { #category : #tests }
-MooseModelMergeJavaTest >> testAddReferenceFromMethOfInnerClass [
+OrionMergeJavaTest >> testAddReferenceFromMethOfInnerClass [
 	| cl meth |
 	cl := FAMIXClass new
 		name: 'InnerClass';
@@ -222,7 +222,7 @@ MooseModelMergeJavaTest >> testAddReferenceFromMethOfInnerClass [
 ]
 
 { #category : #tests }
-MooseModelMergeJavaTest >> testAddReferenceToStubClass [
+OrionMergeJavaTest >> testAddReferenceToStubClass [
 	| cl |
 	cl := FAMIXClass new
 		name: 'ClassTest';
@@ -237,7 +237,7 @@ MooseModelMergeJavaTest >> testAddReferenceToStubClass [
 ]
 
 { #category : #tests }
-MooseModelMergeJavaTest >> testAddStubClass [
+OrionMergeJavaTest >> testAddStubClass [
 	| cl |
 	cl := FAMIXClass new
 		name: 'ClassTest';
@@ -263,7 +263,7 @@ MooseModelMergeJavaTest >> testAddStubClass [
 ]
 
 { #category : #tests }
-MooseModelMergeJavaTest >> testAddStubClassInExistingStubNS [
+OrionMergeJavaTest >> testAddStubClassInExistingStubNS [
 	| cl |
 	cl := FAMIXClass new
 		name: 'ClassTest';
@@ -289,7 +289,7 @@ MooseModelMergeJavaTest >> testAddStubClassInExistingStubNS [
 ]
 
 { #category : #tests }
-MooseModelMergeJavaTest >> testAddStubClassInNonExistingStubNS [
+OrionMergeJavaTest >> testAddStubClassInNonExistingStubNS [
 	| cl ns |
 	ns := FAMIXNamespace new
 		name: 'Namespace2';
@@ -323,7 +323,7 @@ MooseModelMergeJavaTest >> testAddStubClassInNonExistingStubNS [
 ]
 
 { #category : #tests }
-MooseModelMergeJavaTest >> testAddStubNamespace [
+OrionMergeJavaTest >> testAddStubNamespace [
 	| ns |
 	ns := FAMIXNamespace new
 		name: 'Namespace2';
@@ -340,7 +340,7 @@ MooseModelMergeJavaTest >> testAddStubNamespace [
 ]
 
 { #category : #tests }
-MooseModelMergeJavaTest >> testCreateAddNamespace [
+OrionMergeJavaTest >> testCreateAddNamespace [
 	modelMerger targetModel add: (FAMIXNamespace new name: 'Namespace2').
 	self assert: modelMerger baseModel notEmpty.
 	modelMerger run.
@@ -351,7 +351,7 @@ MooseModelMergeJavaTest >> testCreateAddNamespace [
 ]
 
 { #category : #tests }
-MooseModelMergeJavaTest >> testCreateMoveNamespace [
+OrionMergeJavaTest >> testCreateMoveNamespace [
 	(modelMerger targetModel
 		entityNamed: 'NamespaceTest::ContainedNamespace')
 		parentScope: (modelMerger targetModel entityNamed: 'java').
@@ -372,7 +372,7 @@ MooseModelMergeJavaTest >> testCreateMoveNamespace [
 ]
 
 { #category : #tests }
-MooseModelMergeJavaTest >> testSetOfAddNamespace [
+OrionMergeJavaTest >> testSetOfAddNamespace [
 	modelMerger targetModel add: (FAMIXNamespace new name: 'Namespace2').
 	self assert: modelMerger baseModel isNotEmpty.
 	modelMerger run.
@@ -381,7 +381,7 @@ MooseModelMergeJavaTest >> testSetOfAddNamespace [
 ]
 
 { #category : #tests }
-MooseModelMergeJavaTest >> testSetOfMoveNamespaceChanges [
+OrionMergeJavaTest >> testSetOfMoveNamespaceChanges [
 	(modelMerger targetModel
 		entityNamed: 'NamespaceTest::ContainedNamespace')
 		parentScope: (modelMerger targetModel entityNamed: 'java').
@@ -393,7 +393,7 @@ MooseModelMergeJavaTest >> testSetOfMoveNamespaceChanges [
 ]
 
 { #category : #accessing }
-MooseModelMergeJavaTest >> wholeMSE [	
+OrionMergeJavaTest >> wholeMSE [	
 	^ '(
     	(FAMIX.Method (id: 2)
     		(name ''whileWhile'')
