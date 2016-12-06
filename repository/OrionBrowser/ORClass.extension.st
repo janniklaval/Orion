@@ -105,7 +105,6 @@ ORClass >> deleteInAction: anAction [
 
 { #category : #'*OrionBrowser' }
 ORClass >> deleteInModel: aModelVersion [
-"Halt if: [self name = 'ACAnHelp']."
 	(ORActionRemoveClass new
 		orionModel: aModelVersion;
 		entity: self)
