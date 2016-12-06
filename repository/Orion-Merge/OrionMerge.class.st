@@ -17,7 +17,7 @@ snapshot
 
 "
 Class {
-	#name : #MooseModelMerge,
+	#name : #OrionMerge,
 	#superclass : #FamixDiffAbstractPostOperator,
 	#instVars : [
 		'orionVersionedModel',
@@ -27,12 +27,12 @@ Class {
 }
 
 { #category : #accessing }
-MooseModelMerge >> actions [
+OrionMerge >> actions [
 	^ orionVersionedModel changes
 ]
 
 { #category : #adding }
-MooseModelMerge >> addReferenceFrom: aFamixMethod to: aFamixClass [
+OrionMerge >> addReferenceFrom: aFamixMethod to: aFamixClass [
 	(aFamixMethod belongsTo isAnonymousClass not and: [ aFamixMethod belongsTo isInnerClass not ])
 		ifTrue: [ 
 			(self orionVersionedModel entityNamed: aFamixMethod mooseName)
@@ -41,21 +41,21 @@ MooseModelMerge >> addReferenceFrom: aFamixMethod to: aFamixClass [
 ]
 
 { #category : #adding }
-MooseModelMerge >> addReferenceFrom: aFamixMethod toStub: aFamixStubClass [
+OrionMerge >> addReferenceFrom: aFamixMethod toStub: aFamixStubClass [
 	(self orionVersionedModel entityNamed: aFamixStubClass mooseName)
 		ifNil: [ self addStubClass: aFamixStubClass ]
 		ifNotNil: [ self addReferenceFrom: aFamixMethod to: aFamixStubClass ]
 ]
 
 { #category : #adding }
-MooseModelMerge >> addStubClass: aFamixStubClass [
+OrionMerge >> addStubClass: aFamixStubClass [
 	(self orionVersionedModel entityNamed: aFamixStubClass container mooseName)
 		ifNil: [ self addStubNamespace: aFamixStubClass container ].
 		(self orionVersionedModel entityNamed: aFamixStubClass container mooseName) addClassNamed: aFamixStubClass name inModel: self orionVersionedModel.
 ]
 
 { #category : #adding }
-MooseModelMerge >> addStubNamespace: aFamixStubNamespace [
+OrionMerge >> addStubNamespace: aFamixStubNamespace [
 	aFamixStubNamespace parentScope
 		ifNotNil: [ 
 			(self orionVersionedModel entityNamed: aFamixStubNamespace parentScope mooseName)
@@ -67,7 +67,7 @@ MooseModelMerge >> addStubNamespace: aFamixStubNamespace [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createAddAccess [
+OrionMerge >> createAddAccess [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 	self result setOfAddAccessChanges do: [ :chg |
 		(self orionVersionedModel entityNamed: chg entity from mooseName) 
@@ -76,7 +76,29 @@ MooseModelMerge >> createAddAccess [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createAddAttribute [
+OrionMerge >> createAddAnnotationInstance [
+	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
+
+	self result setOfAddAnnotationInstanceChanges
+		do: [ :chg | 
+			(self orionVersionedModel entityNamed: chg entity belongsTo mooseName)
+				addAnnotationInstanceOfType: chg entityName
+				inModel: self orionVersionedModel ]
+]
+
+{ #category : #'private-run' }
+OrionMerge >> createAddAnnotationType [
+	self result setOfAddAnnotationTypeChanges
+		do: [ :chg | 
+			(chg entity belongsTo
+				ifNotNil: [ self orionVersionedModel entityNamed: chg entity belongsTo mooseName ]
+				ifNil: [ self orionVersionedModel ])
+				addAnnotationTypeNamed: chg entityName
+				inModel: self orionVersionedModel ]
+]
+
+{ #category : #'private-run' }
+OrionMerge >> createAddAttribute [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
 	self result setOfAddAttributeChanges
@@ -89,7 +111,7 @@ MooseModelMerge >> createAddAttribute [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createAddInnerClass [
+OrionMerge >> createAddInnerClass [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
 	self changes
@@ -107,7 +129,7 @@ MooseModelMerge >> createAddInnerClass [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createAddInvocation [
+OrionMerge >> createAddInvocation [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
 	self result  setOfAddInvocationChanges
@@ -127,7 +149,7 @@ MooseModelMerge >> createAddInvocation [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createAddMethod [
+OrionMerge >> createAddMethod [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
 	self result setOfAddMethodChanges
@@ -141,7 +163,7 @@ MooseModelMerge >> createAddMethod [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createAddMethodOfInnerClass [
+OrionMerge >> createAddMethodOfInnerClass [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
 	self result setOfAddMethodChanges
@@ -155,7 +177,7 @@ MooseModelMerge >> createAddMethodOfInnerClass [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createAddReference [
+OrionMerge >> createAddReference [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
 	self result setOfAddReferenceChanges
@@ -166,7 +188,7 @@ MooseModelMerge >> createAddReference [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createAddScopingEntity [
+OrionMerge >> createAddScopingEntity [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
 	(self sortAddScopingEntityChanges: self result setOfAddScopingEntityChanges) do: [ :chg | 
@@ -177,7 +199,7 @@ MooseModelMerge >> createAddScopingEntity [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createAddType [
+OrionMerge >> createAddType [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
 	"create class when it's not an inner class or anonymous class"
@@ -201,14 +223,14 @@ MooseModelMerge >> createAddType [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createMoveAttribute [
+OrionMerge >> createMoveAttribute [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 	self result setOfMoveAttributeChanges do: [ :chg | chg entity moveTo: 
 		(self orionVersionedModel entityNamed:( chg targetEntity belongsTo mooseName) ) inModel: self orionVersionedModel ]
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createMoveClass [
+OrionMerge >> createMoveClass [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 	"distinction is done between parentPackage and belongsTo (that correspond to the container in ST en Java)"
 	self result setOfMoveClassChanges do: [ :chg | chg targetEntity parentPackage ifNil: [ chg entity moveTo: 
@@ -217,7 +239,7 @@ MooseModelMerge >> createMoveClass [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createMoveMethod [
+OrionMerge >> createMoveMethod [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
 	self result setOfMoveMethodChanges
@@ -236,7 +258,7 @@ MooseModelMerge >> createMoveMethod [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createMoveNamespace [
+OrionMerge >> createMoveNamespace [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
 	"distinction is done between parentPackage and belongsTo (that correspond to the container in ST en Java)"
@@ -251,7 +273,7 @@ MooseModelMerge >> createMoveNamespace [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createRemove [
+OrionMerge >> createRemove [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
 	| coll |
@@ -268,7 +290,7 @@ MooseModelMerge >> createRemove [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createRemoveAccess [
+OrionMerge >> createRemoveAccess [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 	self result  setOfRemoveAccessChanges do: [ :chg |
 		(self orionVersionedModel entityNamed: chg entity mooseName) 
@@ -279,7 +301,19 @@ MooseModelMerge >> createRemoveAccess [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createRemoveAttribute [
+OrionMerge >> createRemoveAnnotationInstance [
+	self result setOfRemoveAnnotationInstanceChanges 
+		do: [ :chg | chg entity deleteInModel: self orionVersionedModel ]
+]
+
+{ #category : #'as yet unclassified' }
+OrionMerge >> createRemoveAnnotationType [
+	self result setOfRemoveAnnotationTypeChanges
+		do: [ :chg | chg entity deleteInModel: self orionVersionedModel ]
+]
+
+{ #category : #'private-run' }
+OrionMerge >> createRemoveAttribute [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 	self result setOfRemoveAttributeChanges do: [ :chg |
 		chg entity deleteInModel: self orionVersionedModel.]
@@ -287,7 +321,7 @@ MooseModelMerge >> createRemoveAttribute [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createRemoveInvocation [
+OrionMerge >> createRemoveInvocation [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 	self result setOfRemoveInvocationChanges do: [ :chg |
 		(self orionVersionedModel entityNamed: chg entity mooseName) 
@@ -298,7 +332,7 @@ MooseModelMerge >> createRemoveInvocation [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createRemoveMethod [
+OrionMerge >> createRemoveMethod [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 	self result setOfRemoveMethodChanges do: [ :chg |
 		chg entity deleteInModel: self orionVersionedModel.]
@@ -306,7 +340,7 @@ MooseModelMerge >> createRemoveMethod [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createRemoveReference [
+OrionMerge >> createRemoveReference [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 	self result setOfRemoveReferenceChanges do: [ :chg |
 		(self orionVersionedModel entityNamed: chg entity mooseName) 
@@ -317,42 +351,42 @@ MooseModelMerge >> createRemoveReference [
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createRename [
+OrionMerge >> createRename [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 	self result  setOfRenameChanges do: [ :chg | chg entity rename:  
 		(chg targetEntity name) inModel: self orionVersionedModel ]
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createRenameAttribute [
+OrionMerge >> createRenameAttribute [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 	self result setOfRenameAttributeChanges do: [ :chg | chg entity rename:  
 		(chg targetEntity name) inModel: self orionVersionedModel ]
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createRenameClass [
+OrionMerge >> createRenameClass [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 	self result setOfRenameClassChanges do: [ :chg | chg entity rename:  
 		(chg targetEntity name) inModel: self orionVersionedModel ]
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createRenameMethod [
+OrionMerge >> createRenameMethod [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 	self result setOfRenameMethodChanges do: [ :chg | chg entity rename:  
 		(chg targetEntity name) inModel: self orionVersionedModel ]
 ]
 
 { #category : #'private-run' }
-MooseModelMerge >> createRenamePackage [
+OrionMerge >> createRenamePackage [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 	self result setOfRenamePackageChanges do: [ :chg | chg entity rename:  
 		(chg targetEntity name) inModel: self orionVersionedModel ]
 ]
 
 { #category : #run }
-MooseModelMerge >> createVersion [
+OrionMerge >> createVersion [
 	"create the new version of the OrionModel by successively calling all message creating ORActions"
 
 	orionVersionedModel := self baseModel createNewChildVersion.
@@ -371,27 +405,27 @@ MooseModelMerge >> createVersion [
 ]
 
 { #category : #initialize }
-MooseModelMerge >> initialize [
+OrionMerge >> initialize [
 	actions := OrderedCollection new
 ]
 
 { #category : #accessing }
-MooseModelMerge >> orionVersionedModel [
+OrionMerge >> orionVersionedModel [
 	^ orionVersionedModel
 ]
 
 { #category : #accessing }
-MooseModelMerge >> orionVersionedModel: anObject [
+OrionMerge >> orionVersionedModel: anObject [
 	orionVersionedModel := anObject
 ]
 
 { #category : #accessing }
-MooseModelMerge >> run [
+OrionMerge >> run [
 	self createVersion.
 ]
 
 { #category : #deprecated }
-MooseModelMerge >> snapshot [
+OrionMerge >> snapshot [
 	self
 		deprecated: 'Use famixDiff instead'
 		on: '17 November 2016'
@@ -401,7 +435,7 @@ MooseModelMerge >> snapshot [
 ]
 
 { #category : #deprecated }
-MooseModelMerge >> snapshot: anObject [
+OrionMerge >> snapshot: anObject [
 	self
 		deprecated: 'Use famixDiff: instead'
 		on: '17 November 2016'
@@ -411,14 +445,14 @@ MooseModelMerge >> snapshot: anObject [
 ]
 
 { #category : #categorizing }
-MooseModelMerge >> sortAddScopingEntityChanges: aCollection [
+OrionMerge >> sortAddScopingEntityChanges: aCollection [
 	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
 
 	^ aCollection sort: [ :a :b | a mooseName < b mooseName ].
 ]
 
 { #category : #initialize }
-MooseModelMerge >> withBase: base target: target [
+OrionMerge >> withBase: base target: target [
 	"base should be an Orion modelbase
 	 target should be a MooseModel"
 

@@ -8,6 +8,16 @@ FamixDiffResult >> setOfAddAccessChanges [
 ]
 
 { #category : #'*Orion-Merge' }
+FamixDiffResult >> setOfAddAnnotationInstanceChanges [
+	^ self select: [ :chg | chg isAddition and: [ chg entity isAnnotationInstance ] ]
+]
+
+{ #category : #'*Orion-Merge' }
+FamixDiffResult >> setOfAddAnnotationTypeChanges [
+	^ self select: [ :chg | chg isAddition and: [ chg entity isAnnotationType ] ]
+]
+
+{ #category : #'*Orion-Merge' }
 FamixDiffResult >> setOfAddAttributeChanges [
 	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
 
@@ -84,6 +94,16 @@ FamixDiffResult >> setOfRemoveAccessChanges [
 	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
 
 	^ self select: [ :chg | chg isRemoval and: [ chg entity isAccess ] ]
+]
+
+{ #category : #'*Orion-Merge' }
+FamixDiffResult >> setOfRemoveAnnotationInstanceChanges [
+	^ self select: [ :chg | chg isRemoval and: [ chg entity isAnnotationInstance ] ]
+]
+
+{ #category : #'*Orion-Merge' }
+FamixDiffResult >> setOfRemoveAnnotationTypeChanges [
+	^ self select: [ :chg | chg isRemoval and: [ chg entity isAnnotationType ] ]
 ]
 
 { #category : #'*Orion-Merge' }
