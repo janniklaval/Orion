@@ -282,6 +282,8 @@ OrionMerge >> createRemove [
 	"The order in which the changes are added in the collection is relevant"
 	coll addAll: self result setOfRemoveAccessChanges.
 	coll addAll: self result setOfRemoveReferenceChanges.
+	coll addAll: self result setOfRemoveAnnotationInstanceChanges.
+	coll addAll: self result setOfRemoveAnnotationTypeChanges.
 	coll addAll: self result setOfRemoveAttributeChanges.
 	coll addAll: self result setOfRemoveMethodChanges.
 	coll addAll: self result setOfRemoveClassChanges.
@@ -353,8 +355,8 @@ OrionMerge >> createRemoveReference [
 { #category : #'private-run' }
 OrionMerge >> createRename [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
-	self result  setOfRenameChanges do: [ :chg | chg entity rename:  
-		(chg targetEntity name) inModel: self orionVersionedModel ]
+
+	self result setOfRenameChanges do: [ :chg | chg entity rename: chg targetEntity name inModel: self orionVersionedModel ]
 ]
 
 { #category : #'private-run' }
@@ -394,13 +396,14 @@ OrionMerge >> createVersion [
 	self createAddType.
 	self createAddMethod.
 	self createRename.
+	self createAddAnnotationType.
+	self createAddAnnotationInstance.
 	self createAddAccess.
 	self createAddInvocation.
 	self createAddAttribute.
 	self createAddReference.
 	self createMoveClass.
 	self createMoveMethod.
-	
 	self createRemove
 ]
 
