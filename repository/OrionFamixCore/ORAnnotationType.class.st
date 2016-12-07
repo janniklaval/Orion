@@ -14,6 +14,17 @@ ORAnnotationType class >> isOrionClass [
 	^ true
 ]
 
+{ #category : #adding }
+ORAnnotationType >> addAttributeNamed: aString inModel: aModelVersion [
+	^ aString
+		ifNotNil: [ (ORActionAddAnnotationTypeAttribute new
+				orionModel: aModelVersion;
+				container: self;
+				newName: aString)
+				manualRun;
+				postRun ]
+]
+
 { #category : #'as yet unclassified' }
 ORAnnotationType >> deleteInModel: aModelVersion [ 
 	(ORActionRemoveAnnotationType  new

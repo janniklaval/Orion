@@ -36,24 +36,16 @@ ORActionAddAttribute >> initialize [
 ORActionAddAttribute >> run [
 	| newAttribute |
 	super run.
-
 	newAttribute := ORAttribute new.
 	newAttribute name: newName.
 	self orionModel add: newAttribute.
-
-
 	newAttribute hasClassScope: classScope orionCopy.
-
-	(container isMemberOf: ORClass) ifTrue:[ 
-		|theNewClass|
-		theNewClass := (self orionModel retrieveEntity: container).
-		newAttribute privateParentType: theNewClass orionCopy.
-
-		theNewClass privateAttributes: (theNewClass privateAttributes orionCopy unsafeAdd: newAttribute)
-		].
-
+	container isType
+		ifTrue: [ | theNewClass |
+			theNewClass := self orionModel retrieveEntity: container.
+			newAttribute privateParentType: theNewClass orionCopy.
+			theNewClass privateAttributes: (theNewClass privateAttributes orionCopy unsafeAdd: newAttribute) ].
 	newAttribute resetMooseName.
 	entity := newAttribute.
-
 	^ entity
 ]

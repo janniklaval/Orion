@@ -13,3 +13,12 @@ Class {
 ORAnnotationTypeAttribute class >> isOrionClass [
 	^ true
 ]
+
+{ #category : #'as yet unclassified' }
+ORAnnotationTypeAttribute >> deleteInModel: aModel [
+	ORActionRemoveAnnotationTypeAttribute new
+		orionModel: aModel;
+		entity: self; 
+		run;
+		postRun
+]

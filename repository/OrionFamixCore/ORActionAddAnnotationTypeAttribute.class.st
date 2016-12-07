@@ -3,11 +3,12 @@ A ORActionAddFAMIXAnnotationTypeAttribute is a generated class useful to Orion. 
 "
 Class {
 	#name : #ORActionAddAnnotationTypeAttribute,
-	#superclass : #ORActionAddEntity,
+	#superclass : #ORActionAddAttribute,
 	#category : #'OrionFamixCore-Action'
 }
 
 { #category : #'method execution' }
 ORActionAddAnnotationTypeAttribute >> run [
-	self shouldBeImplemented
+	self flag: '#Maybe there is some other things to do ...'.
+	super run
 ]

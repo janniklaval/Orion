@@ -3,11 +3,13 @@ A ORActionRemoveFAMIXAnnotationTypeAttribute is a generated class useful to Orio
 "
 Class {
 	#name : #ORActionRemoveAnnotationTypeAttribute,
-	#superclass : #ORActionRemove,
+	#superclass : #ORActionRemoveAttribute,
 	#category : #'OrionFamixCore-Action'
 }
 
 { #category : #'method execution' }
 ORActionRemoveAnnotationTypeAttribute >> run [
-	self shouldBeImplemented
+	super run.
+	entity annotationAttributeInstances do: [ :com | com deleteInAction: self ].
+	self orionModel remove: entity
 ]

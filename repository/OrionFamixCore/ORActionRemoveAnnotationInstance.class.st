@@ -9,6 +9,7 @@ Class {
 
 { #category : #'method execution' }
 ORActionRemoveAnnotationInstance >> run [
+	super run.
 	entity annotationType
 		ifNotNil: [ | annoType |
 			annoType := self orionModel retrieveEntity: entity annotationType.
@@ -16,6 +17,7 @@ ORActionRemoveAnnotationInstance >> run [
 	entity annotatedEntity
 		ifNotNil: [ | annoType |
 			annoType := self orionModel retrieveEntity: entity annotatedEntity.
-			annoType privateAnnotationInstances: (annoType privateAnnotationInstances orionCopy orionRemove: entity) ].
+			annoType
+				privateAnnotationInstances: (annoType privateAnnotationInstances orionCopy orionRemove: entity) ].
 	self orionModel remove: entity
 ]
