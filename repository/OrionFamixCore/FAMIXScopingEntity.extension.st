@@ -1,6 +1,17 @@
 Extension { #name : #FAMIXScopingEntity }
 
 { #category : #'*OrionFamixCore-Class' }
+FAMIXScopingEntity >> addAnnotationTypeNamed: aString inModel: aModelVersion [
+	aString
+		ifNotNil: [ (ORActionAddAnnotationType new
+				orionModel: aModelVersion;
+				container: self;
+				newName: aString)
+				manualRun;
+				postRun ]
+]
+
+{ #category : #'*OrionFamixCore-Class' }
 FAMIXScopingEntity >> privateChildScopes [
 	^ childScopes
 ]
