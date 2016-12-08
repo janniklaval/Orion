@@ -57,18 +57,6 @@ ORClass >> addMethodNamed: aString inModel: aModelVersion [
 ]
 
 { #category : #'*OrionBrowser' }
-ORClass >> addMethodNamed: aString withSignature: aSignature inModel: aModelVersion [
-
-	aString  ifNotNil: [ 
-		(ORActionAddMethod new
-			orionModel: aModelVersion ;
-			container: self ;
-			newName: aString ;
-			signature: aSignature)
-		manualRun; postRun ]
-]
-
-{ #category : #'*OrionBrowser' }
 ORClass >> addSuperClass: newSuperClass inModel: aModelVersion [
 	[ 
 	(ORActionAddInheritance new
