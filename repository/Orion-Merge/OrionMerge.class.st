@@ -280,6 +280,7 @@ OrionMerge >> createRemove [
 	coll := OrderedCollection new.
 
 	"The order in which the changes are added in the collection is relevant"
+	self flag: 'All the modification are not repercuted in the orion model. E.g the LocalVariales'.
 	coll addAll: self result setOfRemoveAccessChanges.
 	coll addAll: self result setOfRemoveReferenceChanges.
 	coll addAll: self result setOfRemoveAnnotationInstanceChanges.
