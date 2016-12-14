@@ -37,6 +37,21 @@ OrionMergeJavaTest >> test [
 ]
 
 { #category : #tests }
+OrionMergeJavaTest >> test0AddAllFromEmptyModel [
+	"comment stating purpose of message"
+
+	| model1 model2 |
+	model1 := MooseModel new.
+	model1 name: 'baseEmpty'.
+	model2 := MooseModel new.
+	model2 importFromMSEStream: self wholeMSE readStream.
+	model2 name: 'base02'.
+	modelMerger := FXDiff baseModel: model1 convertToOrion targetModel: model2 diffTransformers: {OrionMerge}.
+	modelMerger run.
+	self assert: modelMerger baseModel system orionModels size equals: 2
+]
+
+{ #category : #tests }
 OrionMergeJavaTest >> testAddContainedStubNamespace [
 	"The parent namespace is a stub and does not already exist in the model"
 
