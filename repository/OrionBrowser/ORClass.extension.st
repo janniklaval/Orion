@@ -58,13 +58,7 @@ ORClass >> addMethodNamed: aString inModel: aModelVersion [
 
 { #category : #'*OrionBrowser' }
 ORClass >> addSuperClass: newSuperClass inModel: aModelVersion [
-	[ 
-	(ORActionAddInheritance new
-		orionModel: aModelVersion;
-		from: self;
-		to: newSuperClass) manualRun;
-		postRun ]
-		orBrowserExceptionsLauncher: newSuperClass.
+	[ self addInheritanceTo: newSuperClass inModel: aModelVersion ] orBrowserExceptionsLauncher: newSuperClass
 ]
 
 { #category : #'*OrionBrowser' }
