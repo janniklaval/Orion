@@ -1,6 +1,22 @@
 Extension { #name : #ORModel }
 
 { #category : #'*OrionFamixJava' }
+ORModel >> addInheritanceFrom: subclass to: superclass [
+	^ (self entityNamed: subclass mooseName) addInheritanceTo: (self entityNamed: superclass mooseName) inModel: self
+]
+
+{ #category : #'*OrionFamixJava' }
+ORModel >> addInheritanceFrom: subclass toStub: superclass [
+	| actualClass |
+	(self entityNamed: superclass mooseName)
+		ifNil: [ actualClass := self addStubClass: superclass ]
+		ifNotNil: [ actualClass := superclass ].
+	^ (self entityNamed: subclass mooseName)
+		addInheritanceTo: (self entityNamed: superclass mooseName)
+		inModel: self
+]
+
+{ #category : #'*OrionFamixJava' }
 ORModel >> addNamespaceNamed: aString [
 
 	^self addNamespaceNamed: aString inORNamespace: nil.
@@ -31,13 +47,20 @@ ORModel >> addReferenceFrom: aFamixMethod to: aFamixClass [
 
 { #category : #'*OrionFamixJava' }
 ORModel >> addReferenceFrom: aFAMIXMethod toStub: aFAMIXClass [
-	(self entityNamed: aFAMIXClass mooseName) ifNil: [ self addStubClass: aFAMIXClass ] ifNotNil: [ self addReferenceFrom: aFAMIXMethod to: aFAMIXClass ]
+	| actualClass |
+	(self entityNamed: aFAMIXClass mooseName)
+		ifNil: [ actualClass := self addStubClass: aFAMIXClass ]
+		ifNotNil: [ actualClass := aFAMIXClass ].
+	^ self addReferenceFrom: aFAMIXMethod to: actualClass
 ]
 
 { #category : #'*OrionFamixJava' }
 ORModel >> addStubClass: aFAMIXClass [
-	(self entityNamed: aFAMIXClass container mooseName) ifNil: [ self addStubNamespace: aFAMIXClass container ].
-	(self entityNamed: aFAMIXClass container mooseName) addClassNamed: aFAMIXClass name inModel: self
+	(self entityNamed: aFAMIXClass container mooseName)
+		ifNil: [ self addStubNamespace: aFAMIXClass container ].
+	^ ((self entityNamed: aFAMIXClass container mooseName)
+		addClassNamed: aFAMIXClass name
+		inModel: self) entity
 ]
 
 { #category : #'*OrionFamixJava' }

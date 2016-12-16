@@ -14,6 +14,17 @@ TFAMIXEnumValue classSide >> isOrionClass [
 ]
 
 { #category : #accessing }
+TFAMIXEnumValue >> addAnnotationInstanceOfType: anAnnotationTypeName inModel: aModelVersion [
+	^ anAnnotationTypeName
+		ifNotNil: [ (ORActionAddAnnotationInstance new
+				orionModel: aModelVersion;
+				container: self;
+				type: anAnnotationTypeName)
+				manualRun;
+				postRun ]
+]
+
+{ #category : #accessing }
 TFAMIXEnumValue >> annotationInstances [
 	^ self annotationInstancesOR: self currentContext
 ]

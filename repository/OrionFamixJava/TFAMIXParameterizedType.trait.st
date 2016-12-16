@@ -14,6 +14,17 @@ TFAMIXParameterizedType classSide >> isOrionClass [
 ]
 
 { #category : #accessing }
+TFAMIXParameterizedType >> addAnnotationInstanceOfType: anAnnotationTypeName inModel: aModelVersion [
+	^ anAnnotationTypeName
+		ifNotNil: [ (ORActionAddAnnotationInstance new
+				orionModel: aModelVersion;
+				container: self;
+				type: anAnnotationTypeName)
+				manualRun;
+				postRun ]
+]
+
+{ #category : #accessing }
 TFAMIXParameterizedType >> annotationInstances [
 	^ self annotationInstancesOR: self currentContext
 ]
