@@ -49,9 +49,13 @@ OrionMerge >> addReferenceFrom: aFamixMethod toStub: aFamixStubClass [
 
 { #category : #adding }
 OrionMerge >> addStubClass: aFamixStubClass [
-	(self orionVersionedModel entityNamed: aFamixStubClass container mooseName)
+	(self orionVersionedModel
+		entityNamed: aFamixStubClass container mooseName)
 		ifNil: [ self addStubNamespace: aFamixStubClass container ].
-		(self orionVersionedModel entityNamed: aFamixStubClass container mooseName) addClassNamed: aFamixStubClass name inModel: self orionVersionedModel.
+	^ ((self orionVersionedModel
+		entityNamed: aFamixStubClass container mooseName)
+		addClassNamed: aFamixStubClass name
+		inModel: self orionVersionedModel) entity
 ]
 
 { #category : #adding }
@@ -108,6 +112,17 @@ OrionMerge >> createAddAttribute [
 					(self orionVersionedModel entityNamed: chg entity belongsTo mooseName)
 						addAttributeNamed: chg entityName
 						inModel: self orionVersionedModel ] ]
+]
+
+{ #category : #'private-run' }
+OrionMerge >> createAddInheritance [
+	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
+
+	self result setOfAddInheritanceChanges
+		do: [ :chg | 
+			chg entity to isStub
+				ifTrue: [ self orionVersionedModel addInheritanceFrom: chg entity from toStub: chg entity to ]
+				ifFalse: [ self orionVersionedModel addInheritanceFrom: chg entity from to: chg entity to ] ]
 ]
 
 { #category : #'private-run' }
@@ -195,7 +210,7 @@ OrionMerge >> createAddScopingEntity [
 		chg entity isPackage
 			ifTrue: [ self orionVersionedModel addPackageNamed: chg entityName].
 		chg entity isNamespace
-			ifTrue: [ "Halt now." self orionVersionedModel addNamespaceNamed: chg entity mooseName inORNamespace: (self orionVersionedModel entityNamed: chg entity parentScope mooseName) ] ]
+			ifTrue: [ self orionVersionedModel addNamespaceNamed: chg entity name inORNamespace: (self orionVersionedModel entityNamed: chg entity parentScope mooseName) ] ]
 ]
 
 { #category : #'private-run' }
@@ -309,7 +324,7 @@ OrionMerge >> createRemoveAnnotationInstance [
 		do: [ :chg | chg entity deleteInModel: self orionVersionedModel ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private-run' }
 OrionMerge >> createRemoveAnnotationType [
 	self result setOfRemoveAnnotationTypeChanges
 		do: [ :chg | chg entity deleteInModel: self orionVersionedModel ]
@@ -399,6 +414,7 @@ OrionMerge >> createVersion [
 	self createRename.
 	self createAddAnnotationType.
 	self createAddAnnotationInstance.
+	self createAddInheritance.
 	self createAddAccess.
 	self createAddInvocation.
 	self createAddAttribute.
