@@ -13,6 +13,16 @@ TFAMIXType classSide >> isOrionClass [
 	^ true
 ]
 
+{ #category : #adding }
+TFAMIXType >> addInheritanceTo: superclass inModel: anORModel [
+	^ (ORActionAddInheritance new
+		orionModel: anORModel;
+		from: self;
+		to: superclass)
+		manualRun;
+		postRun
+]
+
 { #category : #accessing }
 TFAMIXType >> attributes [
 	^ self attributesOR: self currentContext

@@ -74,6 +74,16 @@ TFAMIXBehaviouralEntity >> outgoingInvocationsOR: aVersion [
 ]
 
 { #category : #accessing }
+TFAMIXBehaviouralEntity >> outgoingReferences [
+	^ self outgoingReferencesOR: self currentContext
+]
+
+{ #category : #accessing }
+TFAMIXBehaviouralEntity >> outgoingReferencesOR: aVersion [
+	^ self privateOutgoingReferences versionIn: aVersion
+]
+
+{ #category : #accessing }
 TFAMIXBehaviouralEntity >> parameters [
 	^ self parametersOR: self currentContext
 ]

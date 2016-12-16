@@ -17,24 +17,18 @@ ORActionAddReference >> run [
 	| newReference |
 	super run.
 	newReference := ORReference new.
-	
 	self orionModel add: newReference.
-		
-	to isClass ifTrue: [
-		|theNewReferenced|
-		theNewReferenced := (self orionModel retrieveEntity: to).
-		newReference privateTarget: theNewReferenced orionCopy.
-		theNewReferenced privateIncomingReferences:  (theNewReferenced privateIncomingReferences orionCopy unsafeAdd: newReference)
-	] ifFalse: [MessageNotUnderstood signal: 'privateIncomingReferences' .].
-
-	from ifNotNil: [
-		|theNewReferencer|
-		theNewReferencer := (self orionModel retrieveEntity: from).
-		newReference privateSource: theNewReferencer orionCopy.
-		theNewReferencer privateOutgoingReferences:  (theNewReferencer privateOutgoingReferences orionCopy unsafeAdd: newReference)
-	].
-
+	to isClass
+		ifTrue: [ | theNewReferenced |
+			theNewReferenced := self orionModel retrieveEntity: to.
+			newReference privateTarget: theNewReferenced orionCopy.
+			theNewReferenced privateIncomingReferences: (theNewReferenced privateIncomingReferences orionCopy unsafeAdd: newReference) ]
+		ifFalse: [ MessageNotUnderstood signal: 'privateIncomingReferences' ].
+	from
+		ifNotNil: [ | theNewReferencer |
+			theNewReferencer := self orionModel retrieveEntity: from.
+			newReference privateSource: theNewReferencer orionCopy.
+			theNewReferencer privateOutgoingReferences: (theNewReferencer privateOutgoingReferences orionCopy unsafeAdd: newReference) ].
 	entity := newReference.
-
 	^ entity
 ]
