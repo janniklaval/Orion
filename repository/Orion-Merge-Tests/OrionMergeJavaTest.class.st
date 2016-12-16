@@ -52,6 +52,24 @@ OrionMergeJavaTest >> test0AddAllFromEmptyModel [
 ]
 
 { #category : #tests }
+OrionMergeJavaTest >> test0AddAllFromEmptyModelAndCheckDiff [
+	| modelDiff res model1 model2 |
+	model1 := MooseModel new.
+	model1 name: 'baseEmpty'.
+	model2 := MooseModel new.
+	model2 importFromMSEStream: self wholeMSE readStream.
+	model2 name: 'base02'.
+	modelMerger := FXDiff baseModel: model1 convertToOrion targetModel: model2 diffTransformers: {OrionMerge}.
+	modelMerger run.
+	self assert: modelMerger baseModel system orionModels size equals: 2.
+	modelDiff := FXDiff baseModel: modelMerger baseModel system orionModels second targetModel: model2 diffTransformers: {}.
+	res := modelDiff run result.
+	self assert: res isEmpty
+	
+
+]
+
+{ #category : #tests }
 OrionMergeJavaTest >> testAddContainedStubNamespace [
 	"The parent namespace is a stub and does not already exist in the model"
 
@@ -133,6 +151,32 @@ OrionMergeJavaTest >> testAddContainedStubNamespace3 [
 ]
 
 { #category : #tests }
+OrionMergeJavaTest >> testAddInheritance [
+	| c1 c2 inh |
+	c1 := modelMerger targetModel entityNamed: 'NamespaceTest::Class1'.
+	c2 := modelMerger targetModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2'.
+	inh := FAMIXInheritance new
+		superclass: c1;
+		subclass: c2;
+		yourself.
+	modelMerger targetModel add: inh.
+	modelMerger run.
+	modelMerger orionVersionedModel: modelMerger baseModel createNewChildVersion.
+	self mooseModelMerge createAddInheritance.
+	modelMerger orionVersionedModel
+		addInheritanceFrom: modelMerger result setOfAddInheritanceChanges first entity from
+		to: modelMerger result setOfAddInheritanceChanges first entity to.
+	self
+		assert:
+			(modelMerger orionVersionedModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2')
+				superInheritances notEmpty.
+	self
+		assert:
+			(modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1') subInheritances
+				notEmpty
+]
+
+{ #category : #tests }
 OrionMergeJavaTest >> testAddReference [
 	| cl meth ref changedReference |
 	cl := modelMerger targetModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2'.
@@ -149,7 +193,7 @@ OrionMergeJavaTest >> testAddReference [
 	modelMerger orionVersionedModel addReferenceFrom: changedReference from to: changedReference to.
 	self assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()') outgoingReferences isNotEmpty.
 	self
-		assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()') outgoingReferences second to
+		assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()') outgoingReferences first to
 		equals: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2')
 ]
 
@@ -171,8 +215,13 @@ OrionMergeJavaTest >> testAddReference2 [
 	modelMerger run.
 	modelMerger orionVersionedModel: modelMerger baseModel createNewChildVersion.
 	self mooseModelMerge createAddMethod.
-	modelMerger orionVersionedModel addReferenceFrom: modelMerger result setOfAddReferenceChanges first entity from to: modelMerger result setOfAddReferenceChanges first entity to.
-	self assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.methAdded()') outgoingReferences notNil.
+	self
+		assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.methAdded()') outgoingReferences isEmpty.
+	modelMerger orionVersionedModel
+		addReferenceFrom: modelMerger result setOfAddReferenceChanges first entity from
+		to: modelMerger result setOfAddReferenceChanges first entity to.
+	self
+		assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.methAdded()') outgoingReferences notEmpty.
 	self
 		assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.methAdded()') outgoingReferences first to
 		equals: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2')
@@ -248,8 +297,9 @@ OrionMergeJavaTest >> testAddReferenceToStubClass [
 	modelMerger targetModel add: cl.
 	modelMerger run.
 	modelMerger orionVersionedModel: modelMerger baseModel createNewChildVersion.
+	self assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()') outgoingReferences isEmpty.
 	modelMerger orionVersionedModel addReferenceFrom: (modelMerger targetModel entityNamed: 'NamespaceTest::Class1.supersimple()') toStub: cl.
-	self assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()') outgoingReferences isEmpty
+	self assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()') outgoingReferences notEmpty
 ]
 
 { #category : #tests }
