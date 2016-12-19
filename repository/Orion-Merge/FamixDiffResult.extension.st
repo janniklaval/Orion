@@ -34,6 +34,11 @@ FamixDiffResult >> setOfAddClassChanges [
 ]
 
 { #category : #'*Orion-Merge' }
+FamixDiffResult >> setOfAddInheritanceChanges [
+	^ self select: [ :chg | chg isAddition and: [ chg entity isInheritance ] ]
+]
+
+{ #category : #'*Orion-Merge' }
 FamixDiffResult >> setOfAddInvocationChanges [
 	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
 

@@ -33,41 +33,22 @@ OrionMerge >> actions [
 
 { #category : #adding }
 OrionMerge >> addReferenceFrom: aFamixMethod to: aFamixClass [
-	(aFamixMethod belongsTo isAnonymousClass not and: [ aFamixMethod belongsTo isInnerClass not ])
-		ifTrue: [ 
-			(self orionVersionedModel entityNamed: aFamixMethod mooseName)
-				addReferenceTo: (self orionVersionedModel entityNamed: aFamixClass mooseName)
-				inModel: self orionVersionedModel ]
+	^ self orionVersionedModel addReferenceFrom: aFamixMethod to: aFamixClass
 ]
 
 { #category : #adding }
 OrionMerge >> addReferenceFrom: aFamixMethod toStub: aFamixStubClass [
-	(self orionVersionedModel entityNamed: aFamixStubClass mooseName)
-		ifNil: [ self addStubClass: aFamixStubClass ]
-		ifNotNil: [ self addReferenceFrom: aFamixMethod to: aFamixStubClass ]
+	^ self orionVersionedModel addReferenceFrom: aFamixMethod toStub: aFamixStubClass
 ]
 
 { #category : #adding }
 OrionMerge >> addStubClass: aFamixStubClass [
-	(self orionVersionedModel
-		entityNamed: aFamixStubClass container mooseName)
-		ifNil: [ self addStubNamespace: aFamixStubClass container ].
-	^ ((self orionVersionedModel
-		entityNamed: aFamixStubClass container mooseName)
-		addClassNamed: aFamixStubClass name
-		inModel: self orionVersionedModel) entity
+	^ self orionVersionedModel addStubClass: aFamixStubClass
 ]
 
 { #category : #adding }
 OrionMerge >> addStubNamespace: aFamixStubNamespace [
-	aFamixStubNamespace parentScope
-		ifNotNil: [ 
-			(self orionVersionedModel entityNamed: aFamixStubNamespace parentScope mooseName)
-				ifNil: [ self addStubNamespace: aFamixStubNamespace parentScope ].
-			self orionVersionedModel
-				addNamespaceNamed: aFamixStubNamespace name
-				inORNamespace: (self orionVersionedModel entityNamed: aFamixStubNamespace parentScope mooseName) ]
-		ifNil: [ self orionVersionedModel addNamespaceNamed: aFamixStubNamespace name ]
+	^ self orionVersionedModel addStubNamespace: aFamixStubNamespace
 ]
 
 { #category : #'private-run' }
@@ -227,13 +208,13 @@ OrionMerge >> createAddType [
 	self result setOfAddClassChanges
 		do: [ :chg | 
 			chg entity parentPackage
-				ifNotNil: [ 
-					(self orionVersionedModel entityNamed: chg entity parentPackage mooseName)
+				ifNotNil: [ (self orionVersionedModel entityNamed: chg entity parentPackage mooseName)
 						addClassNamed: chg entityName
+						isStub: chg entity isStub
 						inModel: self orionVersionedModel ]
-				ifNil: [ 
-					(self orionVersionedModel entityNamed: chg entity container mooseName)
+				ifNil: [ (self orionVersionedModel entityNamed: chg entity container mooseName)
 						addClassNamed: chg entityName
+						isStub: chg entity isStub
 						inModel: self orionVersionedModel ] ]
 ]
 
