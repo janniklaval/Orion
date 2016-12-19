@@ -38,26 +38,17 @@ ORActionAddClass >> run [
 	newClass := ORClass new.
 	newClass name: newName.
 	self orionModel add: newClass.
-
-	
-
-	container ifNotNil:[
-		|theNewContainer |
-		theNewContainer := (self orionModel retrieveEntity:container).
-		newClass privateContainer: theNewContainer orionCopy.
-		theNewContainer privateTypes: (theNewContainer privateTypes orionCopy unsafeAdd: newClass).
-	].
-	
-	parent ifNotNil: [
-		|theNewParent |
-		theNewParent := (self orionModel retrieveEntity: parent).
-		newClass privateParentPackage: theNewParent orionCopy.
-		theNewParent privateChildNamedEntities: (theNewParent privateChildNamedEntities orionCopy unsafeAdd: newClass).
-	].
-
+	newClass privateIsStub: self isStub orionCopy.
+	container
+		ifNotNil: [ | theNewContainer |
+			theNewContainer := self orionModel retrieveEntity: container.
+			newClass privateContainer: theNewContainer orionCopy.
+			theNewContainer privateTypes: (theNewContainer privateTypes orionCopy unsafeAdd: newClass) ].
+	parent
+		ifNotNil: [ | theNewParent |
+			theNewParent := self orionModel retrieveEntity: parent.
+			newClass privateParentPackage: theNewParent orionCopy.
+			theNewParent privateChildNamedEntities: (theNewParent privateChildNamedEntities orionCopy unsafeAdd: newClass) ].
 	entity := newClass.
-	
-
 	^ entity
-
 ]

@@ -13,6 +13,28 @@ TFAMIXContainerEntity classSide >> isOrionClass [
 	^ true
 ]
 
+{ #category : #adding }
+TFAMIXContainerEntity >> addClassNamed: aString inModel: aModelVersion [
+	^ self addClassNamed: aString isStub: false inModel: aModelVersion
+]
+
+{ #category : #adding }
+TFAMIXContainerEntity >> addClassNamed: aString isStub: aBoolean inModel: aModelVersion [
+	^ aString
+		ifNotNil: [ (ORActionAddClass new
+				orionModel: aModelVersion;
+				container: self;
+				isStub: aBoolean;
+				newName: aString)
+				manualRun;
+				postRun ]
+]
+
+{ #category : #adding }
+TFAMIXContainerEntity >> addStubClassNamed: aString inModel: aModelVersion [
+	^ self addClassNamed: aString isStub: true inModel: aModelVersion
+]
+
 { #category : #accessing }
 TFAMIXContainerEntity >> functions [
 	^ self functionsOR: self currentContext

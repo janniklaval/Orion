@@ -13,6 +13,17 @@ TFAMIXPackage classSide >> isOrionClass [
 	^ true
 ]
 
+{ #category : #adding }
+TFAMIXPackage >> addClassNamed: aString inModel: aModelVersion [
+	self
+		flag:
+			'VB: Should understand the stubs too. Else there is no stub created in ST models'.
+	^ self
+		addClassNamed: aString
+		withNamespace: aModelVersion allNamespaces first
+		inModel: aModelVersion
+]
+
 { #category : #accessing }
 TFAMIXPackage >> childNamedEntities [
 	^ self childNamedEntitiesOR: self currentContext

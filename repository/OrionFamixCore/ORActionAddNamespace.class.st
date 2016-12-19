@@ -26,7 +26,7 @@ ORActionAddNamespace >> run [
 	newNamespace := ORNamespace new.
 	newNamespace name: newName.
 	self orionModel add: newNamespace.
-
+	newNamespace privateIsStub: self isStub orionCopy.
 
 	"package ifNotNil:[
 		|theNewPackage|
