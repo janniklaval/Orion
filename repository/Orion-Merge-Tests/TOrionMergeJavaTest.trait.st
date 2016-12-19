@@ -20,7 +20,7 @@ TOrionMergeJavaTest >> testAddContainedStubNamespace [
 	| ns nsc |
 	ns := FAMIXNamespace new
 		name: 'Namespace2';
-		isStub: true;
+		isStub: true; 
 		yourself.
 	self modelMerger targetModel add: ns.
 	nsc := FAMIXNamespace new
@@ -36,7 +36,8 @@ TOrionMergeJavaTest >> testAddContainedStubNamespace [
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Namespace2') isNotNil.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Namespace2') isStub.
 	self assert: (self modelMerger baseModel entityNamed: 'Namespace2::NamespaceCont2') isNil.
-	self assert: (self modelMerger orionVersionedModel entityNamed: 'Namespace2::NamespaceCont2') notNil.
+	self
+		assert: (self modelMerger orionVersionedModel entityNamed: 'Namespace2::NamespaceCont2') notNil.
 	self
 		assert: (self modelMerger orionVersionedModel entityNamed: 'Namespace2::NamespaceCont2') parentScope
 		equals: (self modelMerger orionVersionedModel entityNamed: 'Namespace2')
