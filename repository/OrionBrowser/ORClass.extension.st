@@ -24,25 +24,13 @@ ORClass >> addAttributeNamed: aString inModel: aModelVersion [
 ]
 
 { #category : #'*OrionBrowser' }
-ORClass >> addClassNamed: aString inModel: aModelVersion [
-	^aString
-		ifNotNil: [ 
-			(ORActionAddClass new
-				orionModel: aModelVersion;
+ORClass >> addMethodNamed: aString inAction: anAction [
+	aString
+		ifNotNil: [ (ORActionAddMethod new
+				parentAction: anAction;
+				orionModel: anAction orionModel;
 				container: self;
-				newName: aString) manualRun; postRun ]
-]
-
-{ #category : #'*OrionBrowser' }
-ORClass >> addMethodNamed: aString inAction: anAction [ 
-
-	aString  ifNotNil: [ 
-		(ORActionAddMethod new
-			parentAction: anAction ;
-			orionModel: anAction orionModel ;
-			container: self ;
-			newName: aString )
-		run ]
+				newName: aString) run ]
 ]
 
 { #category : #'*OrionBrowser' }
