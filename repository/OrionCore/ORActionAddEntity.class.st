@@ -11,7 +11,8 @@ Class {
 	#superclass : #ORAction,
 	#instVars : [
 		'newName',
-		'container'
+		'container',
+		'isStub'
 	],
 	#category : #'OrionCore-action'
 }
@@ -32,9 +33,20 @@ ORActionAddEntity >> container: anEntity [
 ]
 
 { #category : #'initialize-release' }
-ORActionAddEntity >> initialize [ 
+ORActionAddEntity >> initialize [
 	super initialize.
 	container := nil.
+	isStub := false
+]
+
+{ #category : #accessing }
+ORActionAddEntity >> isStub [
+	^ isStub
+]
+
+{ #category : #accessing }
+ORActionAddEntity >> isStub: anObject [
+	isStub := anObject
 ]
 
 { #category : #accessing }
