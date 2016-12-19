@@ -188,6 +188,16 @@ OrionMergeJavaTest class >> wholeMSE [
 )'
 ]
 
+{ #category : #accessing }
+OrionMergeJavaTest >> modelMerger [
+	^ modelMerger
+]
+
+{ #category : #accessing }
+OrionMergeJavaTest >> modelMerger: anObject [
+	modelMerger := anObject
+]
+
 { #category : #'as yet unclassified' }
 OrionMergeJavaTest >> mooseModelMerge [
 	^ modelMerger diffTransformers first

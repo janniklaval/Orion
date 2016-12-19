@@ -10,7 +10,7 @@ Trait {
 TOrionMergeJavaTest >> test [
 	"comment stating purpose of message"
 
-	self assert: modelMerger baseModel notEmpty
+	self assert: self modelMerger baseModel notEmpty
 ]
 
 { #category : #tests }
@@ -22,22 +22,24 @@ TOrionMergeJavaTest >> testAddContainedStubNamespace [
 		name: 'Namespace2';
 		isStub: true;
 		yourself.
-	modelMerger targetModel add: ns.
+	self modelMerger targetModel add: ns.
 	nsc := FAMIXNamespace new
 		name: 'NamespaceCont2';
 		isStub: true;
 		parentScope: ns;
 		yourself.
-	modelMerger targetModel add: nsc.
-	modelMerger run. 
-	modelMerger orionVersionedModel: modelMerger baseModel createNewChildVersion.
-	modelMerger orionVersionedModel addStubNamespace: nsc.
-	self assert: (modelMerger baseModel entityNamed: 'Namespace2') isNil.
-	self assert: (modelMerger orionVersionedModel entityNamed: 'Namespace2') isNotNil.
-	self assert: (modelMerger orionVersionedModel entityNamed: 'Namespace2') isStub.
-	self assert: (modelMerger baseModel entityNamed: 'Namespace2::NamespaceCont2') isNil.
-	self assert: (modelMerger orionVersionedModel entityNamed: 'Namespace2::NamespaceCont2') notNil.
-	self assert: (modelMerger orionVersionedModel entityNamed: 'Namespace2::NamespaceCont2') parentScope equals: (modelMerger orionVersionedModel entityNamed: 'Namespace2')
+	self modelMerger targetModel add: nsc.
+	self modelMerger run.
+	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
+	self modelMerger orionVersionedModel addStubNamespace: nsc.
+	self assert: (self modelMerger baseModel entityNamed: 'Namespace2') isNil.
+	self assert: (self modelMerger orionVersionedModel entityNamed: 'Namespace2') isNotNil.
+	self assert: (self modelMerger orionVersionedModel entityNamed: 'Namespace2') isStub.
+	self assert: (self modelMerger baseModel entityNamed: 'Namespace2::NamespaceCont2') isNil.
+	self assert: (self modelMerger orionVersionedModel entityNamed: 'Namespace2::NamespaceCont2') notNil.
+	self
+		assert: (self modelMerger orionVersionedModel entityNamed: 'Namespace2::NamespaceCont2') parentScope
+		equals: (self modelMerger orionVersionedModel entityNamed: 'Namespace2')
 ]
 
 { #category : #tests }
@@ -48,24 +50,16 @@ TOrionMergeJavaTest >> testAddContainedStubNamespace2 [
 	ns := FAMIXNamespace new
 		name: 'Namespace2';
 		isStub: true;
-		parentScope:
-			(modelMerger targetModel entityNamed: 'NamespaceTest') yourself.
-	modelMerger targetModel add: ns.
-	modelMerger run.
-	modelMerger 
-		orionVersionedModel: modelMerger baseModel createNewChildVersion.
-	modelMerger orionVersionedModel addStubNamespace: ns.
+		parentScope: (self modelMerger targetModel entityNamed: 'NamespaceTest') yourself.
+	self modelMerger targetModel add: ns.
+	self modelMerger run.
+	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
+	self modelMerger orionVersionedModel addStubNamespace: ns.
+	self assert: (self modelMerger baseModel entityNamed: 'NamespaceTest::Namespace2') isNil.
+	self assert: (self modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Namespace2') notNil.
 	self
-		assert: (modelMerger baseModel entityNamed: 'NamespaceTest::Namespace2') isNil.
-	self
-		assert:
-			(modelMerger orionVersionedModel
-				entityNamed: 'NamespaceTest::Namespace2') notNil.
-	self
-		assert:
-			(modelMerger orionVersionedModel
-				entityNamed: 'NamespaceTest::Namespace2') parentScope
-		equals: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest')
+		assert: (self modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Namespace2') parentScope
+		equals: (self modelMerger orionVersionedModel entityNamed: 'NamespaceTest')
 ]
 
 { #category : #tests }
@@ -76,100 +70,106 @@ TOrionMergeJavaTest >> testAddContainedStubNamespace3 [
 	ns := FAMIXNamespace new
 		name: 'Namespace2';
 		isStub: true;
-		parentScope: (modelMerger targetModel entityNamed: 'java') yourself.
-	modelMerger targetModel add: ns.
-	modelMerger run.
-	modelMerger
-		orionVersionedModel: modelMerger baseModel createNewChildVersion.
-	modelMerger orionVersionedModel addStubNamespace: ns.
+		parentScope: (self modelMerger targetModel entityNamed: 'java') yourself.
+	self modelMerger targetModel add: ns.
+	self modelMerger run.
+	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
+	self modelMerger orionVersionedModel addStubNamespace: ns.
+	self assert: (self modelMerger baseModel entityNamed: 'java::Namespace2') isNil.
+	self assert: (self modelMerger orionVersionedModel entityNamed: 'java::Namespace2') notNil.
 	self
-		assert: (modelMerger baseModel entityNamed: 'java::Namespace2') isNil.
-	self
-		assert:
-			(modelMerger orionVersionedModel entityNamed: 'java::Namespace2')
-				notNil.
-	self
-		assert:
-			(modelMerger orionVersionedModel entityNamed: 'java::Namespace2')
-				parentScope
-		equals: (modelMerger orionVersionedModel entityNamed: 'java')
+		assert: (self modelMerger orionVersionedModel entityNamed: 'java::Namespace2') parentScope
+		equals: (self modelMerger orionVersionedModel entityNamed: 'java')
 ]
 
 { #category : #tests }
 TOrionMergeJavaTest >> testAddInheritance [
 	| c1 c2 inh |
-	c1 := modelMerger targetModel entityNamed: 'NamespaceTest::Class1'.
-	c2 := modelMerger targetModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2'.
+	c1 := self modelMerger targetModel entityNamed: 'NamespaceTest::Class1'.
+	c2 := self modelMerger targetModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2'.
 	inh := FAMIXInheritance new
 		superclass: c1;
 		subclass: c2;
 		yourself.
-	modelMerger targetModel add: inh.
-	modelMerger run.
-	modelMerger orionVersionedModel: modelMerger baseModel createNewChildVersion.
+	self modelMerger targetModel add: inh.
+	self modelMerger run.
+	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
 	self mooseModelMerge createAddInheritance.
-	modelMerger orionVersionedModel
-		addInheritanceFrom: modelMerger result setOfAddInheritanceChanges first entity from
-		to: modelMerger result setOfAddInheritanceChanges first entity to.
+	self modelMerger orionVersionedModel
+		addInheritanceFrom: self modelMerger result setOfAddInheritanceChanges first entity from
+		to: self modelMerger result setOfAddInheritanceChanges first entity to.
 	self
 		assert:
-			(modelMerger orionVersionedModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2')
+			(self modelMerger orionVersionedModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2')
 				superInheritances notEmpty.
 	self
 		assert:
-			(modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1') subInheritances
-				notEmpty
+			(self modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1') subInheritances notEmpty
 ]
 
 { #category : #tests }
 TOrionMergeJavaTest >> testAddReference [
 	| cl meth ref changedReference |
-	cl := modelMerger targetModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2'.
-	meth := modelMerger targetModel entityNamed: 'NamespaceTest::Class1.supersimple()'.
+	cl := self modelMerger targetModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2'.
+	meth := self modelMerger targetModel entityNamed: 'NamespaceTest::Class1.supersimple()'.
 	ref := FAMIXReference new
 		source: meth;
 		target: cl;
 		yourself.
-	modelMerger targetModel add: ref.
-	modelMerger run.
-	modelMerger orionVersionedModel: modelMerger baseModel createNewChildVersion.
-	changedReference := modelMerger result setOfAddReferenceChanges first entity.
-	self assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()') outgoingReferences isEmpty.
-	modelMerger orionVersionedModel addReferenceFrom: changedReference from to: changedReference to.
-	self assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()') outgoingReferences isNotEmpty.
+	self modelMerger targetModel add: ref.
+	self modelMerger run.
+	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
+	changedReference := self modelMerger result setOfAddReferenceChanges first entity.
 	self
-		assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()') outgoingReferences first to
-		equals: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2')
+		assert:
+			(self modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()')
+				outgoingReferences isEmpty.
+	self modelMerger orionVersionedModel addReferenceFrom: changedReference from to: changedReference to.
+	self
+		assert:
+			(self modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()')
+				outgoingReferences isNotEmpty.
+	self
+		assert:
+			(self modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()')
+				outgoingReferences first to
+		equals: (self modelMerger orionVersionedModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2')
 ]
 
 { #category : #tests }
 TOrionMergeJavaTest >> testAddReference2 [
 	| cl meth ref |
-	cl := modelMerger targetModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2'.
+	cl := self modelMerger targetModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2'.
 	meth := FAMIXMethod new
 		signature: 'methAdded()';
 		name: 'methAdded';
-		parentType: (modelMerger targetModel entityNamed: 'NamespaceTest::Class1');
+		parentType: (self modelMerger targetModel entityNamed: 'NamespaceTest::Class1');
 		yourself.
-	modelMerger targetModel add: meth.
+	self modelMerger targetModel add: meth.
 	ref := FAMIXReference new
 		source: meth;
 		target: cl;
 		yourself.
-	modelMerger targetModel add: ref.
-	modelMerger run.
-	modelMerger orionVersionedModel: modelMerger baseModel createNewChildVersion.
+	self modelMerger targetModel add: ref.
+	self modelMerger run.
+	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
 	self mooseModelMerge createAddMethod.
 	self
-		assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.methAdded()') outgoingReferences isEmpty.
-	modelMerger orionVersionedModel
-		addReferenceFrom: modelMerger result setOfAddReferenceChanges first entity from
-		to: modelMerger result setOfAddReferenceChanges first entity to.
+		assert:
+			(self modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.methAdded()')
+				outgoingReferences isEmpty.
+	self modelMerger orionVersionedModel
+		addReferenceFrom: self modelMerger result setOfAddReferenceChanges first entity from
+		to: self modelMerger result setOfAddReferenceChanges first entity to.
 	self
-		assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.methAdded()') outgoingReferences notEmpty.
+		assert:
+			(self modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.methAdded()')
+				outgoingReferences notEmpty.
 	self
-		assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.methAdded()') outgoingReferences first to
-		equals: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2')
+		assert:
+			(self modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.methAdded()')
+				outgoingReferences first to
+		equals: (self modelMerger orionVersionedModel entityNamed: 'NamespaceTest::ContainedNamespace::Class2')
 ]
 
 { #category : #tests }
@@ -177,29 +177,23 @@ TOrionMergeJavaTest >> testAddReferenceFromMethOfAnonymousClass [
 	| cl meth |
 	cl := FAMIXClass new
 		name: 'AnonymousClass';
-		container:
-			(modelMerger targetModel
-				entityNamed: 'NamespaceTest::Class1.supersimple()');
+		container: (self modelMerger targetModel entityNamed: 'NamespaceTest::Class1.supersimple()');
 		yourself.
-	modelMerger targetModel add: cl.
+	self modelMerger targetModel add: cl.
 	meth := FAMIXMethod new
 		signature: 'methInAnonymousClass';
 		name: 'methInAnonymousClass';
-		parentType:
-			(modelMerger targetModel
-				entityNamed: 'NamespaceTest::Class1.supersimple()::AnonymousClass');
+		parentType: (self modelMerger targetModel entityNamed: 'NamespaceTest::Class1.supersimple()::AnonymousClass');
 		yourself.
-	modelMerger targetModel add: meth.
-	modelMerger run.
-	modelMerger
-		orionVersionedModel: modelMerger baseModel createNewChildVersion.
-	modelMerger orionVersionedModel
+	self modelMerger targetModel add: meth.
+	self modelMerger run.
+	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
+	self modelMerger orionVersionedModel
 		addReferenceFrom: meth
-		to: (modelMerger targetModel entityNamed: 'NamespaceTest::Class1').
+		to: (self modelMerger targetModel entityNamed: 'NamespaceTest::Class1').
 	self
 		assert:
-			(modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1')
-				incomingReferences isEmpty
+			(self modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1') incomingReferences isEmpty
 ]
 
 { #category : #tests }
@@ -207,28 +201,23 @@ TOrionMergeJavaTest >> testAddReferenceFromMethOfInnerClass [
 	| cl meth |
 	cl := FAMIXClass new
 		name: 'InnerClass';
-		container: (modelMerger targetModel entityNamed: 'NamespaceTest::Class1');
+		container: (self modelMerger targetModel entityNamed: 'NamespaceTest::Class1');
 		yourself.
-	modelMerger targetModel add: cl.
+	self modelMerger targetModel add: cl.
 	meth := FAMIXMethod new
 		signature: 'methInInnerClass';
 		name: 'methInInnerClass';
-		parentType:
-			(modelMerger targetModel
-				entityNamed: 'NamespaceTest::Class1::InnerClass');
+		parentType: (self modelMerger targetModel entityNamed: 'NamespaceTest::Class1::InnerClass');
 		yourself.
-	modelMerger targetModel add: meth.
-	modelMerger run.
-	modelMerger
-		orionVersionedModel: modelMerger baseModel createNewChildVersion.
+	self modelMerger targetModel add: meth.
+	self modelMerger run.
+	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
 	self mooseModelMerge createAddMethod.
-	modelMerger orionVersionedModel
+	self modelMerger orionVersionedModel
 		addReferenceFrom: meth
-		to: (modelMerger targetModel entityNamed: 'NamespaceTest::Class1').
+		to: (self modelMerger targetModel entityNamed: 'NamespaceTest::Class1').
 	self
-		assert:
-			(modelMerger targetModel entityNamed: 'NamespaceTest::Class1')
-				incomingReferences isEmpty
+		assert: (self modelMerger targetModel entityNamed: 'NamespaceTest::Class1') incomingReferences isEmpty
 ]
 
 { #category : #tests }
@@ -237,14 +226,22 @@ TOrionMergeJavaTest >> testAddReferenceToStubClass [
 	cl := FAMIXClass new
 		name: 'ClassTest';
 		isStub: true;
-		container: (modelMerger targetModel entityNamed: 'NamespaceTest');
+		container: (self modelMerger targetModel entityNamed: 'NamespaceTest');
 		yourself.
-	modelMerger targetModel add: cl.
-	modelMerger run.
-	modelMerger orionVersionedModel: modelMerger baseModel createNewChildVersion.
-	self assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()') outgoingReferences isEmpty.
-	modelMerger orionVersionedModel addReferenceFrom: (modelMerger targetModel entityNamed: 'NamespaceTest::Class1.supersimple()') toStub: cl.
-	self assert: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()') outgoingReferences notEmpty
+	self modelMerger targetModel add: cl.
+	self modelMerger run.
+	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
+	self
+		assert:
+			(self modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()')
+				outgoingReferences isEmpty.
+	self modelMerger orionVersionedModel
+		addReferenceFrom: (self modelMerger targetModel entityNamed: 'NamespaceTest::Class1.supersimple()')
+		toStub: cl.
+	self
+		assert:
+			(self modelMerger orionVersionedModel entityNamed: 'NamespaceTest::Class1.supersimple()')
+				outgoingReferences notEmpty
 ]
 
 { #category : #tests }
@@ -253,17 +250,19 @@ TOrionMergeJavaTest >> testAddStubClass [
 	cl := FAMIXClass new
 		name: 'ClassTest';
 		isStub: true;
-		container: (modelMerger targetModel entityNamed: 'NamespaceTest');
+		container: (self modelMerger targetModel entityNamed: 'NamespaceTest');
 		yourself.
-	modelMerger targetModel add: cl.
-	modelMerger run.
-	modelMerger orionVersionedModel: modelMerger baseModel createNewChildVersion.
-	modelMerger orionVersionedModel addStubClass: cl.
-	self assert: (modelMerger baseModel entityNamed: 'NamespaceTest::ClassTest') isNil.
-	stubClass := modelMerger orionVersionedModel entityNamed: 'NamespaceTest::ClassTest'.
+	self modelMerger targetModel add: cl.
+	self modelMerger run.
+	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
+	self modelMerger orionVersionedModel addStubClass: cl.
+	self assert: (self modelMerger baseModel entityNamed: 'NamespaceTest::ClassTest') isNil.
+	stubClass := self modelMerger orionVersionedModel entityNamed: 'NamespaceTest::ClassTest'.
 	self assert: stubClass isNotNil.
 	self assert: stubClass isStub.
-	self assert: stubClass container equals: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest')
+	self
+		assert: stubClass container
+		equals: (self modelMerger orionVersionedModel entityNamed: 'NamespaceTest')
 ]
 
 { #category : #tests }
@@ -272,24 +271,17 @@ TOrionMergeJavaTest >> testAddStubClassInExistingStubNS [
 	cl := FAMIXClass new
 		name: 'ClassTest';
 		isStub: true;
-		container: (modelMerger targetModel entityNamed: 'java');
+		container: (self modelMerger targetModel entityNamed: 'java');
 		yourself.
-	modelMerger targetModel add: cl.
-	modelMerger run.
-	modelMerger
-		orionVersionedModel: modelMerger baseModel createNewChildVersion.
-	modelMerger orionVersionedModel addStubClass: cl.
+	self modelMerger targetModel add: cl.
+	self modelMerger run.
+	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
+	self modelMerger orionVersionedModel addStubClass: cl.
+	self assert: (self modelMerger baseModel entityNamed: 'java::ClassTest') isNil.
+	self assert: (self modelMerger orionVersionedModel entityNamed: 'java::ClassTest') notNil.
 	self
-		assert: (modelMerger baseModel entityNamed: 'java::ClassTest') isNil.
-	self
-		assert:
-			(modelMerger orionVersionedModel entityNamed: 'java::ClassTest')
-				notNil.
-	self
-		assert:
-			(modelMerger orionVersionedModel entityNamed: 'java::ClassTest')
-				container
-		equals: (modelMerger orionVersionedModel entityNamed: 'java')
+		assert: (self modelMerger orionVersionedModel entityNamed: 'java::ClassTest') container
+		equals: (self modelMerger orionVersionedModel entityNamed: 'java')
 ]
 
 { #category : #tests }
@@ -299,31 +291,23 @@ TOrionMergeJavaTest >> testAddStubClassInNonExistingStubNS [
 		name: 'Namespace2';
 		isStub: true;
 		yourself.
-	modelMerger targetModel add: ns.
+	self modelMerger targetModel add: ns.
 	cl := FAMIXClass new
 		name: 'ClassTest';
 		isStub: true;
 		container: ns;
 		yourself.
-	modelMerger targetModel add: cl.
-	modelMerger run.
-	modelMerger
-		orionVersionedModel: modelMerger baseModel createNewChildVersion.
-	modelMerger orionVersionedModel addStubClass: cl.
-	self assert: (modelMerger baseModel entityNamed: 'Namespace2') isNil.
+	self modelMerger targetModel add: cl.
+	self modelMerger run.
+	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
+	self modelMerger orionVersionedModel addStubClass: cl.
+	self assert: (self modelMerger baseModel entityNamed: 'Namespace2') isNil.
+	self assert: (self modelMerger baseModel entityNamed: 'Namespace2::ClassTest') isNil.
+	self assert: (self modelMerger orionVersionedModel entityNamed: 'Namespace2') notNil.
+	self assert: (self modelMerger orionVersionedModel entityNamed: 'Namespace2::ClassTest') notNil.
 	self
-		assert: (modelMerger baseModel entityNamed: 'Namespace2::ClassTest') isNil.
-	self
-		assert: (modelMerger orionVersionedModel entityNamed: 'Namespace2') notNil.
-	self
-		assert:
-			(modelMerger orionVersionedModel entityNamed: 'Namespace2::ClassTest')
-				notNil.
-	self
-		assert:
-			(modelMerger orionVersionedModel entityNamed: 'Namespace2::ClassTest')
-				container
-		equals: (modelMerger orionVersionedModel entityNamed: 'Namespace2')
+		assert: (self modelMerger orionVersionedModel entityNamed: 'Namespace2::ClassTest') container
+		equals: (self modelMerger orionVersionedModel entityNamed: 'Namespace2')
 ]
 
 { #category : #tests }
@@ -333,65 +317,57 @@ TOrionMergeJavaTest >> testAddStubNamespace [
 		name: 'Namespace2';
 		isStub: true;
 		yourself.
-	modelMerger targetModel add: ns.
-	modelMerger run.
-	modelMerger orionVersionedModel: modelMerger baseModel createNewChildVersion.
-	modelMerger orionVersionedModel addStubNamespace: ns.
-	self assert: (modelMerger baseModel entityNamed: 'Namespace2') isNil.
-	stubNamespace := modelMerger orionVersionedModel entityNamed: 'Namespace2'.
+	self modelMerger targetModel add: ns.
+	self modelMerger run.
+	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
+	self modelMerger orionVersionedModel addStubNamespace: ns.
+	self assert: (self modelMerger baseModel entityNamed: 'Namespace2') isNil.
+	stubNamespace := self modelMerger orionVersionedModel entityNamed: 'Namespace2'.
 	self assert: stubNamespace isNotNil.
 	self assert: stubNamespace isStub
 ]
 
 { #category : #tests }
 TOrionMergeJavaTest >> testCreateAddNamespace [
-	modelMerger targetModel add: (FAMIXNamespace new name: 'Namespace2').
-	self assert: modelMerger baseModel notEmpty.
-	modelMerger run.
-	modelMerger orionVersionedModel: modelMerger baseModel createNewChildVersion.
+	self modelMerger targetModel add: (FAMIXNamespace new name: 'Namespace2').
+	self assert: self modelMerger baseModel notEmpty.
+	self modelMerger run.
+	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
 	self mooseModelMerge createAddScopingEntity.
-	self assert: (modelMerger baseModel entityNamed: 'Namespace2') isNil.
-	self assert: (modelMerger orionVersionedModel entityNamed: 'Namespace2') notNil
+	self assert: (self modelMerger baseModel entityNamed: 'Namespace2') isNil.
+	self assert: (self modelMerger orionVersionedModel entityNamed: 'Namespace2') notNil
 ]
 
 { #category : #tests }
 TOrionMergeJavaTest >> testCreateMoveNamespace [
-	(modelMerger targetModel
-		entityNamed: 'NamespaceTest::ContainedNamespace')
-		parentScope: (modelMerger targetModel entityNamed: 'java').
-	modelMerger run.
-	modelMerger
-		orionVersionedModel: modelMerger baseModel createNewChildVersion.
+	(self modelMerger targetModel entityNamed: 'NamespaceTest::ContainedNamespace')
+		parentScope: (self modelMerger targetModel entityNamed: 'java').
+	self modelMerger run.
+	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
 	self mooseModelMerge createMoveNamespace.
 	self
-		assert:
-			(modelMerger baseModel
-				entityNamed: 'NamespaceTest::ContainedNamespace') parentScope name
+		assert: (self modelMerger baseModel entityNamed: 'NamespaceTest::ContainedNamespace') parentScope name
 		equals: 'NamespaceTest'.
 	self
-		assert:
-			(modelMerger orionVersionedModel
-				entityNamed: 'java::ContainedNamespace') parentScope name
+		assert: (self modelMerger orionVersionedModel entityNamed: 'java::ContainedNamespace') parentScope name
 		equals: 'java'
 ]
 
 { #category : #tests }
 TOrionMergeJavaTest >> testSetOfAddNamespace [
-	modelMerger targetModel add: (FAMIXNamespace new name: 'Namespace2').
-	self assert: modelMerger baseModel isNotEmpty.
-	modelMerger run.
-	self assert: modelMerger result setOfAddScopingEntityChanges isNotNil.
-	self assert: modelMerger result setOfAddScopingEntityChanges size equals: 1
+	self modelMerger targetModel add: (FAMIXNamespace new name: 'Namespace2').
+	self assert: self modelMerger baseModel isNotEmpty.
+	self modelMerger run.
+	self assert: self modelMerger result setOfAddScopingEntityChanges isNotNil.
+	self assert: self modelMerger result setOfAddScopingEntityChanges size equals: 1
 ]
 
 { #category : #tests }
 TOrionMergeJavaTest >> testSetOfMoveNamespaceChanges [
-	(modelMerger targetModel
-		entityNamed: 'NamespaceTest::ContainedNamespace')
-		parentScope: (modelMerger targetModel entityNamed: 'java').
-	modelMerger run.
-	modelMerger
-		orionVersionedModel: modelMerger baseModel createNewChildVersion.
-	self assert: modelMerger result setOfMoveNamespaceChanges notNil.
-	self assert: modelMerger result setOfMoveNamespaceChanges size equals: 1
+	(self modelMerger targetModel entityNamed: 'NamespaceTest::ContainedNamespace')
+		parentScope: (self modelMerger targetModel entityNamed: 'java').
+	self modelMerger run.
+	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
+	self assert: self modelMerger result setOfMoveNamespaceChanges notNil.
+	self assert: self modelMerger result setOfMoveNamespaceChanges size equals: 1
 ]
