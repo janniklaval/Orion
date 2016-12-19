@@ -10,6 +10,16 @@ Class {
 }
 
 { #category : #accessing }
+OrionMergeWithVisitor >> orionVersionedModel [
+	^ orionVersionedModel
+]
+
+{ #category : #accessing }
+OrionMergeWithVisitor >> orionVersionedModel: anObject [
+	orionVersionedModel := anObject
+]
+
+{ #category : #accessing }
 OrionMergeWithVisitor >> run [
 	"create the new version of the OrionModel by successively calling all message creating ORActions"
 
