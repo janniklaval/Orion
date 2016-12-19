@@ -26,6 +26,30 @@ Trait {
 }
 
 { #category : #'tests-create' }
+TOrionMergeTest >> testAddAllFromStModel [
+
+	model1 := MooseModel new.
+	model1 name: 'baseEmpty'.
+	modelMerger := FXDiff baseModel: model1 convertToOrion targetModel: model2 diffTransformers: {OrionMerge}.
+	modelMerger run.
+	self assert: modelMerger baseModel system orionModels size equals: 2
+]
+
+{ #category : #'tests-create' }
+TOrionMergeTest >> testAddAndDiffAllFromStModel [
+	<expectedFailure>
+	| modelDiff res |
+	model1 := MooseModel new.
+	model1 name: 'baseEmpty'.
+	modelMerger := FXDiff baseModel: model1 convertToOrion targetModel: model2 diffTransformers: {OrionMerge}.
+	modelMerger run.
+	self assert: modelMerger baseModel system orionModels size equals: 2.
+	modelDiff := FXDiff baseModel: modelMerger baseModel system orionModels second targetModel: model2 diffTransformers: {}.
+	res := modelDiff run result.
+	self assert: res isEmpty
+]
+
+{ #category : #'tests-create' }
 TOrionMergeTest >> testCreateAddAccess [
 	| var2 access |
 	var2 := self modelMerger targetModel entityNamed: 'Smalltalk::A3diff.att1'.

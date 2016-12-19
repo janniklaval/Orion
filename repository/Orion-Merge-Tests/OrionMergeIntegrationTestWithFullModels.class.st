@@ -10,7 +10,7 @@ Class {
 
 { #category : #tests }
 OrionMergeIntegrationTestWithFullModels >> addAllFromMseString: mse [
-	| model1  |
+	| model1 |
 	model1 := MooseModel new.
 	model1 name: 'baseEmpty'.
 	model2 := MooseModel new.
@@ -19,7 +19,9 @@ OrionMergeIntegrationTestWithFullModels >> addAllFromMseString: mse [
 	modelMerger := FXDiff
 		baseModel: model1 convertToOrion
 		targetModel: model2
-		diffTransformers: {OrionMerge}.
+		diffTransformers:
+			{FamixDiffChangesSorter.
+			OrionMergeWithVisitor}.
 	modelMerger run
 ]
 
