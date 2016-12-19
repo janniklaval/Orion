@@ -34,7 +34,12 @@ OrionMergeIntegrationTestWithFullModels >> diffFromScratch [
 ]
 
 { #category : #tests }
-OrionMergeIntegrationTestWithFullModels >> testAddAllFromOrionMergeJavaTest [
+OrionMergeIntegrationTestWithFullModels >> mseFromVerveineJTest [
+	^ VerveineJTestResource current mse
+]
+
+{ #category : #tests }
+OrionMergeIntegrationTestWithFullModels >> test0AddAllFromOrionMergeJavaTest [
 	"comment stating purpose of message"
 
 	| mse |
@@ -44,9 +49,37 @@ OrionMergeIntegrationTestWithFullModels >> testAddAllFromOrionMergeJavaTest [
 ]
 
 { #category : #tests }
-OrionMergeIntegrationTestWithFullModels >> testAddAndDiffAllFromOrionMergeJavaTest [
+OrionMergeIntegrationTestWithFullModels >> test0AddAndDiffAllFromOrionMergeJavaTest [
 	| res |
 	self addAllFromMseString: OrionMergeJavaTest wholeMSE.
+	self assert: modelMerger baseModel system orionModels size equals: 2.
+	self diffFromScratch.
+	res := self diffFromScratch.
+	self deny: res isEmpty.
+	self
+		flag: 'It should be empty but only if the model is fully done... Now some items are missing'.
+	self assert: res size equals: 28.
+	self assert: res numberOfAdds equals: 11.
+	self assert: res numberOfVersions equals: 28 - 11.
+	self
+		assert: (res allImpactingChanges collectAsSet: [ :e | e entity class ])
+		equals: (Set with: FAMIXParameter with: FAMIXPrimitiveType)
+]
+
+{ #category : #tests }
+OrionMergeIntegrationTestWithFullModels >> test1AddAllFromVerveineJTest [
+	"comment stating purpose of message"
+
+	| mse |
+	mse := self mseFromVerveineJTest.
+	self addAllFromMseString: mse.
+	self assert: modelMerger baseModel system orionModels size equals: 2
+]
+
+{ #category : #tests }
+OrionMergeIntegrationTestWithFullModels >> test1AddAndDiffAllFromVerveineJTest [
+	| res |
+	self addAllFromMseString: self mseFromVerveineJTest.
 	self assert: modelMerger baseModel system orionModels size equals: 2.
 	self diffFromScratch.
 	res := self diffFromScratch.
