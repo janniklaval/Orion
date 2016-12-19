@@ -30,6 +30,7 @@ OrionMergeTest >> test0AddAllFromEmptyModel [
 
 { #category : #'tests-create' }
 OrionMergeTest >> test0AddAllFromEmptyModelAndCheckDiff [
+	<expectedFailure>
 	| modelDiff res |
 	model1 := MooseModel new.
 	model1 name: 'baseEmpty'.
