@@ -14,12 +14,10 @@ TFAMIXPackage classSide >> isOrionClass [
 ]
 
 { #category : #adding }
-TFAMIXPackage >> addClassNamed: aString inModel: aModelVersion [
-	self
-		flag:
-			'VB: Should understand the stubs too. Else there is no stub created in ST models'.
+TFAMIXPackage >> addClassNamed: aString isStub: aBoolean inModel: aModelVersion [
 	^ self
 		addClassNamed: aString
+		isStub: aBoolean
 		withNamespace: aModelVersion allNamespaces first
 		inModel: aModelVersion
 ]
