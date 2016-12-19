@@ -71,7 +71,7 @@ OrionMerge >> createAddAnnotationInstance [
 				inModel: self orionVersionedModel ]
 ]
 
-{ #category : #'private-run' }
+{ #category : #'private-run-migrated' }
 OrionMerge >> createAddAnnotationType [
 	self result setOfAddAnnotationTypeChanges
 		do: [ :chg | 
@@ -82,7 +82,7 @@ OrionMerge >> createAddAnnotationType [
 				inModel: self orionVersionedModel ]
 ]
 
-{ #category : #'private-run' }
+{ #category : #'private-run-migrated' }
 OrionMerge >> createAddAttribute [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
@@ -95,7 +95,7 @@ OrionMerge >> createAddAttribute [
 						inModel: self orionVersionedModel ] ]
 ]
 
-{ #category : #'private-run' }
+{ #category : #'private-run-migrated' }
 OrionMerge >> createAddInheritance [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
@@ -106,7 +106,7 @@ OrionMerge >> createAddInheritance [
 				ifFalse: [ self orionVersionedModel addInheritanceFrom: chg entity from to: chg entity to ] ]
 ]
 
-{ #category : #'private-run' }
+{ #category : #'private-run-migrated' }
 OrionMerge >> createAddInnerClass [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
@@ -144,7 +144,7 @@ OrionMerge >> createAddInvocation [
 						inModel: self orionVersionedModel   ] ]
 ]
 
-{ #category : #'private-run' }
+{ #category : #'private-run-migrated' }
 OrionMerge >> createAddMethod [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
@@ -158,7 +158,7 @@ OrionMerge >> createAddMethod [
 						inModel: self orionVersionedModel ] ]
 ]
 
-{ #category : #'private-run' }
+{ #category : #'private-run-migrated' }
 OrionMerge >> createAddMethodOfInnerClass [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
@@ -183,7 +183,7 @@ OrionMerge >> createAddReference [
 				ifFalse: [ self orionVersionedModel addReferenceFrom: chg entity from to: chg entity to ] ]
 ]
 
-{ #category : #'private-run' }
+{ #category : #'private-run-migrated' }
 OrionMerge >> createAddScopingEntity [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
@@ -194,7 +194,7 @@ OrionMerge >> createAddScopingEntity [
 			ifTrue: [ self orionVersionedModel addNamespaceNamed: chg entity name inORNamespace: (self orionVersionedModel entityNamed: chg entity parentScope mooseName) ] ]
 ]
 
-{ #category : #'private-run' }
+{ #category : #'private-run-migrated' }
 OrionMerge >> createAddType [
 	"create the corresponding ORActions from the set of changes. Each type of change is managed separately"
 
@@ -450,14 +450,4 @@ OrionMerge >> sortAddScopingEntityChanges: aCollection [
 	"select the FamixChanges of the dictionnary according to their type and the type of the entity on which they occur"
 
 	^ aCollection sort: [ :a :b | a mooseName < b mooseName ].
-]
-
-{ #category : #initialize }
-OrionMerge >> withBase: base target: target [
-	"base should be an Orion modelbase
-	 target should be a MooseModel"
-
-	(base isKindOf: ORModel) should beTrue.
-	(target isKindOf: MooseModel) should beTrue.
-	famixDiff := FXDiff baseModel: base targetModel: target
 ]
