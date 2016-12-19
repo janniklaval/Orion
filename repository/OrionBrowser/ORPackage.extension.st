@@ -17,17 +17,6 @@ ORPackage >> addClassNamed: aString  inAction: anAction [
 ]
 
 { #category : #'*OrionBrowser' }
-ORPackage >> addClassNamed: aString withNamespace: aNamespace inModel: aModelVersion [
-	^aString
-		ifNotNil: [ 
-			(ORActionAddClass new
-				orionModel: aModelVersion;
-				parent: self;
-				container: aNamespace;
-				newName: aString) manualRun; postRun ]
-]
-
-{ #category : #'*OrionBrowser' }
 ORPackage >> deleteInAction: anAction [
 
 	ORActionRemovePackageOnly new
