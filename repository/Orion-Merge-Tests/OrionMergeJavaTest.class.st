@@ -304,7 +304,7 @@ OrionMergeJavaTest >> testAddReferenceToStubClass [
 
 { #category : #tests }
 OrionMergeJavaTest >> testAddStubClass [
-	| cl |
+	| cl stubClass |
 	cl := FAMIXClass new
 		name: 'ClassTest';
 		isStub: true;
@@ -312,20 +312,13 @@ OrionMergeJavaTest >> testAddStubClass [
 		yourself.
 	modelMerger targetModel add: cl.
 	modelMerger run.
-	modelMerger
-		orionVersionedModel: modelMerger baseModel createNewChildVersion.
+	modelMerger orionVersionedModel: modelMerger baseModel createNewChildVersion.
 	modelMerger orionVersionedModel addStubClass: cl.
-	self
-		assert: (modelMerger baseModel entityNamed: 'NamespaceTest::ClassTest') isNil.
-	self
-		assert:
-			(modelMerger orionVersionedModel
-				entityNamed: 'NamespaceTest::ClassTest') notNil.
-	self
-		assert:
-			(modelMerger orionVersionedModel
-				entityNamed: 'NamespaceTest::ClassTest') container
-		equals: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest')
+	self assert: (modelMerger baseModel entityNamed: 'NamespaceTest::ClassTest') isNil.
+	stubClass := modelMerger orionVersionedModel entityNamed: 'NamespaceTest::ClassTest'.
+	self assert: stubClass isNotNil.
+	self assert: stubClass isStub.
+	self assert: stubClass container equals: (modelMerger orionVersionedModel entityNamed: 'NamespaceTest')
 ]
 
 { #category : #tests }
@@ -390,19 +383,19 @@ OrionMergeJavaTest >> testAddStubClassInNonExistingStubNS [
 
 { #category : #tests }
 OrionMergeJavaTest >> testAddStubNamespace [
-	| ns |
+	| ns stubNamespace |
 	ns := FAMIXNamespace new
 		name: 'Namespace2';
 		isStub: true;
 		yourself.
 	modelMerger targetModel add: ns.
 	modelMerger run.
-	modelMerger
-		orionVersionedModel: modelMerger baseModel createNewChildVersion.
+	modelMerger orionVersionedModel: modelMerger baseModel createNewChildVersion.
 	modelMerger orionVersionedModel addStubNamespace: ns.
 	self assert: (modelMerger baseModel entityNamed: 'Namespace2') isNil.
-	self
-		assert: (modelMerger orionVersionedModel entityNamed: 'Namespace2') notNil
+	stubNamespace := modelMerger orionVersionedModel entityNamed: 'Namespace2'.
+	self assert: stubNamespace isNotNil.
+	self assert: stubNamespace isStub
 ]
 
 { #category : #tests }
