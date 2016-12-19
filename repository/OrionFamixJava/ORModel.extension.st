@@ -42,32 +42,51 @@ ORModel >> addPackageNamed: aString inORPackage: aPackage [
 { #category : #'*OrionFamixJava' }
 ORModel >> addReferenceFrom: aFamixMethod to: aFamixClass [
 	(aFamixMethod belongsTo isAnonymousClass not and: [ aFamixMethod belongsTo isInnerClass not ])
-		ifTrue: [ (self entityNamed: aFamixMethod mooseName) addReferenceTo: (self entityNamed: aFamixClass mooseName) inModel: self ]
+		ifTrue: [ ^ (self entityNamed: aFamixMethod mooseName)
+				addReferenceTo: (self entityNamed: aFamixClass mooseName)
+				inModel: self ]
 ]
 
 { #category : #'*OrionFamixJava' }
-ORModel >> addReferenceFrom: aFAMIXMethod toStub: aFAMIXClass [
+ORModel >> addReferenceFrom: aFAMIXMethod toStub: aFamixStubClass [
 	| actualClass |
-	(self entityNamed: aFAMIXClass mooseName)
-		ifNil: [ actualClass := self addStubClass: aFAMIXClass ]
-		ifNotNil: [ actualClass := aFAMIXClass ].
+	(self entityNamed: aFamixStubClass mooseName)
+		ifNil: [ actualClass := self addStubClass: aFamixStubClass ]
+		ifNotNil: [ actualClass := aFamixStubClass ].
 	^ self addReferenceFrom: aFAMIXMethod to: actualClass
 ]
 
 { #category : #'*OrionFamixJava' }
 ORModel >> addStubClass: aFAMIXClass [
-	(self entityNamed: aFAMIXClass container mooseName)
-		ifNil: [ self addStubNamespace: aFAMIXClass container ].
-	^ ((self entityNamed: aFAMIXClass container mooseName)
-		addClassNamed: aFAMIXClass name
-		inModel: self) entity
+	(self entityNamed: aFAMIXClass container mooseName) ifNil: [ self addStubNamespace: aFAMIXClass container ].
+	^ ((self entityNamed: aFAMIXClass container mooseName) addStubClassNamed: aFAMIXClass name inModel: self) entity
 ]
 
 { #category : #'*OrionFamixJava' }
 ORModel >> addStubNamespace: aFAMIXNamespace [
-	aFAMIXNamespace parentScope
+	^ aFAMIXNamespace parentScope
 		ifNotNil: [ :parentScope | 
 			(self entityNamed: parentScope mooseName) ifNil: [ self addStubNamespace: parentScope ].
-			self addNamespaceNamed: aFAMIXNamespace name inORNamespace: (self entityNamed: parentScope mooseName) ]
-		ifNil: [ self addNamespaceNamed: aFAMIXNamespace name ]
+			self
+				addStubNamespaceNamed: aFAMIXNamespace name
+				inORNamespace: (self entityNamed: parentScope mooseName) ]
+		ifNil: [ self addStubNamespaceNamed: aFAMIXNamespace name ]
+]
+
+{ #category : #'*OrionFamixJava' }
+ORModel >> addStubNamespaceNamed: aString [
+
+	^self addStubNamespaceNamed: aString inORNamespace: nil.
+]
+
+{ #category : #'*OrionFamixJava' }
+ORModel >> addStubNamespaceNamed: aString  inORNamespace: aNamespace [
+	^ aString
+		ifNotNil: [ (ORActionAddNamespace new
+				orionModel: self;
+				container: aNamespace;
+				isStub: true;
+				newName: aString)
+				manualRun;
+				postRun ]
 ]
