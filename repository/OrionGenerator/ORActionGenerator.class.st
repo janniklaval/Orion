@@ -28,6 +28,15 @@ ORActionGenerator class >> runOnOrionExistingClasses [
 				classesForClassTag: 'Class')
 ]
 
+{ #category : #running }
+ORActionGenerator class >> runOnOrionExistingClassesForJava [
+
+	^ self
+		createActionsForORClasses:
+			((RPackage organizer packageNamed: 'OrionFamixJava')
+				classesForClassTag: 'Class')
+]
+
 { #category : #preparation }
 ORActionGenerator >> createActionCategoryName: anOREntity [
 	^ String
