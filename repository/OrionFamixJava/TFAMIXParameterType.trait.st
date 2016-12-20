@@ -24,6 +24,62 @@ TFAMIXParameterType >> addAnnotationInstanceOfType: anAnnotationTypeName inModel
 				postRun ]
 ]
 
+{ #category : #adding }
+TFAMIXParameterType >> addClassNamed: aString inModel: aModelVersion [
+	^ self addClassNamed: aString isStub: false inModel: aModelVersion
+]
+
+{ #category : #adding }
+TFAMIXParameterType >> addClassNamed: aString isStub: aBoolean inModel: aModelVersion [
+	^ aString
+		ifNotNil: [ (ORActionAddClass new
+				orionModel: aModelVersion;
+				container: self;
+				isStub: aBoolean;
+				newName: aString)
+				manualRun;
+				postRun ]
+]
+
+{ #category : #adding }
+TFAMIXParameterType >> addClassNamed: aString isStub: aBoolean withNamespace: aNamespace inModel: aModelVersion [
+	^ aString
+		ifNotNil: [ (ORActionAddClass new
+				orionModel: aModelVersion;
+				parent: self;
+				isStub: aBoolean;
+				container: aNamespace;
+				newName: aString)
+				manualRun;
+				postRun ]
+]
+
+{ #category : #adding }
+TFAMIXParameterType >> addClassNamed: aString withNamespace: aNamespace inModel: aModelVersion [
+	^aString
+		ifNotNil: [ 
+			(ORActionAddClass new
+				orionModel: aModelVersion;
+				parent: self;
+				container: aNamespace;
+				newName: aString) manualRun; postRun ]
+]
+
+{ #category : #adding }
+TFAMIXParameterType >> addInheritanceTo: superclass inModel: anORModel [
+	^ (ORActionAddInheritance new
+		orionModel: anORModel;
+		from: self;
+		to: superclass)
+		manualRun;
+		postRun
+]
+
+{ #category : #adding }
+TFAMIXParameterType >> addStubClassNamed: aString inModel: aModelVersion [
+	^ self addClassNamed: aString isStub: true inModel: aModelVersion
+]
+
 { #category : #accessing }
 TFAMIXParameterType >> annotationInstances [
 	^ self annotationInstancesOR: self currentContext
