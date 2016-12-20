@@ -32,6 +32,11 @@ ORActionAddLink >> from: anObject [
 	from := anObject
 ]
 
+{ #category : #testing }
+ORActionAddLink >> isAddition [
+	^ true
+]
+
 { #category : #printing }
 ORActionAddLink >> printWorkspace [
 

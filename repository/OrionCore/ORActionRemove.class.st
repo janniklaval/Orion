@@ -17,3 +17,8 @@ ORActionRemove class >> description [
 ORActionRemove class >> needs: anElement [
 	^nil
 ]
+
+{ #category : #testing }
+ORActionRemove >> isRemoval [
+	^ true
+]

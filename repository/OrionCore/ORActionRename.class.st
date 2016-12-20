@@ -18,6 +18,11 @@ ORActionRename class >> description [
 	^'replace association'
 ]
 
+{ #category : #testing }
+ORActionRename >> isRename [
+	^ true
+]
+
 { #category : #accessing }
 ORActionRename >> newName [
 	

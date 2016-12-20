@@ -39,6 +39,11 @@ ORActionAddEntity >> initialize [
 	isStub := false
 ]
 
+{ #category : #testing }
+ORActionAddEntity >> isAddition [
+	^ true
+]
+
 { #category : #accessing }
 ORActionAddEntity >> isStub [
 	^ isStub

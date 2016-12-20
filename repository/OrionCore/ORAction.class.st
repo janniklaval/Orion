@@ -74,9 +74,29 @@ ORAction >> initialize [
 	childrenActions := OrderedCollection new.
 ]
 
+{ #category : #testing }
+ORAction >> isAddition [
+	^ false
+]
+
 { #category : #accessing }
 ORAction >> isManual [
 	^ parentAction isNil
+]
+
+{ #category : #testing }
+ORAction >> isMove [
+	^ false
+]
+
+{ #category : #testing }
+ORAction >> isRemoval [
+	^ false
+]
+
+{ #category : #testing }
+ORAction >> isRename [
+	^ false
 ]
 
 { #category : #'method execution' }

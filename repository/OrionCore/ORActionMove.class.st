@@ -19,6 +19,11 @@ ORActionMove class >> description [
 	^'move'
 ]
 
+{ #category : #testing }
+ORActionMove >> isMove [
+	^ true
+]
+
 { #category : #accessing }
 ORActionMove >> newContainer [
 	^ newContainer
