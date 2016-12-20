@@ -33,22 +33,39 @@ ORGenerator class >> runOnOrionExistingClasses [
 { #category : #'creating method' }
 ORGenerator >> addAccessorFrom: aFamixClass toTrait: aOrionTrait [
 	"add accessors corresponding to the non heritated properties and relations of the Famix Class to the Orion trait "
-	
-	(self getPropertiesOf: aFamixClass) do: [ :prop | 
-		aOrionTrait compile: (self codeForSelector: prop) classified: 'accessing'.
-		aOrionTrait compile: (self codeForORSelector: prop) classified: 'accessing'.
-		]
-	
+
+	(self getPropertiesOf: aFamixClass) , (self getExtendedPropertiesOf: aFamixClass)
+		do: [ :prop | 
+			| extensionCat cat |
+			prop compiledMethod isExtension
+				ifTrue: [ extensionCat := 'Orion' , ('' join: (prop compiledMethod category substrings: '-*')).
+					(aOrionTrait category beginsWith: extensionCat)
+						ifTrue: [ cat := 'accessing' ]
+						ifFalse: [ cat := '*' , extensionCat ] ]
+				ifFalse: [ cat := 'accessing' ].
+			aOrionTrait compile: (self codeForSelector: prop) classified: cat.
+			aOrionTrait compile: (self codeForORSelector: prop) classified: cat ]
+]
+
+{ #category : #'as yet unclassified' }
+ORGenerator >> addExtendedPrivateAccessorsOf: aProp to: aFamixClass [ 
+	"add private accessors corresponding to the property to the Famix Class if it does not already exist and which are as method extension"
+
+	| aMethName cat |
+	aMethName := 'private' , aProp name capitalized.
+	"(aFamixClass methodDict includesKey: aMethName asSymbol)
+		ifFalse: [ "
+			cat := '*' , (self createClassCategoryName: aFamixClass).
+			aFamixClass compile: (self codeForPrivateExtendedGetter: aProp) classified: cat.
+			aFamixClass compile: (self codeForPrivateExtendedSetter: aProp) classified: cat "]"
 ]
 
 { #category : #'creating method' }
 ORGenerator >> addPrivateAccessorTo: aFamixClass [
 	"add private accessors corresponding to the non heritated properties and relations of the Famix Class to it "
-	(self getPropertiesOf: aFamixClass) do: [ :prop | 
-		self addThePrivateAccessorOf: prop to: aFamixClass
-		]
-	
-	
+
+	(self getPropertiesOf: aFamixClass) do: [ :prop | self addThePrivateAccessorOf: prop to: aFamixClass ].
+	(self getExtendedPropertiesOf: aFamixClass) do: [ :prop | self addExtendedPrivateAccessorsOf: prop to: aFamixClass ]
 ]
 
 { #category : #'creating method' }
@@ -63,11 +80,26 @@ ORGenerator >> addThePrivateAccessorOf: aProp to: aFamixClass [
 			aFamixClass compile: (self codeForPrivateSetter: aProp) classified: '*' , (self createClassCategoryName: aFamixClass) ]
 ]
 
+{ #category : #'as yet unclassified' }
+ORGenerator >> codeForExtendedSelector: aFM3PropertyDescription [ 
+	self shouldBeImplemented.
+]
+
 { #category : #'creating method' }
 ORGenerator >> codeForORSelector: aProperty [
 	^((aProperty name), 'OR: aVersion
 	^ self private' , (aProperty name) capitalized , ' versionIn: aVersion')
 	
+]
+
+{ #category : #'as yet unclassified' }
+ORGenerator >> codeForPrivateExtendedGetter: aProperty [
+	^ 'private' , aProperty name capitalized , String cr , '	^ self privateState attributeAt: #' , aProperty name
+]
+
+{ #category : #'as yet unclassified' }
+ORGenerator >> codeForPrivateExtendedSetter: aProperty [ 
+	^ 'private' , aProperty name capitalized asMutator, ' aValue', String cr , String tab, 'self privateState attributeAt: #' , aProperty name, ' put: aValue'
 ]
 
 { #category : #'creating method' }
@@ -200,19 +232,19 @@ ORGenerator >> ensureORTrait: aFamixClass [
 		ifFalse: [ TMooseEntity ]
 ]
 
+{ #category : #'as yet unclassified' }
+ORGenerator >> getExtendedPropertiesOf: aFamixClass [ 
+	^ FAMIXClass mooseDescription complexAttributes reject: [ :a | aFamixClass allInstVarNames includes: a name ]
+]
+
 { #category : #'creating method' }
 ORGenerator >> getPropertiesOf: aFamixClass [
-
-	| metaDesc |
-	metaDesc := MooseModel meta elements detect: [ :md | (md class = FM3MetaDescription  ) and: [md implementingClass = aFamixClass  ] ] ifNone: [ nil ].
-	
-	^ (metaDesc notNil)
-	ifTrue: [ metaDesc attributes select: [:a | "a isDerived not and: ["aFamixClass allInstVarNames includes: (a name) ]] "]" ifFalse: [ OrderedCollection new ]
+	^ aFamixClass mooseDescription attributes select: [ :a | aFamixClass allInstVarNames includes: a name ]
 ]
 
 { #category : #generator }
 ORGenerator >> makeOR: aFamixClass [
-	"Create the ASClass corresponding to the FamixClass, add accessors to the trait and accessors to the FamixClass"
+	"Create the ORClass corresponding to the FamixClass, add accessors to the trait and accessors to the FamixClass"
 	| anORClass |
 	self addAccessorFrom: aFamixClass toTrait: (self ensureORTrait: aFamixClass).
 	anORClass := self ensureORClass: aFamixClass.
