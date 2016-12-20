@@ -47,7 +47,7 @@ ORGenerator >> addAccessorFrom: aFamixClass toTrait: aOrionTrait [
 			aOrionTrait compile: (self codeForORSelector: prop) classified: cat ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating method' }
 ORGenerator >> addExtendedPrivateAccessorsOf: aProp to: aFamixClass [ 
 	"add private accessors corresponding to the property to the Famix Class if it does not already exist and which are as method extension"
 
@@ -55,7 +55,8 @@ ORGenerator >> addExtendedPrivateAccessorsOf: aProp to: aFamixClass [
 	aMethName := 'private' , aProp name capitalized.
 	"(aFamixClass methodDict includesKey: aMethName asSymbol)
 		ifFalse: [ "
-			cat := '*' , (self createClassCategoryName: aFamixClass).
+
+			cat := '*' , 'Orion' , ('' join: (aProp compiledMethod category substrings: '-*')).
 			aFamixClass compile: (self codeForPrivateExtendedGetter: aProp) classified: cat.
 			aFamixClass compile: (self codeForPrivateExtendedSetter: aProp) classified: cat "]"
 ]
@@ -80,11 +81,6 @@ ORGenerator >> addThePrivateAccessorOf: aProp to: aFamixClass [
 			aFamixClass compile: (self codeForPrivateSetter: aProp) classified: '*' , (self createClassCategoryName: aFamixClass) ]
 ]
 
-{ #category : #'as yet unclassified' }
-ORGenerator >> codeForExtendedSelector: aFM3PropertyDescription [ 
-	self shouldBeImplemented.
-]
-
 { #category : #'creating method' }
 ORGenerator >> codeForORSelector: aProperty [
 	^((aProperty name), 'OR: aVersion
@@ -92,12 +88,12 @@ ORGenerator >> codeForORSelector: aProperty [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating method' }
 ORGenerator >> codeForPrivateExtendedGetter: aProperty [
 	^ 'private' , aProperty name capitalized , String cr , '	^ self privateState attributeAt: #' , aProperty name
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating method' }
 ORGenerator >> codeForPrivateExtendedSetter: aProperty [ 
 	^ 'private' , aProperty name capitalized asMutator, ' aValue', String cr , String tab, 'self privateState attributeAt: #' , aProperty name, ' put: aValue'
 ]
@@ -232,9 +228,9 @@ ORGenerator >> ensureORTrait: aFamixClass [
 		ifFalse: [ TMooseEntity ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creating method' }
 ORGenerator >> getExtendedPropertiesOf: aFamixClass [ 
-	^ FAMIXClass mooseDescription complexAttributes reject: [ :a | aFamixClass allInstVarNames includes: a name ]
+	^ aFamixClass mooseDescription complexAttributes reject: [ :a | aFamixClass allInstVarNames includes: a name ]
 ]
 
 { #category : #'creating method' }
