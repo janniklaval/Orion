@@ -44,6 +44,26 @@ ORActionGenerator >> addInstanceVariable: aString on: aClass [
 		do: [ "Slot already existing, just break and continue" ]
 ]
 
+{ #category : #'creating method' }
+ORActionGenerator >> applyGenerationOfActionsOn: aListOfProperties onBlock: block [
+	| props |
+	props := aListOfProperties groupedBy: #package.
+	props associationsDo: block
+]
+
+{ #category : #'creating method' }
+ORActionGenerator >> catNameFor: aFamePackage defaultName: normalCatName [
+	^ aFamePackage
+		ifNil: [ normalCatName , ' - generated' ]
+		ifNotNil: [ '*OrionFamix' , aFamePackage name ]
+]
+
+{ #category : #'creating method' }
+ORActionGenerator >> complexProperties: aCollectionOfProperties [
+	^ aCollectionOfProperties
+		select: [ :e | e isMultivalued not and: [ e opposite isMultivalued ] ]
+]
+
 { #category : #preparation }
 ORActionGenerator >> createActionCategoryName: anOREntity [
 	^ String
@@ -102,13 +122,13 @@ ORActionGenerator >> createCommentToAnORAction: anORAction [
 ]
 
 { #category : #'creating method' }
-ORActionGenerator >> createGetterFor: aString on: aClass [
-	aClass compile: aString , String cr , String tab , '^ ' , aString classified: #'accessing - generated'
+ORActionGenerator >> createGetterFor: aString on: aClass classified: aCat [
+	aClass compile: aString , String cr , String tab , '^ ' , aString classified: aCat
 ]
 
 { #category : #'creating method' }
-ORActionGenerator >> createSetterFor: aString on: aClass [
-	aClass compile: aString asMutator , ' aValue' , String cr , String tab , aString , ' := aValue' classified: #'accessing - generated'
+ORActionGenerator >> createSetterFor: aString on: aClass classified: aCat [
+	aClass compile: aString asMutator , ' aValue' , String cr , String tab , aString , ' := aValue' classified: aCat
 ]
 
 { #category : #'creating method' }
@@ -141,15 +161,31 @@ ORActionGenerator >> generate1ToNSetterFrom: property [
 ]
 
 { #category : #'creating method' }
-ORActionGenerator >> generateGettersAndSettersFrom: aFM3MetaDescription on: aClass [
-	| notDerivedAttributes selector |
-	notDerivedAttributes := aFM3MetaDescription allAttributes reject: #isDerived.
-	notDerivedAttributes
-		collect: [ :e | 
+ORActionGenerator >> generateGettersAndSettersFrom: aCollectionOfFameProperties on: aClass withPackage: aFamePackage [
+	| selector |
+	aCollectionOfFameProperties
+		do: [ :e | 
+			| cat |
 			selector := e implementingSelector.
 			self addInstanceVariable: selector on: aClass.
-			self createGetterFor: selector on: aClass.
-			self createSetterFor: selector on: aClass ].
+			cat := self catNameFor: aFamePackage defaultName: 'accessing'.
+			self createGetterFor: selector on: aClass classified: cat.
+			self createSetterFor: selector on: aClass classified: cat ]
+]
+
+{ #category : #'creating method' }
+ORActionGenerator >> generateNTo1SetterFrom: property [
+| selector oppositeSelector |
+	selector := property implementingSelector.
+	oppositeSelector := property opposite implementingSelector.
+	^ String streamContents: [ :stream |
+				stream tab; << 'self ' ; << selector; cr.
+				stream tab; tab;<< 'ifNotNil: [ | theNewEntities |'; cr.
+				stream tab; tab;tab;<< 'theNewEntities := OrderedCollection withAll: (self ' ;<< selector ; << ' collect: [:e | self orionModel retrieveEntity: e ]).'; cr.
+				stream tab; tab;tab;<< 'newEntity private'; << selector capitalized asMutator; << ' theNewEntities orionCopy.'; cr.
+				stream tab; tab;tab;<< 'theNewEntities do: [:e | e private'; << oppositeSelector capitalized asMutator; << ' newEntity ] ].'; cr.
+	]
+
 ]
 
 { #category : #'creating method' }
@@ -167,48 +203,15 @@ ORActionGenerator >> generateNToNSetterFrom: property [
 ]
 
 { #category : #'creating method' }
-ORActionGenerator >> generateRemoveExtendedPropertiesForEntity: anOREntity onAction: anAction [
-	| propsToRemove complexPropsToRemove simplePropsToRemove stream stringProperties multivalueLinkProperties aClass |
-	propsToRemove := anOREntity mooseDescription allComplexAttributesWithOpposite select: [:e | e package isNotNil ].
-	complexPropsToRemove := propsToRemove select: [:e | e isMultivalued not and: [ e opposite isMultivalued ] ].
-	simplePropsToRemove := propsToRemove difference: complexPropsToRemove.
-	
-	
-	stream := WriteStream on: ''.
-	stream	 << 'run
-	<generatedMethod>
-	| newEntity |
-	super run.
-	newEntity := ';	<< anOREntity name;<< ' new.';	cr.
-	anOREntity hasUniqueMooseNameInModel
-		ifTrue: [ stream<< 'newEntity name: self newName.';cr ].
-	stream tab; << 'self orionModel add: newEntity.'; cr.
-	stream tab; << '"Set primitive not derived properties of the entity"';	cr.
-	stringProperties
-		do: [ :propertiesSettingString | 
-			stream << propertiesSettingString; cr ].
-	stream tab; << '"Set complex not derived properties of the entity"'; cr.
-	multivalueLinkProperties do: [ :propertiesSettingString | stream << propertiesSettingString ] separatedBy: [ stream cr ].
-	anOREntity hasUniqueMooseNameInModel
-		ifTrue: [ stream << 'newAttribute resetMooseName.';	cr ].
-	stream tab; << 'entity := newEntity.';cr;
-			tab;<< '^ entity'.
-	aClass compile: stream contents classified: 'method execution - generated'
-]
-
-{ #category : #'creating method' }
 ORActionGenerator >> generateRequiredMethods: aClass for: anOREntity [
-	self halt.
 	aClass generateRequiredMethodsFor: anOREntity generator: self
 ]
 
 { #category : #'creating method' }
 ORActionGenerator >> generateRequiredMethods: anAction forARemovedEntity: anOREntity [
-	| toto propsToRemove stream complexPropsToRemove simplePropsToRemove propsToRemoveByPackage |
-	propsToRemoveByPackage := anOREntity mooseDescription allComplexAttributesWithOpposite
-		groupedBy: #package.
-	propsToRemoveByPackage
-		associationsDo: [ :assoc | 
+	self
+		applyGenerationOfActionsOn: anOREntity mooseDescription allComplexAttributesWithOpposite
+		onBlock: [ :assoc | 
 			self
 				generateRequiredMethods: anAction
 				forARemovedEntity: anOREntity
@@ -219,60 +222,89 @@ ORActionGenerator >> generateRequiredMethods: anAction forARemovedEntity: anOREn
 { #category : #'creating method' }
 ORActionGenerator >> generateRequiredMethods: anAction forARemovedEntity: anOREntity withPackage: aFamePackage withPropsToRemove: aCollectionOfProperties [
 	| complexPropsToRemove simplePropsToRemove stream cat |
-	complexPropsToRemove := aCollectionOfProperties select: [ :e | e isMultivalued not and: [ e opposite isMultivalued ] ].
-	simplePropsToRemove := aCollectionOfProperties difference: complexPropsToRemove.
-	stream := WriteStream on: ''.
 	"methodName"
+	stream := WriteStream on: ''.
+	complexPropsToRemove := self complexProperties: aCollectionOfProperties.
+	simplePropsToRemove := aCollectionOfProperties difference: complexPropsToRemove.
+	self writeMethodHeaderOn: stream withPackage: aFamePackage withDeclaredVariable: nil.
+	simplePropsToRemove
+		do: [ :prop | 
+			stream tab; << 'entity '; << prop implementingSelector asString.
+			stream << ' do: [:each | each deleteInAction: self ].'; cr ].
+	complexPropsToRemove
+		do: [ :prop | 
+			stream tab; << 'entity '; << prop implementingSelector asString; cr.
+			stream tab; tab; << 'ifNotNil: [ |theEntity|'; cr.
+			stream tab; tab; tab; << 'theEntity := self orionModel retrieveEntity: entity '; << prop implementingSelector asString; 
+					<< '.'; cr.
+			stream tab; tab; tab; << 'theEntity private'; << prop opposite implementingSelector asMutator capitalized; 
+					<< ' (theEntity private'; << prop opposite implementingSelector capitalized; << ' orionCopy orionRemove: entity) ].'; 
+					cr ].
 	aFamePackage
-		ifNil: [ stream << 'run';cr ]
-		ifNotNil: [ stream	<< 'runOn';<< aFamePackage name;<< 'Extension';	cr;tab;<< '<toRun>';cr ].
-	stream tab;<< '<generatedMethod>';	cr.
-	aFamePackage
-		ifNil: [ stream tab;	<< 'super run.';cr ].
-	simplePropsToRemove do: [ :prop | stream tab; << 'entity '; << prop implementingSelector asString ; << ' do: [:each | each deleteInAction: self ].'; cr ].
-	complexPropsToRemove do: [ :prop | 
-		stream tab; << 'entity '; << prop implementingSelector asString ;cr; 
-			tab;tab; << 'ifNotNil: [ |theEntity|'; cr; 
-			tab;tab;tab;<< 'theEntity := self orionModel retrieveEntity: entity '; << prop implementingSelector asString; << '.';cr.
-		stream tab;tab;tab; << 'theEntity private'; << prop opposite implementingSelector asMutator capitalized; 
-						<< ' (theEntity private'; << prop opposite implementingSelector capitalized; << ' orionCopy orionRemove: entity) ].' ; cr ].
-	aFamePackage
-		ifNil: [ stream << 'self removeExtendedPropertiesForEntity.'.
+		ifNil: [ stream << 'self runExtendedPropertiesForEntity: entity.'.
 			stream << '	self orionModel remove: entity' ].
-	cat := aFamePackage
-		ifNil: [ 'method execution - generated' ] ifNotNil: [  '*OrionFamix',aFamePackage name  ].
-	anAction compile: stream contents classified: cat.
+	cat := self catNameFor: aFamePackage defaultName: 'method execution'.
+	anAction compile: stream contents classified: cat
 ]
 
 { #category : #'creating method' }
-ORActionGenerator >> generateRequiredMethods: aClass forAnAddEntity: anOREntity [
-	| mooseDescription stringProperties stream multivalueLinkProperties |
+ORActionGenerator >> generateRequiredMethods: anAction forARenamedEntity: anOREntity [
+	| stream |
+	(anOREntity mooseDescription inheritsFrom: FAMIXNamedEntity mooseDescription)
+		ifFalse: [ ^ self ].
+	stream := WriteStream on: ''.
+	stream << 'run'; cr.
+	stream tab; << '<generated>'; cr.
+	stream tab; << '| theEntity |'; cr.
+	stream tab; << 'super run.'; cr.
+	stream tab; << 'theEntity := (self orionModel retrieveEntity: entity).'; cr.
+	stream tab; << 'theEntity name: newName.'; cr.
+	stream tab; << 'entity := theEntity.'; cr.
+	stream tab; << '^ entity'.
+	anAction compile: stream contents classified: 'method exectution - generated'
+]
+
+{ #category : #'creating method' }
+ORActionGenerator >> generateRequiredMethods: anAction forAnAddEntity: anOREntity [
+	self
+		applyGenerationOfActionsOn: anOREntity mooseDescription allAttributes
+		onBlock: [ :assoc | 
+			self
+				generateRequiredMethods: anAction
+				forAnAddedEntity: anOREntity
+				withPackage: assoc key
+				withPropsToRemove: assoc value ]
+]
+
+{ #category : #'creating method' }
+ORActionGenerator >> generateRequiredMethods: anAction forAnAddedEntity: anOREntity withPackage: aFamePackage withPropsToRemove: listOfProperties [
+	| stringProperties stream multivalueLinkProperties propsWithSetters cat |
 	"(aClass methodDict includesKey: #run)
 		ifTrue: [ ^ self ]."
-	mooseDescription := anOREntity mooseDescription.
-	self generateGettersAndSettersFrom: mooseDescription on: aClass.
-	stringProperties := self settingOfPropertiesFrom: mooseDescription.
-	multivalueLinkProperties := self setLinksFrom: mooseDescription.
 	stream := WriteStream on: ''.
-	stream	 << 'run
-	<generatedMethod>
-	| newEntity |
-	super run.
-	newEntity := ';	<< anOREntity name;<< ' new.';	cr.
+	propsWithSetters := aFamePackage
+		ifNil: [ listOfProperties select: [ :a | (anOREntity allInstVarNames includes: a name) and: [ a isDerived not ] ] ]
+		ifNotNil: [ listOfProperties reject: [ :a | anOREntity allInstVarNames includes: a name ] ].
+	self generateGettersAndSettersFrom: propsWithSetters on: anAction withPackage: aFamePackage.
+	stringProperties := self settingOfPropertiesFrom: (propsWithSetters select: [ :e | e type isPrimitive ]).
+	multivalueLinkProperties := self setLinksFrom: (propsWithSetters reject: [ :e | e type isPrimitive ]).
+	self writeMethodHeaderOn: stream withPackage: aFamePackage withDeclaredVariable: 'newEntity'.
+	aFamePackage
+		ifNil: [ stream tab; << 'newEntity := '; << anOREntity name; << ' new.'; cr.
+			stream tab; << 'self orionModel add: newEntity.'; cr ].
 	anOREntity hasUniqueMooseNameInModel
-		ifTrue: [ stream<< 'newEntity name: self newName.';cr ].
-	stream tab; << 'self orionModel add: newEntity.'; cr.
-	stream tab; << '"Set primitive not derived properties of the entity"';	cr.
-	stringProperties
-		do: [ :propertiesSettingString | 
-			stream << propertiesSettingString; cr ].
+		ifTrue: [ stream << 'newEntity name: self newName.'; cr ].
+	stream tab; << '"Set primitive not derived properties of the entity"'; cr.
+	stringProperties do: [ :propertiesSettingString | stream << propertiesSettingString; cr ].
 	stream tab; << '"Set complex not derived properties of the entity"'; cr.
 	multivalueLinkProperties do: [ :propertiesSettingString | stream << propertiesSettingString ] separatedBy: [ stream cr ].
 	anOREntity hasUniqueMooseNameInModel
-		ifTrue: [ stream << 'newAttribute resetMooseName.';	cr ].
-	stream tab; << 'entity := newEntity.';cr;
-			tab;<< '^ entity'.
-	aClass compile: stream contents classified: 'method execution - generated'
+		ifTrue: [ stream << 'newEntity resetMooseName.'; cr ].
+	aFamePackage
+		ifNil: [ stream tab; << 'self runExtendedPropertiesForEntity: newEntity.'; cr.
+			stream tab; << 'entity := newEntity.'; cr; tab; << '^ entity' ].
+	cat := self catNameFor: aFamePackage defaultName: 'method execution'.
+	anAction compile: stream contents classified: cat
 ]
 
 { #category : #preparation }
@@ -300,7 +332,7 @@ ORActionGenerator >> obtainActionSuperClass: anOREntity actionType: anActionType
 
 { #category : #'creating method' }
 ORActionGenerator >> setLinksFrom: aFM3MetaDescription [
-	^ aFM3MetaDescription allComplexAttributesNotDerived
+	^ aFM3MetaDescription
 		collect: [ :property | 
 			| result |
 			property opposite
@@ -319,12 +351,35 @@ ORActionGenerator >> setLinksFrom: aFM3MetaDescription [
 ]
 
 { #category : #'creating method' }
-ORActionGenerator >> settingOfPropertiesFrom: aFM3MetaDescription [
+ORActionGenerator >> settingOfPropertiesFrom: listOfProperties [
 	| getter setter result |
-	result := aFM3MetaDescription allPrimitiveAttributesNotDerived
+	result := listOfProperties
 		collect: [ :propertyNotDerived | 
 			getter := propertyNotDerived implementingSelector.
-			setter := ('private' , propertyNotDerived implementingSelector capitalized) asSymbol asMutator.
-			String tab, 'newEntity ' , setter , ' self ' , getter , ' orionCopy.'  ].
+			setter := ('private'
+				, propertyNotDerived implementingSelector capitalized) asSymbol
+				asMutator.
+			String tab , 'newEntity ' , setter , ' self ' , getter , ' orionCopy.' ].
 	^ result
+]
+
+{ #category : #'creating method' }
+ORActionGenerator >> writeMethodHeaderOn: stream withPackage: aFamePackage [
+	aFamePackage
+		ifNil: [ stream << 'run'; cr ]
+		ifNotNil: [ stream << 'runOn'; << aFamePackage name; << 'Extension'; cr; tab; << '<toRun>'; cr ].
+	stream tab; << '<generatedMethod>'; cr.
+	aFamePackage ifNil: [ stream tab; << 'super run.'; cr ]
+]
+
+{ #category : #'creating method' }
+ORActionGenerator >> writeMethodHeaderOn: stream withPackage: aFamePackage withDeclaredVariable: stringOfVariables [
+	aFamePackage
+		ifNil: [ stream << 'run'; cr ]
+		ifNotNil: [ stream << 'runOn'; << aFamePackage name; << 'Extension: '; << (stringOfVariables ifNil: ['anEntity']); cr.
+			stream tab; << '<toRun>'; cr ].
+	stream tab; << '<generatedMethod>'; cr.
+	(aFamePackage isNil and: [ stringOfVariables isNotNil ])
+		ifTrue: [ stream tab; << '| '; << stringOfVariables; << ' |'; cr ].
+	aFamePackage ifNil: [ stream tab; << 'super run.'; cr ]
 ]
