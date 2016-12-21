@@ -10,7 +10,7 @@ Instance Variables
 "
 Class {
 	#name : #ORGenerator,
-	#superclass : #Object,
+	#superclass : #ORAbstractGenerator,
 	#category : #OrionGenerator
 }
 
@@ -34,11 +34,13 @@ ORGenerator class >> runOnOrionExistingClasses [
 ORGenerator >> addAccessorFrom: aFamixClass toTrait: aOrionTrait [
 	"add accessors corresponding to the non heritated properties and relations of the Famix Class to the Orion trait "
 
-	(self getPropertiesOf: aFamixClass) , (self getExtendedPropertiesOf: aFamixClass)
+	(self getPropertiesOf: aFamixClass mooseDescription attributes)
+		, (self getExtendedPropertiesOf: aFamixClass mooseDescription attributes)
 		do: [ :prop | 
 			| extensionCat cat |
 			prop compiledMethod isExtension
-				ifTrue: [ extensionCat := 'Orion' , ('' join: (prop compiledMethod category substrings: '-*')).
+				ifTrue: [ extensionCat := 'Orion'
+						, ('' join: (prop compiledMethod category substrings: '-*')).
 					(aOrionTrait category beginsWith: extensionCat)
 						ifTrue: [ cat := 'accessing' ]
 						ifFalse: [ cat := '*' , extensionCat ] ]
@@ -65,8 +67,10 @@ ORGenerator >> addExtendedPrivateAccessorsOf: aProp to: aFamixClass [
 ORGenerator >> addPrivateAccessorTo: aFamixClass [
 	"add private accessors corresponding to the non heritated properties and relations of the Famix Class to it "
 
-	(self getPropertiesOf: aFamixClass) do: [ :prop | self addThePrivateAccessorOf: prop to: aFamixClass ].
-	(self getExtendedPropertiesOf: aFamixClass) do: [ :prop | self addExtendedPrivateAccessorsOf: prop to: aFamixClass ]
+	(self getPropertiesOf: aFamixClass mooseDescription attributes)
+		do: [ :prop | self addThePrivateAccessorOf: prop to: aFamixClass ].
+	(self getExtendedPropertiesOf: aFamixClass mooseDescription attributes)
+		do: [ :prop | self addExtendedPrivateAccessorsOf: prop to: aFamixClass ]
 ]
 
 { #category : #'creating method' }
@@ -90,7 +94,21 @@ ORGenerator >> codeForORSelector: aProperty [
 
 { #category : #'creating method' }
 ORGenerator >> codeForPrivateExtendedGetter: aProperty [
-	^ 'private' , aProperty name capitalized , String cr , '	^ self privateState attributeAt: #' , aProperty name
+	| defaultValue |
+	defaultValue := aProperty isMultivalued
+		ifTrue: [ aProperty opposite isMultivalued
+				ifTrue: [ "multimulti"
+					'FMMultiMultivalueLink' , ' on: self opposite: #'
+						, aProperty opposite implementingSelector asString ]
+				ifFalse: [ "multi1"
+					'FMMultivalueLink' , ' on: self opposite: #'
+						, aProperty opposite implementingSelector asMutator asString ] ]
+		ifFalse: [ 'nil' ].
+	^ String
+		streamContents: [ :stream | 
+			stream << 'private'; << aProperty name capitalized; cr.
+			stream tab; << '	^ self privateState attributeAt: #'; << aProperty name; << ' ifAbsentPut: [ '; 
+					<< defaultValue; << ' ]' ]
 ]
 
 { #category : #'creating method' }
@@ -226,16 +244,6 @@ ORGenerator >> ensureORTrait: aFamixClass [
 					self createCommentToATrait: aTrait.
 					aTrait ] ]
 		ifFalse: [ TMooseEntity ]
-]
-
-{ #category : #'creating method' }
-ORGenerator >> getExtendedPropertiesOf: aFamixClass [ 
-	^ aFamixClass mooseDescription complexAttributes reject: [ :a | aFamixClass allInstVarNames includes: a name ]
-]
-
-{ #category : #'creating method' }
-ORGenerator >> getPropertiesOf: aFamixClass [
-	^ aFamixClass mooseDescription attributes select: [ :a | aFamixClass allInstVarNames includes: a name ]
 ]
 
 { #category : #generator }

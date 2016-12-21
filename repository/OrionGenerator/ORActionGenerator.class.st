@@ -9,7 +9,7 @@ Look at the class side method for actual usage.
 "
 Class {
 	#name : #ORActionGenerator,
-	#superclass : #Object,
+	#superclass : #ORAbstractGenerator,
 	#category : #OrionGenerator
 }
 
@@ -208,6 +208,41 @@ ORActionGenerator >> generateRequiredMethods: aClass for: anOREntity [
 ]
 
 { #category : #'creating method' }
+ORActionGenerator >> generateRequiredMethods: anAction forAMovedEntity: anOREntity [
+	| stream |
+
+	(anOREntity mooseDescription inheritsFrom: FAMIXNamedEntity mooseDescription)
+		ifFalse: [ ^ self ].
+	stream := WriteStream on: ''.
+	stream << 'run'; cr; tab; << '<generated>'; cr.
+	stream tab; << '| theNewContainer theEntity |'; cr.
+	stream tab; << 'theEntity := self orionModel retrieveEntity: entity.'; cr.
+	stream tab; << 'theNewContainer := self orionModel retrieveEntity: newContainer.'; cr.
+	anOREntity mooseDescription allContainerAttributes
+		do: [ :aContainerProp | 
+			"	self
+		applyGenerationOfActionsOn: anOREntity mooseDescription allContainerAttributes 
+		onBlock: [ :assoc | 
+			self
+				generateRequiredMethods: anAction
+				forAMovedEntity: anOREntity
+				withPackage: assoc key
+				withProps: assoc value ]"
+			stream tab; << 'entity '; << aContainerProp implementingSelector; << ' ifNotNil: ['; cr.
+			stream tab; tab; << '| theOldEntity |'; cr.
+			stream tab; tab; << 'theOldEntity := (self orionModel retrieveEntity: entity '; << aContainerProp implementingSelector; << ').'; cr.
+			stream tab; tab; << 'theOldEntity private'; << aContainerProp opposite implementingSelector capitalized asMutator; << ' (theOldEntity private'; 
+					<< aContainerProp opposite implementingSelector capitalized; << ' orionCopy orionRemove: theEntity).'; cr.
+			stream tab; tab; << 'theEntity private'; << aContainerProp implementingSelector capitalized asMutator; << ' theEntity orionCopy.'; 
+					cr.
+			stream tab; tab; << 'theNewContainer private'; << aContainerProp opposite implementingSelector capitalized asMutator; << ' (theNewContainer private'; 
+					<< aContainerProp opposite implementingSelector capitalized; << ' unsafeAdd: theEntity)'; cr.
+			stream tab;<< '].'; cr ].
+	stream tab; << 	'^ theEntity'.
+	anAction compile: stream contents classified: 'method execution - generated'
+]
+
+{ #category : #'creating method' }
 ORActionGenerator >> generateRequiredMethods: anAction forARemovedEntity: anOREntity [
 	self
 		applyGenerationOfActionsOn: anOREntity mooseDescription allComplexAttributesWithOpposite
@@ -216,30 +251,32 @@ ORActionGenerator >> generateRequiredMethods: anAction forARemovedEntity: anOREn
 				generateRequiredMethods: anAction
 				forARemovedEntity: anOREntity
 				withPackage: assoc key
-				withPropsToRemove: assoc value ]
+				withProps: assoc value ]
 ]
 
 { #category : #'creating method' }
-ORActionGenerator >> generateRequiredMethods: anAction forARemovedEntity: anOREntity withPackage: aFamePackage withPropsToRemove: aCollectionOfProperties [
+ORActionGenerator >> generateRequiredMethods: anAction forARemovedEntity: anOREntity withPackage: aFamePackage withProps: aCollectionOfProperties [
 	| complexPropsToRemove simplePropsToRemove stream cat |
 	"methodName"
 	stream := WriteStream on: ''.
 	complexPropsToRemove := self complexProperties: aCollectionOfProperties.
 	simplePropsToRemove := aCollectionOfProperties difference: complexPropsToRemove.
 	self writeMethodHeaderOn: stream withPackage: aFamePackage withDeclaredVariable: nil.
-	simplePropsToRemove
+	(simplePropsToRemove select: #isMultivalued)
 		do: [ :prop | 
 			stream tab; << 'entity '; << prop implementingSelector asString.
 			stream << ' do: [:each | each deleteInAction: self ].'; cr ].
+	(simplePropsToRemove reject: #isMultivalued)
+		do: [ :prop | 
+			stream tab; << 'entity '; << prop implementingSelector asString.
+			stream << ' ifNotNil: [ entity deleteInAction: self ].'; cr ].
 	complexPropsToRemove
 		do: [ :prop | 
 			stream tab; << 'entity '; << prop implementingSelector asString; cr.
 			stream tab; tab; << 'ifNotNil: [ |theEntity|'; cr.
-			stream tab; tab; tab; << 'theEntity := self orionModel retrieveEntity: entity '; << prop implementingSelector asString; 
-					<< '.'; cr.
-			stream tab; tab; tab; << 'theEntity private'; << prop opposite implementingSelector asMutator capitalized; 
-					<< ' (theEntity private'; << prop opposite implementingSelector capitalized; << ' orionCopy orionRemove: entity) ].'; 
-					cr ].
+			stream tab; tab; tab; << 'theEntity := self orionModel retrieveEntity: entity '; << prop implementingSelector asString; << '.'; cr.
+			stream tab; tab; tab; << 'theEntity private'; << prop opposite implementingSelector asMutator capitalized; << ' (theEntity private'; << prop opposite implementingSelector capitalized; 
+					<< ' orionCopy orionRemove: entity) ].'; cr ].
 	aFamePackage
 		ifNil: [ stream << 'self runExtendedPropertiesForEntity: entity.'.
 			stream << '	self orionModel remove: entity' ].
@@ -273,18 +310,16 @@ ORActionGenerator >> generateRequiredMethods: anAction forAnAddEntity: anOREntit
 				generateRequiredMethods: anAction
 				forAnAddedEntity: anOREntity
 				withPackage: assoc key
-				withPropsToRemove: assoc value ]
+				withProps: assoc value ]
 ]
 
 { #category : #'creating method' }
-ORActionGenerator >> generateRequiredMethods: anAction forAnAddedEntity: anOREntity withPackage: aFamePackage withPropsToRemove: listOfProperties [
+ORActionGenerator >> generateRequiredMethods: anAction forAnAddedEntity: anOREntity withPackage: aFamePackage withProps: listOfProperties [
 	| stringProperties stream multivalueLinkProperties propsWithSetters cat |
 	"(aClass methodDict includesKey: #run)
 		ifTrue: [ ^ self ]."
 	stream := WriteStream on: ''.
-	propsWithSetters := aFamePackage
-		ifNil: [ listOfProperties select: [ :a | (anOREntity allInstVarNames includes: a name) and: [ a isDerived not ] ] ]
-		ifNotNil: [ listOfProperties reject: [ :a | anOREntity allInstVarNames includes: a name ] ].
+	propsWithSetters := aFamePackage ifNil: [ self getPropertiesOf: listOfProperties ] ifNotNil: [ self getExtendedPropertiesOf: listOfProperties ].
 	self generateGettersAndSettersFrom: propsWithSetters on: anAction withPackage: aFamePackage.
 	stringProperties := self settingOfPropertiesFrom: (propsWithSetters select: [ :e | e type isPrimitive ]).
 	multivalueLinkProperties := self setLinksFrom: (propsWithSetters reject: [ :e | e type isPrimitive ]).
@@ -352,15 +387,14 @@ ORActionGenerator >> setLinksFrom: aFM3MetaDescription [
 
 { #category : #'creating method' }
 ORActionGenerator >> settingOfPropertiesFrom: listOfProperties [
-	| getter setter result |
-	result := listOfProperties
+
+	^ listOfProperties
 		collect: [ :propertyNotDerived | 
-			getter := propertyNotDerived implementingSelector.
-			setter := ('private'
-				, propertyNotDerived implementingSelector capitalized) asSymbol
-				asMutator.
-			String tab , 'newEntity ' , setter , ' self ' , getter , ' orionCopy.' ].
-	^ result
+			String
+				streamContents: [ :stream | 
+					stream << ' self '; << propertyNotDerived implementingSelector; << ' ifNotNil: [ :e | '; cr.
+					stream tab; << 'newEntity '; << ('private' , propertyNotDerived implementingSelector capitalized) asSymbol asMutator.
+					stream << ' e orionCopy ].'; cr ] ]
 ]
 
 { #category : #'creating method' }
