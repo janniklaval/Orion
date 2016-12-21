@@ -8,7 +8,7 @@ Instance Variables
 "
 Class {
 	#name : #ORActionAddEntity,
-	#superclass : #ORAction,
+	#superclass : #ORActionAdd,
 	#instVars : [
 		'newName',
 		'container',
@@ -17,51 +17,50 @@ Class {
 	#category : #'OrionCore-action'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'initialize-release' }
 ORActionAddEntity class >> description [
 	^'add entity'
 ]
 
 { #category : #accessing }
 ORActionAddEntity >> container [
-	^ container
+	self deprecated: 'Use an item of parentSelectors instead' on: '21 December 2016' in: 'Pharo-6.0-60328-'.
+	^ self halt
 ]
 
 { #category : #accessing }
 ORActionAddEntity >> container: anEntity [
-	container := anEntity
+	self
+		deprecated: 'Use an item of parentSelectors instead'
+		on: '21 December 2016'
+		in: 'Pharo-6.0-60328-'.
+	^ anEntity parentSelectors halt.
 ]
 
 { #category : #'initialize-release' }
 ORActionAddEntity >> initialize [
 	super initialize.
-	container := nil.
 	isStub := false
-]
-
-{ #category : #testing }
-ORActionAddEntity >> isAddition [
-	^ true
-]
-
-{ #category : #accessing }
-ORActionAddEntity >> isStub [
-	^ isStub
-]
-
-{ #category : #accessing }
-ORActionAddEntity >> isStub: anObject [
-	isStub := anObject
 ]
 
 { #category : #accessing }
 ORActionAddEntity >> newName [
-	^ newName
+	self 
+		deprecated: 'Use name instead'
+		on: 	'21 December 2016' 
+		in: 'Pharo-6.0-60328-'
+		transformWith: '`@receiver newName' -> '`@receiver name'.
+	^ self name
 ]
 
 { #category : #accessing }
 ORActionAddEntity >> newName: aString [
-	newName := aString
+	self
+		deprecated: 'Use name instead'
+		on: '21 December 2016'
+		in: 'Pharo-6.0-60328-'
+		transformWith: '`@receiver newName: `@arg' -> '`@receiver name: `@arg'.
+	self name: aString
 ]
 
 { #category : #printing }

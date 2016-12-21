@@ -13,12 +13,12 @@ ORActionRemove class >> description [
 	^'remove'
 ]
 
+{ #category : #testing }
+ORActionRemove class >> isRemoval [
+	^ true
+]
+
 { #category : #'as yet unclassified' }
 ORActionRemove class >> needs: anElement [
 	^nil
-]
-
-{ #category : #testing }
-ORActionRemove >> isRemoval [
-	^ true
 ]

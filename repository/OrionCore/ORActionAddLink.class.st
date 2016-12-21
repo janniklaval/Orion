@@ -8,7 +8,7 @@ Instance Variables
 "
 Class {
 	#name : #ORActionAddLink,
-	#superclass : #ORAction,
+	#superclass : #ORActionAdd,
 	#instVars : [
 		'from',
 		'to'
@@ -30,11 +30,6 @@ ORActionAddLink >> from [
 { #category : #accessing }
 ORActionAddLink >> from: anObject [
 	from := anObject
-]
-
-{ #category : #testing }
-ORActionAddLink >> isAddition [
-	^ true
 ]
 
 { #category : #printing }

@@ -20,7 +20,7 @@ ORActionMove class >> description [
 ]
 
 { #category : #testing }
-ORActionMove >> isMove [
+ORActionMove class >> isMove [
 	^ true
 ]
 

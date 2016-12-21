@@ -27,6 +27,26 @@ ORAction class >> description [
 	^'action'
 ]
 
+{ #category : #testing }
+ORAction class >> isAddition [
+	^ false
+]
+
+{ #category : #testing }
+ORAction class >> isMove [
+	^ false
+]
+
+{ #category : #testing }
+ORAction class >> isRemoval [
+	^ false
+]
+
+{ #category : #testing }
+ORAction class >> isRename [
+	^ false
+]
+
 { #category : #'initialize-release' }
 ORAction class >> needs: anElement [
 	^self subclassResponsibility
@@ -74,29 +94,9 @@ ORAction >> initialize [
 	childrenActions := OrderedCollection new.
 ]
 
-{ #category : #testing }
-ORAction >> isAddition [
-	^ false
-]
-
 { #category : #accessing }
 ORAction >> isManual [
 	^ parentAction isNil
-]
-
-{ #category : #testing }
-ORAction >> isMove [
-	^ false
-]
-
-{ #category : #testing }
-ORAction >> isRemoval [
-	^ false
-]
-
-{ #category : #testing }
-ORAction >> isRename [
-	^ false
 ]
 
 { #category : #'method execution' }

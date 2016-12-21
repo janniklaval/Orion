@@ -19,7 +19,7 @@ ORActionRename class >> description [
 ]
 
 { #category : #testing }
-ORActionRename >> isRename [
+ORActionRename class >> isRename [
 	^ true
 ]
 
