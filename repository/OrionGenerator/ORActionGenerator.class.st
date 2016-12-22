@@ -358,10 +358,11 @@ ORActionGenerator >> isAction: action validFor: anOREntity [
 { #category : #preparation }
 ORActionGenerator >> obtainActionSuperClass: anOREntity actionType: anActionType [
 	^ anActionType = #Add
-		ifTrue: [ 
-			(anOREntity inheritsFrom: FAMIXAssociation)
+		ifTrue: [ (anOREntity inheritsFrom: FAMIXAssociation)
 				ifTrue: [ ORActionAddLink ]
-				ifFalse: [ ORActionAddEntity ] ]
+				ifFalse: [ anOREntity = OREntity
+						ifFalse: [ ORActionAddEntity ]
+						ifTrue: [ ORActionAdd ] ] ]
 		ifFalse: [ Smalltalk globals at: ('ORAction' , anActionType) asSymbol ]
 ]
 
