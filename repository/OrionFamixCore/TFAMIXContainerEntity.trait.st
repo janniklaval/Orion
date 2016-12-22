@@ -23,9 +23,9 @@ TFAMIXContainerEntity >> addClassNamed: aString isStub: aBoolean inModel: aModel
 	^ aString
 		ifNotNil: [ (ORActionAddClass new
 				orionModel: aModelVersion;
-				container: self;
+				parentPackage: self;
 				isStub: aBoolean;
-				newName: aString)
+				name: aString)
 				manualRun;
 				postRun ]
 ]
@@ -38,7 +38,7 @@ TFAMIXContainerEntity >> addClassNamed: aString isStub: aBoolean withNamespace: 
 				parent: self;
 				isStub: aBoolean;
 				container: aNamespace;
-				newName: aString)
+				name: aString)
 				manualRun;
 				postRun ]
 ]
@@ -51,7 +51,7 @@ TFAMIXContainerEntity >> addClassNamed: aString withNamespace: aNamespace inMode
 				orionModel: aModelVersion;
 				parent: self;
 				container: aNamespace;
-				newName: aString) manualRun; postRun ]
+				name: aString) manualRun; postRun ]
 ]
 
 { #category : #adding }

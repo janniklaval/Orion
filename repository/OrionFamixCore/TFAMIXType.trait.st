@@ -17,8 +17,8 @@ TFAMIXType classSide >> isOrionClass [
 TFAMIXType >> addInheritanceTo: superclass inModel: anORModel [
 	^ (ORActionAddInheritance new
 		orionModel: anORModel;
-		from: self;
-		to: superclass)
+		subclass: self;
+		superclass: superclass)
 		manualRun;
 		postRun
 ]
