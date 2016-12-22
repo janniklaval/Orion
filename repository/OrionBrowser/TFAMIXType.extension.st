@@ -6,8 +6,8 @@ TFAMIXType >> addMethodNamed: aString withSignature: aSignature inModel: aModelV
 	aString  ifNotNil: [ 
 		(ORActionAddMethod new
 			orionModel: aModelVersion ;
-			container: self ;
-			newName: aString ;
+			parentType: self ;
+			name: aString ;
 			signature: aSignature)
 		manualRun; postRun ]
 ]

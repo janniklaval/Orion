@@ -7,8 +7,8 @@ ORClass >> addAttributeNamed: aString inAction: anAction [
 		(ORActionAddAttribute new
 			parentAction: anAction ;
 			orionModel: anAction orionModel ;
-			container: self ;
-			newName: aString )
+			parentType: self ;
+			name: aString )
 		run ]
 ]
 
@@ -18,8 +18,8 @@ ORClass >> addAttributeNamed: aString inModel: aModelVersion [
 	^aString  ifNotNil: [ 
 		(ORActionAddAttribute new
 			orionModel: aModelVersion ;
-			container: self ;
-			newName: aString )
+			parentType: self ;
+			name: aString )
 		manualRun; postRun ]
 ]
 
@@ -29,8 +29,8 @@ ORClass >> addMethodNamed: aString inAction: anAction [
 		ifNotNil: [ (ORActionAddMethod new
 				parentAction: anAction;
 				orionModel: anAction orionModel;
-				container: self;
-				newName: aString) run ]
+				parentType: self;
+				name: aString) run ]
 ]
 
 { #category : #'*OrionBrowser' }
@@ -39,8 +39,8 @@ ORClass >> addMethodNamed: aString inModel: aModelVersion [
 	aString  ifNotNil: [ 
 		(ORActionAddMethod new
 			orionModel: aModelVersion ;
-			container: self ;
-			newName: aString )
+			parentType: self ;
+			name: aString )
 		manualRun; postRun ]
 ]
 
@@ -55,8 +55,8 @@ ORClass >> changeSuperClassTo: newSuperClass inModel: aModelVersion [
 	[(ORActionReplaceInheritance new 
 			orionModel: aModelVersion; 
 			entity: self;
-			from: self ;
-			to: newSuperClass) 
+			subclass: self ;
+			superclass: newSuperClass) 
 			manualRun;
 			postRun ]
 		orBrowserExceptionsLauncher: newSuperClass 

@@ -4,8 +4,8 @@ Extension { #name : #ORMethod }
 ORMethod >> addAccessTo: aStructuralEntity inModel: aModelVersion [
 	(ORActionAddAccess new
 		orionModel: aModelVersion;
-		from: self;
-		to: aStructuralEntity)
+		accessor: self;
+		variable: aStructuralEntity)
 		manualRun;
 		postRun
 ]
@@ -19,7 +19,7 @@ ORMethod >> addAccessToVarNamed: aMooseName inModel: aModelVersion [
 ORMethod >> addInvocationTo: anOrderedCollection inModel: aModelVersion [
 	[ (ORActionAddInvocation new
 		orionModel: aModelVersion;
-		from: self;
+		sender: self;
 		candidates: anOrderedCollection)
 		manualRun;
 		postRun ] orBrowserExceptionsLauncherCollection: anOrderedCollection
@@ -30,9 +30,9 @@ ORMethod >> addInvocationTo: aCollection receiver: receiver withSignature: aSymb
 
 	(ORActionAddInvocation new
 		orionModel: aModelVersion;
-		from: self ;
+		sender: self ;
 		receiver: receiver;
-		to: aCollection;
+		candidates: aCollection;
 		signature: aSymbol )
 	manualRun; postRun . 
 ]
@@ -43,8 +43,8 @@ ORMethod >> addReferenceTo: aClass inModel: aModelVersion [
 
 	(ORActionAddReference new
 		orionModel: aModelVersion;
-		from: self ;
-		to: aClass)
+		source: self ;
+		target: aClass)
 	manualRun; postRun ]
 	orBrowserExceptionsLauncher: aClass. 
 ]

@@ -8,8 +8,8 @@ ORPackage >> addClassNamed: aString  inAction: anAction [
 				parentAction: 	anAction ;
 				orionModel: anAction orionModel;
 				parent: self;
-				container: anAction orionModel allNamespaces first;
-				newName: aString).
+				parentPackage: anAction orionModel allNamespaces first;
+				name: aString).
 			addedClass :=  action run.
 			action postRun.
 			^addedClass ]
