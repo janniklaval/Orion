@@ -34,8 +34,8 @@ ORGenerator class >> runOnOrionExistingClasses [
 ORGenerator >> addAccessorFrom: aFamixClass toTrait: aOrionTrait [
 	"add accessors corresponding to the non heritated properties and relations of the Famix Class to the Orion trait "
 
-	(self getPropertiesOf: aFamixClass mooseDescription attributes)
-		, (self getExtendedPropertiesOf: aFamixClass mooseDescription attributes)
+	(self getPropertiesOf: aFamixClass)
+		, (self getExtendedPropertiesOf: aFamixClass)
 		do: [ :prop | 
 			| extensionCat cat |
 			prop compiledMethod isExtension
@@ -67,9 +67,9 @@ ORGenerator >> addExtendedPrivateAccessorsOf: aProp to: aFamixClass [
 ORGenerator >> addPrivateAccessorTo: aFamixClass [
 	"add private accessors corresponding to the non heritated properties and relations of the Famix Class to it "
 
-	(self getPropertiesOf: aFamixClass mooseDescription attributes)
+	(self getPropertiesOf: aFamixClass)
 		do: [ :prop | self addThePrivateAccessorOf: prop to: aFamixClass ].
-	(self getExtendedPropertiesOf: aFamixClass mooseDescription attributes)
+	(self getExtendedPropertiesOf: aFamixClass)
 		do: [ :prop | self addExtendedPrivateAccessorsOf: prop to: aFamixClass ]
 ]
 

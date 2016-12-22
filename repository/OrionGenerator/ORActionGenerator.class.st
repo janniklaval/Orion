@@ -319,7 +319,7 @@ ORActionGenerator >> generateRequiredMethods: anAction forAnAddedEntity: anOREnt
 	"(aClass methodDict includesKey: #run)
 		ifTrue: [ ^ self ]."
 	stream := WriteStream on: ''.
-	propsWithSetters := aFamePackage ifNil: [ self getPropertiesOf: listOfProperties ] ifNotNil: [ self getExtendedPropertiesOf: listOfProperties ].
+	propsWithSetters := aFamePackage ifNil: [ self selectPropertiesAmong: listOfProperties ] ifNotNil: [ self selectExtendedPropertiesAmong: listOfProperties ].
 	self generateGettersAndSettersFrom: propsWithSetters on: anAction withPackage: aFamePackage.
 	stringProperties := self settingOfPropertiesFrom: (propsWithSetters select: [ :e | e type isPrimitive ]).
 	multivalueLinkProperties := self setLinksFrom: (propsWithSetters reject: [ :e | e type isPrimitive ]).

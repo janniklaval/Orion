@@ -8,7 +8,17 @@ Class {
 }
 
 { #category : #'creating method' }
-ORAbstractGenerator >> getExtendedPropertiesOf: aCollectionOfProperties [
+ORAbstractGenerator >> getExtendedPropertiesOf: aFamixClass [
+	^ self selectExtendedPropertiesAmong: aFamixClass mooseDescription attributes
+]
+
+{ #category : #'creating method' }
+ORAbstractGenerator >> getPropertiesOf: aFamixClass [
+	^ self selectPropertiesAmong: aFamixClass mooseDescription attributes
+]
+
+{ #category : #'creating method' }
+ORAbstractGenerator >> selectExtendedPropertiesAmong: aCollectionOfProperties [
 	^ (aCollectionOfProperties reject: [ :a | a mmClass implementingClass allInstVarNames includes: a name ])
 		select: [ :e | 
 			(e type isPrimitive and: [ e isDerived not ])
@@ -16,6 +26,6 @@ ORAbstractGenerator >> getExtendedPropertiesOf: aCollectionOfProperties [
 ]
 
 { #category : #'creating method' }
-ORAbstractGenerator >> getPropertiesOf: aCollectionOfProperties [
+ORAbstractGenerator >> selectPropertiesAmong: aCollectionOfProperties [
 	^ aCollectionOfProperties select: [ :a | a mmClass implementingClass allInstVarNames includes: a name ]
 ]
