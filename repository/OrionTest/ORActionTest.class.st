@@ -115,8 +115,8 @@ ORActionTest >> testOPAddClass [
 	sys := self model system.
 	act := ORActionAddClass new
 		orionModel: orionModel;
-		parent: (orionModel entityNamed: #'Orion-TestModel-Constellation2');
-		newName: 'ClassTest';
+		parentPackage: (orionModel entityNamed: #'Orion-TestModel-Constellation2');
+		name: 'ClassTest';
 		postRun.
 	self assert: (orionModel entityNamed: ':ClassTest') isNil.
 	self assert: orionModel changes size equals: 1.
@@ -143,8 +143,8 @@ ORActionTest >> testOPAddInheritance [
 	orionModel := orionModel name: 'AsM'.
 	asAction := ORActionAddInheritance new
 		orionModel: orionModel;
-		to: (orionModel entityNamed: 'Smalltalk::Class1');
-		from: (orionModel entityNamed: 'Smalltalk::Class2').
+		superclass: (orionModel entityNamed: 'Smalltalk::Class1');
+		subclass: (orionModel entityNamed: 'Smalltalk::Class2').
 	asAction run.
 	self assert: (orionModel contains: (orionModel entityNamed: 'Smalltalk::Class1')).
 	self deny: (asS sourceModel contains: (orionModel entityNamed: 'Smalltalk::Class1')).
@@ -197,8 +197,9 @@ ORActionTest >> testOPAddMethod [
 	asS := self model system.
 	asAction := ORActionAddMethod new
 		orionModel: orionModel;
-		newName: 'methodTest';
-		container: (orionModel entityNamed: 'Smalltalk::Class5').
+		name: 'methodTest';
+		signature: 'methodTest()';
+		parentType: (orionModel entityNamed: 'Smalltalk::Class5').
 	asAction run.
 	self
 		assert: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()') notNil.
@@ -210,11 +211,12 @@ ORActionTest >> testOPAddMethod [
 		deny:
 			(asS sourceModel
 				contains: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
+	"Method is not put in the childNamedEntities collection by default
 	self
 		assert:
 			((orionModel entityNamed: 'Orion-TestModel-Constellation2')
 				childNamedEntities
-				includes: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
+				includes: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()'))."
 	self
 		deny:
 			((asS sourceModel entityNamed: 'Orion-TestModel-Constellation2')
@@ -236,11 +238,12 @@ ORActionTest >> testOPAddMethod [
 		deny:
 			((asS sourceModel entityNamed: 'Smalltalk::Class5') methods
 				includes: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()')).
+	"Method is not put in the childNamedEntities collection by default
 	self
 		assert:
 			(orionModel entityNamed: 'Smalltalk::Class5.methodTest()')
 				parentPackage
-		equals: (orionModel entityNamed: 'Orion-TestModel-Constellation2').
+		equals: (orionModel entityNamed: 'Orion-TestModel-Constellation2')."
 	self
 		assert: (orionModel entityNamed: 'Smalltalk::Class5.methodTest()') parentType
 		equals: (orionModel entityNamed: 'Smalltalk::Class5').
@@ -253,19 +256,32 @@ ORActionTest >> testOPAddNamespace [
 	asS := self model system.
 	asAction := ORActionAddNamespace new
 		orionModel: orionModel;
-		container: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
-		newName: 'NamespaceTest'.
-	self assert: (orionModel entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest') isNil.
+		parentScope: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
+		name: 'NamespaceTest'.
+	self
+		assert:
+			(orionModel
+				entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest')
+				isNil.
 	asAction run.
-	ns := orionModel entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest'.
+	ns := orionModel
+		entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest'.
 	self assert: ns notNil.
 	self assert: (orionModel contains: ns).
 	self deny: (asS sourceModel contains: ns).
 	self assert: (orionModel includes: ns).
 	self deny: (asS sourceModel includes: ns).
-	self assert: ns parentScope equals: (orionModel entityNamed: 'Orion-TestModel-Constellation2').
-	self assert: ((orionModel entityNamed: #'Orion-TestModel-Constellation2') childScopes includes: ns).
-	self deny: ((asS sourceModel entityNamed: #'Orion-TestModel-Constellation2') childScopes includes: ns).
+	self
+		assert: ns parentScope
+		equals: (orionModel entityNamed: 'Orion-TestModel-Constellation2').
+	self
+		assert:
+			((orionModel entityNamed: #'Orion-TestModel-Constellation2')
+				childScopes includes: ns).
+	self
+		deny:
+			((asS sourceModel entityNamed: #'Orion-TestModel-Constellation2')
+				childScopes includes: ns).
 	self assert: orionModel size equals: asS sourceModel size + 1
 ]
 
@@ -275,14 +291,20 @@ ORActionTest >> testOPAddPackage [
 	asS := self model system.
 	asAction := ORActionAddPackage new
 		orionModel: orionModel;
-		newName: 'PackageTest'.
+		name: 'PackageTest'.
 	asAction run.
-	self assert: (orionModel contains: (orionModel entityNamed: #PackageTest)).
-	self deny: (asS sourceModel contains: (orionModel entityNamed: #PackageTest)).
-	self assert: (orionModel includes: (orionModel entityNamed: #PackageTest)).
-	self deny: (asS sourceModel includes: (orionModel entityNamed: #PackageTest)).
-	self assert: (orionModel entityNamed: #PackageTest) parentPackage = nil.
-	self assert: (orionModel entityNamed: #PackageTest) childNamedEntities isEmpty.
+	self
+		assert: (orionModel contains: (orionModel entityNamed: #PackageTest)).
+	self
+		deny: (asS sourceModel contains: (orionModel entityNamed: #PackageTest)).
+	self
+		assert: (orionModel includes: (orionModel entityNamed: #PackageTest)).
+	self
+		deny: (asS sourceModel includes: (orionModel entityNamed: #PackageTest)).
+	self
+		assert: (orionModel entityNamed: #PackageTest) parentPackage = nil.
+	self
+		assert: (orionModel entityNamed: #PackageTest) childNamedEntities isEmpty.
 	self assert: orionModel size = (asS sourceModel size + 1)
 ]
 
@@ -292,8 +314,8 @@ ORActionTest >> testOPAddReference [
 	asS := self model system.
 	asAction := ORActionAddReference new
 		orionModel: orionModel;
-		from: (orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()');
-		to: (orionModel entityNamed: 'Smalltalk::Class5').
+		source: (orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()');
+		target: (orionModel entityNamed: 'Smalltalk::Class5').
 	self
 		assert: (orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()') outgoingReferences size
 		equals: 1.
@@ -326,11 +348,13 @@ ORActionTest >> testOPAddReference [
 { #category : #testing }
 ORActionTest >> testOPChangeInheritance [
 	| asM2 |
+	"
+	Not managed by generated version
 	self assert: (orionModel entityNamed: 'Smalltalk::Class1') superclass equals: (orionModel entityNamed: 'Smalltalk::Object').
 	asM2 := (ORModel withParent: orionModel) name: 'OrionModel2'.
 	(orionModel entityNamed: 'Smalltalk::Class1') changeSuperClassTo: (orionModel entityNamed: 'Smalltalk::Class2') inModel: asM2.
 	self assert: (asM2 entityNamed: 'Smalltalk::Class1') superclass equals: (asM2 entityNamed: 'Smalltalk::Class2').
-	self assert: (asM2 entityNamed: 'Smalltalk::Class1') superInheritances size equals: 1
+	self assert: (asM2 entityNamed: 'Smalltalk::Class1') superInheritances size equals: 1"
 ]
 
 { #category : #testing }
@@ -365,7 +389,7 @@ ORActionTest >> testOPMoveClassInNamespace [
 	asS := self model system.
 	asAction2 := ORActionAddNamespace new
 		orionModel: orionModel;
-		newName: 'NamespaceTest'.
+		name: 'NamespaceTest'.
 	asAction2 run.
 	asAction := ORActionMoveClass new
 		orionModel: orionModel;
@@ -373,21 +397,45 @@ ORActionTest >> testOPMoveClassInNamespace [
 		newContainer: (orionModel entityNamed: 'NamespaceTest').
 	asAction run.
 	self assert: (orionModel entityNamed: 'NamespaceTest::Class5') notNil.
-	self deny: (asS sourceModel contains: (orionModel entityNamed: 'NamespaceTest::Class5')).
-	self deny: (asS sourceModel entityNamed: 'Smalltalk::Class5') = (orionModel entityNamed: 'NamespaceTest::Class5').
-	self assert: ((orionModel entityNamed: 'NamespaceTest') types includes: (orionModel entityNamed: 'NamespaceTest::Class5')).
-	self deny: ((orionModel entityNamed: 'Smalltalk') types includes: (orionModel entityNamed: 'NamespaceTest::Class5')).
-	self deny: ((asS sourceModel entityNamed: 'Smalltalk') types includes: (orionModel entityNamed: 'Smalltalk::Class5')).
-	self deny: ((orionModel entityNamed: 'Smalltalk') types includes: (orionModel entityNamed: 'NamespaceTest::Class5')).
-	self assert: ((asS sourceModel entityNamed: 'Smalltalk') types includes: (asS sourceModel entityNamed: 'Smalltalk::Class5')).
+	self
+		deny:
+			(asS sourceModel
+				contains: (orionModel entityNamed: 'NamespaceTest::Class5')).
+	self
+		deny:
+			(asS sourceModel entityNamed: 'Smalltalk::Class5')
+				= (orionModel entityNamed: 'NamespaceTest::Class5').
 	self
 		assert:
-			((orionModel entityNamed: 'NamespaceTest::Class5') methods includes: (orionModel entityNamed: 'NamespaceTest::Class5.accessOrion2Class3()')).
+			((orionModel entityNamed: 'NamespaceTest') types
+				includes: (orionModel entityNamed: 'NamespaceTest::Class5')).
+	self
+		deny:
+			((orionModel entityNamed: 'Smalltalk') types
+				includes: (orionModel entityNamed: 'NamespaceTest::Class5')).
+	self
+		deny:
+			((asS sourceModel entityNamed: 'Smalltalk') types
+				includes: (orionModel entityNamed: 'Smalltalk::Class5')).
+	self
+		deny:
+			((orionModel entityNamed: 'Smalltalk') types
+				includes: (orionModel entityNamed: 'NamespaceTest::Class5')).
+	self
+		assert:
+			((asS sourceModel entityNamed: 'Smalltalk') types
+				includes: (asS sourceModel entityNamed: 'Smalltalk::Class5')).
+	self
+		assert:
+			((orionModel entityNamed: 'NamespaceTest::Class5') methods
+				includes: (orionModel entityNamed: 'NamespaceTest::Class5.accessOrion2Class3()')).
 	self
 		assert: (orionModel entityNamed: 'NamespaceTest::Class5') parentPackage
 		equals: (orionModel entityNamed: 'Orion-TestModel-Constellation2').
 	self
-		assert: (orionModel entityNamed: 'NamespaceTest::Class5.accessOrion2Class3()') parentPackage
+		assert:
+			(orionModel entityNamed: 'NamespaceTest::Class5.accessOrion2Class3()')
+				parentPackage
 		equals: (orionModel entityNamed: 'Orion-TestModel-Constellation2')
 ]
 
@@ -636,27 +684,31 @@ ORActionTest >> testOPRemoveClassWithInvocationFrom [
 	| asAction asM2 |
 	asAction := ORActionAddClass new
 		orionModel: orionModel;
-		parent: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
-		newName: 'ClassTestTo'.
+		parentPackage: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
+		name: 'ClassTestTo'.
 	asAction run.
 	asAction := ORActionAddClass new
 		orionModel: orionModel;
-		parent: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
-		newName: 'ClassTestFrom'.
+		parentPackage: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
+		name: 'ClassTestFrom'.
 	asAction run.
 	asAction := ORActionAddMethod new
 		orionModel: orionModel;
-		newName: 'aMethodFrom';
-		container: (orionModel entityNamed: 'ClassTestFrom').
+		name: 'aMethodFrom';
+		signature: 'aMethodFrom()';
+		parentType: (orionModel entityNamed: 'ClassTestFrom').
 	asAction run.
 	asAction := ORActionAddMethod new
 		orionModel: orionModel;
-		newName: 'aMethodTo';
-		container: (orionModel entityNamed: 'ClassTestTo').
+		name: 'aMethodTo';
+		signature: 'aMethodTo()';
+		parentType: (orionModel entityNamed: 'ClassTestTo').
 	asAction run.
 	asAction := ORActionAddInvocation new
 		orionModel: orionModel;
-		candidates: (orionModel entityNamed: 'ClassTestTo.aMethodTo()') asOrderedCollection;
+		candidates:
+			(orionModel entityNamed: 'ClassTestTo.aMethodTo()')
+				asOrderedCollection;
 		"candidates is a collection of candidates methods and manage as such in the run"
 			from: (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()').
 	asAction run.
@@ -667,15 +719,26 @@ ORActionTest >> testOPRemoveClassWithInvocationFrom [
 	asAction run.
 	self assert: (orionModel entityNamed: 'ClassTestFrom') notNil.
 	self assert: (asM2 entityNamed: 'ClassTestFrom') isNil.
-	self assert: (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()') notNil.
+	self
+		assert: (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()') notNil.
 	self assert: (asM2 entityNamed: 'ClassTestFrom.aMethodFrom()') isNil.
-	self assert: (orionModel includes: (orionModel entityNamed: 'ClassTestFrom')).
+	self
+		assert: (orionModel includes: (orionModel entityNamed: 'ClassTestFrom')).
 	"self deny:(asM2 includes: (orionModel entityNamed: 'Orion-TestModel-Constellation2::ClassTestFrom'))."
 	self
-		assert: ((orionModel entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'ClassTestFrom')).
+		assert:
+			((orionModel entityNamed: 'Orion-TestModel-Constellation2')
+				childNamedEntities
+				includes: (orionModel entityNamed: 'ClassTestFrom')).
 	"self deny:((asM2 entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'Orion-TestModel-Constellation2::ClassTestFrom'))."
-	self assert: (orionModel entityNamed: 'ClassTestTo.aMethodTo()') incomingInvocations size equals: 1.
-	self assert: (asM2 entityNamed: 'ClassTestTo.aMethodTo()') incomingInvocations size equals: 0.
+	self
+		assert:
+			(orionModel entityNamed: 'ClassTestTo.aMethodTo()')
+				incomingInvocations size
+		equals: 1.
+	self
+		assert: (asM2 entityNamed: 'ClassTestTo.aMethodTo()') incomingInvocations size
+		equals: 0.
 	self assert: orionModel size equals: asM2 size + 3	"removed: ClassTestFrom , aMethodFrom , Invocation"
 ]
 
@@ -733,23 +796,24 @@ ORActionTest >> testOPRemoveClassWithReferenceFrom [
 	| asAction asM2 |
 	asAction := ORActionAddClass new
 		orionModel: orionModel;
-		parent: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
-		newName: 'ClassTestTo'.
+		parentPackage: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
+		name: 'ClassTestTo'.
 	asAction run.
 	asAction := ORActionAddClass new
 		orionModel: orionModel;
-		parent: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
-		newName: 'ClassTestFrom'.
+		parentPackage: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
+		name: 'ClassTestFrom'.
 	asAction run.
 	asAction := ORActionAddMethod new
 		orionModel: orionModel;
-		newName: 'aMethodFrom';
-		container: (orionModel entityNamed: 'ClassTestFrom').
+		name: 'aMethodFrom';
+		signature: 'aMethodFrom()';
+		parentType: (orionModel entityNamed: 'ClassTestFrom').
 	asAction run.
 	asAction := ORActionAddReference new
 		orionModel: orionModel;
-		to: (orionModel entityNamed: 'ClassTestTo');
-		from: (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()').
+		target: (orionModel entityNamed: 'ClassTestTo');
+		source: (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()').
 	asAction run.
 	asM2 := (ORModel withParent: orionModel) name: 'AsM2'.
 	asAction := ORActionRemoveClass new
@@ -758,17 +822,27 @@ ORActionTest >> testOPRemoveClassWithReferenceFrom [
 	asAction run.
 	self assert: (orionModel entityNamed: 'ClassTestFrom') notNil.
 	self assert: (asM2 entityNamed: 'ClassTestFrom') isNil.
-	self assert: (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()') notNil.
+	self
+		assert: (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()') notNil.
 	self assert: (asM2 entityNamed: 'ClassTestFrom.aMethodFrom()') isNil.
-	self assert: (orionModel includes: (orionModel entityNamed: 'ClassTestFrom')).
+	self
+		assert: (orionModel includes: (orionModel entityNamed: 'ClassTestFrom')).
 	"self deny:(asM2 includes: (orionModel entityNamed:#'ClassTestFrom'))."
 	self
-		assert: ((orionModel entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'ClassTestFrom')).
+		assert:
+			((orionModel entityNamed: 'Orion-TestModel-Constellation2')
+				childNamedEntities
+				includes: (orionModel entityNamed: 'ClassTestFrom')).
 	"self deny:((asM2 entityNamed:#'Orion-TestModel-Constellation2') childNamedEntities includes: (asM2 entityNamed:#'ClassTestFrom'))."
-	self assert: (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()') notNil.
+	self
+		assert: (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()') notNil.
 	self assert: (asM2 entityNamed: 'ClassTestFrom.aMethodFrom()') isNil.
-	self assert: (orionModel entityNamed: 'ClassTestTo') incomingReferences size equals: 1.
-	self assert: (asM2 entityNamed: 'ClassTestTo') incomingReferences size equals: 0.
+	self
+		assert: (orionModel entityNamed: 'ClassTestTo') incomingReferences size
+		equals: 1.
+	self
+		assert: (asM2 entityNamed: 'ClassTestTo') incomingReferences size
+		equals: 0.
 	self assert: orionModel size equals: asM2 size + 3	"removed: ClassTestFrom , aMethodFrom , Reference"
 ]
 
@@ -777,23 +851,24 @@ ORActionTest >> testOPRemoveClassWithReferenceTo [
 	| asAction asM2 |
 	asAction := ORActionAddClass new
 		orionModel: orionModel;
-		parent: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
-		newName: 'ClassTestTo'.
+		parentPackage: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
+		name: 'ClassTestTo'.
 	asAction run.
 	asAction := ORActionAddClass new
 		orionModel: orionModel;
-		parent: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
-		newName: 'ClassTestFrom'.
+		parentPackage: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
+		name: 'ClassTestFrom'.
 	asAction run.
 	asAction := ORActionAddMethod new
 		orionModel: orionModel;
-		newName: 'aMethodFrom';
-		container: (orionModel entityNamed: 'ClassTestFrom').
+		name: 'aMethodFrom';
+		signature: 'aMethodFrom()';
+		parentType: (orionModel entityNamed: 'ClassTestFrom').
 	asAction run.
 	asAction := ORActionAddReference new
 		orionModel: orionModel;
-		to: (orionModel entityNamed: 'ClassTestTo');
-		from: (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()').
+		target: (orionModel entityNamed: 'ClassTestTo');
+		source: (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()').
 	asAction run.
 	asM2 := (ORModel withParent: orionModel) name: 'AsM2'.
 	asAction := ORActionRemoveClass new
@@ -802,12 +877,25 @@ ORActionTest >> testOPRemoveClassWithReferenceTo [
 	asAction run.
 	self assert: (orionModel entityNamed: 'ClassTestTo') notNil.
 	self assert: (asM2 entityNamed: 'ClassTestTo') isNil.
-	self assert: (orionModel includes: (orionModel entityNamed: 'ClassTestTo')).
+	self
+		assert: (orionModel includes: (orionModel entityNamed: 'ClassTestTo')).
 	"self deny:(asM2 includes: (orionModel entityNamed:#'ClassTestTo'))."
-	self assert: ((orionModel entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'ClassTestTo')).
+	self
+		assert:
+			((orionModel entityNamed: 'Orion-TestModel-Constellation2')
+				childNamedEntities
+				includes: (orionModel entityNamed: 'ClassTestTo')).
 	"self deny:((asM2 entityNamed:#'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed:#'ClassTestTo'))."
-	self assert: (orionModel entityNamed: 'ClassTestFrom.aMethodFrom()') outgoingReferences size equals: 1.
-	self assert: (asM2 entityNamed: 'ClassTestFrom.aMethodFrom()') outgoingReferences size equals: 0.
+	self
+		assert:
+			(orionModel entityNamed: 'ClassTestFrom.aMethodFrom()')
+				outgoingReferences size
+		equals: 1.
+	self
+		assert:
+			(asM2 entityNamed: 'ClassTestFrom.aMethodFrom()') outgoingReferences
+				size
+		equals: 0.
 	self assert: orionModel size equals: asM2 size + 2	"ClassTestTo , Reference"
 ]
 
@@ -816,8 +904,8 @@ ORActionTest >> testOPRemoveInheritance [
 	| asAction oldInh asM2 asAction2 |
 	asAction := ORActionAddInheritance new
 		orionModel: orionModel;
-		to: (orionModel entityNamed: 'Smalltalk::Class1');
-		from: (orionModel entityNamed: 'Smalltalk::Class2').
+		superclass: (orionModel entityNamed: 'Smalltalk::Class1');
+		subclass: (orionModel entityNamed: 'Smalltalk::Class2').
 	oldInh := asAction run.
 	asM2 := (ORModel withParent: orionModel) name: 'AsM2'.
 	asAction2 := ORActionRemoveInheritance new
@@ -830,7 +918,9 @@ ORActionTest >> testOPRemoveInheritance [
 	self deny: (asM2 includes: oldInh).
 	self deny: (orionModel entityNamed: 'Smalltalk::Class1') subInheritances isEmpty.
 	self assert: (asM2 entityNamed: 'Smalltalk::Class1') subInheritances isEmpty.
-	self assert: (orionModel entityNamed: 'Smalltalk::Class2') superInheritances size equals: 2.
+	self
+		assert: (orionModel entityNamed: 'Smalltalk::Class2') superInheritances size
+		equals: 2.
 	self assert: (asM2 entityNamed: 'Smalltalk::Class2') superInheritances size equals: 1
 ]
 
@@ -839,18 +929,18 @@ ORActionTest >> testOPRemoveInheritedClass [
 	| asAction asM2 |
 	asAction := ORActionAddClass new
 		orionModel: orionModel;
-		parent: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
-		newName: 'ClassTestChild'.
+		parentPackage: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
+		name: 'ClassTestChild'.
 	asAction run.
 	asAction := ORActionAddClass new
 		orionModel: orionModel;
-		parent: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
-		newName: 'ClassTestParent'.
+		parentPackage: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
+		name: 'ClassTestParent'.
 	asAction run.
 	asAction := ORActionAddInheritance new
 		orionModel: orionModel;
-		to: (orionModel entityNamed: 'ClassTestParent');
-		from: (orionModel entityNamed: 'ClassTestChild').
+		superclass: (orionModel entityNamed: 'ClassTestParent');
+		subclass: (orionModel entityNamed: 'ClassTestChild').
 	asAction run.
 	asM2 := (ORModel withParent: orionModel) name: 'AsM2'.
 	asAction := ORActionRemoveClass new
@@ -926,20 +1016,51 @@ ORActionTest >> testOPRemoveNamespace [
 	| asAction asM2 asAction2 |
 	asAction := ORActionAddNamespace new
 		orionModel: orionModel;
-		container: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
-		newName: 'NamespaceTest'.
+		parentScope: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
+		name: 'NamespaceTest'.
 	asAction run.
 	asM2 := (ORModel withParent: orionModel) name: 'AsM2'.
 	asAction2 := ORActionRemoveNamespace new
 		orionModel: asM2;
 		entity: (asM2 entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest').
 	asAction2 run.
-	self assert: (orionModel contains: (orionModel entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest')).
-	self deny: (asM2 contains: (orionModel entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest')).
-	self assert: (orionModel includes: (orionModel entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest')).
-	self deny: (asM2 includes: (orionModel entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest')).
-	self assert: ((orionModel entityNamed: 'Orion-TestModel-Constellation2') childScopes includes: (orionModel entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest')).
-	self deny: ((asM2 entityNamed: 'Orion-TestModel-Constellation2') childScopes includes: (orionModel entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest')).
+	self
+		assert:
+			(orionModel
+				contains:
+					(orionModel
+						entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest')).
+	self
+		deny:
+			(asM2
+				contains:
+					(orionModel
+						entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest')).
+	self
+		assert:
+			(orionModel
+				includes:
+					(orionModel
+						entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest')).
+	self
+		deny:
+			(asM2
+				includes:
+					(orionModel
+						entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest')).
+	self
+		assert:
+			((orionModel entityNamed: 'Orion-TestModel-Constellation2')
+				childScopes
+				includes:
+					(orionModel
+						entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest')).
+	self
+		deny:
+			((asM2 entityNamed: 'Orion-TestModel-Constellation2') childScopes
+				includes:
+					(orionModel
+						entityNamed: 'Orion-TestModel-Constellation2::NamespaceTest')).
 	self assert: orionModel size = (asM2 size + 1)
 ]
 
@@ -965,8 +1086,8 @@ ORActionTest >> testOPRemoveReference [
 	| asAction oldInh asM2 asAction2 |
 	asAction := ORActionAddReference new
 		orionModel: orionModel;
-		from: (orionModel entityNamed: #'Smalltalk::Class1.accessOrion1Class2()');
-		to: (orionModel entityNamed: #Smalltalk::Class5).
+		source: (orionModel entityNamed: #'Smalltalk::Class1.accessOrion1Class2()');
+		target: (orionModel entityNamed: #Smalltalk::Class5).
 	oldInh := asAction run.
 	asM2 := (ORModel withParent: orionModel) name: #AsM2.
 	asAction2 := ORActionRemoveReference new
@@ -990,28 +1111,28 @@ ORActionTest >> testOPRemoveSuperClassWithSubInheritance [
 	| asAction asM2 |
 	asAction := ORActionAddClass new
 		orionModel: orionModel;
-		parent: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
-		newName: 'ClassTestParent'.
+		parentPackage: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
+		name: 'ClassTestParent'.
 	asAction run.
 	asAction := ORActionAddClass new
 		orionModel: orionModel;
-		parent: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
-		newName: 'ClassTestChild'.
+		parentPackage: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
+		name: 'ClassTestChild'.
 	asAction run.
 	asAction := ORActionAddClass new
 		orionModel: orionModel;
-		parent: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
-		newName: 'SuperClassTestParent'.
+		parentPackage: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
+		name: 'SuperClassTestParent'.
 	asAction run.
 	asAction := ORActionAddInheritance new
 		orionModel: orionModel;
-		to: (orionModel entityNamed: 'ClassTestParent');
-		from: (orionModel entityNamed: 'ClassTestChild').
+		superclass: (orionModel entityNamed: 'ClassTestParent');
+		subclass: (orionModel entityNamed: 'ClassTestChild').
 	asAction run.
 	asAction := ORActionAddInheritance new
 		orionModel: orionModel;
-		from: (orionModel entityNamed: 'ClassTestParent');
-		to: (orionModel entityNamed: 'SuperClassTestParent').
+		subclass: (orionModel entityNamed: 'ClassTestParent');
+		superclass: (orionModel entityNamed: 'SuperClassTestParent').
 	asAction run.
 	asM2 := (ORModel withParent: orionModel) name: 'AsM2'.
 	asAction := ORActionRemoveClass new
@@ -1020,12 +1141,25 @@ ORActionTest >> testOPRemoveSuperClassWithSubInheritance [
 	asAction run.
 	self assert: (orionModel entityNamed: 'ClassTestParent') notNil.
 	self assert: (asM2 entityNamed: 'ClassTestParent') isNil.
-	self assert: (orionModel includes: (orionModel entityNamed: 'ClassTestParent')).
+	self
+		assert: (orionModel includes: (orionModel entityNamed: 'ClassTestParent')).
 	"self deny:(asM2 includes: (orionModel entityNamed: 'ClassTestFrom'))."
-	self assert: ((orionModel entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'ClassTestChild')).
+	self
+		assert:
+			((orionModel entityNamed: 'Orion-TestModel-Constellation2')
+				childNamedEntities
+				includes: (orionModel entityNamed: 'ClassTestChild')).
 	"self deny:((asM2 entityNamed: 'Orion-TestModel-Constellation2') childNamedEntities includes: (orionModel entityNamed: 'ClassTestFrom'))."
-	self assert: (orionModel entityNamed: 'ClassTestChild') superInheritances first superclass equals: (orionModel entityNamed: 'ClassTestParent').
-	self assert: (asM2 entityNamed: 'ClassTestChild') superInheritances first superclass equals: (asM2 entityNamed: 'SuperClassTestParent').
+	self
+		assert:
+			(orionModel entityNamed: 'ClassTestChild') superInheritances first
+				superclass
+		equals: (orionModel entityNamed: 'ClassTestParent').
+	self
+		assert:
+			(asM2 entityNamed: 'ClassTestChild') superInheritances first
+				superclass
+		equals: (asM2 entityNamed: 'SuperClassTestParent').
 	self assert: orionModel size equals: asM2 size + 2	"ClassTestFrom , Inheritance"
 ]
 
@@ -1120,21 +1254,21 @@ ORActionTest >> testOPUnextendMethod [
 { #category : #'testing OrionModel' }
 ORActionTest >> testParentActions [
 	| act1 act2 act3 |
-	act1 := ORActionAddEntity new
-		newName: 'parentAct';
+	act1 := ORActionAddClass new
+		name: 'parentAct';
 		yourself.
 	self assert: act1 childrenActions isEmpty.
 	self assert: act1 isManual.
-	act2 := ORActionAddEntity new
-		newName: '1stChildAct';
+	act2 := ORActionAddClass new
+		name: '1stChildAct';
 		parentAction: act1;
 		yourself.
 	self assert: act1 isManual.
 	self deny: act2 isManual.
 	self assert: act2 parentAction equals: act1.
 	self assert: act1 childrenActions size equals: 1.
-	act3 := ORActionAddEntity new
-		newName: '2ndChildAct';
+	act3 := ORActionAddClass new
+		name: '2ndChildAct';
 		parentAction: act1;
 		yourself.
 	self assert: act1 childrenActions size equals: 2.
