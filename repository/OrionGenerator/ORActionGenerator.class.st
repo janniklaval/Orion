@@ -228,7 +228,7 @@ ORActionGenerator >> generateRequiredMethods: anAction forAMovedEntity: anOREnti
 				forAMovedEntity: anOREntity
 				withPackage: assoc key
 				withProps: assoc value ]"
-			stream tab; << 'entity '; << aContainerProp implementingSelector; << ' ifNotNil: ['; cr.
+			stream tab; << '(entity '; << aContainerProp implementingSelector; << ' isNotNil and: [ entity '; << aContainerProp implementingSelector; << ' class = theNewContainer class ]) ifTrue: ['; cr.
 			stream tab; tab; << '| theOldEntity |'; cr.
 			stream tab; tab; << 'theOldEntity := (self orionModel retrieveEntity: entity '; << aContainerProp implementingSelector; << ').'; cr.
 			stream tab; tab; << 'theOldEntity private'; << aContainerProp opposite implementingSelector capitalized asMutator; << ' (theOldEntity private'; 
