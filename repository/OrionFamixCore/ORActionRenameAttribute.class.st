@@ -1,5 +1,5 @@
 "
-A ORActionRenameAttribute is a generated class useful to Orion. It corresponds to an action that can be performed on a type of model element 
+A ORActionRenameAttribute is a generated class useful to Orion. It corresponds to an action that can be performed on a type of model element. See OrionGenerator in Moose/Orion on SmalltalkHub for more information.
 "
 Class {
 	#name : #ORActionRenameAttribute,
@@ -12,16 +12,13 @@ ORActionRenameAttribute class >> description [
 	^'rename attribute'
 ]
 
-{ #category : #'method execution' }
+{ #category : #'method exectution - generated' }
 ORActionRenameAttribute >> run [
-	| theAttribute |
+	<generated>
+	| theEntity |
 	super run.
-	
-	theAttribute := (self orionModel retrieveEntity:entity).
-	theAttribute name: newName.
-
-	entity := theAttribute.
-
+	theEntity := (self orionModel retrieveEntity: entity).
+	theEntity name: newName.
+	entity := theEntity.
 	^ entity
-	
 ]

@@ -1,53 +1,35 @@
 "
-A ORActionRemoveNamespace is a generated class useful to Orion. It corresponds to an action that can be performed on a type of model element 
+A ORActionRemoveNamespace is a generated class useful to Orion. It corresponds to an action that can be performed on a type of model element. See OrionGenerator in Moose/Orion on SmalltalkHub for more information.
 "
 Class {
 	#name : #ORActionRemoveNamespace,
-	#superclass : #ORActionRemoveEntity,
+	#superclass : #ORActionRemove,
 	#category : #'OrionFamixCore-Action'
 }
 
-{ #category : #'as yet unclassified' }
-ORActionRemoveNamespace class >> description [
-	^'remove namespace'
-]
-
-{ #category : #'as yet unclassified' }
-ORActionRemoveNamespace class >> scope [
-	<ORActionFor: #ORNamespace>
-	^self
-]
-
-{ #category : #'method execution' }
+{ #category : #'method execution - generated' }
 ORActionRemoveNamespace >> run [
-	| namespace |
+	<generatedMethod>
 	super run.
-	entity parentPackage
-		ifNotNil: [ | pack |
-			pack := self orionModel retrieveEntity: entity parentPackage.
-			pack privateChildNamedEntities: (pack privateChildNamedEntities orionCopy orionRemove: entity) ].
+	entity receivingInvocations do: [:each | each deleteInAction: self ].
+	entity globalVariables do: [:each | each deleteInAction: self ].
+	entity comments do: [:each | each deleteInAction: self ].
+	entity annotationInstances do: [:each | each deleteInAction: self ].
+	entity childScopes do: [:each | each deleteInAction: self ].
+	entity types do: [:each | each deleteInAction: self ].
+	entity functions do: [:each | each deleteInAction: self ].
+	entity sourceAnchor ifNotNil: [ entity deleteInAction: self ].
+	entity declaredSourceLanguage
+		ifNotNil: [ |theEntity|
+			theEntity := self orionModel retrieveEntity: entity declaredSourceLanguage.
+			theEntity privateSourcedEntities: (theEntity privateSourcedEntities orionCopy orionRemove: entity) ].
 	entity parentScope
-		ifNotNil: [ namespace := self orionModel retrieveEntity: entity parentScope.
-			namespace privateChildScopes: (namespace privateChildScopes orionCopy orionRemove: entity) ].
-	entity types
-		do: [ :each | 
-			| class |
-			class := self orionModel retrieveEntity: each.
-			entity parentScope
-				ifNotNil: [ class privateContainer: namespace.
-					namespace privateTypes: (namespace privateTypes orionCopy unsafeAdd: class) ]
-				ifNil: [ class privateContainer: nil ] ].
-	entity comments do: [ :com | com deleteInAction: self ].
-	entity functions do: [ :fun | fun deleteInAction: self ].
-	entity globalVariables do: [ :com | com deleteInAction: self ].
-	entity receivingInvocations do: [ :com | com deleteInAction: self ].
-	entity childScopes
-		do: [ :each | 
-			| scope |
-			scope := self orionModel retrieveEntity: each.
-			entity parentScope
-				ifNotNil: [ scope privateParentScope: namespace.
-					namespace privateChildScopes: (namespace privateChildScopes orionCopy unsafeAdd: scope) ]
-				ifNil: [ scope privateParentScope: nil ] ].
-	self orionModel remove: entity
+		ifNotNil: [ |theEntity|
+			theEntity := self orionModel retrieveEntity: entity parentScope.
+			theEntity privateChildScopes: (theEntity privateChildScopes orionCopy orionRemove: entity) ].
+	entity parentPackage
+		ifNotNil: [ |theEntity|
+			theEntity := self orionModel retrieveEntity: entity parentPackage.
+			theEntity privateChildNamedEntities: (theEntity privateChildNamedEntities orionCopy orionRemove: entity) ].
+self runExtendedPropertiesForEntity: entity.	self orionModel remove: entity
 ]

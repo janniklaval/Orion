@@ -12,12 +12,6 @@ ORActionRemovePackageOnly class >> description [
 	^'remove package but not its content'
 ]
 
-{ #category : #accessing }
-ORActionRemovePackageOnly class >> scope [
-	<ORActionFor: #ASPackage>
-	^self
-]
-
 { #category : #'method execution' }
 ORActionRemovePackageOnly >> run [
 	| pack namespace|

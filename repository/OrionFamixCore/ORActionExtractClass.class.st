@@ -10,11 +10,6 @@ Class {
 	#category : #'OrionFamixCore-Action'
 }
 
-{ #category : #'as yet unclassified' }
-ORActionExtractClass class >> description [
-	^'extract class'
-]
-
 { #category : #initialization }
 ORActionExtractClass >> initialize [
 	super initialize.

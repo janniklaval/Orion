@@ -1,5 +1,5 @@
 "
-A ORActionRenameClass is a generated class useful to Orion. It corresponds to an action that can be performed on a type of model element 
+A ORActionRenameClass is a generated class useful to Orion. It corresponds to an action that can be performed on a type of model element. See OrionGenerator in Moose/Orion on SmalltalkHub for more information.
 "
 Class {
 	#name : #ORActionRenameClass,
@@ -12,16 +12,13 @@ ORActionRenameClass class >> description [
 	^'rename class'
 ]
 
-{ #category : #'method execution' }
+{ #category : #'method exectution - generated' }
 ORActionRenameClass >> run [
-	| theClass |
+	<generated>
+	| theEntity |
 	super run.
-	
-	theClass := (self orionModel retrieveEntity:entity).
-	theClass name: newName.
-
-	entity := theClass.
-
+	theEntity := (self orionModel retrieveEntity: entity).
+	theEntity name: newName.
+	entity := theEntity.
 	^ entity
-	
 ]

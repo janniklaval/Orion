@@ -1,9 +1,9 @@
 "
-A ORActionRemoveAccess is a generated class useful to Orion. It corresponds to an action that can be performed on a type of model element 
+A ORActionRemoveAccess is a generated class useful to Orion. It corresponds to an action that can be performed on a type of model element. See OrionGenerator in Moose/Orion on SmalltalkHub for more information.
 "
 Class {
 	#name : #ORActionRemoveAccess,
-	#superclass : #ORActionRemoveLink,
+	#superclass : #ORActionRemove,
 	#category : #'OrionFamixCore-Action'
 }
 
@@ -24,15 +24,25 @@ ORActionRemoveAccess >> printWorkspace [
 	^ '>', self class description, '>> ', ' from ', entity accessor mooseName, ' to ', entity variable mooseName
 ]
 
-{ #category : #'method execution' }
+{ #category : #'method execution - generated' }
 ORActionRemoveAccess >> run [
-	| fromEl toEl |
+	<generatedMethod>
 	super run.
-	fromEl := self orionModel retrieveEntity: entity accessor.
-	toEl := self orionModel retrieveEntity: entity variable.
-	fromEl privateAccesses: (fromEl privateAccesses orionCopy orionRemove: entity).
-	toEl privateIncomingAccesses: (toEl privateIncomingAccesses orionCopy orionRemove: entity).
-	entity comments do: [ :com | com deleteInAction: self ].
-	self orionModel remove: entity.
-	self postRun
+	entity comments do: [:each | each deleteInAction: self ].
+	entity sourceAnchor ifNotNil: [ entity deleteInAction: self ].
+	entity previous ifNotNil: [ entity deleteInAction: self ].
+	entity next ifNotNil: [ entity deleteInAction: self ].
+	entity accessor
+		ifNotNil: [ |theEntity|
+			theEntity := self orionModel retrieveEntity: entity accessor.
+			theEntity privateAccesses: (theEntity privateAccesses orionCopy orionRemove: entity) ].
+	entity variable
+		ifNotNil: [ |theEntity|
+			theEntity := self orionModel retrieveEntity: entity variable.
+			theEntity privateIncomingAccesses: (theEntity privateIncomingAccesses orionCopy orionRemove: entity) ].
+	entity declaredSourceLanguage
+		ifNotNil: [ |theEntity|
+			theEntity := self orionModel retrieveEntity: entity declaredSourceLanguage.
+			theEntity privateSourcedEntities: (theEntity privateSourcedEntities orionCopy orionRemove: entity) ].
+self runExtendedPropertiesForEntity: entity.	self orionModel remove: entity
 ]

@@ -1,9 +1,13 @@
 "
-A ORActionMoveAttribute is a generated class useful to Orion. It corresponds to an action that can be performed on a type of model element 
+A ORActionMoveAttribute is a generated class useful to Orion. It corresponds to an action that can be performed on a type of model element. See OrionGenerator in Moose/Orion on SmalltalkHub for more information.
 "
 Class {
 	#name : #ORActionMoveAttribute,
 	#superclass : #ORActionMove,
+	#instVars : [
+		'parentType',
+		'parentPackage'
+	],
 	#category : #'OrionFamixCore-Action'
 }
 
@@ -12,30 +16,51 @@ ORActionMoveAttribute class >> description [
 	^'move attribute'
 ]
 
-{ #category : #'method execution' }
+{ #category : #'accessing - generated' }
+ORActionMoveAttribute >> parentPackage [
+	^ parentPackage
+]
+
+{ #category : #'accessing - generated' }
+ORActionMoveAttribute >> parentPackage: aValue [
+	parentPackage := aValue
+]
+
+{ #category : #'accessing - generated' }
+ORActionMoveAttribute >> parentType [
+	^ parentType
+]
+
+{ #category : #'accessing - generated' }
+ORActionMoveAttribute >> parentType: aValue [
+	parentType := aValue
+]
+
+{ #category : #'method execution - generated' }
 ORActionMoveAttribute >> run [
-	| theAttribute theOldClass theNewClass theOldPackage theNewPackage|
-	super run.
-	
-	theAttribute := (self orionModel retrieveEntity:entity).
-	theNewClass := (self orionModel retrieveEntity:newContainer).
-	"theNewPackage := (self orionModel retrieveEntity:theNewClass parentPackage)."
-	
-	entity parentType ifNotNil:[
-		theOldClass := (self orionModel retrieveEntity:entity parentType).
-		theOldClass privateAttributes:(theOldClass privateAttributes  orionCopy orionRemove: theAttribute).
+	<generated>
+	| theEntity |
+	theEntity := self orionModel retrieveEntity: entity.
+	self parentType ifNotNil: [
+		| theNewContainer |
+		entity parentType
+			ifNotNil: [ | theOldContainer |
+				theOldContainer := self orionModel retrieveEntity: entity parentType.
+				theOldContainer privateAttributes: (theOldContainer privateAttributes orionCopy orionRemove: theEntity) ].
+		theNewContainer := self orionModel retrieveEntity: self parentType.
+		theEntity privateParentType: theNewContainer.
+		theNewContainer privateAttributes: (theNewContainer privateAttributes unsafeAdd: theEntity)
 	].
-
-	entity parentPackage ifNotNil:[
-		theOldPackage := (self orionModel retrieveEntity:entity parentPackage).
-		theOldPackage privateChildNamedEntities:  (theOldPackage privateChildNamedEntities orionCopy orionRemove: theAttribute).
+	self parentPackage ifNotNil: [
+		| theNewContainer |
+		entity parentPackage
+			ifNotNil: [ | theOldContainer |
+				theOldContainer := self orionModel retrieveEntity: entity parentPackage.
+				theOldContainer privateChildNamedEntities: (theOldContainer privateChildNamedEntities orionCopy orionRemove: theEntity) ].
+		theNewContainer := self orionModel retrieveEntity: self parentPackage.
+		theEntity privateParentPackage: theNewContainer.
+		theNewContainer privateChildNamedEntities: (theNewContainer privateChildNamedEntities unsafeAdd: theEntity)
 	].
-
-	theNewClass privateAttributes:(theNewClass privateAttributes  unsafeAdd: theAttribute).
-	"theNewPackage privateChildNamedEntities:  (theNewPackage privateChildNamedEntities orionCopy unsafeAdd: theAttribute)."
-	
-	theAttribute privateParentType: theNewClass orionCopy.
-	theAttribute parentPackage: theNewPackage orionCopy.
-	
-	^theAttribute
+	theEntity resetMooseName.
+	^ theEntity
 ]

@@ -1,9 +1,9 @@
 "
-A ORActionRemoveInvocation is a generated class useful to Orion. It corresponds to an action that can be performed on a type of model element 
+A ORActionRemoveInvocation is a generated class useful to Orion. It corresponds to an action that can be performed on a type of model element. See OrionGenerator in Moose/Orion on SmalltalkHub for more information.
 "
 Class {
 	#name : #ORActionRemoveInvocation,
-	#superclass : #ORActionRemoveLink,
+	#superclass : #ORActionRemove,
 	#category : #'OrionFamixCore-Action'
 }
 
@@ -30,17 +30,26 @@ ORActionRemoveInvocation >> printWorkspace [
 	^ '>', self class description, '>> ', ' from ', entity sender mooseName, ' to ', entity receiver mooseName
 ]
 
-{ #category : #'method execution' }
+{ #category : #'method execution - generated' }
 ORActionRemoveInvocation >> run [
-	| fromEl toEl recEl |
+	<generatedMethod>
 	super run.
-	fromEl := self orionModel retrieveEntity: entity sender.
-	toEl := entity candidates collect: [ :e | self orionModel retrieveEntity: e ].
+	entity comments do: [:each | each deleteInAction: self ].
+	entity candidates do: [:each | each deleteInAction: self ].
+	entity sourceAnchor ifNotNil: [ entity deleteInAction: self ].
+	entity previous ifNotNil: [ entity deleteInAction: self ].
+	entity next ifNotNil: [ entity deleteInAction: self ].
+	entity sender
+		ifNotNil: [ |theEntity|
+			theEntity := self orionModel retrieveEntity: entity sender.
+			theEntity privateOutgoingInvocations: (theEntity privateOutgoingInvocations orionCopy orionRemove: entity) ].
 	entity receiver
-		ifNotNil: [ recEl := self orionModel retrieveEntity: entity receiver.
-			recEl privateReceivingInvocations: (recEl privateReceivingInvocations orionCopy orionRemove: entity) ].
-	fromEl privateOutgoingInvocations: (fromEl privateOutgoingInvocations orionCopy orionRemove: entity).
-	toEl do: [ :each | each privateIncomingInvocations: (each privateIncomingInvocations orionCopy orionRemove: entity) ].
-	entity comments do: [ :com | com deleteInAction: self ].
-	self orionModel remove: entity
+		ifNotNil: [ |theEntity|
+			theEntity := self orionModel retrieveEntity: entity receiver.
+			theEntity privateReceivingInvocations: (theEntity privateReceivingInvocations orionCopy orionRemove: entity) ].
+	entity declaredSourceLanguage
+		ifNotNil: [ |theEntity|
+			theEntity := self orionModel retrieveEntity: entity declaredSourceLanguage.
+			theEntity privateSourcedEntities: (theEntity privateSourcedEntities orionCopy orionRemove: entity) ].
+self runExtendedPropertiesForEntity: entity.	self orionModel remove: entity
 ]
