@@ -171,7 +171,7 @@ ORActionTest >> testOPAddInvocation [
 	asS := self model system.
 	asAction := ORActionAddInvocation new
 		orionModel: orionModel;
-		from: (orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()');
+		sender: (orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()');
 		candidates: (orionModel entityNamed: 'Smalltalk::Class1.accessOrion2Class3()') asOrderedCollection.
 	self assert: (orionModel entityNamed: 'Smalltalk::Class1.accessOrion1Class2()') outgoingInvocations size equals: 1.
 	self assert: (orionModel entityNamed: 'Smalltalk::Class1.accessOrion2Class3()') incomingInvocations size equals: 0.
@@ -1148,18 +1148,16 @@ ORActionTest >> testOPRemoveSuperClassWithSubInheritance [
 { #category : #testing }
 ORActionTest >> testOPSafeRemovePackage [
 	| asAction asM2 asAction2 |
-	asAction := ORActionAddPackage new
-		orionModel: orionModel;
-		newName: 'PackageTest'.
+	asAction := ORActionAddPackage new orionModel: orionModel; name: 'PackageTest'.
 	asAction run.
 	asM2 := (ORModel withParent: orionModel) name: 'AsM2'.
-	asAction2 := ORActionSafeRemovePackage new
-		orionModel: asM2;
-		entity: (asM2 entityNamed: 'PackageTest').
+	asAction2 := ORActionSafeRemovePackage new orionModel: asM2; entity: (asM2 entityNamed: 'PackageTest').
 	asAction2 run.
-	self assert: (orionModel contains: (orionModel entityNamed: 'PackageTest')).
+	self
+		assert: (orionModel contains: (orionModel entityNamed: 'PackageTest')).
 	self deny: (asM2 contains: (orionModel entityNamed: 'PackageTest')).
-	self assert: (orionModel includes: (orionModel entityNamed: 'PackageTest')).
+	self
+		assert: (orionModel includes: (orionModel entityNamed: 'PackageTest')).
 	self deny: (asM2 includes: (orionModel entityNamed: 'PackageTest')).
 	self assert: orionModel size equals: asM2 size + 1.
 	orionModel := asM2
@@ -1172,7 +1170,7 @@ ORActionTest >> testOPUnextendMethod [
 	asAction := ORActionExtendMethod new
 		orionModel: orionModel;
 		entity: (orionModel entityNamed: #'Smalltalk::Class5.accessOrion2Class3()');
-		newContainer: (orionModel entityNamed: #'Orion-TestModel-Constellation1').
+		parentPackage: (orionModel entityNamed: #'Orion-TestModel-Constellation1').
 	asAction run.
 	asAction2 := ORActionUnextendMethod new
 		orionModel: orionModel;
