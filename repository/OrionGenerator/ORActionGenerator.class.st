@@ -342,10 +342,10 @@ ORActionGenerator >> obtainActionSuperClass: anOREntity actionType: anActionType
 	^ anActionType = #Add
 		ifTrue: [ (anOREntity inheritsFrom: FAMIXAssociation)
 				ifTrue: [ ORActionAddLink ]
-				ifFalse: [ self flag: #WHY.
-					anOREntity = OREntity
+				ifFalse: [ anOREntity = OREntity
 						ifFalse: [ ORActionAddEntity ]
-						ifTrue: [ ORActionAdd ] ] ]
+						ifTrue: [ self flag: #'If OREntity then the named of the action class is ORActionAddEntity... that is already existing'.
+							ORActionAdd ] ] ]
 		ifFalse: [ Smalltalk globals at: ('ORAction' , anActionType) asSymbol ]
 ]
 
