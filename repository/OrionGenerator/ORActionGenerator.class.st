@@ -6,6 +6,7 @@ You can use it by providing a collection of OREntities:
 
 Look at the class side method for actual usage.
 
+ORActionGenerator createActionsForORClasses: ('OrionFamixCore' asPackage definedClasses reject: #isTrait).
 "
 Class {
 	#name : #ORActionGenerator,
@@ -52,9 +53,9 @@ ORActionGenerator >> applyGenerationOfActionsOn: aListOfProperties onBlock: bloc
 ]
 
 { #category : #'creating method' }
-ORActionGenerator >> catNameFor: aFamePackage defaultName: normalCatName [
+ORActionGenerator >> catNameFor: aFamePackage defaultName: defaultCatName [
 	^ aFamePackage
-		ifNil: [ normalCatName , ' - generated' ]
+		ifNil: [ defaultCatName , ' - generated' ]
 		ifNotNil: [ '*OrionFamix' , aFamePackage name ]
 ]
 
@@ -65,35 +66,25 @@ ORActionGenerator >> complexProperties: aCollectionOfProperties [
 ]
 
 { #category : #preparation }
-ORActionGenerator >> createActionCategoryName: anOREntity [
-	^ String
-		streamContents: [ :stream | 
-			stream nextPutAll: 'Orion'.
-			($- split: anOREntity superclass category) asStringOn: stream delimiter: ''.
-			stream nextPutAll: '-Action' ]
-]
-
-{ #category : #preparation }
 ORActionGenerator >> createActionClassNameWithType: aTypeOfAction for: anOREntity [
-	^ 'ORAction', aTypeOfAction , anOREntity mooseDescription superclass name.
-	
+	^ 'ORAction' , aTypeOfAction , anOREntity mooseDescription superclass name
 ]
 
-{ #category : #'creating Actions' }
+{ #category : #'creating action class' }
 ORActionGenerator >> createActionFor: anOREntity type: action [
 	| aClass |
 	aClass := (self obtainActionSuperClass: anOREntity actionType: action)
 		subclass: (self createActionClassNameWithType: action for: anOREntity) asSymbol
-		uses: { }
+		uses: {}
 		instanceVariableNames: ''
 		classVariableNames: ''
 		poolDictionaries: ''
-		category:( self createActionCategoryName: anOREntity).
+		category: (self createClassCategoryName: anOREntity superclass).
 	self createCommentToAnORAction: aClass.
-	self generateRequiredMethods: aClass for: anOREntity.
+	self generateRequiredMethods: aClass for: anOREntity
 ]
 
-{ #category : #'creating Actions' }
+{ #category : #'running- public' }
 ORActionGenerator >> createActionForORClass: anORClass [
 	anORClass isOrionClass
 		ifTrue: [ 
@@ -103,12 +94,12 @@ ORActionGenerator >> createActionForORClass: anORClass [
 						ifTrue: [ self createActionFor: anORClass type: action ] ] ]
 ]
 
-{ #category : #'creating Actions' }
+{ #category : #'running- public' }
 ORActionGenerator >> createActionsForACollectionOfORClasses: aCollectionOfOREntities [
 	aCollectionOfOREntities do: [ :anEntity | self createActionForORClass: anEntity ]
 ]
 
-{ #category : #preparation }
+{ #category : #'creating action class' }
 ORActionGenerator >> createCommentToAnORAction: anORAction [
 	anORAction
 		comment:
@@ -118,46 +109,41 @@ ORActionGenerator >> createCommentToAnORAction: anORAction [
 						nextPutAll: 'A ';
 						nextPutAll: anORAction name;
 						nextPutAll:
-								' is a generated class useful to Orion. It corresponds to an action that can be performed on a type of model element ' ])
+								' is a generated class useful to Orion. It corresponds to an action that can be performed on a type of model element. See OrionGenerator in Moose/Orion on SmalltalkHub for more information.' ])
 ]
 
 { #category : #'creating method' }
-ORActionGenerator >> createGetterFor: aString on: aClass classified: aCat [
-	aClass compile: aString , String cr , String tab , '^ ' , aString classified: aCat
+ORActionGenerator >> createGetterFor: aMethodName on: aClass classified: aCat [
+	aClass compile: aMethodName , String cr , String tab , '^ ' , aMethodName classified: aCat
 ]
 
 { #category : #'creating method' }
 ORActionGenerator >> createSetterFor: aString on: aClass classified: aCat [
-	aClass compile: aString asMutator , ' aValue' , String cr , String tab , aString , ' := aValue' classified: aCat
+	aClass compile: ('<1s>: aValue<r><t><1s> := aValue' expandMacrosWith: aString) classified: aCat
 ]
 
 { #category : #'creating method' }
-ORActionGenerator >> generate1To1SetterFrom: property [ 
-	| selector oppositeSelector |
-	selector := property implementingSelector.
-	oppositeSelector := property opposite implementingSelector.
-	^ String streamContents: [ :stream |
-				stream tab; << 'self ' ; << selector; cr.
-				stream tab; tab;<< 'ifNotNil: [ | theNewEntity |'; cr.
-				stream tab; tab;tab;<< 'theNewEntity := self orionModel retrieveEntity: ' ; << 'self ' ; << selector ;<<'.'; cr.
-				stream tab; tab;tab;<< 'newEntity private'; << selector capitalized asMutator; << ' theNewEntity orionCopy.'; cr.
-				stream tab; tab;tab;<< 'theNewEntity private'; << oppositeSelector capitalized asMutator; << ' newEntity orionCopy ].'; cr.	
-	]
+ORActionGenerator >> generate1To1SetterFrom: property [
+	^self
+		withSelectorAndOppositeSelectorOfProperty: property
+		streamContents: [ :selector :oppositeSelector :stream | 
+			stream tab; << 'self '; << selector; cr.
+			stream tab; tab; << 'ifNotNil: [ | theNewEntity |'; cr.
+			stream tab; tab; tab; << 'theNewEntity := self orionModel retrieveEntity: '; << 'self '; << selector; << '.'; cr.
+			stream tab; tab; tab; << 'newEntity private'; << selector capitalized asMutator; << ' theNewEntity orionCopy.'; cr.
+			stream tab; tab; tab; << 'theNewEntity private'; << oppositeSelector capitalized asMutator; << ' newEntity orionCopy ].'; cr ]
 ]
 
 { #category : #'creating method' }
-ORActionGenerator >> generate1ToNSetterFrom: property [ 
-	| selector oppositeSelector |
-	selector := property implementingSelector.
-	oppositeSelector := property opposite implementingSelector.
-	^ String streamContents: [ :stream |
-				stream tab; << 'self ' ; << selector; cr.
-				stream tab; tab;<< 'ifNotNil: [ | theNewEntity |'; cr.
-				stream tab; tab;tab;<< 'theNewEntity := self orionModel retrieveEntity: ' ; << 'self ' ; << selector ;<<'.'; cr.
-				stream tab; tab;tab;<< 'newEntity private'; << selector capitalized asMutator; << ' theNewEntity orionCopy.'; cr.
-				stream tab; tab;tab;<< 'theNewEntity private'; << oppositeSelector capitalized asMutator; << ' (theNewEntity private'; << oppositeSelector capitalized ; << ' orionCopy unsafeAdd: newEntity) ].'; cr.
-	]
-
+ORActionGenerator >> generate1ToNSetterFrom: property [
+	^ self
+		withSelectorAndOppositeSelectorOfProperty: property
+		streamContents: [ :selector :oppositeSelector :stream | 
+			stream tab; << 'self '; << selector; cr.
+			stream tab; tab; << 'ifNotNil: [ | theNewEntity |'; cr.
+			stream tab; tab; tab; << 'theNewEntity := self orionModel retrieveEntity: '; << 'self '; << selector; << '.'; cr.
+			stream tab; tab; tab; << 'newEntity private'; << selector capitalized asMutator; << ' theNewEntity orionCopy.'; cr.
+			stream tab; tab; tab; << 'theNewEntity private'; << oppositeSelector capitalized asMutator; << ' (theNewEntity private'; << oppositeSelector capitalized; << ' orionCopy unsafeAdd: newEntity) ].'; cr ]
 ]
 
 { #category : #'creating method' }
@@ -175,31 +161,27 @@ ORActionGenerator >> generateGettersAndSettersFrom: aCollectionOfFameProperties 
 
 { #category : #'creating method' }
 ORActionGenerator >> generateNTo1SetterFrom: property [
-| selector oppositeSelector |
-	selector := property implementingSelector.
-	oppositeSelector := property opposite implementingSelector.
-	^ String streamContents: [ :stream |
-				stream tab; << 'self ' ; << selector; cr.
-				stream tab; tab;<< 'ifNotNil: [ | theNewEntities |'; cr.
-				stream tab; tab;tab;<< 'theNewEntities := OrderedCollection withAll: (self ' ;<< selector ; << ' collect: [:e | self orionModel retrieveEntity: e ]).'; cr.
-				stream tab; tab;tab;<< 'newEntity private'; << selector capitalized asMutator; << ' theNewEntities orionCopy.'; cr.
-				stream tab; tab;tab;<< 'theNewEntities do: [:e | e private'; << oppositeSelector capitalized asMutator; << ' newEntity ] ].'; cr.
-	]
-
+	^ self
+		withSelectorAndOppositeSelectorOfProperty: property
+		streamContents: [ :selector :oppositeSelector :stream | 
+			stream tab; << 'self '; << selector; cr.
+			stream tab; tab; << 'ifNotNil: [ | theNewEntities |'; cr.
+			stream tab; tab; tab; << 'theNewEntities := OrderedCollection withAll: (self '; << selector; << ' collect: [:e | self orionModel retrieveEntity: e ]).'; cr.
+			stream tab; tab; tab; << 'newEntity private'; << selector capitalized asMutator; << ' theNewEntities orionCopy.'; cr.
+			stream tab; tab; tab; << 'theNewEntities do: [:e | e private'; << oppositeSelector capitalized asMutator; << ' newEntity ] ].'; cr ]
 ]
 
 { #category : #'creating method' }
-ORActionGenerator >> generateNToNSetterFrom: property [ 
-		| selector oppositeSelector |
-	selector := property implementingSelector.
-	oppositeSelector := property opposite implementingSelector.
-	^ String streamContents: [ :stream |
-				stream tab; << 'self ' ; << selector; cr.
-				stream tab; tab;<< 'ifNotNil: [ | theNewEntity |'; cr.
-				stream tab; tab;tab;<< 'theNewEntity := self orionModel retrieveEntity: ' ; << 'self ' ; << selector ;<<'.'; cr.
-				stream tab; tab;tab;<< 'newEntity private'; << oppositeSelector capitalized asMutator; << ' (newEntity private'; << oppositeSelector capitalized ; << ' orionCopy unsafeAdd: theNewEntity).'; cr.	
-				stream tab; tab;tab;<< 'theNewEntity private'; << oppositeSelector capitalized asMutator; << ' (theNewEntity private'; << oppositeSelector capitalized ; << ' orionCopy unsafeAdd: newEntity) ].'; cr.
-	]
+ORActionGenerator >> generateNToNSetterFrom: property [
+	^ self
+		withSelectorAndOppositeSelectorOfProperty: property
+		streamContents: [ :selector :oppositeSelector :stream | 
+			stream tab; << 'self '; << selector; cr.
+			stream tab; tab; << 'ifNotNil: [ | theNewEntity |'; cr.
+			stream tab; tab; tab; << 'self '; << selector ; << ' do: [ :anEntity | ';cr.
+			stream tab; tab; tab; << 'theNewEntity := self orionModel retrieveEntity: anEntity.'; cr.
+			stream tab; tab; tab; << 'newEntity private'; << selector capitalized asMutator; << ' (newEntity private'; << selector capitalized; << ' orionCopy unsafeAdd: theNewEntity).'; cr.
+			stream tab; tab; tab; << 'theNewEntity private'; << oppositeSelector capitalized asMutator; << ' (theNewEntity private'; << oppositeSelector capitalized; << ' orionCopy unsafeAdd: newEntity) ] ] .'; cr ]
 ]
 
 { #category : #'creating method' }
@@ -209,36 +191,39 @@ ORActionGenerator >> generateRequiredMethods: aClass for: anOREntity [
 
 { #category : #'creating method' }
 ORActionGenerator >> generateRequiredMethods: anAction forAMovedEntity: anOREntity [
-	| stream |
-
+	| stream containerAttributes |
 	(anOREntity mooseDescription inheritsFrom: FAMIXNamedEntity mooseDescription)
 		ifFalse: [ ^ self ].
 	stream := WriteStream on: ''.
 	stream << 'run'; cr; tab; << '<generated>'; cr.
-	stream tab; << '| theNewContainer theEntity |'; cr.
+	stream tab; << '| theEntity |'; cr.
 	stream tab; << 'theEntity := self orionModel retrieveEntity: entity.'; cr.
-	stream tab; << 'theNewContainer := self orionModel retrieveEntity: newContainer.'; cr.
+	containerAttributes := anOREntity mooseDescription allContainerAttributes.
+	self
+		generateGettersAndSettersFrom: containerAttributes
+		on: anAction
+		withPackage: anOREntity mooseDescription package.
 	anOREntity mooseDescription allContainerAttributes
 		do: [ :aContainerProp | 
-			"	self
-		applyGenerationOfActionsOn: anOREntity mooseDescription allContainerAttributes 
-		onBlock: [ :assoc | 
-			self
-				generateRequiredMethods: anAction
-				forAMovedEntity: anOREntity
-				withPackage: assoc key
-				withProps: assoc value ]"
-			stream tab; << '(entity '; << aContainerProp implementingSelector; << ' isNotNil and: [ entity '; << aContainerProp implementingSelector; << ' class = theNewContainer class ]) ifTrue: ['; cr.
-			stream tab; tab; << '| theOldEntity |'; cr.
-			stream tab; tab; << 'theOldEntity := (self orionModel retrieveEntity: entity '; << aContainerProp implementingSelector; << ').'; cr.
-			stream tab; tab; << 'theOldEntity private'; << aContainerProp opposite implementingSelector capitalized asMutator; << ' (theOldEntity private'; 
-					<< aContainerProp opposite implementingSelector capitalized; << ' orionCopy orionRemove: theEntity).'; cr.
-			stream tab; tab; << 'theEntity private'; << aContainerProp implementingSelector capitalized asMutator; << ' theEntity orionCopy.'; 
-					cr.
-			stream tab; tab; << 'theNewContainer private'; << aContainerProp opposite implementingSelector capitalized asMutator; << ' (theNewContainer private'; 
-					<< aContainerProp opposite implementingSelector capitalized; << ' unsafeAdd: theEntity)'; cr.
-			stream tab;<< '].'; cr ].
-	stream tab; << 	'^ theEntity'.
+			stream tab; << 'self '; << aContainerProp implementingSelector; << ' ifNotNil: ['; cr.
+			stream tab; tab; << '| theNewContainer |'; cr.
+			stream tab tab << 'entity ' << aContainerProp implementingSelector.
+			stream cr tab tab tab << 'ifNotNil: [ | theOldContainer |'.
+			stream cr; tab; tab; tab; tab; << 'theOldContainer := self orionModel retrieveEntity: entity '; 
+					<< aContainerProp implementingSelector; << '.'; cr.
+			stream tab; tab; tab; tab; << 'theOldContainer private'; << aContainerProp opposite implementingSelector capitalized asMutator; 
+					<< ' (theOldContainer private'; << aContainerProp opposite implementingSelector capitalized; 
+					<< ' orionCopy orionRemove: theEntity) ].'; cr.
+			stream tab; tab; << 'theNewContainer := self orionModel retrieveEntity: self '; << aContainerProp implementingSelector; 
+					<< '.'; cr.
+			stream tab; tab; << 'theEntity private'; << aContainerProp implementingSelector capitalized asMutator; 
+					<< ' theNewContainer.'; cr.
+			stream tab; tab; << 'theNewContainer private'; << aContainerProp opposite implementingSelector capitalized asMutator; 
+					<< ' (theNewContainer private'; << aContainerProp opposite implementingSelector capitalized; 
+					<< ' unsafeAdd: theEntity)'; cr.
+			stream tab; << '].'; cr ].
+	stream tab << 'theEntity resetMooseName.'.
+	stream cr tab; << '^ theEntity'.
 	anAction compile: stream contents classified: 'method execution - generated'
 ]
 
@@ -318,11 +303,12 @@ ORActionGenerator >> generateRequiredMethods: anAction forAnAddedEntity: anOREnt
 	| stringProperties stream multivalueLinkProperties propsWithSetters cat |
 	"(aClass methodDict includesKey: #run)
 		ifTrue: [ ^ self ]."
-	stream := WriteStream on: ''.
+	
 	propsWithSetters := aFamePackage ifNil: [ self selectPropertiesAmong: listOfProperties ] ifNotNil: [ self selectExtendedPropertiesAmong: listOfProperties ].
 	self generateGettersAndSettersFrom: propsWithSetters on: anAction withPackage: aFamePackage.
 	stringProperties := self settingOfPropertiesFrom: (propsWithSetters select: [ :e | e type isPrimitive ]).
 	multivalueLinkProperties := self setLinksFrom: (propsWithSetters reject: [ :e | e type isPrimitive ]).
+	stream := WriteStream on: ''.
 	self writeMethodHeaderOn: stream withPackage: aFamePackage withDeclaredVariable: 'newEntity'.
 	aFamePackage
 		ifNil: [ stream tab; << 'newEntity := '; << anOREntity name; << ' new.'; cr.
@@ -345,13 +331,9 @@ ORActionGenerator >> generateRequiredMethods: anAction forAnAddedEntity: anOREnt
 { #category : #preparation }
 ORActionGenerator >> isAction: action validFor: anOREntity [
 	action = #Move
-		ifTrue: [ 
-			(anOREntity inheritsFrom: FAMIXAssociation)
-				ifTrue: [ ^ false ] ].
+		ifTrue: [ ^ (anOREntity inheritsFrom: FAMIXAssociation) not ].
 	action = #Rename
-		ifTrue: [ 
-			(anOREntity inheritsFrom: FAMIXNamedEntity)
-				ifFalse: [ ^ false ] ].
+		ifTrue: [ ^ anOREntity inheritsFrom: FAMIXNamedEntity ].
 	^ true
 ]
 
@@ -360,7 +342,8 @@ ORActionGenerator >> obtainActionSuperClass: anOREntity actionType: anActionType
 	^ anActionType = #Add
 		ifTrue: [ (anOREntity inheritsFrom: FAMIXAssociation)
 				ifTrue: [ ORActionAddLink ]
-				ifFalse: [ anOREntity = OREntity
+				ifFalse: [ self flag: #WHY.
+					anOREntity = OREntity
 						ifFalse: [ ORActionAddEntity ]
 						ifTrue: [ ORActionAdd ] ] ]
 		ifFalse: [ Smalltalk globals at: ('ORAction' , anActionType) asSymbol ]
@@ -388,14 +371,22 @@ ORActionGenerator >> setLinksFrom: aFM3MetaDescription [
 
 { #category : #'creating method' }
 ORActionGenerator >> settingOfPropertiesFrom: listOfProperties [
-
 	^ listOfProperties
-		collect: [ :propertyNotDerived | 
-			String
-				streamContents: [ :stream | 
-					stream << ' self '; << propertyNotDerived implementingSelector; << ' ifNotNil: [ :e | '; cr.
-					stream tab; << 'newEntity '; << ('private' , propertyNotDerived implementingSelector capitalized) asSymbol asMutator.
-					stream << ' e orionCopy ].'; cr ] ]
+		collect:
+			[ :propertyNotDerived | '<t>self <1s> ifNotNil: [ :e | <r><t><t>newEntity private<2s>: e orionCopy ].<r>' expandMacrosWith: propertyNotDerived implementingSelector with: propertyNotDerived implementingSelector capitalized ]
+]
+
+{ #category : #accessing }
+ORActionGenerator >> typeOfGeneratedObject [
+	^ 'Action'
+]
+
+{ #category : #helper }
+ORActionGenerator >> withSelectorAndOppositeSelectorOfProperty: property streamContents: aBlock [
+	| selector oppositeSelector |
+	selector := property implementingSelector.
+	oppositeSelector := property opposite implementingSelector.
+	^ String streamContents: [ :stream | aBlock value: selector value: oppositeSelector value: stream ]
 ]
 
 { #category : #'creating method' }

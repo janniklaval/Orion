@@ -87,9 +87,7 @@ ORGenerator >> addThePrivateAccessorOf: aProp to: aFamixClass [
 
 { #category : #'creating method' }
 ORGenerator >> codeForORSelector: aProperty [
-	^((aProperty name), 'OR: aVersion
-	^ self private' , (aProperty name) capitalized , ' versionIn: aVersion')
-	
+	^ '<1s>OR: aVersion<r><t>^ self private<2s> versionIn: aVersion' expandMacrosWith: aProperty name with: aProperty name capitalized
 ]
 
 { #category : #'creating method' }
@@ -98,10 +96,10 @@ ORGenerator >> codeForPrivateExtendedGetter: aProperty [
 	defaultValue := aProperty isMultivalued
 		ifTrue: [ aProperty opposite isMultivalued
 				ifTrue: [ "multimulti"
-					'FMMultiMultivalueLink' , ' on: self opposite: #'
+					'FMMultiMultivalueLink on: self opposite: #'
 						, aProperty opposite implementingSelector asString ]
 				ifFalse: [ "multi1"
-					'FMMultivalueLink' , ' on: self opposite: #'
+					'FMMultivalueLink on: self opposite: #'
 						, aProperty opposite implementingSelector asMutator asString ] ]
 		ifFalse: [ 'nil' ].
 	^ String
@@ -112,52 +110,48 @@ ORGenerator >> codeForPrivateExtendedGetter: aProperty [
 ]
 
 { #category : #'creating method' }
-ORGenerator >> codeForPrivateExtendedSetter: aProperty [ 
-	^ 'private' , aProperty name capitalized asMutator, ' aValue', String cr , String tab, 'self privateState attributeAt: #' , aProperty name, ' put: aValue'
+ORGenerator >> codeForPrivateExtendedSetter: aProperty [
+	^ String
+		streamContents: [ :stream | 
+			stream << 'private' << aProperty name capitalized asMutator << ' aValue' cr.
+			stream tab << 'self privateState attributeAt: #' << aProperty name << ' put: aValue' ]
 ]
 
 { #category : #'creating method' }
 ORGenerator >> codeForPrivateGetter: aProperty [
-	^('private', (aProperty name) capitalized, '
-	^ ' ,  (aProperty name))
-	
+	^ String
+		streamContents: [ :stream | 
+			stream << 'private' << aProperty name capitalized .
+			stream cr tab << '^ ' << aProperty name ]
 ]
 
 { #category : #'creating method' }
 ORGenerator >> codeForPrivateSetter: aProperty [
-	| type|
-	type := ((aProperty type name) asString ) capitalized.
-	^('private', (aProperty name) capitalized, ': a' , type , '
-	 ' ,  (aProperty name), ' := a' ,  type)
-	
+	| type |
+	type := aProperty type name asString capitalized.
+	^ String
+		streamContents: [ :stream | 
+			stream << 'private' << aProperty name capitalized << ': a' << type.
+			stream cr tab << aProperty name << ' := a' << type ]
 ]
 
 { #category : #'creating method' }
 ORGenerator >> codeForSelector: aProperty [
-	^((aProperty name), '
-	^ self ' , (aProperty name), 'OR: self currentContext')
-	
-]
-
-{ #category : #'creating class and trait' }
-ORGenerator >> createClassCategoryName: aFamixClass [
 	^ String
 		streamContents: [ :stream | 
-			stream nextPutAll: 'Orion'.
-			($- split: aFamixClass category) asStringOn: stream delimiter: ''.
-			stream nextPutAll: '-Class' ]
+			stream << aProperty name .
+			stream cr tab << '^ self ' << aProperty name << 'OR: self currentContext' ]
 ]
 
 { #category : #'creating class and trait' }
 ORGenerator >> createClassName: aFamixClass [
 	"Create the name of the Orion Class from the FamixClass"
 
-	| name |
-	name := aFamixClass name asString.
-	name := (name beginsWith: 'FAMIX')
-		ifTrue: [ name copyAfter: $X ]
-		ifFalse: [ name ].
-	^ ('OR' , name) asSymbol
+	^ ('OR'
+		,
+			(aFamixClass mooseDescription package name = 'FAMIX'
+				ifTrue: [ aFamixClass mooseDescription name ]
+				ifFalse: [ aFamixClass mooseDescription implementingClass name ])) asSymbol
 ]
 
 { #category : #'creating class and trait' }
@@ -165,12 +159,7 @@ ORGenerator >> createCommentToAClass: anORClass [
 	anORClass
 		classComment:
 			(String
-				streamContents: [ :aStream | 
-					aStream
-						nextPutAll: 'A ';
-						nextPutAll: anORClass name;
-						nextPutAll:
-								' is a generated class useful to Orion. All the methods are also generated from the instance variables of the corresponding famix class. ' ])
+				streamContents: [ :aStream | aStream << 'A ' << anORClass name << ' is a generated class useful to Orion. All the methods are also generated from the instance variables of the corresponding famix class.' ])
 ]
 
 { #category : #'creating class and trait' }
@@ -179,30 +168,25 @@ ORGenerator >> createCommentToATrait: anORTrait [
 		comment:
 			(String
 				streamContents: [ :aStream | 
-					aStream
-						nextPutAll: 'A ';
-						nextPutAll: anORTrait name;
-						nextPutAll:
-								' is a generated trait useful to Orion. All the methods are also generated from the instance variables of the corresponding famix class. The use links between the Orion traits follow the hierarchy of the Famix classes. ' ])
+					aStream << 'A ' << anORTrait name
+						<<
+							' is a generated trait useful to Orion. All the methods are also generated from the instance variables of the corresponding famix class. The use links between the Orion traits follow the hierarchy of the Famix classes. ' ])
 ]
 
 { #category : #'creating class and trait' }
 ORGenerator >> createTraitCategoryName: aFamixClass [
 	^ String
-		streamContents: [ :stream | 
-			stream nextPutAll: 'Orion'.
+		streamContents: [ :stream |  
+			stream << 'Orion'.
 			($- split: aFamixClass category) asStringOn: stream delimiter: ''.
-			stream nextPutAll: '-Trait' ]
+			stream << '-Trait' ]
 ]
 
 { #category : #'creating class and trait' }
 ORGenerator >> createTraitName: aFamixClass [
 	"Create the name of the Orion Class from the FamixClass"
 
-	| name |
-
-	name := aFamixClass name asString.
-	^ ('T' , name ) asSymbol 
+	^ ('T' , aFamixClass name) asSymbol
 ]
 
 { #category : #'creating class and trait' }
@@ -261,4 +245,9 @@ ORGenerator >> makeORForAllClasses: aColl [
 	"For all the class of the collection, Create the ORClass corresponding to the FamixClass, add accessors to the trait and accessors to the FamixClass"
 	
 	aColl select: [ :aClass | aClass inheritsFrom: FAMIXEntity ] thenDo: [ :c | self makeOR: c ]
+]
+
+{ #category : #accessing }
+ORGenerator >> typeOfGeneratedObject [
+	^ 'Class'
 ]

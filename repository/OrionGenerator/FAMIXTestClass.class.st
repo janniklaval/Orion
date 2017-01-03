@@ -2,39 +2,39 @@ Class {
 	#name : #FAMIXTestClass,
 	#superclass : #FAMIXEntity,
 	#instVars : [
-		'kind'
+		'kind',
+		'test'
 	],
 	#category : #'OrionGenerator-TestModel'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #meta }
 FAMIXTestClass class >> annotation [
 	<MSEClass: #TestClass super: #MooseEntity>
-	"<package: #FAMIX>"
+	<package: #FAMIX>
 	^self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 FAMIXTestClass >> isSetter [
 	<MSEProperty: #isSetter type: #Boolean>
 	<derived>
 	<MSEComment: 'for testing'>
-
-	^true
+	^ true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FAMIXTestClass >> kind [
 	<MSEProperty: #kind type: #String>
 	<MSEComment: 'for testing'>
 	
-	^ 'kind'
+	^ kind
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FAMIXTestClass >> test [
 	<MSEProperty: #test type: #String>
 	<MSEComment: 'for testing'>
 	
-	^ 'test'
+	^ test
 ]

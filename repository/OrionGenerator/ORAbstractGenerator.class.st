@@ -7,6 +7,15 @@ Class {
 	#category : #OrionGenerator
 }
 
+{ #category : #'creating class and trait' }
+ORAbstractGenerator >> createClassCategoryName: aFamixClass [
+	^ String
+		streamContents: [ :stream | 
+			stream << 'Orion'.
+			($- split: aFamixClass category) asStringOn: stream delimiter: ''.
+			stream << '-'; << self typeOfGeneratedObject ]
+]
+
 { #category : #'creating method' }
 ORAbstractGenerator >> getExtendedPropertiesOf: aFamixClass [
 	^ self selectExtendedPropertiesAmong: aFamixClass mooseDescription attributes
@@ -28,4 +37,9 @@ ORAbstractGenerator >> selectExtendedPropertiesAmong: aCollectionOfProperties [
 { #category : #'creating method' }
 ORAbstractGenerator >> selectPropertiesAmong: aCollectionOfProperties [
 	^ aCollectionOfProperties select: [ :a | a mmClass implementingClass allInstVarNames includes: a name ]
+]
+
+{ #category : #accessing }
+ORAbstractGenerator >> typeOfGeneratedObject [
+	self subclassResponsibility
 ]

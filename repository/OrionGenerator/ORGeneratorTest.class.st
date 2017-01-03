@@ -7,6 +7,11 @@ Class {
 	#category : #'OrionGenerator-Test'
 }
 
+{ #category : #tests }
+ORGeneratorTest >> kindPropertyOfFAMIXTestClass [
+	^ (aGenerator getPropertiesOf: FAMIXTestClass) detect: [ :e | e name = #kind ]
+]
+
 { #category : #running }
 ORGeneratorTest >> setUp [
 	
@@ -63,56 +68,55 @@ ORGeneratorTest >> testAddPrivateAccessorTo [
 
 { #category : #tests }
 ORGeneratorTest >> testAddThePrivateAccessorOf [
-	
 	| nbMeth |
-
-	
 	nbMeth := FAMIXTestClass methodDict size.
-	
-	
-	aGenerator addThePrivateAccessorOf: (aGenerator getPropertiesOf: FAMIXTestClass) first to: FAMIXTestClass. 
-	self assert: (FAMIXTestClass methodDict size =  (nbMeth + 2) or: [FAMIXTestClass methodDict size =  nbMeth] ).
-	self assert: (FAMIXTestClass methodDict includesKey:  #privateKind).
+	aGenerator addThePrivateAccessorOf: self kindPropertyOfFAMIXTestClass  to: FAMIXTestClass.
+	self assert: (FAMIXTestClass methodDict size = (nbMeth + 2) or: [ FAMIXTestClass methodDict size = nbMeth ]).
+	self assert: (FAMIXTestClass methodDict includesKey: #privateKind).
 	self assert: (FAMIXTestClass methodDict includesKey: #privateKind:).
-
-	"self assert: ((FAMIXTestClass methodDict at: #privateKind) protocol) equals: '*OrionCore-model'. 
-	"
-	
+	self assert: (FAMIXTestClass methodDict at: #privateKind) protocol equals: '*OrionOrionGeneratorTestModel-Class'.
+	self assert: (FAMIXTestClass methodDict at: #privateKind:) protocol equals: '*OrionOrionGeneratorTestModel-Class'
 ]
 
 { #category : #tests }
 ORGeneratorTest >> testCodeForORSelector [
-
-	self assert: (aGenerator codeForORSelector: (aGenerator getPropertiesOf: FAMIXTestClass) first) equals: 'kindOR: aVersion
+	self
+		assert: (aGenerator codeForORSelector: self kindPropertyOfFAMIXTestClass)
+		equals:
+			'kindOR: aVersion
 	^ self privateKind versionIn: aVersion'
 ]
 
 { #category : #tests }
 ORGeneratorTest >> testCodeForPrivateGetter [
-
-	self assert: (aGenerator codeForPrivateGetter: (aGenerator getPropertiesOf: FAMIXTestClass ) first) equals: 'privateKind
+	self
+		assert: (aGenerator codeForPrivateGetter: self kindPropertyOfFAMIXTestClass)
+		equals:
+			'privateKind
 	^ kind'
 ]
 
 { #category : #tests }
 ORGeneratorTest >> testCodeForPrivateSetter [
-
-	self assert: (aGenerator codeForPrivateSetter: (aGenerator getPropertiesOf: FAMIXTestClass ) first) equals: 'privateKind: aString
-	 kind := aString'
+	self
+		assert: (aGenerator codeForPrivateSetter: self kindPropertyOfFAMIXTestClass)
+		equals:
+			'privateKind: aString
+	kind := aString'
 ]
 
 { #category : #tests }
 ORGeneratorTest >> testCodeForSelector [
-
-	self assert: (aGenerator codeForSelector: (aGenerator getPropertiesOf: FAMIXTestClass ) first) equals: 'kind
+	self
+		assert: (aGenerator codeForSelector: self kindPropertyOfFAMIXTestClass)
+		equals:
+			'kind
 	^ self kindOR: self currentContext'
 ]
 
 { #category : #tests }
 ORGeneratorTest >> testCreateClassName [
-
-	self assert: (aGenerator createClassName: FAMIXPackage ) equals: #ORPackage.
-	
+	self assert: (aGenerator createClassName: FAMIXPackage) equals: #ORPackage
 ]
 
 { #category : #tests }
@@ -229,7 +233,7 @@ ORGeneratorTest >> testEnsureORTraitWithoutExistingTraits [
 { #category : #tests }
 ORGeneratorTest >> testGetPropertiesOf [
 
-	self assert: (aGenerator getPropertiesOf: FAMIXTestClass ) size  equals: 1
+	self assert: (aGenerator getPropertiesOf: FAMIXTestClass ) size  equals: 2
 
 ]
 
