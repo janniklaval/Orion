@@ -55,7 +55,7 @@ ORActionTest >> testDisplayNameAfterRemove [
 	orionModel := orionModel name: #AsM.
 	asAction := ORActionAddInvocation new
 		orionModel: orionModel;
-		from: (orionModel entityNamed: #'Smalltalk::Class1.accessOrion1Class2()');
+		sender: (orionModel entityNamed: #'Smalltalk::Class1.accessOrion1Class2()');
 		"candidates is a collection of candidates methods and manage as such in the run"
 			candidates: (orionModel entityNamed: #'Smalltalk::Class1.accessOrion2Class3()') asOrderedCollection.
 	oldInv := asAction run.
