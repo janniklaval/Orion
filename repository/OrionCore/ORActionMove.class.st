@@ -26,12 +26,17 @@ ORActionMove class >> isMove [
 
 { #category : #accessing }
 ORActionMove >> newContainer [
-	^ newContainer
+	self 
+		deprecated: 'Use another container instead'
+		on: 	'3 January 2017' 
+		in: 'Pharo-6.0-60334-'.
+	^ self halt
 ]
 
 { #category : #accessing }
 ORActionMove >> newContainer: anObject [
-	newContainer := anObject
+	self deprecated: 'Use another container instead' on: '3 January 2017' in: 'Pharo-6.0-60334-'.
+	self halt
 ]
 
 { #category : #printing }

@@ -23,13 +23,20 @@ ORActionAddLink class >> description [
 
 { #category : #accessing }
 ORActionAddLink >> from [
-
-	^ from
+	self 
+		deprecated: 'Use real from instead'
+		on: 	'3 January 2017' 
+		in: 'Pharo-6.0-60334-'.
+	^ self halt
 ]
 
 { #category : #accessing }
 ORActionAddLink >> from: anObject [
-	from := anObject
+		self 
+		deprecated: 'Use real from instead'
+		on: 	'3 January 2017' 
+		in: 'Pharo-6.0-60334-'.
+	^ self halt
 ]
 
 { #category : #printing }
@@ -40,10 +47,18 @@ ORActionAddLink >> printWorkspace [
 
 { #category : #accessing }
 ORActionAddLink >> to [
-	^ to
+		self 
+		deprecated: 'Use real to instead'
+		on: 	'3 January 2017' 
+		in: 'Pharo-6.0-60334-'.
+	^ self halt
 ]
 
 { #category : #accessing }
 ORActionAddLink >> to: anObject [
-	to := anObject
+		self 
+		deprecated: 'Use real to instead'
+		on: 	'3 January 2017' 
+		in: 'Pharo-6.0-60334-'.
+	^ self halt
 ]
