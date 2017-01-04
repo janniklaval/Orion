@@ -13,6 +13,7 @@ ORActionRemoveLeafEntity >> run [
 	super run.
 	entity comments do: [ :e | e deleteInAction: self ].
 	entity annotationInstances do: [ :e | e deleteInAction: self ].
+	entity receivingInvocations do: [ :e | e deleteInAction: self ].
 	entity declaredSourceLanguage
 		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity declaredSourceLanguage.

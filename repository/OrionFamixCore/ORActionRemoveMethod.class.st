@@ -13,11 +13,16 @@ ORActionRemoveMethod >> run [
 	super run.
 	entity comments do: [ :e | e deleteInAction: self ].
 	entity parameters do: [ :e | e deleteInAction: self ].
+	entity accesses do: [ :e | e deleteInAction: self ].
+	entity incomingInvocations do: [ :e | e deleteInAction: self ].
+	entity outgoingReferences do: [ :e | e deleteInAction: self ].
 	entity types do: [ :e | e deleteInAction: self ].
 	entity annotationInstances do: [ :e | e deleteInAction: self ].
 	entity localVariables do: [ :e | e deleteInAction: self ].
 	entity functions do: [ :e | e deleteInAction: self ].
 	entity implicitVariables do: [ :e | e deleteInAction: self ].
+	entity outgoingInvocations do: [ :e | e deleteInAction: self ].
+	entity receivingInvocations do: [ :e | e deleteInAction: self ].
 	entity declaredType
 		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity declaredType.

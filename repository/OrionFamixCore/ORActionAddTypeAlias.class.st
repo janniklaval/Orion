@@ -5,8 +5,8 @@ Class {
 	#name : #ORActionAddTypeAlias,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
-		'definedAnnotationTypes',
 		'instances',
+		'definedAnnotationTypes',
 		'declaredSourceLanguage',
 		'container',
 		'annotationInstances',

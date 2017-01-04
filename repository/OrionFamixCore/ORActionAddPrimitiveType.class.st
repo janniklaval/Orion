@@ -5,8 +5,8 @@ Class {
 	#name : #ORActionAddPrimitiveType,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
-		'definedAnnotationTypes',
 		'instances',
+		'definedAnnotationTypes',
 		'sourceAnchor',
 		'comments',
 		'behavioursWithDeclaredType',
