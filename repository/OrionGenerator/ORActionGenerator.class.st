@@ -30,7 +30,7 @@ ORActionGenerator class >> runOnOrionExistingClasses [
 ]
 
 { #category : #running }
-ORActionGenerator class >> runOnOrionExistingClassesForJava [
+ORActionGenerator class >> runOnOrionExistingJavaClasses [
 
 	^ self
 		createActionsForORClasses:
@@ -237,7 +237,7 @@ ORActionGenerator >> generateRequiredMethods: anAction forARemovedEntity: anOREn
 	| oneToNPropsToRemoveOnTheOtherSide childrenPropsToRemoveInCascade stream cat |
 	"methodName"
 	stream := WriteStream on: ''.
-	self halt.
+	
 	oneToNPropsToRemoveOnTheOtherSide := self oneToNProperties: aCollectionOfProperties.
 	childrenPropsToRemoveInCascade := aCollectionOfProperties select: #isChildrenProperty.
 	self writeMethodHeaderOn: stream withPackage: aFamePackage withDeclaredVariable: nil.
