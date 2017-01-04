@@ -86,9 +86,8 @@ ORActionGenerator >> createActionFor: anOREntity type: action [
 
 { #category : #'running- public' }
 ORActionGenerator >> createActionForORClass: anORClass [
-	anORClass isOrionClass
-		ifTrue: [ 
-			#(#Add #Remove #Move #Rename)
+	(anORClass isOrionClass and: [ anORClass isRoot not ])
+		ifTrue: [ #(#Add #Remove #Move #Rename)
 				do: [ :action | 
 					(self isAction: action validFor: anORClass)
 						ifTrue: [ self createActionFor: anORClass type: action ] ] ]
@@ -342,10 +341,7 @@ ORActionGenerator >> obtainActionSuperClass: anOREntity actionType: anActionType
 	^ anActionType = #Add
 		ifTrue: [ (anOREntity inheritsFrom: FAMIXAssociation)
 				ifTrue: [ ORActionAddLink ]
-				ifFalse: [ anOREntity = OREntity
-						ifFalse: [ ORActionAddEntity ]
-						ifTrue: [ self flag: #'If OREntity then the named of the action class is ORActionAddEntity... that is already existing'.
-							ORActionAdd ] ] ]
+				ifFalse: [ ORActionAddEntity ] ]
 		ifFalse: [ Smalltalk globals at: ('ORAction' , anActionType) asSymbol ]
 ]
 
