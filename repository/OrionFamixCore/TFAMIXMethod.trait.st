@@ -14,6 +14,16 @@ TFAMIXMethod classSide >> isOrionClass [
 ]
 
 { #category : #accessing }
+TFAMIXMethod >> hasClassScope [
+	^ self hasClassScopeOR: self currentContext
+]
+
+{ #category : #accessing }
+TFAMIXMethod >> hasClassScopeOR: aVersion [
+	^ self privateHasClassScope versionIn: aVersion
+]
+
+{ #category : #accessing }
 TFAMIXMethod >> kind [
 	^ self kindOR: self currentContext
 ]

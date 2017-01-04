@@ -23,12 +23,12 @@ TFAMIXAccess >> accessorOR: aVersion [
 	^ self privateAccessor versionIn: aVersion
 ]
 
-{ #category : #testing }
+{ #category : #accessing }
 TFAMIXAccess >> isWrite [
 	^ self isWriteOR: self currentContext
 ]
 
-{ #category : #testing }
+{ #category : #accessing }
 TFAMIXAccess >> isWriteOR: aVersion [
 	^ self privateIsWrite versionIn: aVersion
 ]

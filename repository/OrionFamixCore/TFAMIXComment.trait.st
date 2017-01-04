@@ -24,6 +24,16 @@ TFAMIXComment >> containerOR: aVersion [
 ]
 
 { #category : #accessing }
+TFAMIXComment >> content [
+	^ self contentOR: self currentContext
+]
+
+{ #category : #accessing }
+TFAMIXComment >> contentOR: aVersion [
+	^ self privateContent versionIn: aVersion
+]
+
+{ #category : #accessing }
 TFAMIXComment >> famixClass [
 	"All Orion classes are direct subclasses of their Famix counterpart"
 	^ super famixClass superclass

@@ -1,6 +1,16 @@
 Extension { #name : #FAMIXMethod }
 
 { #category : #'*OrionFamixCore-Class' }
+FAMIXMethod >> privateHasClassScope [
+	^ hasClassScope
+]
+
+{ #category : #'*OrionFamixCore-Class' }
+FAMIXMethod >> privateHasClassScope: aBoolean [
+	hasClassScope := aBoolean
+]
+
+{ #category : #'*OrionFamixCore-Class' }
 FAMIXMethod >> privateKind [
 	^ kind
 ]

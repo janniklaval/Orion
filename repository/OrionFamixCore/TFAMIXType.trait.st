@@ -54,6 +54,16 @@ TFAMIXType >> containerOR: aVersion [
 ]
 
 { #category : #accessing }
+TFAMIXType >> incomingReferences [
+	^ self incomingReferencesOR: self currentContext
+]
+
+{ #category : #accessing }
+TFAMIXType >> incomingReferencesOR: aVersion [
+	^ self privateIncomingReferences versionIn: aVersion
+]
+
+{ #category : #accessing }
 TFAMIXType >> methods [
 	^ self methodsOR: self currentContext
 ]
@@ -91,4 +101,14 @@ TFAMIXType >> superInheritances [
 { #category : #accessing }
 TFAMIXType >> superInheritancesOR: aVersion [
 	^ self privateSuperInheritances versionIn: aVersion
+]
+
+{ #category : #accessing }
+TFAMIXType >> typeAliases [
+	^ self typeAliasesOR: self currentContext
+]
+
+{ #category : #accessing }
+TFAMIXType >> typeAliasesOR: aVersion [
+	^ self privateTypeAliases versionIn: aVersion
 ]
