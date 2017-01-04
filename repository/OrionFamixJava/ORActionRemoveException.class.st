@@ -12,8 +12,9 @@ ORActionRemoveException >> run [
 	<generatedMethod>
 	super run.
 	entity exceptionClass
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity exceptionClass.
 			theEntity privateExceptions: (theEntity privateExceptions orionCopy orionRemove: entity) ].
-self runExtendedPropertiesForEntity: entity.	self orionModel remove: entity
+	self runExtendedPropertiesForEntity: entity.
+	self orionModel remove: entity
 ]

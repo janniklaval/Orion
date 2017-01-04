@@ -5,10 +5,21 @@ Class {
 	#name : #ORActionMoveEnumValue,
 	#superclass : #ORActionMove,
 	#instVars : [
+		'parentEnum',
 		'parentPackage'
 	],
 	#category : #'OrionFamixJava-Action'
 }
+
+{ #category : #'accessing - generated' }
+ORActionMoveEnumValue >> parentEnum [
+	^ parentEnum
+]
+
+{ #category : #'accessing - generated' }
+ORActionMoveEnumValue >> parentEnum: aValue [
+	parentEnum := aValue
+]
 
 { #category : #'accessing - generated' }
 ORActionMoveEnumValue >> parentPackage [
@@ -25,6 +36,16 @@ ORActionMoveEnumValue >> run [
 	<generated>
 	| theEntity |
 	theEntity := self orionModel retrieveEntity: entity.
+	self parentEnum ifNotNil: [
+		| theNewContainer |
+		entity parentEnum
+			ifNotNil: [ | theOldContainer |
+				theOldContainer := self orionModel retrieveEntity: entity parentEnum.
+				theOldContainer privateValues: (theOldContainer privateValues orionCopy orionRemove: theEntity) ].
+		theNewContainer := self orionModel retrieveEntity: self parentEnum.
+		theEntity privateParentEnum: theNewContainer.
+		theNewContainer privateValues: (theNewContainer privateValues unsafeAdd: theEntity)
+	].
 	self parentPackage ifNotNil: [
 		| theNewContainer |
 		entity parentPackage

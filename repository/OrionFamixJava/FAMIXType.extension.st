@@ -2,7 +2,7 @@ Extension { #name : #FAMIXType }
 
 { #category : #'*OrionFamixJava' }
 FAMIXType >> privateArgumentsInParameterizedTypes [
-	^ self privateState attributeAt: #argumentsInParameterizedTypes
+		^ self privateState attributeAt: #argumentsInParameterizedTypes ifAbsentPut: [ FMMultiMultivalueLink on: self opposite: #arguments ]
 ]
 
 { #category : #'*OrionFamixJava' }

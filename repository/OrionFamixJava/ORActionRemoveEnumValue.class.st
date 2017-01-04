@@ -11,27 +11,24 @@ Class {
 ORActionRemoveEnumValue >> run [
 	<generatedMethod>
 	super run.
-	entity receivingInvocations do: [:each | each deleteInAction: self ].
-	entity annotationInstances do: [:each | each deleteInAction: self ].
-	entity incomingAccesses do: [:each | each deleteInAction: self ].
-	entity dereferencedInvocations do: [:each | each deleteInAction: self ].
-	entity comments do: [:each | each deleteInAction: self ].
-	entity sourceAnchor ifNotNil: [ entity deleteInAction: self ].
+	entity comments do: [ :e | e deleteInAction: self ].
+	entity annotationInstances do: [ :e | e deleteInAction: self ].
 	entity declaredType
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity declaredType.
 			theEntity privateStructuresWithDeclaredType: (theEntity privateStructuresWithDeclaredType orionCopy orionRemove: entity) ].
 	entity parentEnum
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity parentEnum.
 			theEntity privateValues: (theEntity privateValues orionCopy orionRemove: entity) ].
 	entity declaredSourceLanguage
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity declaredSourceLanguage.
 			theEntity privateSourcedEntities: (theEntity privateSourcedEntities orionCopy orionRemove: entity) ].
 	entity parentPackage
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity parentPackage.
 			theEntity privateChildNamedEntities: (theEntity privateChildNamedEntities orionCopy orionRemove: entity) ].
-self runExtendedPropertiesForEntity: entity.	self orionModel remove: entity
+	self runExtendedPropertiesForEntity: entity.
+	self orionModel remove: entity
 ]

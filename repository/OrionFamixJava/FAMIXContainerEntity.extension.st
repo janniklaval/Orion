@@ -2,7 +2,7 @@ Extension { #name : #FAMIXContainerEntity }
 
 { #category : #'*OrionFamixJava' }
 FAMIXContainerEntity >> privateDefinedAnnotationTypes [
-	^ self privateState attributeAt: #definedAnnotationTypes
+		^ self privateState attributeAt: #definedAnnotationTypes ifAbsentPut: [ FMMultivalueLink on: self opposite: #container: ]
 ]
 
 { #category : #'*OrionFamixJava' }

@@ -4,9 +4,6 @@ Extension { #name : #ORActionRemoveMethod }
 ORActionRemoveMethod >> runOnJavaExtension: anEntity [
 	<toRun>
 	<generatedMethod>
-	entity caughtExceptions do: [:each | each deleteInAction: self ].
-	entity definedAnnotationTypes do: [:each | each deleteInAction: self ].
-	entity thrownExceptions do: [:each | each deleteInAction: self ].
-	entity declaredExceptions do: [:each | each deleteInAction: self ].
+	entity definedAnnotationTypes do: [ :e | e deleteInAction: self ].
 
 ]

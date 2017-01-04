@@ -4,6 +4,6 @@ Extension { #name : #ORActionRemovePackage }
 ORActionRemovePackage >> runOnJavaExtension: anEntity [
 	<toRun>
 	<generatedMethod>
-	entity definedAnnotationTypes do: [:each | each deleteInAction: self ].
+	entity definedAnnotationTypes do: [ :e | e deleteInAction: self ].
 
 ]
