@@ -205,17 +205,16 @@ OrionMerge >> createAddType [
 			(chg isAddition and:[ chg isForType and: [ chg entity isInnerClass not and: [ chg entity isAnonymousClass not ] ]])
 				ifTrue: [ "
 
+	| entity descr changeAction |
 	self result setOfAddClassChanges
 		do: [ :chg | 
-			chg entity parentPackage
-				ifNotNil: [ (self orionVersionedModel entityNamed: chg entity parentPackage mooseName)
-						addClassNamed: chg entityName
-						isStub: chg entity isStub
-						inModel: self orionVersionedModel ]
-				ifNil: [ (self orionVersionedModel entityNamed: chg entity container mooseName)
-						addClassNamed: chg entityName
-						isStub: chg entity isStub
-						inModel: self orionVersionedModel ] ]
+			entity := chg entity.
+			descr := entity mooseDescription.
+			changeAction := ('ORActionAdd' , descr name) asClass new.
+			changeAction orionModel: self orionVersionedModel.
+			descr allAttributesNotDerived do: [ :e | self setProperty: e from: entity to: changeAction ].
+			self halt.
+			changeAction manualRun; postRun ].self halt.
 ]
 
 { #category : #'private-run' }
@@ -423,6 +422,20 @@ OrionMerge >> orionVersionedModel: anObject [
 { #category : #accessing }
 OrionMerge >> run [
 	self createVersion.
+]
+
+{ #category : #'as yet unclassified' }
+OrionMerge >> setProperty: aFM3PropertyDescription from: aMooseEntity to: anActionClass [
+	| selector fromEntityResult result |
+	selector := aFM3PropertyDescription implementingSelector.
+	fromEntityResult := aMooseEntity perform: selector.
+	fromEntityResult ifNil: [ ^ self ].
+	result := fromEntityResult.
+	aFM3PropertyDescription type isPrimitive
+		ifFalse: [ aFM3PropertyDescription isMultivalued
+				ifTrue: [ result := fromEntityResult collect: [ :e | self orionVersionedModel entityNamed: e mooseName ] ]
+				ifFalse: [ result := self orionVersionedModel entityNamed: fromEntityResult mooseName ] ].
+	anActionClass perform: selector asMutator with: result
 ]
 
 { #category : #deprecated }
