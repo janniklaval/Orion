@@ -5,8 +5,8 @@ Class {
 	#name : #ORActionAddParameterizedType,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
-		'definedAnnotationTypes',
 		'instances',
+		'definedAnnotationTypes',
 		'arguments',
 		'declaredSourceLanguage',
 		'container',
@@ -23,11 +23,7 @@ Class {
 		'functions',
 		'comments',
 		'incomingReferences',
-		'superInheritances',
-		'receivingInvocations',
-		'sourceAnchor',
-		'methods',
-		'name'
+		'superInheritances'
 	],
 	#category : #'OrionFamixJava-Action'
 }
