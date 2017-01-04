@@ -1,11 +1,9 @@
+"
+A ORActionAddEntity is an Orion abstract class for adding entity actions
+"
 Class {
 	#name : #ORActionAddEntity,
 	#superclass : #ORActionAdd,
-	#instVars : [
-		'newName',
-		'container',
-		'isStub'
-	],
 	#category : #'OrionCore-action'
 }
 
