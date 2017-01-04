@@ -7,5 +7,5 @@ FAMIXException >> privateExceptionClass [
 
 { #category : #'*OrionFamixJava-Class' }
 FAMIXException >> privateExceptionClass: aClass [
-	 exceptionClass := aClass
+	exceptionClass := aClass
 ]

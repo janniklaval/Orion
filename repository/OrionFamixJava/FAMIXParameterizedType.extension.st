@@ -7,7 +7,7 @@ FAMIXParameterizedType >> privateArguments [
 
 { #category : #'*OrionFamixJava-Class' }
 FAMIXParameterizedType >> privateArguments: aType [
-	 arguments := aType
+	arguments := aType
 ]
 
 { #category : #'*OrionFamixJava-Class' }
@@ -17,5 +17,5 @@ FAMIXParameterizedType >> privateParameterizableClass [
 
 { #category : #'*OrionFamixJava-Class' }
 FAMIXParameterizedType >> privateParameterizableClass: aParameterizableClass [
-	 parameterizableClass := aParameterizableClass
+	parameterizableClass := aParameterizableClass
 ]

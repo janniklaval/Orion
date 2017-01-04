@@ -7,5 +7,5 @@ FAMIXEnumValue >> privateParentEnum [
 
 { #category : #'*OrionFamixJava-Class' }
 FAMIXEnumValue >> privateParentEnum: aEnum [
-	 parentEnum := aEnum
+	parentEnum := aEnum
 ]

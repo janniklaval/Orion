@@ -31,12 +31,12 @@ TFAMIXDeclaredException >> defaultStateClass [
 	^ORDefaultState
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 TFAMIXDeclaredException >> definingMethod [
 	^ self definingMethodOR: self currentContext
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 TFAMIXDeclaredException >> definingMethodOR: aVersion [
 	^ self privateDefiningMethod versionIn: aVersion
 ]
