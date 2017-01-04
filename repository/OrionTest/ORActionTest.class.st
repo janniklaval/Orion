@@ -442,8 +442,11 @@ ORActionTest >> testOPMoveClassInNamespace [
 { #category : #testing }
 ORActionTest >> testOPMoveClassInPackage [
 	| asS asAction |
+	self flag: 'the parentPackage of the method should be looked up to the one on the class. Excepted it is in another package.'.
 	asS := self model system.
-	asAction := ORActionMoveClass new orionModel: orionModel; entity: (orionModel entityNamed: #Smalltalk::Class5); parentPackage: (orionModel entityNamed: #'Orion-TestModel-Constellation1').
+	asAction := ORActionMoveClass new orionModel: orionModel; 
+		entity: (orionModel entityNamed: #Smalltalk::Class5); 
+		parentPackage: (orionModel entityNamed: #'Orion-TestModel-Constellation1').
 	asAction run.
 	self assert: (orionModel entityNamed: #Smalltalk::Class5) notNil.
 	self deny: (asS sourceModel contains: (orionModel entityNamed: #Smalltalk::Class5)).
@@ -547,7 +550,7 @@ ORActionTest >> testOPMoveNamespaceInNamespace [
 { #category : #testing }
 ORActionTest >> testOPMoveNamespaceInPackage [
 	| asS asAction |
-	self skip: 'Why moving a namesapce into a package?'.
+	self skip: 'Why moving a namespace into a package?'.
 
 	asS := self model system.
 	asAction := ORActionMoveNamespace new
