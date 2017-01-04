@@ -16,10 +16,7 @@ Class {
 
 { #category : #running }
 ORGenerator class >> makeORForClasses: aCollectionOfClasses [
-	^ self new
-		makeORForAllClasses:
-			(((RPackage organizer packageNamed: 'OrionFamixCore')
-				classesForClassTag: 'Class') collect: #superclass)
+	^ self new makeORForAllClasses: aCollectionOfClasses
 ]
 
 { #category : #running }
@@ -30,10 +27,17 @@ ORGenerator class >> runOnOrionExistingClasses [
 				classesForClassTag: 'Class') collect: #superclass)
 ]
 
+{ #category : #running }
+ORGenerator class >> runOnOrionExistingJavaClasses [
+	^ self
+		makeORForClasses:
+			(((RPackage organizer packageNamed: 'OrionFamixJava')
+				classesForClassTag: 'Class') collect: #superclass)
+]
+
 { #category : #'creating method' }
 ORGenerator >> addAccessorFrom: aFamixClass toTrait: aOrionTrait [
-	"add accessors corresponding to the non heritated properties and relations of the Famix Class to the Orion trait "
-
+	"add accessors corresponding to the non inherited properties and relations of the Famix Class to the Orion trait "
 	(self getPropertiesOf: aFamixClass)
 		, (self getExtendedPropertiesOf: aFamixClass)
 		do: [ :prop | 
@@ -50,17 +54,16 @@ ORGenerator >> addAccessorFrom: aFamixClass toTrait: aOrionTrait [
 ]
 
 { #category : #'creating method' }
-ORGenerator >> addExtendedPrivateAccessorsOf: aProp to: aFamixClass [ 
+ORGenerator >> addExtendedPrivateAccessorsOf: aProp to: aFamixClass [
 	"add private accessors corresponding to the property to the Famix Class if it does not already exist and which are as method extension"
 
 	| aMethName cat |
 	aMethName := 'private' , aProp name capitalized.
 	"(aFamixClass methodDict includesKey: aMethName asSymbol)
 		ifFalse: [ "
-
-			cat := '*' , 'Orion' , ('' join: (aProp compiledMethod category substrings: '-*')).
-			aFamixClass compile: (self codeForPrivateExtendedGetter: aProp) classified: cat.
-			aFamixClass compile: (self codeForPrivateExtendedSetter: aProp) classified: cat "]"
+	cat := '*' , 'Orion' , ('' join: (aProp compiledMethod category substrings: '-*')).
+	aFamixClass compile: (self codeForPrivateExtendedGetter: aProp) classified: cat.
+	aFamixClass compile: (self codeForPrivateExtendedSetter: aProp) classified: cat	"]"
 ]
 
 { #category : #'creating method' }
@@ -113,8 +116,8 @@ ORGenerator >> codeForPrivateExtendedGetter: aProperty [
 ORGenerator >> codeForPrivateExtendedSetter: aProperty [
 	^ String
 		streamContents: [ :stream | 
-			stream << 'private' << aProperty name capitalized asMutator << ' aValue' cr.
-			stream tab << 'self privateState attributeAt: #' << aProperty name << ' put: aValue' ]
+			stream << 'private' << aProperty name capitalized asMutator << ' aValue' .
+			stream cr tab << 'self privateState attributeAt: #' << aProperty name << ' put: aValue' ]
 ]
 
 { #category : #'creating method' }
@@ -228,6 +231,12 @@ ORGenerator >> ensureORTrait: aFamixClass [
 					self createCommentToATrait: aTrait.
 					aTrait ] ]
 		ifFalse: [ TMooseEntity ]
+]
+
+{ #category : #initialization }
+ORGenerator >> initialize [
+	super initialize .
+	MooseModel resetMeta
 ]
 
 { #category : #generator }
