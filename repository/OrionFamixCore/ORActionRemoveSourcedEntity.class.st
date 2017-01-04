@@ -11,11 +11,11 @@ Class {
 ORActionRemoveSourcedEntity >> run [
 	<generatedMethod>
 	super run.
-	entity comments do: [:each | each deleteInAction: self ].
-	entity sourceAnchor ifNotNil: [ entity deleteInAction: self ].
+	entity comments do: [ :e | e deleteInAction: self ].
 	entity declaredSourceLanguage
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity declaredSourceLanguage.
 			theEntity privateSourcedEntities: (theEntity privateSourcedEntities orionCopy orionRemove: entity) ].
-self runExtendedPropertiesForEntity: entity.	self orionModel remove: entity
+	self runExtendedPropertiesForEntity: entity.
+	self orionModel remove: entity
 ]

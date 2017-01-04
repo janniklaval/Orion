@@ -11,30 +11,25 @@ Class {
 ORActionRemoveBehaviouralEntity >> run [
 	<generatedMethod>
 	super run.
-	entity implicitVariables do: [:each | each deleteInAction: self ].
-	entity types do: [:each | each deleteInAction: self ].
-	entity outgoingReferences do: [:each | each deleteInAction: self ].
-	entity outgoingInvocations do: [:each | each deleteInAction: self ].
-	entity localVariables do: [:each | each deleteInAction: self ].
-	entity receivingInvocations do: [:each | each deleteInAction: self ].
-	entity accesses do: [:each | each deleteInAction: self ].
-	entity parameters do: [:each | each deleteInAction: self ].
-	entity comments do: [:each | each deleteInAction: self ].
-	entity functions do: [:each | each deleteInAction: self ].
-	entity annotationInstances do: [:each | each deleteInAction: self ].
-	entity incomingInvocations do: [:each | each deleteInAction: self ].
-	entity sourceAnchor ifNotNil: [ entity deleteInAction: self ].
+	entity comments do: [ :e | e deleteInAction: self ].
+	entity parameters do: [ :e | e deleteInAction: self ].
+	entity types do: [ :e | e deleteInAction: self ].
+	entity annotationInstances do: [ :e | e deleteInAction: self ].
+	entity localVariables do: [ :e | e deleteInAction: self ].
+	entity functions do: [ :e | e deleteInAction: self ].
+	entity implicitVariables do: [ :e | e deleteInAction: self ].
 	entity declaredType
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity declaredType.
 			theEntity privateBehavioursWithDeclaredType: (theEntity privateBehavioursWithDeclaredType orionCopy orionRemove: entity) ].
 	entity declaredSourceLanguage
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity declaredSourceLanguage.
 			theEntity privateSourcedEntities: (theEntity privateSourcedEntities orionCopy orionRemove: entity) ].
 	entity parentPackage
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity parentPackage.
 			theEntity privateChildNamedEntities: (theEntity privateChildNamedEntities orionCopy orionRemove: entity) ].
-self runExtendedPropertiesForEntity: entity.	self orionModel remove: entity
+	self runExtendedPropertiesForEntity: entity.
+	self orionModel remove: entity
 ]

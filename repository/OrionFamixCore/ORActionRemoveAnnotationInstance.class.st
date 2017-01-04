@@ -11,20 +11,20 @@ Class {
 ORActionRemoveAnnotationInstance >> run [
 	<generatedMethod>
 	super run.
-	entity attributes do: [:each | each deleteInAction: self ].
-	entity comments do: [:each | each deleteInAction: self ].
-	entity sourceAnchor ifNotNil: [ entity deleteInAction: self ].
+	entity comments do: [ :e | e deleteInAction: self ].
+	entity attributes do: [ :e | e deleteInAction: self ].
 	entity annotatedEntity
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity annotatedEntity.
 			theEntity privateAnnotationInstances: (theEntity privateAnnotationInstances orionCopy orionRemove: entity) ].
 	entity declaredSourceLanguage
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity declaredSourceLanguage.
 			theEntity privateSourcedEntities: (theEntity privateSourcedEntities orionCopy orionRemove: entity) ].
 	entity annotationType
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity annotationType.
 			theEntity privateInstances: (theEntity privateInstances orionCopy orionRemove: entity) ].
-self runExtendedPropertiesForEntity: entity.	self orionModel remove: entity
+	self runExtendedPropertiesForEntity: entity.
+	self orionModel remove: entity
 ]

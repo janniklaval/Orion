@@ -24,6 +24,16 @@ TFAMIXStructuralEntity >> declaredTypeOR: aVersion [
 ]
 
 { #category : #accessing }
+TFAMIXStructuralEntity >> dereferencedInvocations [
+	^ self dereferencedInvocationsOR: self currentContext
+]
+
+{ #category : #accessing }
+TFAMIXStructuralEntity >> dereferencedInvocationsOR: aVersion [
+	^ self privateDereferencedInvocations versionIn: aVersion
+]
+
+{ #category : #accessing }
 TFAMIXStructuralEntity >> incomingAccesses [
 	^ self incomingAccessesOR: self currentContext
 ]

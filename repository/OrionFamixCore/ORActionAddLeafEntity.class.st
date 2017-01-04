@@ -10,6 +10,7 @@ Class {
 		'modifiers',
 		'annotationInstances',
 		'declaredSourceLanguage',
+		'isStub',
 		'parentPackage',
 		'sourceAnchor',
 		'receivingInvocations'

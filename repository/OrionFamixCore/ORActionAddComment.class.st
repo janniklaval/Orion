@@ -6,7 +6,9 @@ Class {
 	#superclass : #ORActionAddEntity,
 	#instVars : [
 		'comments',
+		'content',
 		'declaredSourceLanguage',
+		'container',
 		'sourceAnchor'
 	],
 	#category : #'OrionFamixCore-Action'
@@ -33,6 +35,16 @@ ORActionAddComment >> container: aValue [
 ]
 
 { #category : #'accessing - generated' }
+ORActionAddComment >> content [
+	^ content
+]
+
+{ #category : #'accessing - generated' }
+ORActionAddComment >> content: aValue [
+	content := aValue
+]
+
+{ #category : #'accessing - generated' }
 ORActionAddComment >> declaredSourceLanguage [
 	^ declaredSourceLanguage
 ]
@@ -50,6 +62,9 @@ ORActionAddComment >> run [
 	newEntity := ORComment new.
 	self orionModel add: newEntity.
 	"Set primitive not derived properties of the entity"
+	self content ifNotNil: [ :e | 
+		newEntity privateContent: e orionCopy ].
+
 	"Set complex not derived properties of the entity"
 	self comments
 		ifNotNil: [ | theNewEntities |

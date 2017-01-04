@@ -13,6 +13,7 @@ Class {
 		'annotationInstances',
 		'functions',
 		'declaredSourceLanguage',
+		'isStub',
 		'parentPackage',
 		'sourceAnchor',
 		'receivingInvocations'

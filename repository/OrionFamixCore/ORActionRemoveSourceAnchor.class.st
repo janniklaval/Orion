@@ -11,6 +11,6 @@ Class {
 ORActionRemoveSourceAnchor >> run [
 	<generatedMethod>
 	super run.
-	entity element ifNotNil: [ entity deleteInAction: self ].
-self runExtendedPropertiesForEntity: entity.	self orionModel remove: entity
+	self runExtendedPropertiesForEntity: entity.
+	self orionModel remove: entity
 ]

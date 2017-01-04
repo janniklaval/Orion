@@ -17,8 +17,8 @@ Class {
 		'signature',
 		'kind',
 		'name',
-		'parameters',
 		'accesses',
+		'parameters',
 		'modifiers',
 		'outgoingReferences',
 		'incomingInvocations',
@@ -31,6 +31,7 @@ Class {
 		'implicitVariables',
 		'parentType',
 		'outgoingInvocations',
+		'isStub',
 		'parentPackage',
 		'sourceAnchor',
 		'receivingInvocations'
@@ -277,17 +278,17 @@ ORActionAddMethod >> run [
 			newEntity privateComments: theNewEntities orionCopy.
 			theNewEntities do: [:e | e privateContainer: newEntity ] ].
 
-	self parameters
-		ifNotNil: [ | theNewEntities |
-			theNewEntities := OrderedCollection withAll: (self parameters collect: [:e | self orionModel retrieveEntity: e ]).
-			newEntity privateParameters: theNewEntities orionCopy.
-			theNewEntities do: [:e | e privateParentBehaviouralEntity: newEntity ] ].
-
 	self accesses
 		ifNotNil: [ | theNewEntities |
 			theNewEntities := OrderedCollection withAll: (self accesses collect: [:e | self orionModel retrieveEntity: e ]).
 			newEntity privateAccesses: theNewEntities orionCopy.
 			theNewEntities do: [:e | e privateAccessor: newEntity ] ].
+
+	self parameters
+		ifNotNil: [ | theNewEntities |
+			theNewEntities := OrderedCollection withAll: (self parameters collect: [:e | self orionModel retrieveEntity: e ]).
+			newEntity privateParameters: theNewEntities orionCopy.
+			theNewEntities do: [:e | e privateParentBehaviouralEntity: newEntity ] ].
 
 	self outgoingReferences
 		ifNotNil: [ | theNewEntities |

@@ -11,6 +11,6 @@ Class {
 ORActionRemoveCustomSourceLanguage >> run [
 	<generatedMethod>
 	super run.
-	entity sourcedEntities do: [:each | each deleteInAction: self ].
-self runExtendedPropertiesForEntity: entity.	self orionModel remove: entity
+	self runExtendedPropertiesForEntity: entity.
+	self orionModel remove: entity
 ]

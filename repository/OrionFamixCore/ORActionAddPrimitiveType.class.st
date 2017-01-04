@@ -21,8 +21,10 @@ Class {
 		'declaredSourceLanguage',
 		'attributes',
 		'subInheritances',
+		'isStub',
 		'parentPackage',
 		'superInheritances',
+		'container',
 		'receivingInvocations'
 	],
 	#category : #'OrionFamixCore-Action'

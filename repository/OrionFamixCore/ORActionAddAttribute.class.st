@@ -14,6 +14,7 @@ Class {
 		'declaredSourceLanguage',
 		'hasClassScope',
 		'parentType',
+		'isStub',
 		'parentPackage',
 		'sourceAnchor',
 		'receivingInvocations'

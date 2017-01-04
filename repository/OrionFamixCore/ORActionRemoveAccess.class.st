@@ -28,21 +28,19 @@ ORActionRemoveAccess >> printWorkspace [
 ORActionRemoveAccess >> run [
 	<generatedMethod>
 	super run.
-	entity comments do: [:each | each deleteInAction: self ].
-	entity sourceAnchor ifNotNil: [ entity deleteInAction: self ].
-	entity previous ifNotNil: [ entity deleteInAction: self ].
-	entity next ifNotNil: [ entity deleteInAction: self ].
+	entity comments do: [ :e | e deleteInAction: self ].
 	entity accessor
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity accessor.
 			theEntity privateAccesses: (theEntity privateAccesses orionCopy orionRemove: entity) ].
 	entity variable
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity variable.
 			theEntity privateIncomingAccesses: (theEntity privateIncomingAccesses orionCopy orionRemove: entity) ].
 	entity declaredSourceLanguage
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity declaredSourceLanguage.
 			theEntity privateSourcedEntities: (theEntity privateSourcedEntities orionCopy orionRemove: entity) ].
-self runExtendedPropertiesForEntity: entity.	self orionModel remove: entity
+	self runExtendedPropertiesForEntity: entity.
+	self orionModel remove: entity
 ]

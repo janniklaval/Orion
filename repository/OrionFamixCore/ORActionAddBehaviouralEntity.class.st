@@ -23,6 +23,7 @@ Class {
 		'declaredSourceLanguage',
 		'implicitVariables',
 		'outgoingInvocations',
+		'isStub',
 		'parentPackage',
 		'sourceAnchor',
 		'receivingInvocations'

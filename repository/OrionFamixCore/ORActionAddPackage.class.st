@@ -16,6 +16,7 @@ Class {
 		'functions',
 		'declaredSourceLanguage',
 		'parentScope',
+		'isStub',
 		'parentPackage',
 		'globalVariables',
 		'sourceAnchor',

@@ -28,21 +28,19 @@ ORActionRemoveReference >> printWorkspace [
 ORActionRemoveReference >> run [
 	<generatedMethod>
 	super run.
-	entity comments do: [:each | each deleteInAction: self ].
-	entity sourceAnchor ifNotNil: [ entity deleteInAction: self ].
-	entity previous ifNotNil: [ entity deleteInAction: self ].
-	entity next ifNotNil: [ entity deleteInAction: self ].
+	entity comments do: [ :e | e deleteInAction: self ].
 	entity source
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity source.
 			theEntity privateOutgoingReferences: (theEntity privateOutgoingReferences orionCopy orionRemove: entity) ].
 	entity declaredSourceLanguage
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity declaredSourceLanguage.
 			theEntity privateSourcedEntities: (theEntity privateSourcedEntities orionCopy orionRemove: entity) ].
 	entity target
-		ifNotNil: [ |theEntity|
+		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity target.
 			theEntity privateIncomingReferences: (theEntity privateIncomingReferences orionCopy orionRemove: entity) ].
-self runExtendedPropertiesForEntity: entity.	self orionModel remove: entity
+	self runExtendedPropertiesForEntity: entity.
+	self orionModel remove: entity
 ]

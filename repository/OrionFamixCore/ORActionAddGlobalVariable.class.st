@@ -13,6 +13,7 @@ Class {
 		'incomingAccesses',
 		'declaredSourceLanguage',
 		'parentScope',
+		'isStub',
 		'parentPackage',
 		'sourceAnchor',
 		'receivingInvocations'

@@ -12,6 +12,7 @@ Class {
 		'annotationInstances',
 		'incomingAccesses',
 		'declaredSourceLanguage',
+		'isStub',
 		'parentPackage',
 		'sourceAnchor',
 		'receivingInvocations'
