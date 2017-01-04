@@ -237,16 +237,26 @@ ORActionGenerator >> generateRequiredMethods: anAction forARemovedEntity: anOREn
 	| oneToNPropsToRemoveOnTheOtherSide childrenPropsToRemoveInCascade stream cat |
 	"methodName"
 	stream := WriteStream on: ''.
-	
 	oneToNPropsToRemoveOnTheOtherSide := self oneToNProperties: aCollectionOfProperties.
-	childrenPropsToRemoveInCascade := aCollectionOfProperties select: #isChildrenProperty.
+	childrenPropsToRemoveInCascade := aCollectionOfProperties select: [ :e | e isChildrenProperty or: [ e type isAssociation ] ].
 	self writeMethodHeaderOn: stream withPackage: aFamePackage withDeclaredVariable: nil.
 	childrenPropsToRemoveInCascade
-		do: [ :prop | stream << ('<t>entity <1s> <2?do:ifNotNil>: [ :e | e deleteInAction: self ].<r>' expandMacrosWith: prop implementingSelector asString with: prop isMultivalued) ].
+		do: [ :prop | 
+			stream
+				<<
+					('<t>entity <1s> <2?do:ifNotNil>: [ :e | e deleteInAction: self ].<r>'
+						expandMacrosWith: prop implementingSelector asString
+						with: prop isMultivalued) ].
 	oneToNPropsToRemoveOnTheOtherSide
 		do: [ :prop | 
-			stream << ('<t>entity <1s><r><t><t>ifNotNil: [ | theEntity |<r><t><t><t>theEntity := self orionModel retrieveEntity: entity <1s>.<r>' expandMacrosWith: prop implementingSelector asString).
-			stream << ('<t><t><t>theEntity private<1s>: (theEntity private<1s> orionCopy orionRemove: entity) ].<r>' expandMacrosWith: prop opposite implementingSelector capitalized) ].
+			stream
+				<<
+					('<t>entity <1s><r><t><t>ifNotNil: [ | theEntity |<r><t><t><t>theEntity := self orionModel retrieveEntity: entity <1s>.<r>'
+						expandMacrosWith: prop implementingSelector asString).
+			stream
+				<<
+					('<t><t><t>theEntity private<1s>: (theEntity private<1s> orionCopy orionRemove: entity) ].<r>'
+						expandMacrosWith: prop opposite implementingSelector capitalized) ].
 	aFamePackage
 		ifNil: [ stream tab << 'self runExtendedPropertiesForEntity: entity.'.
 			stream cr tab << 'self orionModel remove: entity' ].
