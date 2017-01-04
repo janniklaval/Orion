@@ -86,7 +86,7 @@ ORActionGenerator >> createActionFor: anOREntity type: action [
 
 { #category : #'running- public' }
 ORActionGenerator >> createActionForORClass: anORClass [
-	(anORClass isOrionClass and: [ anORClass isRoot not ])
+	(anORClass isOrionClass and: [ anORClass isRootEntity not ])
 		ifTrue: [ #(#Add #Remove #Move #Rename)
 				do: [ :action | 
 					(self isAction: action validFor: anORClass)
