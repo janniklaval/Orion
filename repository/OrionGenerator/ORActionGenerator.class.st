@@ -59,12 +59,6 @@ ORActionGenerator >> catNameFor: aFamePackage defaultName: defaultCatName [
 		ifNotNil: [ '*OrionFamix' , aFamePackage name ]
 ]
 
-{ #category : #'creating method' }
-ORActionGenerator >> complexProperties: aCollectionOfProperties [
-	^ aCollectionOfProperties
-		select: [ :e | e isMultivalued not and: [ e opposite isMultivalued ] ]
-]
-
 { #category : #preparation }
 ORActionGenerator >> createActionClassNameWithType: aTypeOfAction for: anOREntity [
 	^ 'ORAction' , aTypeOfAction , anOREntity mooseDescription superclass name
@@ -240,30 +234,22 @@ ORActionGenerator >> generateRequiredMethods: anAction forARemovedEntity: anOREn
 
 { #category : #'creating method' }
 ORActionGenerator >> generateRequiredMethods: anAction forARemovedEntity: anOREntity withPackage: aFamePackage withProps: aCollectionOfProperties [
-	| complexPropsToRemove simplePropsToRemove stream cat |
+	| oneToNPropsToRemoveOnTheOtherSide childrenPropsToRemoveInCascade stream cat |
 	"methodName"
 	stream := WriteStream on: ''.
-	complexPropsToRemove := self complexProperties: aCollectionOfProperties.
-	simplePropsToRemove := aCollectionOfProperties difference: complexPropsToRemove.
+	self halt.
+	oneToNPropsToRemoveOnTheOtherSide := self oneToNProperties: aCollectionOfProperties.
+	childrenPropsToRemoveInCascade := aCollectionOfProperties select: #isChildrenProperty.
 	self writeMethodHeaderOn: stream withPackage: aFamePackage withDeclaredVariable: nil.
-	(simplePropsToRemove select: #isMultivalued)
+	childrenPropsToRemoveInCascade
+		do: [ :prop | stream << ('<t>entity <1s> <2?do:ifNotNil>: [ :e | e deleteInAction: self ].<r>' expandMacrosWith: prop implementingSelector asString with: prop isMultivalued) ].
+	oneToNPropsToRemoveOnTheOtherSide
 		do: [ :prop | 
-			stream tab; << 'entity '; << prop implementingSelector asString.
-			stream << ' do: [:each | each deleteInAction: self ].'; cr ].
-	(simplePropsToRemove reject: #isMultivalued)
-		do: [ :prop | 
-			stream tab; << 'entity '; << prop implementingSelector asString.
-			stream << ' ifNotNil: [ entity deleteInAction: self ].'; cr ].
-	complexPropsToRemove
-		do: [ :prop | 
-			stream tab; << 'entity '; << prop implementingSelector asString; cr.
-			stream tab; tab; << 'ifNotNil: [ |theEntity|'; cr.
-			stream tab; tab; tab; << 'theEntity := self orionModel retrieveEntity: entity '; << prop implementingSelector asString; << '.'; cr.
-			stream tab; tab; tab; << 'theEntity private'; << prop opposite implementingSelector asMutator capitalized; << ' (theEntity private'; << prop opposite implementingSelector capitalized; 
-					<< ' orionCopy orionRemove: entity) ].'; cr ].
+			stream << ('<t>entity <1s><r><t><t>ifNotNil: [ | theEntity |<r><t><t><t>theEntity := self orionModel retrieveEntity: entity <1s>.<r>' expandMacrosWith: prop implementingSelector asString).
+			stream << ('<t><t><t>theEntity private<1s>: (theEntity private<1s> orionCopy orionRemove: entity) ].<r>' expandMacrosWith: prop opposite implementingSelector capitalized) ].
 	aFamePackage
-		ifNil: [ stream << 'self runExtendedPropertiesForEntity: entity.'.
-			stream << '	self orionModel remove: entity' ].
+		ifNil: [ stream tab << 'self runExtendedPropertiesForEntity: entity.'.
+			stream cr tab << 'self orionModel remove: entity' ].
 	cat := self catNameFor: aFamePackage defaultName: 'method execution'.
 	anAction compile: stream contents classified: cat
 ]
@@ -343,6 +329,12 @@ ORActionGenerator >> obtainActionSuperClass: anOREntity actionType: anActionType
 				ifTrue: [ ORActionAddLink ]
 				ifFalse: [ ORActionAddEntity ] ]
 		ifFalse: [ Smalltalk globals at: ('ORAction' , anActionType) asSymbol ]
+]
+
+{ #category : #'creating method' }
+ORActionGenerator >> oneToNProperties: aCollectionOfProperties [
+	^ aCollectionOfProperties
+		select: [ :e | e isMultivalued not and: [ e opposite isMultivalued ] ]
 ]
 
 { #category : #'creating method' }
