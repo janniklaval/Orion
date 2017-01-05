@@ -56,7 +56,7 @@ ORActionAddAssociation >> previous: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddAssociation >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORAssociation new.

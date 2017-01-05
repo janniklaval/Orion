@@ -22,7 +22,7 @@ ORActionMoveBehaviouralEntity >> parentPackage: aValue [
 
 { #category : #'method execution - generated' }
 ORActionMoveBehaviouralEntity >> run [
-	<generated>
+	<generated: true>
 	| theEntity |
 	theEntity := self orionModel retrieveEntity: entity.
 	self parentPackage ifNotNil: [

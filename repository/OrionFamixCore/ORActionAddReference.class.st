@@ -63,7 +63,7 @@ ORActionAddReference >> previous: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddReference >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORReference new.

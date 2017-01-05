@@ -14,7 +14,7 @@ ORActionRenameAttribute class >> description [
 
 { #category : #'method exectution - generated' }
 ORActionRenameAttribute >> run [
-	<generated>
+	<generated: true>
 	| theEntity |
 	super run.
 	theEntity := (self orionModel retrieveEntity: entity).

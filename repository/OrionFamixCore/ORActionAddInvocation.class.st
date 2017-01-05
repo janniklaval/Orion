@@ -106,7 +106,7 @@ ORActionAddInvocation >> receiverSourceCode: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddInvocation >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORInvocation new.

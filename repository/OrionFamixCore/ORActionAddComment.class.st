@@ -56,7 +56,7 @@ ORActionAddComment >> declaredSourceLanguage: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddComment >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORComment new.

@@ -9,7 +9,7 @@ Class {
 
 { #category : #'method execution - generated' }
 ORActionRemoveSourcedEntity >> run [
-	<generatedMethod>
+	<generated: true>
 	super run.
 	entity comments do: [ :e | e deleteInAction: self ].
 	entity declaredSourceLanguage

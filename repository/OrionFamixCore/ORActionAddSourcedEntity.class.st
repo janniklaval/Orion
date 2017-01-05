@@ -34,7 +34,7 @@ ORActionAddSourcedEntity >> declaredSourceLanguage: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddSourcedEntity >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORSourcedEntity new.

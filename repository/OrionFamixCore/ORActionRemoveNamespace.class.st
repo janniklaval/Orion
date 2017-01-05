@@ -9,7 +9,7 @@ Class {
 
 { #category : #'method execution - generated' }
 ORActionRemoveNamespace >> run [
-	<generatedMethod>
+	<generated: true>
 	super run.
 	entity childScopes do: [ :e | e deleteInAction: self ].
 	entity comments do: [ :e | e deleteInAction: self ].

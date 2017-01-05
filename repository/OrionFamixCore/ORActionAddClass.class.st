@@ -5,8 +5,9 @@ Class {
 	#name : #ORActionAddClass,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
-		'instances',
+		'typeAliases',
 		'definedAnnotationTypes',
+		'instances',
 		'declaredSourceLanguage',
 		'container',
 		'annotationInstances',
@@ -183,7 +184,7 @@ ORActionAddClass >> receivingInvocations: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddClass >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORClass new.
@@ -195,7 +196,7 @@ ORActionAddClass >> run [
 	self isInterface ifNotNil: [ :e | 
 		newEntity privateIsInterface: e orionCopy ].
 
-	self modifiers ifNotNil: [ :e | 
+	self modifiers isEmptyOrNil ifFalse: [ :e | 
 		newEntity privateModifiers: e orionCopy ].
 
 	self name ifNotNil: [ :e | 

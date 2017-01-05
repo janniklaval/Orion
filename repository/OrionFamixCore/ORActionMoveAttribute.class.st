@@ -38,7 +38,7 @@ ORActionMoveAttribute >> parentType: aValue [
 
 { #category : #'method execution - generated' }
 ORActionMoveAttribute >> run [
-	<generated>
+	<generated: true>
 	| theEntity |
 	theEntity := self orionModel retrieveEntity: entity.
 	self parentType ifNotNil: [

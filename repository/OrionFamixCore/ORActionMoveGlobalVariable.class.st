@@ -33,7 +33,7 @@ ORActionMoveGlobalVariable >> parentScope: aValue [
 
 { #category : #'method execution - generated' }
 ORActionMoveGlobalVariable >> run [
-	<generated>
+	<generated: true>
 	| theEntity |
 	theEntity := self orionModel retrieveEntity: entity.
 	self parentScope ifNotNil: [

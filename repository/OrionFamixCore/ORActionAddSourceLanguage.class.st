@@ -12,7 +12,7 @@ Class {
 
 { #category : #'method execution - generated' }
 ORActionAddSourceLanguage >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORSourceLanguage new.

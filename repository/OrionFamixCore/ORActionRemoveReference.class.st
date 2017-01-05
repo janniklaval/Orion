@@ -26,7 +26,7 @@ ORActionRemoveReference >> printWorkspace [
 
 { #category : #'method execution - generated' }
 ORActionRemoveReference >> run [
-	<generatedMethod>
+	<generated: true>
 	super run.
 	entity comments do: [ :e | e deleteInAction: self ].
 	entity source

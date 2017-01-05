@@ -9,11 +9,11 @@ Class {
 
 { #category : #'method execution - generated' }
 ORActionRemoveMethod >> run [
-	<generatedMethod>
+	<generated: true>
 	super run.
 	entity comments do: [ :e | e deleteInAction: self ].
-	entity parameters do: [ :e | e deleteInAction: self ].
 	entity accesses do: [ :e | e deleteInAction: self ].
+	entity parameters do: [ :e | e deleteInAction: self ].
 	entity incomingInvocations do: [ :e | e deleteInAction: self ].
 	entity outgoingReferences do: [ :e | e deleteInAction: self ].
 	entity types do: [ :e | e deleteInAction: self ].

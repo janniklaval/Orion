@@ -32,7 +32,7 @@ ORActionRemoveInvocation >> printWorkspace [
 
 { #category : #'method execution - generated' }
 ORActionRemoveInvocation >> run [
-	<generatedMethod>
+	<generated: true>
 	super run.
 	entity comments do: [ :e | e deleteInAction: self ].
 	entity sender

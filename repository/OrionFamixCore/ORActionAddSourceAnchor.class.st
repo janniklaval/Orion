@@ -22,7 +22,7 @@ ORActionAddSourceAnchor >> element: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddSourceAnchor >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORSourceAnchor new.

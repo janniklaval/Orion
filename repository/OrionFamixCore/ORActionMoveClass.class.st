@@ -49,7 +49,7 @@ ORActionMoveClass >> parentPackage: aValue [
 
 { #category : #'method execution - generated' }
 ORActionMoveClass >> run [
-	<generated>
+	<generated: true>
 	| theEntity |
 	theEntity := self orionModel retrieveEntity: entity.
 	self container ifNotNil: [

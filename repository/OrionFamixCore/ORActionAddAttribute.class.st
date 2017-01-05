@@ -144,7 +144,7 @@ ORActionAddAttribute >> receivingInvocations: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddAttribute >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORAttribute new.
@@ -153,7 +153,7 @@ ORActionAddAttribute >> run [
 	self name ifNotNil: [ :e | 
 		newEntity privateName: e orionCopy ].
 
-	self modifiers ifNotNil: [ :e | 
+	self modifiers isEmptyOrNil ifFalse: [ :e | 
 		newEntity privateModifiers: e orionCopy ].
 
 	self hasClassScope ifNotNil: [ :e | 

@@ -122,7 +122,7 @@ ORActionAddStructuralEntity >> receivingInvocations: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddStructuralEntity >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORStructuralEntity new.
@@ -131,7 +131,7 @@ ORActionAddStructuralEntity >> run [
 	self name ifNotNil: [ :e | 
 		newEntity privateName: e orionCopy ].
 
-	self modifiers ifNotNil: [ :e | 
+	self modifiers isEmptyOrNil ifFalse: [ :e | 
 		newEntity privateModifiers: e orionCopy ].
 
 	self isStub ifNotNil: [ :e | 

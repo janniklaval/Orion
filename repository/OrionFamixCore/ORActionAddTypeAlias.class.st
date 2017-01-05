@@ -5,8 +5,9 @@ Class {
 	#name : #ORActionAddTypeAlias,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
-		'instances',
+		'typeAliases',
 		'definedAnnotationTypes',
+		'instances',
 		'declaredSourceLanguage',
 		'container',
 		'annotationInstances',
@@ -183,7 +184,7 @@ ORActionAddTypeAlias >> receivingInvocations: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddTypeAlias >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORTypeAlias new.
@@ -192,7 +193,7 @@ ORActionAddTypeAlias >> run [
 	self isStub ifNotNil: [ :e | 
 		newEntity privateIsStub: e orionCopy ].
 
-	self modifiers ifNotNil: [ :e | 
+	self modifiers isEmptyOrNil ifFalse: [ :e | 
 		newEntity privateModifiers: e orionCopy ].
 
 	self name ifNotNil: [ :e | 

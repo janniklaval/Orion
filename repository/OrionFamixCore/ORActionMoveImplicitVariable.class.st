@@ -33,7 +33,7 @@ ORActionMoveImplicitVariable >> parentPackage: aValue [
 
 { #category : #'method execution - generated' }
 ORActionMoveImplicitVariable >> run [
-	<generated>
+	<generated: true>
 	| theEntity |
 	theEntity := self orionModel retrieveEntity: entity.
 	self parentBehaviouralEntity ifNotNil: [

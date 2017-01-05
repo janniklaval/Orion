@@ -5,25 +5,25 @@ Class {
 	#name : #ORActionAddMethod,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
-		'activations',
-		'timeStamp',
-		'category',
 		'caughtExceptions',
 		'definedAnnotationTypes',
 		'thrownExceptions',
 		'declaredExceptions',
+		'activations',
+		'timeStamp',
+		'category',
 		'declaredType',
 		'comments',
 		'signature',
 		'kind',
 		'name',
-		'parameters',
 		'accesses',
-		'modifiers',
+		'parameters',
 		'incomingInvocations',
 		'outgoingReferences',
 		'types',
 		'annotationInstances',
+		'modifiers',
 		'localVariables',
 		'functions',
 		'hasClassScope',
@@ -241,7 +241,7 @@ ORActionAddMethod >> receivingInvocations: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddMethod >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORMethod new.
@@ -256,7 +256,7 @@ ORActionAddMethod >> run [
 	self name ifNotNil: [ :e | 
 		newEntity privateName: e orionCopy ].
 
-	self modifiers ifNotNil: [ :e | 
+	self modifiers isEmptyOrNil ifFalse: [ :e | 
 		newEntity privateModifiers: e orionCopy ].
 
 	self hasClassScope ifNotNil: [ :e | 
@@ -278,17 +278,17 @@ ORActionAddMethod >> run [
 			newEntity privateComments: theNewEntities orionCopy.
 			theNewEntities do: [:e | e privateContainer: newEntity ] ].
 
-	self parameters
-		ifNotNil: [ | theNewEntities |
-			theNewEntities := OrderedCollection withAll: (self parameters collect: [:e | self orionModel retrieveEntity: e ]).
-			newEntity privateParameters: theNewEntities orionCopy.
-			theNewEntities do: [:e | e privateParentBehaviouralEntity: newEntity ] ].
-
 	self accesses
 		ifNotNil: [ | theNewEntities |
 			theNewEntities := OrderedCollection withAll: (self accesses collect: [:e | self orionModel retrieveEntity: e ]).
 			newEntity privateAccesses: theNewEntities orionCopy.
 			theNewEntities do: [:e | e privateAccessor: newEntity ] ].
+
+	self parameters
+		ifNotNil: [ | theNewEntities |
+			theNewEntities := OrderedCollection withAll: (self parameters collect: [:e | self orionModel retrieveEntity: e ]).
+			newEntity privateParameters: theNewEntities orionCopy.
+			theNewEntities do: [:e | e privateParentBehaviouralEntity: newEntity ] ].
 
 	self incomingInvocations
 		ifNotNil: [ | theNewEntity |

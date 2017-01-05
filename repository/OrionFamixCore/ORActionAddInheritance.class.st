@@ -63,7 +63,7 @@ ORActionAddInheritance >> previous: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddInheritance >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORInheritance new.

@@ -57,7 +57,7 @@ ORActionAddAnnotationInstanceAttribute >> parentAnnotationInstance: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddAnnotationInstanceAttribute >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORAnnotationInstanceAttribute new.

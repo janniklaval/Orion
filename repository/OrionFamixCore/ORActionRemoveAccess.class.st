@@ -26,7 +26,7 @@ ORActionRemoveAccess >> printWorkspace [
 
 { #category : #'method execution - generated' }
 ORActionRemoveAccess >> run [
-	<generatedMethod>
+	<generated: true>
 	super run.
 	entity comments do: [ :e | e deleteInAction: self ].
 	entity accessor

@@ -9,7 +9,7 @@ Class {
 
 { #category : #'method execution - generated' }
 ORActionRemoveSourceLanguage >> run [
-	<generatedMethod>
+	<generated: true>
 	super run.
 	self runExtendedPropertiesForEntity: entity.
 	self orionModel remove: entity

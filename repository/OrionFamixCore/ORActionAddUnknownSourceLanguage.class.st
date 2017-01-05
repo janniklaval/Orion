@@ -12,7 +12,7 @@ Class {
 
 { #category : #'method execution - generated' }
 ORActionAddUnknownSourceLanguage >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORUnknownSourceLanguage new.

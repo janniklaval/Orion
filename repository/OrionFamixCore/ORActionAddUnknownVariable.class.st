@@ -122,7 +122,7 @@ ORActionAddUnknownVariable >> receivingInvocations: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddUnknownVariable >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORUnknownVariable new.
@@ -131,7 +131,7 @@ ORActionAddUnknownVariable >> run [
 	self name ifNotNil: [ :e | 
 		newEntity privateName: e orionCopy ].
 
-	self modifiers ifNotNil: [ :e | 
+	self modifiers isEmptyOrNil ifFalse: [ :e | 
 		newEntity privateModifiers: e orionCopy ].
 
 	self isStub ifNotNil: [ :e | 

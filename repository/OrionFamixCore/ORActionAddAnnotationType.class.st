@@ -5,17 +5,18 @@ Class {
 	#name : #ORActionAddAnnotationType,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
+		'typeAliases',
 		'definedAnnotationTypes',
 		'sourceAnchor',
 		'comments',
 		'behavioursWithDeclaredType',
 		'name',
 		'structuresWithDeclaredType',
-		'modifiers',
 		'instances',
 		'incomingReferences',
 		'types',
 		'annotationInstances',
+		'modifiers',
 		'methods',
 		'functions',
 		'declaredSourceLanguage',
@@ -182,7 +183,7 @@ ORActionAddAnnotationType >> receivingInvocations: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddAnnotationType >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORAnnotationType new.
@@ -191,7 +192,7 @@ ORActionAddAnnotationType >> run [
 	self name ifNotNil: [ :e | 
 		newEntity privateName: e orionCopy ].
 
-	self modifiers ifNotNil: [ :e | 
+	self modifiers isEmptyOrNil ifFalse: [ :e | 
 		newEntity privateModifiers: e orionCopy ].
 
 	self isStub ifNotNil: [ :e | 

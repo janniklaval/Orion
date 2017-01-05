@@ -38,7 +38,7 @@ ORActionMovePackage >> parentScope: aValue [
 
 { #category : #'method execution - generated' }
 ORActionMovePackage >> run [
-	<generated>
+	<generated: true>
 	| theEntity |
 	theEntity := self orionModel retrieveEntity: entity.
 	self parentScope ifNotNil: [

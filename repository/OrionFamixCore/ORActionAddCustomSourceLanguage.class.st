@@ -23,7 +23,7 @@ ORActionAddCustomSourceLanguage >> name: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddCustomSourceLanguage >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORCustomSourceLanguage new.

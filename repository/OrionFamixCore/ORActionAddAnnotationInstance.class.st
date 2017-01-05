@@ -67,7 +67,7 @@ ORActionAddAnnotationInstance >> declaredSourceLanguage: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddAnnotationInstance >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORAnnotationInstance new.

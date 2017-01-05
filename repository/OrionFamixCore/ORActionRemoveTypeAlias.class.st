@@ -9,7 +9,7 @@ Class {
 
 { #category : #'method execution - generated' }
 ORActionRemoveTypeAlias >> run [
-	<generatedMethod>
+	<generated: true>
 	super run.
 	entity annotationInstances do: [ :e | e deleteInAction: self ].
 	entity subInheritances do: [ :e | e deleteInAction: self ].

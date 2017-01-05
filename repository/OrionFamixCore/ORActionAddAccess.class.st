@@ -84,7 +84,7 @@ ORActionAddAccess >> previous: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddAccess >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORAccess new.
