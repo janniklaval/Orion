@@ -9,7 +9,7 @@ Class {
 
 { #category : #'method execution - generated' }
 ORActionRemoveParameterizableClass >> run [
-	<generatedMethod>
+	<generated: true>
 	super run.
 	entity annotationInstances do: [ :e | e deleteInAction: self ].
 	entity subInheritances do: [ :e | e deleteInAction: self ].
@@ -40,7 +40,7 @@ ORActionRemoveParameterizableClass >> run [
 { #category : #'*OrionFamixJava' }
 ORActionRemoveParameterizableClass >> runOnJavaExtension: anEntity [
 	<toRun>
-	<generatedMethod>
+	<generated: true>
 	entity definedAnnotationTypes do: [ :e | e deleteInAction: self ].
 
 ]

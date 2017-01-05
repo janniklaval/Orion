@@ -3,7 +3,7 @@ Extension { #name : #ORActionRemoveScopingEntity }
 { #category : #'*OrionFamixJava' }
 ORActionRemoveScopingEntity >> runOnJavaExtension: anEntity [
 	<toRun>
-	<generatedMethod>
+	<generated: true>
 	entity definedAnnotationTypes do: [ :e | e deleteInAction: self ].
 
 ]

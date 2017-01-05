@@ -5,17 +5,18 @@ Class {
 	#name : #ORActionAddParameterType,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
-		'instances',
+		'typeAliases',
 		'definedAnnotationTypes',
+		'instances',
 		'sourceAnchor',
 		'comments',
 		'behavioursWithDeclaredType',
 		'name',
 		'structuresWithDeclaredType',
-		'modifiers',
 		'incomingReferences',
 		'types',
 		'annotationInstances',
+		'modifiers',
 		'methods',
 		'functions',
 		'declaredSourceLanguage',
@@ -182,7 +183,7 @@ ORActionAddParameterType >> receivingInvocations: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddParameterType >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORParameterType new.
@@ -191,7 +192,7 @@ ORActionAddParameterType >> run [
 	self name ifNotNil: [ :e | 
 		newEntity privateName: e orionCopy ].
 
-	self modifiers ifNotNil: [ :e | 
+	self modifiers isEmptyOrNil ifFalse: [ :e | 
 		newEntity privateModifiers: e orionCopy ].
 
 	self isStub ifNotNil: [ :e | 
@@ -301,7 +302,7 @@ ORActionAddParameterType >> run [
 { #category : #'*OrionFamixJava' }
 ORActionAddParameterType >> runOnJavaExtension: newEntity [
 	<toRun>
-	<generatedMethod>
+	<generated: true>
 	"Set primitive not derived properties of the entity"
 	"Set complex not derived properties of the entity"
 	self definedAnnotationTypes

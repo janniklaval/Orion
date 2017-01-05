@@ -3,7 +3,7 @@ Extension { #name : #ORActionRemoveAnnotationType }
 { #category : #'*OrionFamixJava' }
 ORActionRemoveAnnotationType >> runOnJavaExtension: anEntity [
 	<toRun>
-	<generatedMethod>
+	<generated: true>
 	entity definedAnnotationTypes do: [ :e | e deleteInAction: self ].
 
 ]

@@ -22,7 +22,7 @@ ORActionAddException >> exceptionClass: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddException >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORException new.

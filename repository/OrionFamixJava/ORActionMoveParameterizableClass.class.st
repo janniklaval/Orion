@@ -33,7 +33,7 @@ ORActionMoveParameterizableClass >> parentPackage: aValue [
 
 { #category : #'method execution - generated' }
 ORActionMoveParameterizableClass >> run [
-	<generated>
+	<generated: true>
 	| theEntity |
 	theEntity := self orionModel retrieveEntity: entity.
 	self container ifNotNil: [

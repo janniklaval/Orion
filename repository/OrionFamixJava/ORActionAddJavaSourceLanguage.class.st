@@ -12,7 +12,7 @@ Class {
 
 { #category : #'method execution - generated' }
 ORActionAddJavaSourceLanguage >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORJavaSourceLanguage new.

@@ -33,7 +33,7 @@ ORActionAddCaughtException >> exceptionClass: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddCaughtException >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORCaughtException new.

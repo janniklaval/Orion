@@ -133,7 +133,7 @@ ORActionAddEnumValue >> receivingInvocations: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddEnumValue >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := OREnumValue new.
@@ -142,7 +142,7 @@ ORActionAddEnumValue >> run [
 	self name ifNotNil: [ :e | 
 		newEntity privateName: e orionCopy ].
 
-	self modifiers ifNotNil: [ :e | 
+	self modifiers isEmptyOrNil ifFalse: [ :e | 
 		newEntity privateModifiers: e orionCopy ].
 
 	self isStub ifNotNil: [ :e | 

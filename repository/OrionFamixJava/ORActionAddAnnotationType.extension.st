@@ -13,7 +13,7 @@ ORActionAddAnnotationType >> definedAnnotationTypes: aValue [
 { #category : #'*OrionFamixJava' }
 ORActionAddAnnotationType >> runOnJavaExtension: newEntity [
 	<toRun>
-	<generatedMethod>
+	<generated: true>
 	"Set primitive not derived properties of the entity"
 	"Set complex not derived properties of the entity"
 	self definedAnnotationTypes

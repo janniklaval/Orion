@@ -5,8 +5,9 @@ Class {
 	#name : #ORActionAddEnum,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
-		'instances',
+		'typeAliases',
 		'definedAnnotationTypes',
+		'instances',
 		'declaredSourceLanguage',
 		'container',
 		'annotationInstances',
@@ -183,7 +184,7 @@ ORActionAddEnum >> receivingInvocations: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddEnum >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := OREnum new.
@@ -192,7 +193,7 @@ ORActionAddEnum >> run [
 	self isStub ifNotNil: [ :e | 
 		newEntity privateIsStub: e orionCopy ].
 
-	self modifiers ifNotNil: [ :e | 
+	self modifiers isEmptyOrNil ifFalse: [ :e | 
 		newEntity privateModifiers: e orionCopy ].
 
 	self name ifNotNil: [ :e | 
@@ -308,7 +309,7 @@ ORActionAddEnum >> run [
 { #category : #'*OrionFamixJava' }
 ORActionAddEnum >> runOnJavaExtension: newEntity [
 	<toRun>
-	<generatedMethod>
+	<generated: true>
 	"Set primitive not derived properties of the entity"
 	"Set complex not derived properties of the entity"
 	self definedAnnotationTypes

@@ -9,7 +9,7 @@ Class {
 
 { #category : #'method execution - generated' }
 ORActionRemoveCaughtException >> run [
-	<generatedMethod>
+	<generated: true>
 	super run.
 	entity definingMethod
 		ifNotNil: [ | theEntity |

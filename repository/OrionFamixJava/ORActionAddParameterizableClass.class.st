@@ -5,8 +5,9 @@ Class {
 	#name : #ORActionAddParameterizableClass,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
-		'instances',
+		'typeAliases',
 		'definedAnnotationTypes',
+		'instances',
 		'declaredSourceLanguage',
 		'container',
 		'annotationInstances',
@@ -204,7 +205,7 @@ ORActionAddParameterizableClass >> receivingInvocations: aValue [
 
 { #category : #'method execution - generated' }
 ORActionAddParameterizableClass >> run [
-	<generatedMethod>
+	<generated: true>
 	| newEntity |
 	super run.
 	newEntity := ORParameterizableClass new.
@@ -216,7 +217,7 @@ ORActionAddParameterizableClass >> run [
 	self isInterface ifNotNil: [ :e | 
 		newEntity privateIsInterface: e orionCopy ].
 
-	self modifiers ifNotNil: [ :e | 
+	self modifiers isEmptyOrNil ifFalse: [ :e | 
 		newEntity privateModifiers: e orionCopy ].
 
 	self name ifNotNil: [ :e | 
@@ -332,7 +333,7 @@ ORActionAddParameterizableClass >> run [
 { #category : #'*OrionFamixJava' }
 ORActionAddParameterizableClass >> runOnJavaExtension: newEntity [
 	<toRun>
-	<generatedMethod>
+	<generated: true>
 	"Set primitive not derived properties of the entity"
 	"Set complex not derived properties of the entity"
 	self definedAnnotationTypes

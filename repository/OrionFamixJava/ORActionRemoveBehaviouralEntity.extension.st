@@ -3,7 +3,7 @@ Extension { #name : #ORActionRemoveBehaviouralEntity }
 { #category : #'*OrionFamixJava' }
 ORActionRemoveBehaviouralEntity >> runOnJavaExtension: anEntity [
 	<toRun>
-	<generatedMethod>
+	<generated: true>
 	entity definedAnnotationTypes do: [ :e | e deleteInAction: self ].
 
 ]

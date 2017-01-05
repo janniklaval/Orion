@@ -9,7 +9,7 @@ Class {
 
 { #category : #'method exectution - generated' }
 ORActionRenameEnum >> run [
-	<generated>
+	<generated: true>
 	| theEntity |
 	super run.
 	theEntity := (self orionModel retrieveEntity: entity).

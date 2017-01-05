@@ -9,7 +9,7 @@ Class {
 
 { #category : #'method execution - generated' }
 ORActionRemoveEnum >> run [
-	<generatedMethod>
+	<generated: true>
 	super run.
 	entity annotationInstances do: [ :e | e deleteInAction: self ].
 	entity subInheritances do: [ :e | e deleteInAction: self ].
@@ -41,7 +41,7 @@ ORActionRemoveEnum >> run [
 { #category : #'*OrionFamixJava' }
 ORActionRemoveEnum >> runOnJavaExtension: anEntity [
 	<toRun>
-	<generatedMethod>
+	<generated: true>
 	entity definedAnnotationTypes do: [ :e | e deleteInAction: self ].
 
 ]
