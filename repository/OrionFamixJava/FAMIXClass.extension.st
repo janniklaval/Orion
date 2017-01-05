@@ -7,5 +7,6 @@ FAMIXClass >> privateExceptions [
 
 { #category : #'*OrionFamixJava' }
 FAMIXClass >> privateExceptions: aValue [
+	self halt.
 	self privateState attributeAt: #exceptions put: aValue
 ]

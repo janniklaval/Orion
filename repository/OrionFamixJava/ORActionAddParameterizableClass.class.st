@@ -5,9 +5,9 @@ Class {
 	#name : #ORActionAddParameterizableClass,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
+		'instances',
 		'typeAliases',
 		'definedAnnotationTypes',
-		'instances',
 		'declaredSourceLanguage',
 		'container',
 		'annotationInstances',
@@ -217,8 +217,8 @@ ORActionAddParameterizableClass >> run [
 	self isInterface ifNotNil: [ :e | 
 		newEntity privateIsInterface: e orionCopy ].
 
-	self modifiers isEmptyOrNil ifFalse: [ :e | 
-		newEntity privateModifiers: e orionCopy ].
+	self modifiers isEmptyOrNil ifFalse: [ 
+		newEntity privateModifiers: self modifiers orionCopy ].
 
 	self name ifNotNil: [ :e | 
 		newEntity privateName: e orionCopy ].

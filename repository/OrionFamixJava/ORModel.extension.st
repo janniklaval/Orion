@@ -80,13 +80,9 @@ ORModel >> addStubNamespaceNamed: aString [
 ]
 
 { #category : #'*OrionFamixJava' }
-ORModel >> addStubNamespaceNamed: aString  inORNamespace: aNamespace [
+ORModel >> addStubNamespaceNamed: aString inORNamespace: aNamespace [
 	^ aString
-		ifNotNil: [ (ORActionAddNamespace new
-				orionModel: self;
-				container: aNamespace;
-				isStub: true;
-				newName: aString)
-				manualRun;
-				postRun ]
+		ifNotNil:
+			[ (ORActionAddNamespace new orionModel: self; parentScope: aNamespace; 
+					isStub: true; name: aString) manualRun; postRun ]
 ]
