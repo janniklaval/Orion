@@ -186,9 +186,9 @@ ORActionGenerator >> generateRequiredMethods: aClass for: anOREntity [
 ORActionGenerator >> generateRequiredMethods: anAction forAMovedEntity: anOREntity [
 	| stream containerAttributes |
 	(anOREntity mooseDescription inheritsFrom: FAMIXNamedEntity mooseDescription)
-		ifFalse: [ ^ self ].
+		ifFalse: [ ^ self ].	
 	stream := WriteStream on: ''.
-	stream << 'run'; cr; tab; << '<generated>'; cr.
+	stream << 'run'; cr; tab; << '<generated: true>'; cr.
 	stream tab; << '| theEntity |'; cr.
 	stream tab; << 'theEntity := self orionModel retrieveEntity: entity.'; cr.
 	containerAttributes := anOREntity mooseDescription allContainerAttributes.
@@ -271,7 +271,7 @@ ORActionGenerator >> generateRequiredMethods: anAction forARenamedEntity: anOREn
 		ifFalse: [ ^ self ].
 	stream := WriteStream on: ''.
 	stream << 'run'; cr.
-	stream tab; << '<generated>'; cr.
+	stream tab; << '<generated: true>'; cr.
 	stream tab; << '| theEntity |'; cr.
 	stream tab; << 'super run.'; cr.
 	stream tab; << 'theEntity := (self orionModel retrieveEntity: entity).'; cr.
@@ -370,8 +370,11 @@ ORActionGenerator >> setLinksFrom: aFM3MetaDescription [
 { #category : #'creating method' }
 ORActionGenerator >> settingOfPropertiesFrom: listOfProperties [
 	^ listOfProperties
-		collect:
-			[ :propertyNotDerived | '<t>self <1s> ifNotNil: [ :e | <r><t><t>newEntity private<2s>: e orionCopy ].<r>' expandMacrosWith: propertyNotDerived implementingSelector with: propertyNotDerived implementingSelector capitalized ]
+		collect: [ :propertyNotDerived | 
+			'<t>self <1s> <3?isEmptyOrNil ifFalse:ifNotNil>: [ :e | <r><t><t>newEntity private<2s>: e orionCopy ].<r>'
+				expandMacrosWith: propertyNotDerived implementingSelector
+				with: propertyNotDerived implementingSelector capitalized
+				with: propertyNotDerived isMultivalued ]
 ]
 
 { #category : #accessing }
@@ -392,7 +395,7 @@ ORActionGenerator >> writeMethodHeaderOn: stream withPackage: aFamePackage [
 	aFamePackage
 		ifNil: [ stream << 'run'; cr ]
 		ifNotNil: [ stream << 'runOn'; << aFamePackage name; << 'Extension'; cr; tab; << '<toRun>'; cr ].
-	stream tab; << '<generatedMethod>'; cr.
+	stream tab; << '<generated: true>'; cr.
 	aFamePackage ifNil: [ stream tab; << 'super run.'; cr ]
 ]
 
@@ -402,7 +405,7 @@ ORActionGenerator >> writeMethodHeaderOn: stream withPackage: aFamePackage withD
 		ifNil: [ stream << 'run'; cr ]
 		ifNotNil: [ stream << 'runOn'; << aFamePackage name; << 'Extension: '; << (stringOfVariables ifNil: ['anEntity']); cr.
 			stream tab; << '<toRun>'; cr ].
-	stream tab; << '<generatedMethod>'; cr.
+	stream tab; << '<generated: true>'; cr.
 	(aFamePackage isNil and: [ stringOfVariables isNotNil ])
 		ifTrue: [ stream tab; << '| '; << stringOfVariables; << ' |'; cr ].
 	aFamePackage ifNil: [ stream tab; << 'super run.'; cr ]
