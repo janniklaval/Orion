@@ -5,8 +5,8 @@ Class {
 	#name : #ORActionAddFunction,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
-		'definedAnnotationTypes',
 		'activations',
+		'definedAnnotationTypes',
 		'declaredType',
 		'comments',
 		'signature',
@@ -14,8 +14,8 @@ Class {
 		'accesses',
 		'parameters',
 		'modifiers',
-		'incomingInvocations',
 		'outgoingReferences',
+		'incomingInvocations',
 		'types',
 		'annotationInstances',
 		'localVariables',
@@ -226,8 +226,8 @@ ORActionAddFunction >> run [
 	self name ifNotNil: [ :e | 
 		newEntity privateName: e orionCopy ].
 
-	self modifiers isEmptyOrNil ifFalse: [ :e | 
-		newEntity privateModifiers: e orionCopy ].
+	self modifiers isEmptyOrNil ifFalse: [ 
+		newEntity privateModifiers: self modifiers orionCopy ].
 
 	self isStub ifNotNil: [ :e | 
 		newEntity privateIsStub: e orionCopy ].
@@ -257,18 +257,18 @@ ORActionAddFunction >> run [
 			newEntity privateParameters: theNewEntities orionCopy.
 			theNewEntities do: [:e | e privateParentBehaviouralEntity: newEntity ] ].
 
+	self outgoingReferences
+		ifNotNil: [ | theNewEntities |
+			theNewEntities := OrderedCollection withAll: (self outgoingReferences collect: [:e | self orionModel retrieveEntity: e ]).
+			newEntity privateOutgoingReferences: theNewEntities orionCopy.
+			theNewEntities do: [:e | e privateSource: newEntity ] ].
+
 	self incomingInvocations
 		ifNotNil: [ | theNewEntity |
 			self incomingInvocations do: [ :anEntity | 
 			theNewEntity := self orionModel retrieveEntity: anEntity.
 			newEntity privateIncomingInvocations: (newEntity privateIncomingInvocations orionCopy unsafeAdd: theNewEntity).
 			theNewEntity privateCandidates: (theNewEntity privateCandidates orionCopy unsafeAdd: newEntity) ] ] .
-
-	self outgoingReferences
-		ifNotNil: [ | theNewEntities |
-			theNewEntities := OrderedCollection withAll: (self outgoingReferences collect: [:e | self orionModel retrieveEntity: e ]).
-			newEntity privateOutgoingReferences: theNewEntities orionCopy.
-			theNewEntities do: [:e | e privateSource: newEntity ] ].
 
 	self types
 		ifNotNil: [ | theNewEntities |

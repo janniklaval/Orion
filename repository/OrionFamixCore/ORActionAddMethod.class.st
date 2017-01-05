@@ -17,13 +17,13 @@ Class {
 		'signature',
 		'kind',
 		'name',
-		'accesses',
 		'parameters',
-		'incomingInvocations',
+		'accesses',
+		'modifiers',
 		'outgoingReferences',
+		'incomingInvocations',
 		'types',
 		'annotationInstances',
-		'modifiers',
 		'localVariables',
 		'functions',
 		'hasClassScope',
@@ -256,8 +256,8 @@ ORActionAddMethod >> run [
 	self name ifNotNil: [ :e | 
 		newEntity privateName: e orionCopy ].
 
-	self modifiers isEmptyOrNil ifFalse: [ :e | 
-		newEntity privateModifiers: e orionCopy ].
+	self modifiers isEmptyOrNil ifFalse: [ 
+		newEntity privateModifiers: self modifiers orionCopy ].
 
 	self hasClassScope ifNotNil: [ :e | 
 		newEntity privateHasClassScope: e orionCopy ].
@@ -278,17 +278,23 @@ ORActionAddMethod >> run [
 			newEntity privateComments: theNewEntities orionCopy.
 			theNewEntities do: [:e | e privateContainer: newEntity ] ].
 
+	self parameters
+		ifNotNil: [ | theNewEntities |
+			theNewEntities := OrderedCollection withAll: (self parameters collect: [:e | self orionModel retrieveEntity: e ]).
+			newEntity privateParameters: theNewEntities orionCopy.
+			theNewEntities do: [:e | e privateParentBehaviouralEntity: newEntity ] ].
+
 	self accesses
 		ifNotNil: [ | theNewEntities |
 			theNewEntities := OrderedCollection withAll: (self accesses collect: [:e | self orionModel retrieveEntity: e ]).
 			newEntity privateAccesses: theNewEntities orionCopy.
 			theNewEntities do: [:e | e privateAccessor: newEntity ] ].
 
-	self parameters
+	self outgoingReferences
 		ifNotNil: [ | theNewEntities |
-			theNewEntities := OrderedCollection withAll: (self parameters collect: [:e | self orionModel retrieveEntity: e ]).
-			newEntity privateParameters: theNewEntities orionCopy.
-			theNewEntities do: [:e | e privateParentBehaviouralEntity: newEntity ] ].
+			theNewEntities := OrderedCollection withAll: (self outgoingReferences collect: [:e | self orionModel retrieveEntity: e ]).
+			newEntity privateOutgoingReferences: theNewEntities orionCopy.
+			theNewEntities do: [:e | e privateSource: newEntity ] ].
 
 	self incomingInvocations
 		ifNotNil: [ | theNewEntity |
@@ -296,12 +302,6 @@ ORActionAddMethod >> run [
 			theNewEntity := self orionModel retrieveEntity: anEntity.
 			newEntity privateIncomingInvocations: (newEntity privateIncomingInvocations orionCopy unsafeAdd: theNewEntity).
 			theNewEntity privateCandidates: (theNewEntity privateCandidates orionCopy unsafeAdd: newEntity) ] ] .
-
-	self outgoingReferences
-		ifNotNil: [ | theNewEntities |
-			theNewEntities := OrderedCollection withAll: (self outgoingReferences collect: [:e | self orionModel retrieveEntity: e ]).
-			newEntity privateOutgoingReferences: theNewEntities orionCopy.
-			theNewEntities do: [:e | e privateSource: newEntity ] ].
 
 	self types
 		ifNotNil: [ | theNewEntities |

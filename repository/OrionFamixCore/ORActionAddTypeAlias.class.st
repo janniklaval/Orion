@@ -5,9 +5,9 @@ Class {
 	#name : #ORActionAddTypeAlias,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
+		'instances',
 		'typeAliases',
 		'definedAnnotationTypes',
-		'instances',
 		'declaredSourceLanguage',
 		'container',
 		'annotationInstances',
@@ -193,8 +193,8 @@ ORActionAddTypeAlias >> run [
 	self isStub ifNotNil: [ :e | 
 		newEntity privateIsStub: e orionCopy ].
 
-	self modifiers isEmptyOrNil ifFalse: [ :e | 
-		newEntity privateModifiers: e orionCopy ].
+	self modifiers isEmptyOrNil ifFalse: [ 
+		newEntity privateModifiers: self modifiers orionCopy ].
 
 	self name ifNotNil: [ :e | 
 		newEntity privateName: e orionCopy ].

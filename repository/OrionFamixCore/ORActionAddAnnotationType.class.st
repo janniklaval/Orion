@@ -12,11 +12,11 @@ Class {
 		'behavioursWithDeclaredType',
 		'name',
 		'structuresWithDeclaredType',
+		'modifiers',
 		'instances',
 		'incomingReferences',
 		'types',
 		'annotationInstances',
-		'modifiers',
 		'methods',
 		'functions',
 		'declaredSourceLanguage',
@@ -192,8 +192,8 @@ ORActionAddAnnotationType >> run [
 	self name ifNotNil: [ :e | 
 		newEntity privateName: e orionCopy ].
 
-	self modifiers isEmptyOrNil ifFalse: [ :e | 
-		newEntity privateModifiers: e orionCopy ].
+	self modifiers isEmptyOrNil ifFalse: [ 
+		newEntity privateModifiers: self modifiers orionCopy ].
 
 	self isStub ifNotNil: [ :e | 
 		newEntity privateIsStub: e orionCopy ].
