@@ -5,8 +5,8 @@ Class {
 	#name : #ORActionAddEnum,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
-		'definedAnnotationTypes',
 		'instances',
+		'definedAnnotationTypes',
 		'declaredSourceLanguage',
 		'container',
 		'annotationInstances',

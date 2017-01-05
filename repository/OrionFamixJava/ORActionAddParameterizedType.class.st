@@ -23,7 +23,11 @@ Class {
 		'functions',
 		'comments',
 		'incomingReferences',
-		'superInheritances'
+		'superInheritances',
+		'receivingInvocations',
+		'sourceAnchor',
+		'methods',
+		'name'
 	],
 	#category : #'OrionFamixJava-Action'
 }
