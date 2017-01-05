@@ -371,10 +371,11 @@ ORActionGenerator >> setLinksFrom: aFM3MetaDescription [
 ORActionGenerator >> settingOfPropertiesFrom: listOfProperties [
 	^ listOfProperties
 		collect: [ :propertyNotDerived | 
-			'<t>self <1s> <3?isEmptyOrNil ifFalse:ifNotNil>: [ :e | <r><t><t>newEntity private<2s>: e orionCopy ].<r>'
+			(propertyNotDerived isMultivalued
+				ifTrue: [ '<t>self <1s> isEmptyOrNil ifFalse: [ <r><t><t>newEntity private<2s>: self <1s> orionCopy ].<r>' ]
+				ifFalse: [ '<t>self <1s> ifNotNil: [ :e | <r><t><t>newEntity private<2s>: e orionCopy ].<r>' ])
 				expandMacrosWith: propertyNotDerived implementingSelector
-				with: propertyNotDerived implementingSelector capitalized
-				with: propertyNotDerived isMultivalued ]
+				with: propertyNotDerived implementingSelector capitalized ]
 ]
 
 { #category : #accessing }
