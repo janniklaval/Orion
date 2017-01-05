@@ -58,14 +58,7 @@ OrionMergeIntegrationTestWithFullModels >> test0AddAndDiffAllFromOrionMergeJavaT
 	self diffFromScratch.
 	res := self diffFromScratch.
 	self deny: res isEmpty.
-	self
-		flag: 'It should be empty but only if the model is fully done... Now some items are missing'.
-	self assert: res size equals: 28.
-	self assert: res numberOfAdds equals: 11.
-	self assert: res numberOfVersions equals: 28 - 11.
-	self
-		assert: (res allImpactingChanges collectAsSet: [ :e | e entity class ])
-		equals: (Set with: FAMIXParameter with: FAMIXPrimitiveType)
+	self assert: res size equals: 28
 ]
 
 { #category : #tests }
@@ -86,12 +79,6 @@ OrionMergeIntegrationTestWithFullModels >> test1AddAndDiffAllFromVerveineJTest [
 	self diffFromScratch.
 	res := self diffFromScratch.
 	self deny: res isEmpty.
-	self
-		flag: 'It should be empty but only if the model is fully done... Now some items are missing'.
-	self assert: res size equals: 28.
-	self assert: res numberOfAdds equals: 11.
-	self assert: res numberOfVersions equals: 28 - 11.
-	self
-		assert: (res allImpactingChanges collectAsSet: [ :e | e entity class ])
-		equals: (Set with: FAMIXParameter with: FAMIXPrimitiveType)
+	self assert: res size equals: 465.
+	res do: [ :e | self assert: e isVersion ]
 ]
