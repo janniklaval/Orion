@@ -9,6 +9,16 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+OrionMergeFamixChangeVisitor >> createAdd: descr entity: aFamixAddChange [
+	| entity changeAction |
+	entity := aFamixAddChange entity.
+	changeAction := ('ORActionAdd' , descr name) asClass new.
+	changeAction orionModel: self orionVersionedModel.
+	descr allAttributesNotDerived do: [ :e | self setProperty: e from: entity to: changeAction ].
+	changeAction manualRun; postRun
+]
+
+{ #category : #'as yet unclassified' }
 OrionMergeFamixChangeVisitor >> createAddAnnotationInstance: aFamixAddChange [
 	(self orionVersionedModel entityNamed: aFamixAddChange entity belongsTo mooseName)
 		addAnnotationInstanceOfType: aFamixAddChange entityName
@@ -36,7 +46,13 @@ OrionMergeFamixChangeVisitor >> createAddAttribute: aFamixAddChange [
 
 { #category : #'as yet unclassified' }
 OrionMergeFamixChangeVisitor >> createAddClass: aFamixAddChange [
-	aFamixAddChange entity parentPackage
+	| entity descr changeAction |
+	entity := aFamixAddChange entity.
+	descr := entity mooseDescription.
+	changeAction := ('ORActionAdd' , descr name) asClass new.
+	changeAction orionModel: self orionVersionedModel.
+	descr allAttributesNotDerived do: [ :e | self setProperty: e from: entity to: changeAction ].
+	changeAction manualRun; "	OLD VERSION : aFamixAddChange entity parentPackage
 		ifNotNil: [ (self orionVersionedModel entityNamed: aFamixAddChange entity parentPackage mooseName)
 				addClassNamed: aFamixAddChange entityName
 				isStub: aFamixAddChange entity isStub
@@ -44,7 +60,8 @@ OrionMergeFamixChangeVisitor >> createAddClass: aFamixAddChange [
 		ifNil: [ (self orionVersionedModel entityNamed: aFamixAddChange entity container mooseName)
 				addClassNamed: aFamixAddChange entityName
 				isStub: aFamixAddChange entity isStub
-				inModel: self orionVersionedModel ]
+				inModel: self orionVersionedModel ]"
+			postRun
 ]
 
 { #category : #'as yet unclassified' }
@@ -104,6 +121,13 @@ OrionMergeFamixChangeVisitor >> createAddPrimitiveType: aFamixAddChange [
 	self flag: #'Not Implemted yet!'
 ]
 
+{ #category : #'as yet unclassified' }
+OrionMergeFamixChangeVisitor >> findEntityInOrionModel: entity [
+	entity mooseName = #noname
+		ifTrue: [ self halt ].
+	^ self orionVersionedModel entityNamed: entity mooseName
+]
+
 { #category : #initialization }
 OrionMergeFamixChangeVisitor >> initialize [
 	famixAddVisitor := OrionMergeFamixVisitor
@@ -120,6 +144,20 @@ OrionMergeFamixChangeVisitor >> orionVersionedModel [
 { #category : #'as yet unclassified' }
 OrionMergeFamixChangeVisitor >> orionVersionedModel: anORModel [
 	orionVersionedModel := anORModel
+]
+
+{ #category : #initialization }
+OrionMergeFamixChangeVisitor >> setProperty: aFM3PropertyDescription from: aMooseEntity to: anActionClass [
+	| selector fromEntityResult result |
+	selector := aFM3PropertyDescription implementingSelector.
+	fromEntityResult := aMooseEntity perform: selector.
+	fromEntityResult ifNil: [ ^ self ].
+	result := fromEntityResult.
+	aFM3PropertyDescription type isPrimitive
+		ifFalse: [ aFM3PropertyDescription isMultivalued
+				ifTrue: [ result := fromEntityResult collect: [ :e | self findEntityInOrionModel: e ] ]
+				ifFalse: [ result := self findEntityInOrionModel: fromEntityResult ] ].
+	[ anActionClass perform: selector asMutator with: result ] on: MessageNotUnderstood do: [ :e | Transcript logCr: e printString ].
 ]
 
 { #category : #visiting }

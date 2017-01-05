@@ -213,8 +213,7 @@ OrionMerge >> createAddType [
 			changeAction := ('ORActionAdd' , descr name) asClass new.
 			changeAction orionModel: self orionVersionedModel.
 			descr allAttributesNotDerived do: [ :e | self setProperty: e from: entity to: changeAction ].
-			self halt.
-			changeAction manualRun; postRun ].self halt.
+			changeAction manualRun; postRun ]
 ]
 
 { #category : #'private-run' }
@@ -422,20 +421,6 @@ OrionMerge >> orionVersionedModel: anObject [
 { #category : #accessing }
 OrionMerge >> run [
 	self createVersion.
-]
-
-{ #category : #'as yet unclassified' }
-OrionMerge >> setProperty: aFM3PropertyDescription from: aMooseEntity to: anActionClass [
-	| selector fromEntityResult result |
-	selector := aFM3PropertyDescription implementingSelector.
-	fromEntityResult := aMooseEntity perform: selector.
-	fromEntityResult ifNil: [ ^ self ].
-	result := fromEntityResult.
-	aFM3PropertyDescription type isPrimitive
-		ifFalse: [ aFM3PropertyDescription isMultivalued
-				ifTrue: [ result := fromEntityResult collect: [ :e | self orionVersionedModel entityNamed: e mooseName ] ]
-				ifFalse: [ result := self orionVersionedModel entityNamed: fromEntityResult mooseName ] ].
-	anActionClass perform: selector asMutator with: result
 ]
 
 { #category : #deprecated }

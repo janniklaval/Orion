@@ -36,6 +36,7 @@ OrionMergeFamixVisitor >> currentEntity: aFamixAddChange [
 { #category : #visiting }
 OrionMergeFamixVisitor >> visitEntity: anEntity [
 	^ self changeVisitor
-		perform: ('create' , self actionType , anEntity mooseDescription name asMutator)asSymbol
+		perform: ('create' , self actionType,':entity:')asSymbol
+		with: anEntity mooseDescription 
 		with: currentEntity
 ]
