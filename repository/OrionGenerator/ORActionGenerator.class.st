@@ -107,12 +107,12 @@ ORActionGenerator >> createCommentToAnORAction: anORAction [
 
 { #category : #'creating method' }
 ORActionGenerator >> createGetterFor: aMethodName on: aClass classified: aCat [
-	aClass compile: aMethodName , String cr , String tab , '^ ' , aMethodName classified: aCat
+	aClass compileSilently: aMethodName , String cr , String tab , '^ ' , aMethodName classified: aCat
 ]
 
 { #category : #'creating method' }
 ORActionGenerator >> createSetterFor: aString on: aClass classified: aCat [
-	aClass compile: ('<1s>: aValue<r><t><1s> := aValue' expandMacrosWith: aString) classified: aCat
+	aClass compileSilently: ('<1s>: aValue<r><t><1s> := aValue' expandMacrosWith: aString) classified: aCat
 ]
 
 { #category : #'creating method' }
@@ -217,7 +217,7 @@ ORActionGenerator >> generateRequiredMethods: anAction forAMovedEntity: anOREnti
 			stream tab; << '].'; cr ].
 	stream tab << 'theEntity resetMooseName.'.
 	stream cr tab; << '^ theEntity'.
-	anAction compile: stream contents classified: 'method execution - generated'
+	anAction compileSilently: stream contents classified: 'method execution - generated'
 ]
 
 { #category : #'creating method' }
@@ -261,7 +261,7 @@ ORActionGenerator >> generateRequiredMethods: anAction forARemovedEntity: anOREn
 		ifNil: [ stream tab << 'self runExtendedPropertiesForEntity: entity.'.
 			stream cr tab << 'self orionModel remove: entity' ].
 	cat := self catNameFor: aFamePackage defaultName: 'method execution'.
-	anAction compile: stream contents classified: cat
+	anAction compileSilently: stream contents classified: cat
 ]
 
 { #category : #'creating method' }
@@ -278,7 +278,7 @@ ORActionGenerator >> generateRequiredMethods: anAction forARenamedEntity: anOREn
 	stream tab; << 'theEntity name: newName.'; cr.
 	stream tab; << 'entity := theEntity.'; cr.
 	stream tab; << '^ entity'.
-	anAction compile: stream contents classified: 'method exectution - generated'
+	anAction compileSilently: stream contents classified: 'method exectution - generated'
 ]
 
 { #category : #'creating method' }
@@ -320,7 +320,7 @@ ORActionGenerator >> generateRequiredMethods: anAction forAnAddedEntity: anOREnt
 		ifNil: [ stream tab; << 'self runExtendedPropertiesForEntity: newEntity.'; cr.
 			stream tab; << 'entity := newEntity.'; cr; tab; << '^ entity' ].
 	cat := self catNameFor: aFamePackage defaultName: 'method execution'.
-	anAction compile: stream contents classified: cat
+	anAction compileSilently: stream contents classified: cat
 ]
 
 { #category : #preparation }

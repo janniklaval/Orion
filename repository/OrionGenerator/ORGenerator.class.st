@@ -49,8 +49,8 @@ ORGenerator >> addAccessorFrom: aFamixClass toTrait: aOrionTrait [
 						ifTrue: [ cat := 'accessing' ]
 						ifFalse: [ cat := '*' , extensionCat ] ]
 				ifFalse: [ cat := 'accessing' ].
-			aOrionTrait compile: (self codeForSelector: prop) classified: cat.
-			aOrionTrait compile: (self codeForORSelector: prop) classified: cat ]
+			aOrionTrait compileSilently: (self codeForSelector: prop) classified: cat.
+			aOrionTrait compileSilently: (self codeForORSelector: prop) classified: cat ]
 ]
 
 { #category : #'creating method' }
@@ -62,8 +62,8 @@ ORGenerator >> addExtendedPrivateAccessorsOf: aProp to: aFamixClass [
 	"(aFamixClass methodDict includesKey: aMethName asSymbol)
 		ifFalse: [ "
 	cat := '*' , 'Orion' , ('' join: (aProp compiledMethod category substrings: '-*')).
-	aFamixClass compile: (self codeForPrivateExtendedGetter: aProp) classified: cat.
-	aFamixClass compile: (self codeForPrivateExtendedSetter: aProp) classified: cat	"]"
+	aFamixClass compileSilently: (self codeForPrivateExtendedGetter: aProp) classified: cat.
+	aFamixClass compileSilently: (self codeForPrivateExtendedSetter: aProp) classified: cat	"]"
 ]
 
 { #category : #'creating method' }
@@ -84,8 +84,8 @@ ORGenerator >> addThePrivateAccessorOf: aProp to: aFamixClass [
 	aMethName := 'private' , aProp name capitalized.
 	(aFamixClass methodDict includesKey: aMethName asSymbol)
 		ifFalse: [ 
-			aFamixClass compile: (self codeForPrivateGetter: aProp) classified: '*' , (self createClassCategoryName: aFamixClass).
-			aFamixClass compile: (self codeForPrivateSetter: aProp) classified: '*' , (self createClassCategoryName: aFamixClass) ]
+			aFamixClass compileSilently: (self codeForPrivateGetter: aProp) classified: '*' , (self createClassCategoryName: aFamixClass).
+			aFamixClass compileSilently: (self codeForPrivateSetter: aProp) classified: '*' , (self createClassCategoryName: aFamixClass) ]
 ]
 
 { #category : #'creating method' }
