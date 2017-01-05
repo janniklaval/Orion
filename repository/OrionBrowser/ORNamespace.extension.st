@@ -26,7 +26,7 @@ ORNamespace >> moveTo: aNamespace inModel: aModelVersion [
 	^(ORActionMoveNamespace new
 		orionModel: aModelVersion ;
 		entity: self ;
-		newContainer: aNamespace )
+		parentScope: aNamespace )
 	manualRun;
 	postRun
 ]
