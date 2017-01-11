@@ -29,7 +29,9 @@ OrionMergeFamixChangeVisitor >> createAddAnnotationInstance: aFamixAddChange [
 OrionMergeFamixChangeVisitor >> createAddAnnotationType: aFamixAddChange [
 	(aFamixAddChange entity belongsTo
 		ifNotNil: [ self orionVersionedModel entityNamed: aFamixAddChange entity belongsTo mooseName ]
-		ifNil: [ self orionVersionedModel ]) addAnnotationTypeNamed: aFamixAddChange entityName inModel: self orionVersionedModel
+		ifNil: [ self orionVersionedModel ])
+		addAnnotationTypeNamed: aFamixAddChange entityName
+		inModel: self orionVersionedModel
 ]
 
 { #category : #'as yet unclassified' }
@@ -66,7 +68,7 @@ OrionMergeFamixChangeVisitor >> createAddClass: aFamixAddChange [
 
 { #category : #'as yet unclassified' }
 OrionMergeFamixChangeVisitor >> createAddEnum: aFamixAddChange [
-	self createAddClass: aFamixAddChange
+		^ self createAddType: aFamixAddChange
 ]
 
 { #category : #'as yet unclassified' }
@@ -79,6 +81,11 @@ OrionMergeFamixChangeVisitor >> createAddInheritance: aFamixAddChange [
 	aFamixAddChange entity to isStub
 		ifTrue: [ self orionVersionedModel addInheritanceFrom: aFamixAddChange entity from toStub: aFamixAddChange entity to ]
 		ifFalse: [ self orionVersionedModel addInheritanceFrom: aFamixAddChange entity from to: aFamixAddChange entity to ]
+]
+
+{ #category : #'as yet unclassified' }
+OrionMergeFamixChangeVisitor >> createAddLocalVariable: aFamixAddChange [ 
+	self flag: 'Not yet implemented!'
 ]
 
 { #category : #'as yet unclassified' }
@@ -108,17 +115,30 @@ OrionMergeFamixChangeVisitor >> createAddParameterType: aFamixAddChange [
 
 { #category : #'as yet unclassified' }
 OrionMergeFamixChangeVisitor >> createAddParameterizableClass: aFamixAddChange [
-	self createAddClass: aFamixAddChange
+		^ self createAddType: aFamixAddChange
 ]
 
 { #category : #'as yet unclassified' }
 OrionMergeFamixChangeVisitor >> createAddParameterizedType: aFamixAddChange [
-	self createAddClass: aFamixAddChange
+		^ self createAddType: aFamixAddChange
 ]
 
 { #category : #'as yet unclassified' }
 OrionMergeFamixChangeVisitor >> createAddPrimitiveType: aFamixAddChange [
 	self flag: #'Not Implemted yet!'
+]
+
+{ #category : #'as yet unclassified' }
+OrionMergeFamixChangeVisitor >> createAddType: aFamixAddChange [
+	aFamixAddChange entity parentPackage
+		ifNotNil: [ (self orionVersionedModel entityNamed: aFamixAddChange entity parentPackage mooseName)
+				addClassNamed: aFamixAddChange entityName
+				isStub: aFamixAddChange entity isStub
+				inModel: self orionVersionedModel ]
+		ifNil: [ (self orionVersionedModel entityNamed: aFamixAddChange entity container mooseName)
+				addClassNamed: aFamixAddChange entityName
+				isStub: aFamixAddChange entity isStub
+				inModel: self orionVersionedModel ]
 ]
 
 { #category : #'as yet unclassified' }
