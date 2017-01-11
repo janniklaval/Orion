@@ -126,7 +126,7 @@ ORClass >> moveTo: aPackage inModel: aModelVersion [
 	[^(ORActionMoveClass new
 		orionModel: aModelVersion ;
 		entity: self ;
-		newContainer: aPackage )
+		parentPackage: aPackage )
 	manualRun;
 	postRun ]
 	orBrowserExceptionsLauncher: aPackage  

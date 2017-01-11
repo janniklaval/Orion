@@ -42,7 +42,7 @@ ORAttribute >> moveTo: aClass inModel: aModelVersion [
 	^(ORActionMoveAttribute  new
 		orionModel: aModelVersion ;
 		entity: self ;
-		newContainer: aClass )
+		parentType: aClass )
 	manualRun; postRun ]
 		orBrowserExceptionsLauncher: aClass.
 

@@ -306,7 +306,8 @@ OrionBrowserTest >> testDeleteReference [
 OrionBrowserTest >> testMergePackage [
 
 	| orionModel pckg1 pckg2 |
-
+	self flag: #FIXME.
+	self fail.
 	self model system.
 	orionModel := (ORModel withParent: self model) name: 'AsM'.
 
