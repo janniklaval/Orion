@@ -394,6 +394,16 @@ TFAMIXParameterType >> superInheritancesOR: aVersion [
 ]
 
 { #category : #accessing }
+TFAMIXParameterType >> typeAliases [
+	^ self typeAliasesOR: self currentContext
+]
+
+{ #category : #accessing }
+TFAMIXParameterType >> typeAliasesOR: aVersion [
+	^ self privateTypeAliases versionIn: aVersion
+]
+
+{ #category : #accessing }
 TFAMIXParameterType >> types [
 	^ self typesOR: self currentContext
 ]

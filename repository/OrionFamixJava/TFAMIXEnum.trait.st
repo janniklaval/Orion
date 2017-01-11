@@ -394,6 +394,16 @@ TFAMIXEnum >> superInheritancesOR: aVersion [
 ]
 
 { #category : #accessing }
+TFAMIXEnum >> typeAliases [
+	^ self typeAliasesOR: self currentContext
+]
+
+{ #category : #accessing }
+TFAMIXEnum >> typeAliasesOR: aVersion [
+	^ self privateTypeAliases versionIn: aVersion
+]
+
+{ #category : #accessing }
 TFAMIXEnum >> types [
 	^ self typesOR: self currentContext
 ]

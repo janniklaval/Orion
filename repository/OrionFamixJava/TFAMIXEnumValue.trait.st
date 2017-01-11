@@ -83,6 +83,16 @@ TFAMIXEnumValue >> defaultStateClass [
 ]
 
 { #category : #accessing }
+TFAMIXEnumValue >> dereferencedInvocations [
+	^ self dereferencedInvocationsOR: self currentContext
+]
+
+{ #category : #accessing }
+TFAMIXEnumValue >> dereferencedInvocationsOR: aVersion [
+	^ self privateDereferencedInvocations versionIn: aVersion
+]
+
+{ #category : #accessing }
 TFAMIXEnumValue >> famixClass [
 	"All Orion classes are direct subclasses of their Famix counterpart"
 	^ super famixClass superclass
