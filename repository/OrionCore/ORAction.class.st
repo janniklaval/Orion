@@ -165,6 +165,12 @@ ORAction >> run [
 ]
 
 { #category : #'method execution' }
+ORAction >> runExtendedPropertiesForEntity: anOREntity [
+	(Pragma allNamed: #toRun in: self class)
+		do: [ :pragma | self perform: pragma methodSelector with: anOREntity ]
+]
+
+{ #category : #'method execution' }
 ORAction >> runOR: aVersion [
 
 	aVersion system announcer announce: ORAnnouncement.
