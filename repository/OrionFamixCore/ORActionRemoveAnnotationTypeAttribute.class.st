@@ -14,7 +14,6 @@ ORActionRemoveAnnotationTypeAttribute >> run [
 	entity comments do: [ :e | e deleteInAction: self ].
 	entity annotationInstances do: [ :e | e deleteInAction: self ].
 	entity incomingAccesses do: [ :e | e deleteInAction: self ].
-	entity dereferencedInvocations do: [ :e | e deleteInAction: self ].
 	entity receivingInvocations do: [ :e | e deleteInAction: self ].
 	entity declaredType
 		ifNotNil: [ | theEntity |
