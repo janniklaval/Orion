@@ -142,6 +142,17 @@ OrionMergeFamixChangeVisitor >> createAddType: aFamixAddChange [
 ]
 
 { #category : #'as yet unclassified' }
+OrionMergeFamixChangeVisitor >> createDel: descr entity: aFamixRemovalChange [
+	| entity changeAction |
+	entity := aFamixRemovalChange entity.
+	changeAction := ('ORActionRemove' , descr superclass name) asClass new.
+	changeAction orionModel: self orionVersionedModel.
+	descr allAttributesNotDerived do: [ :e | self setProperty: e from: entity to: changeAction ].
+	changeAction entity: aFamixRemovalChange entity.
+	changeAction manualRun; postRun
+]
+
+{ #category : #'as yet unclassified' }
 OrionMergeFamixChangeVisitor >> findEntityInOrionModel: entity [
 	entity mooseName = #noname
 		ifTrue: [ self halt ].
@@ -189,4 +200,10 @@ OrionMergeFamixChangeVisitor >> visitAddChange: aFamixAddChange [
 { #category : #visiting }
 OrionMergeFamixChangeVisitor >> visitChange: aFamixAddChange [ 
 	self shouldBeImplemented.
+]
+
+{ #category : #visiting }
+OrionMergeFamixChangeVisitor >> visitRemovalChange: aFamixAddChange [
+	famixAddVisitor currentEntity: aFamixAddChange.
+	aFamixAddChange entity accept: famixAddVisitor
 ]
