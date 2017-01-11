@@ -200,7 +200,7 @@ OrionMergeJavaTest >> modelMerger: anObject [
 
 { #category : #'as yet unclassified' }
 OrionMergeJavaTest >> mooseModelMerge [
-	^ modelMerger diffTransformers first
+	^ modelMerger orionMergeTransformer
 ]
 
 { #category : #accessing }

@@ -286,12 +286,14 @@ TOrionMergeTest >> testCreateMoveClass [
 { #category : #'tests-create' }
 TOrionMergeTest >> testCreateMoveExtendedMethod [
 	| orAction meth extendedMeth |
+	self flag: #FIXME.
+	self fail.
 	(self modelMerger baseModel entityNamed: 'Smalltalk::A3diff') addMethodNamed: 'extendedMeth' inModel: self modelMerger baseModel.
 	extendedMeth := self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.extendedMeth()'.
 	orAction := ORActionExtendMethod new
 		orionModel: self modelMerger baseModel;
 		entity: extendedMeth;
-		newContainer: (self modelMerger baseModel entityNamed: #'Moose-TestResources-ModelDiff-P4').
+		parentPackage: (self modelMerger baseModel entityNamed: #'Moose-TestResources-ModelDiff-P4').
 	orAction run.
 	self assert: extendedMeth isNotNil.
 	self assert: extendedMeth parentPackage mooseName equals: 'Moose-TestResources-ModelDiff-P4'.
@@ -361,8 +363,8 @@ TOrionMergeTest >> testCreateRemoveAccess [
 	var1 := self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.att1'.
 	ORActionAddAccess new
 		orionModel: self modelMerger baseModel;
-		from: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.b3()');
-		to: var1;
+		accessor: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.b3()');
+		variable: var1;
 		run.
 	self modelMerger run.
 	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
@@ -374,17 +376,19 @@ TOrionMergeTest >> testCreateRemoveAccess [
 { #category : #'tests-create' }
 TOrionMergeTest >> testCreateRemoveAnnotation [
 	| method annotationType annotationsInstancesBaseModel |
-	method := self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.c3()'.
+	method := self modelMerger baseModel
+		entityNamed: 'Smalltalk::A3diff.c3()'.
 	annotationType := (ORActionAddAnnotationType new
 		orionModel: self modelMerger baseModel;
 		container: method;
-		newName: 'newAnnotationType') run.
+		name: 'newAnnotationType') run.
 	(ORActionAddAnnotationInstance new
 		orionModel: self modelMerger baseModel;
 		container: method;
 		type: 'newAnnotationType') run.
 	self modelMerger run.
-	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
+	self modelMerger
+		orionVersionedModel: self modelMerger baseModel createNewChildVersion.
 	self mooseModelMerge createAddScopingEntity.
 	self mooseModelMerge createAddType.
 	self mooseModelMerge createAddMethod.
@@ -392,12 +396,21 @@ TOrionMergeTest >> testCreateRemoveAnnotation [
 	self mooseModelMerge createAddAnnotationInstance.
 	self mooseModelMerge createRemoveAnnotationInstance.
 	self mooseModelMerge createRemoveAnnotationType.
-	annotationsInstancesBaseModel := (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.c3()') annotationInstances.
+	annotationsInstancesBaseModel := (self modelMerger baseModel
+		entityNamed: 'Smalltalk::A3diff.c3()') annotationInstances.
 	self assert: annotationsInstancesBaseModel size equals: 1.
-	self assert: annotationsInstancesBaseModel first annotatedEntity isNotNil.
-	self assert: annotationsInstancesBaseModel first annotatedEntity name equals: 'c3'.
-	self assert: annotationsInstancesBaseModel first annotationType name equals: 'newAnnotationType'.
-	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.c3()') annotationInstances isEmpty
+	self
+		assert: annotationsInstancesBaseModel first annotatedEntity isNotNil.
+	self
+		assert: annotationsInstancesBaseModel first annotatedEntity name
+		equals: 'c3'.
+	self
+		assert: annotationsInstancesBaseModel first annotationType name
+		equals: 'newAnnotationType'.
+	self
+		assert:
+			(self modelMerger orionVersionedModel
+				entityNamed: 'Smalltalk::A3diff.c3()') annotationInstances isEmpty
 ]
 
 { #category : #'tests-create' }
@@ -422,7 +435,7 @@ TOrionMergeTest >> testCreateRemoveInvocation [
 		asOrderedCollection.
 	ORActionAddInvocation new
 		orionModel: self modelMerger baseModel;
-		from: var1;
+		sender: var1;
 		candidates: cand;
 		run.
 	self diff.
@@ -454,8 +467,8 @@ TOrionMergeTest >> testCreateRemoveReference [
 	var1 := self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.b3()'.
 	ORActionAddReference new
 		orionModel: self modelMerger baseModel;
-		from: var1;
-		to: (self modelMerger baseModel entityNamed: 'Smalltalk::A4diff');
+		source: var1;
+		target: (self modelMerger baseModel entityNamed: 'Smalltalk::A4diff');
 		run.
 	self diff.
 	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
@@ -747,13 +760,15 @@ TOrionMergeTest >> testSetOfRemoveAccessChanges [
 	var1 := self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.att1'.
 	ORActionAddAccess new
 		orionModel: self modelMerger baseModel;
-		from: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.b3()');
-		to: var1;
+		accessor: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.b3()');
+		variable: var1;
 		run.
 	self diff.
 	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
 	self assert: self modelMerger result setOfRemoveAccessChanges notNil.
-	self assert: self modelMerger result setOfRemoveAccessChanges size equals: (self diff assocChanges count: [ :e | e isRemoval and: [ e entity isAccess ] ])
+	self
+		assert: self modelMerger result setOfRemoveAccessChanges size
+		equals: (self diff assocChanges count: [ :e | e isRemoval and: [ e entity isAccess ] ])
 ]
 
 { #category : #'tests-set' }
@@ -789,8 +804,8 @@ TOrionMergeTest >> testSetOfRemoveReferenceChanges [
 	var1 := self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.b3()'.
 	ORActionAddReference new
 		orionModel: self modelMerger baseModel;
-		from: var1;
-		to: (self modelMerger baseModel entityNamed: 'Smalltalk::A4diff');
+		source: var1;
+		target: (self modelMerger baseModel entityNamed: 'Smalltalk::A4diff');
 		run.
 	self diff.
 	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
@@ -805,18 +820,18 @@ TOrionMergeTest >> testSetOfRenameAttributeChanges [
 	var1 := self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.att1'.
 	ORActionAddAccess new 		
 			orionModel: self modelMerger baseModel; 
-			from: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.b2()') ; 
-			to: var1; 
+			accessor: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.b2()') ; 
+			variable: var1; 
 			run.
 	ORActionAddAccess new 		
 			orionModel: self modelMerger baseModel; 
-			from: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.c3()') ; 
-			to: var1; 
+			accessor: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.c3()') ; 
+			variable: var1; 
 			run.
 	ORActionAddAccess new 		
 			orionModel: self modelMerger baseModel; 
-			from: (self modelMerger baseModel entityNamed: 'Smalltalk::B3diff.c3()') ; 
-			to: var1; 
+			accessor: (self modelMerger baseModel entityNamed: 'Smalltalk::B3diff.c3()') ; 
+			variable: var1; 
 			run.
 
 	var2 := self modelMerger targetModel entityNamed: 'Smalltalk::A3diff.att1'.
