@@ -2,7 +2,8 @@ Class {
 	#name : #ORConverter,
 	#superclass : #Object,
 	#classVars : [
-		'association'
+		'association',
+		'modelShouldHaveOnlyOrionClasses'
 	],
 	#category : #OrionCore
 }
@@ -26,32 +27,30 @@ ORConverter class >> buildFromMooseModel: aMooseModel [
 { #category : #'initialize-release' }
 ORConverter class >> convertFromMooseModel: aMooseModel [
 	"take a MooseModel and convert it in a ORModel"
+
 	| model state |
 	aMooseModel allPackages do: #createPackagesFromCategories.
-	
 	model := ORModel new.
 	model name: aMooseModel name.
 	model sourceLanguage: aMooseModel sourceLanguage.
-	
-	 aMooseModel entities do:[:anEntity |
-		|myNewClass newAtt|
-		"Halt if: [anEntity isClass]."
-		myNewClass := self mapping at: anEntity class ifAbsent:[nil].
-		myNewClass ifNotNil:[
-			anEntity primitiveChangeClassTo: myNewClass new.
-			state := anEntity privateState.
-			state primitiveChangeClassTo: anEntity defaultStateClass new.
-			newAtt := SmallDictionary new.
-			state privateAttributes do:[:attr |
-				newAtt at: attr key put: attr value.
-			].
-			state privateAttributes: newAtt. 
-			anEntity privateState: state.
-		].
-
-		model add: anEntity.
-	].
-	^model
+	aMooseModel entities
+		do: [ :anEntity | 
+			| myNewClass newAtt |
+			myNewClass := self mapping
+				at: anEntity class
+				ifAbsent: [ anEntity class asLog emit.
+					nil ].
+			myNewClass
+				ifNotNil: [ anEntity primitiveChangeClassTo: myNewClass new.
+					state := anEntity privateState.
+					state primitiveChangeClassTo: anEntity defaultStateClass new.
+					newAtt := SmallDictionary new.
+					state privateAttributes do: [ :attr | newAtt at: attr key put: attr value ].
+					state privateAttributes: newAtt.
+					anEntity privateState: state ].
+			self modelShouldHaveOnlyOrionClasses
+				ifFalse: [ model add: anEntity ] ].
+	^ model
 ]
 
 { #category : #'initialize-release' }
@@ -95,9 +94,24 @@ ORConverter class >> initConverter [
 ]
 
 { #category : #'initialize-release' }
+ORConverter class >> initialize [
+	modelShouldHaveOnlyOrionClasses := false
+]
+
+{ #category : #'initialize-release' }
 ORConverter class >> mapping [
 
 	^association ifNil:[
 		self initConverter
 	]
+]
+
+{ #category : #'initialize-release' }
+ORConverter class >> modelShouldHaveOnlyOrionClasses [
+	^ modelShouldHaveOnlyOrionClasses
+]
+
+{ #category : #'initialize-release' }
+ORConverter class >> modelShouldHaveOnlyOrionClasses: aBoolean [
+	modelShouldHaveOnlyOrionClasses := aBoolean
 ]
