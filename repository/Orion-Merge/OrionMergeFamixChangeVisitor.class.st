@@ -207,3 +207,10 @@ OrionMergeFamixChangeVisitor >> visitRemovalChange: aFamixAddChange [
 	famixAddVisitor currentEntity: aFamixAddChange.
 	aFamixAddChange entity accept: famixAddVisitor
 ]
+
+{ #category : #visiting }
+OrionMergeFamixChangeVisitor >> visitVersionChange: aVersionChange [
+	"Do nothing -> no change -> no change"
+
+	
+]
