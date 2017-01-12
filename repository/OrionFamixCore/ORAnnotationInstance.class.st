@@ -15,6 +15,11 @@ ORAnnotationInstance class >> isOrionClass [
 ]
 
 { #category : #'as yet unclassified' }
+ORAnnotationInstance >> deleteInAction: anAction [
+	ORActionRemoveAnnotationInstance new parentAction: anAction; orionModel: anAction orionModel; entity: self; run
+]
+
+{ #category : #'as yet unclassified' }
 ORAnnotationInstance >> deleteInModel: aModelVersion [
 	(ORActionRemoveAnnotationInstance new
 		orionModel: aModelVersion;
