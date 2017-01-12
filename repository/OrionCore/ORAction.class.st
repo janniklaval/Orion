@@ -161,7 +161,7 @@ ORAction >> removeChildAction: anAction [
 
 { #category : #'method execution' }
 ORAction >> run [
-	self runOR: self orionModel.
+	self runOR: self orionModel
 ]
 
 { #category : #'method execution' }
