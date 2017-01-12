@@ -156,7 +156,7 @@ OrionMergeFamixChangeVisitor >> createDel: descr entity: aFamixRemovalChange [
 OrionMergeFamixChangeVisitor >> findEntityInOrionModel: entity [
 	entity mooseName = #noname
 		ifTrue: [ self halt ].
-	^ self orionVersionedModel entityNamed: entity mooseName
+	^ self orionVersionedModel entityNamed: entity mooseName withType: entity class halt
 ]
 
 { #category : #initialization }
@@ -186,15 +186,25 @@ OrionMergeFamixChangeVisitor >> setProperty: aFM3PropertyDescription from: aMoos
 	result := fromEntityResult.
 	aFM3PropertyDescription type isPrimitive
 		ifFalse: [ aFM3PropertyDescription isMultivalued
-				ifTrue: [ result := fromEntityResult collect: [ :e | self findEntityInOrionModel: e ] ]
+				ifTrue: [ result := fromEntityResult collect: [ :e | self findEntityInOrionModel: e ] thenSelect: [ :e | e isNotNil ] ]
 				ifFalse: [ result := self findEntityInOrionModel: fromEntityResult ] ].
-	[ anActionClass perform: selector asMutator with: result ] on: MessageNotUnderstood do: [ :e | Transcript logCr: e printString ].
+	[ anActionClass perform: selector asMutator with: result ]
+		on: MessageNotUnderstood
+		do: [ :e | Transcript logCr: e printString ]
 ]
 
 { #category : #visiting }
 OrionMergeFamixChangeVisitor >> visitAddChange: aFamixAddChange [
 	famixAddVisitor currentEntity: aFamixAddChange.
 	aFamixAddChange entity accept: famixAddVisitor
+]
+
+{ #category : #visiting }
+OrionMergeFamixChangeVisitor >> visitBodyChange: aBodyChange [
+	self flag: #TODO.
+	"Create a new  action in orion that is a method body change that modify only the hash of the method."
+
+	
 ]
 
 { #category : #visiting }
