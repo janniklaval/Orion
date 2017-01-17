@@ -156,7 +156,7 @@ OrionMergeFamixChangeVisitor >> createDel: descr entity: aFamixRemovalChange [
 OrionMergeFamixChangeVisitor >> findEntityInOrionModel: entity [
 	entity mooseName = #noname
 		ifTrue: [ self halt ].
-	^ self orionVersionedModel entityNamed: entity mooseName withType: entity class halt
+	^ self orionVersionedModel entityNamed: entity mooseName withType: entity class 
 ]
 
 { #category : #initialization }
