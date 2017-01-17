@@ -9,3 +9,13 @@ FAMIXComment >> privateContainer [
 FAMIXComment >> privateContainer: aSourcedEntity [
 	 container := aSourcedEntity
 ]
+
+{ #category : #'*OrionFamixCore-Class' }
+FAMIXComment >> privateContent [
+	^ content 
+]
+
+{ #category : #'*OrionFamixCore-Class' }
+FAMIXComment >> privateContent: anObject [
+	 content := anObject
+]
