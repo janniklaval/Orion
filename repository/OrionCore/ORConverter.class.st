@@ -47,9 +47,8 @@ ORConverter class >> convertFromMooseModel: aMooseModel [
 					newAtt := SmallDictionary new.
 					state privateAttributes do: [ :attr | newAtt at: attr key put: attr value ].
 					state privateAttributes: newAtt.
-					anEntity privateState: state ].
-			self modelShouldHaveOnlyOrionClasses
-				ifFalse: [ model add: anEntity ] ].
+					anEntity privateState: state.
+					model add: anEntity ] ].
 	^ model
 ]
 

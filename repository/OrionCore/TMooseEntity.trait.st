@@ -131,7 +131,10 @@ TMooseEntity >> stateIn: anOrionModel [
 { #category : #accessing }
 TMooseEntity >> versionIn: anOrionModel [
 	| upEntity |
-	upEntity := anOrionModel entityStorage atID: self mooseID ifAbsent: [ ORNotFoundInModel signal: self model: anOrionModel ].
+	upEntity := anOrionModel entityStorage
+		atID: self mooseID
+		ifAbsent: [ "ORNotFoundInModel signal: self model: anOrionModel."
+			^ nil ].
 	upEntity currentContext: anOrionModel.
 	^ upEntity
 ]

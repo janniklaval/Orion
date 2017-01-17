@@ -15,6 +15,11 @@ ORNotFoundInModel class >> signal: anObject model: aModel [
 		signal
 ]
 
+{ #category : #testing }
+ORNotFoundInModel >> isResumable [
+	^ true
+]
+
 { #category : #'as yet unclassified' }
 ORNotFoundInModel >> model: anORModel [ 
 	model := anORModel

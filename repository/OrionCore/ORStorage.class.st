@@ -53,15 +53,10 @@ ORStorage >> at: uniqueName ifAbsent: exceptionBlock [
 { #category : #accessing }
 ORStorage >> at: uniqueName withType: aType ifAbsent: exceptionBlock [
 	| entity na |
-	self halt.
 	na := uniqueName asSymbol.
-	entity := super at: uniqueName withType: aType ifAbsent: [].
-	entity
-		ifNotNil: [ ^ (self atID: entity mooseID ifAbsent: [  ])
-				versionIn: self model privateState currentContext ].
-	entity := self
-		detect: [ :each | na == (each versionIn: self model privateState currentContext) mooseName asSymbol ]
-		ifNone: exceptionBlock.
+	entity := super at: uniqueName withType: aType ifAbsent: [  ].
+	entity ifNotNil: [ ^ (self atID: entity mooseID ifAbsent: [  ]) versionIn: self model privateState currentContext ].
+	entity := self detect: [ :each | na == (each versionIn: self model privateState currentContext) mooseName asSymbol ] ifNone: exceptionBlock.
 	entity ifNotNil: [ byName at: na put: entity ].
 	^ entity versionIn: self model privateState currentContext
 ]

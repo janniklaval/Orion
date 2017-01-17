@@ -25,8 +25,7 @@ Class {
 
 { #category : #'class initialization' }
 ORModel class >> asMooseDescription [
-
-	^MooseModel meta descriptionOf: MooseModel
+	^ self meta descriptionOf: MooseModel
 ]
 
 { #category : #'class initialization' }
@@ -238,6 +237,11 @@ ORModel >> retrieveEntity: anEntity [
 			old := self at: anEntity orionID.
 			new := self createEntityFrom: old.
 			new ]
+]
+
+{ #category : #initialization }
+ORModel >> setAsCurrentContextForAllContainedEntities [
+	self do: [ :entity | entity currentContext: self ]
 ]
 
 { #category : #accessing }
