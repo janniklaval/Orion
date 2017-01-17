@@ -14,12 +14,6 @@ TFAMIXCaughtException classSide >> isOrionClass [
 ]
 
 { #category : #accessing }
-TFAMIXCaughtException >> currentContext [
-	"Answers the model containing the current entity"
-	^ self privateState currentContext
-]
-
-{ #category : #accessing }
 TFAMIXCaughtException >> currentContext: aVersion [
 	"Answers the model containing the current entity"
 	^ self privateState currentContext: aVersion
@@ -138,14 +132,4 @@ TFAMIXCaughtException >> stateIn: anOrionModel [
 	(self isRemovedIn: anOrionModel) ifTrue:[^#isRemoved].
 	^#notChanged
 	
-]
-
-{ #category : #accessing }
-TFAMIXCaughtException >> versionIn: anOrionModel [
-
-	|upEntity|
-	
-	upEntity := anOrionModel entityStorage atID: self mooseID ifAbsent:[^nil].
-	upEntity currentContext: anOrionModel.
-	^upEntity
 ]

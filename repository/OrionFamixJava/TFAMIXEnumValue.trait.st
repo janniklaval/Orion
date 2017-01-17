@@ -45,12 +45,6 @@ TFAMIXEnumValue >> commentsOR: aVersion [
 ]
 
 { #category : #accessing }
-TFAMIXEnumValue >> currentContext [
-	"Answers the model containing the current entity"
-	^ self privateState currentContext
-]
-
-{ #category : #accessing }
 TFAMIXEnumValue >> currentContext: aVersion [
 	"Answers the model containing the current entity"
 	^ self privateState currentContext: aVersion
@@ -80,16 +74,6 @@ TFAMIXEnumValue >> declaredTypeOR: aVersion [
 TFAMIXEnumValue >> defaultStateClass [ 
 	"Answer the default implementator of this element's state."
 	^ORDefaultState
-]
-
-{ #category : #accessing }
-TFAMIXEnumValue >> dereferencedInvocations [
-	^ self dereferencedInvocationsOR: self currentContext
-]
-
-{ #category : #accessing }
-TFAMIXEnumValue >> dereferencedInvocationsOR: aVersion [
-	^ self privateDereferencedInvocations versionIn: aVersion
 ]
 
 { #category : #accessing }
@@ -275,14 +259,4 @@ TFAMIXEnumValue >> stateIn: anOrionModel [
 	(self isRemovedIn: anOrionModel) ifTrue:[^#isRemoved].
 	^#notChanged
 	
-]
-
-{ #category : #accessing }
-TFAMIXEnumValue >> versionIn: anOrionModel [
-
-	|upEntity|
-	
-	upEntity := anOrionModel entityStorage atID: self mooseID ifAbsent:[^nil].
-	upEntity currentContext: anOrionModel.
-	^upEntity
 ]

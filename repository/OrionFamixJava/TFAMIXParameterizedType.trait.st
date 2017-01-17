@@ -141,12 +141,6 @@ TFAMIXParameterizedType >> containerOR: aVersion [
 ]
 
 { #category : #accessing }
-TFAMIXParameterizedType >> currentContext [
-	"Answers the model containing the current entity"
-	^ self privateState currentContext
-]
-
-{ #category : #accessing }
 TFAMIXParameterizedType >> currentContext: aVersion [
 	"Answers the model containing the current entity"
 	^ self privateState currentContext: aVersion
@@ -414,16 +408,6 @@ TFAMIXParameterizedType >> superInheritancesOR: aVersion [
 ]
 
 { #category : #accessing }
-TFAMIXParameterizedType >> typeAliases [
-	^ self typeAliasesOR: self currentContext
-]
-
-{ #category : #accessing }
-TFAMIXParameterizedType >> typeAliasesOR: aVersion [
-	^ self privateTypeAliases versionIn: aVersion
-]
-
-{ #category : #accessing }
 TFAMIXParameterizedType >> types [
 	^ self typesOR: self currentContext
 ]
@@ -431,14 +415,4 @@ TFAMIXParameterizedType >> types [
 { #category : #accessing }
 TFAMIXParameterizedType >> typesOR: aVersion [
 	^ self privateTypes versionIn: aVersion
-]
-
-{ #category : #accessing }
-TFAMIXParameterizedType >> versionIn: anOrionModel [
-
-	|upEntity|
-	
-	upEntity := anOrionModel entityStorage atID: self mooseID ifAbsent:[^nil].
-	upEntity currentContext: anOrionModel.
-	^upEntity
 ]
