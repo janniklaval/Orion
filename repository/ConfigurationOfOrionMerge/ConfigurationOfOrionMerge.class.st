@@ -131,8 +131,12 @@ ConfigurationOfOrionMerge >> baseline01: spec [
 				spec requires: #('Orion' 'FamixDiff' 'OrionFamixJava' ). ];
 			package: 'Orion-Merge-Tests' with: [
 				spec requires: #('Orion-Merge' ). ];
+			package: #OrionFamixBodyHash with: [
+				spec requires: #('OrionFamixCore' 'Orion' 'OrionFamixCore' 'FamixDiff' ). ];
+			package: 'OrionFamixCore' with: [
+				spec requires: #('Orion' ). ];
 			package: 'OrionFamixJava' with: [
-				spec requires: #('Orion' ). ]. ].
+				spec requires: #('Orion' 'OrionFamixCore' ). ]. ].
 
 ]
 
