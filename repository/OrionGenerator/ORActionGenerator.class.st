@@ -38,6 +38,15 @@ ORActionGenerator class >> runOnOrionExistingJavaClasses [
 				classesForClassTag: 'Class')
 ]
 
+{ #category : #running }
+ORActionGenerator class >> runOnOrionSQLClasses [
+	^ self
+		createActionsForORClasses:
+			(((RPackage organizer packages select: [:p | #(#'OrionFamixSQLCore' #'OrionFamixSQLAssociations' #'OrionFamixSQL') includes: p name ]) flatCollect: [ :p | p 
+				classesForClassTag: 'Class' ] ))
+
+]
+
 { #category : #'creating method' }
 ORActionGenerator >> addInstanceVariable: aString on: aClass [
 	[ aClass addInstVarNamed: aString ]

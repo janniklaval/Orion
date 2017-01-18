@@ -35,6 +35,14 @@ ORGenerator class >> runOnOrionExistingJavaClasses [
 				classesForClassTag: 'Class') collect: #superclass)
 ]
 
+{ #category : #running }
+ORGenerator class >> runOnOrionSQLClasses [
+	^ self
+		makeORForClasses:
+			(((RPackage organizer packageNamed: 'Famix-SQL')
+				classes select: [ :c | #(#'Famix-SQL-Core' #'Famix-SQL' #'Famix-SQL-Associations') includes: c category ] ) )
+]
+
 { #category : #'creating method' }
 ORGenerator >> addAccessorFrom: aFamixClass toTrait: aOrionTrait [
 	"add accessors corresponding to the non inherited properties and relations of the Famix Class to the Orion trait "
@@ -154,6 +162,20 @@ ORGenerator >> createClassName: aFamixClass [
 		,
 			(aFamixClass mooseDescription package name = 'FAMIX'
 				ifTrue: [ aFamixClass mooseDescription name ]
+				ifFalse: [ (aFamixClass mooseDescription name beginsWith: aFamixClass mooseDescription package name)
+						ifTrue: [ aFamixClass mooseDescription name ]
+						ifFalse: [ aFamixClass mooseDescription package name , aFamixClass mooseDescription name ] ]))
+		asSymbol
+]
+
+{ #category : #'creating class and trait' }
+ORGenerator >> createClassName: aFamixClass inPackage: aString [
+	"Create the name of the Orion Class from the FamixClass"
+
+	^ ('OR'
+		,
+			(aFamixClass mooseDescription package name = aString
+				ifTrue: [ aFamixClass mooseDescription name ]
 				ifFalse: [ aFamixClass mooseDescription implementingClass name ])) asSymbol
 ]
 
@@ -214,6 +236,22 @@ ORGenerator >> ensureORClass: aFamixClass [
 ]
 
 { #category : #'creating class and trait' }
+ORGenerator >> ensureORClass: aFamixClass fromPackage: aString [
+	"Create an Orion Class corresponding to the FamixClass and inheriting from it"
+
+	| name |
+	name := self createClassName: aFamixClass inPackage: aString.
+	
+	^Smalltalk globals at: name ifAbsent: [
+		aFamixClass  subclass: name
+		uses: (self ensureORTrait: aFamixClass)
+		instanceVariableNames: ''
+		classVariableNames: ''
+		poolDictionaries: ''
+		category: (self createClassCategoryName: aFamixClass)]
+]
+
+{ #category : #'creating class and trait' }
 ORGenerator >> ensureORTrait: aFamixClass [
 	"Create a trait corresponding to the FamixClass "
 
@@ -245,6 +283,16 @@ ORGenerator >> makeOR: aFamixClass [
 	| anORClass |
 	self addAccessorFrom: aFamixClass toTrait: (self ensureORTrait: aFamixClass).
 	anORClass := self ensureORClass: aFamixClass.
+	self createCommentToAClass: anORClass. 
+	self addPrivateAccessorTo: aFamixClass
+]
+
+{ #category : #generator }
+ORGenerator >> makeOR: aFamixClass fromPackage: aString [
+	"Create the ORClass corresponding to the FamixClass, add accessors to the trait and accessors to the FamixClass"
+	| anORClass |
+	self addAccessorFrom: aFamixClass toTrait: (self ensureORTrait: aFamixClass).
+	anORClass := self ensureORClass: aFamixClass fromPackage: aString.
 	self createCommentToAClass: anORClass. 
 	self addPrivateAccessorTo: aFamixClass
 ]
