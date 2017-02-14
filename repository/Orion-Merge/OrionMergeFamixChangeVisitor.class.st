@@ -8,7 +8,7 @@ Class {
 	#category : #'Orion-Merge'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'generic actions' }
 OrionMergeFamixChangeVisitor >> createAdd: descr entity: aFamixAddChange [
 	| entity changeAction |
 	entity := aFamixAddChange entity.
@@ -18,14 +18,14 @@ OrionMergeFamixChangeVisitor >> createAdd: descr entity: aFamixAddChange [
 	changeAction manualRun; postRun
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deprecated }
 OrionMergeFamixChangeVisitor >> createAddAnnotationInstance: aFamixAddChange [
 	(self orionVersionedModel entityNamed: aFamixAddChange entity belongsTo mooseName)
 		addAnnotationInstanceOfType: aFamixAddChange entityName
 		inModel: self orionVersionedModel
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deprecated }
 OrionMergeFamixChangeVisitor >> createAddAnnotationType: aFamixAddChange [
 	(aFamixAddChange entity belongsTo
 		ifNotNil: [ self orionVersionedModel entityNamed: aFamixAddChange entity belongsTo mooseName ]
@@ -34,19 +34,19 @@ OrionMergeFamixChangeVisitor >> createAddAnnotationType: aFamixAddChange [
 		inModel: self orionVersionedModel
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deprecated }
 OrionMergeFamixChangeVisitor >> createAddAnnotationTypeAttribute: aFamixAddChange [
 	self createAddAttribute: aFamixAddChange
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deprecated }
 OrionMergeFamixChangeVisitor >> createAddAttribute: aFamixAddChange [
 	(self orionVersionedModel entityNamed: aFamixAddChange entity belongsTo mooseName)
 		addAttributeNamed: aFamixAddChange entityName
 		inModel: self orionVersionedModel
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deprecated }
 OrionMergeFamixChangeVisitor >> createAddClass: aFamixAddChange [
 	| entity descr changeAction |
 	entity := aFamixAddChange entity.
@@ -66,29 +66,29 @@ OrionMergeFamixChangeVisitor >> createAddClass: aFamixAddChange [
 			postRun
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deprecated }
 OrionMergeFamixChangeVisitor >> createAddEnum: aFamixAddChange [
 		^ self createAddType: aFamixAddChange
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deprecated }
 OrionMergeFamixChangeVisitor >> createAddEnumValue: aFamixAddChange [ 
 	self flag: 'Not yet implemented!'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deprecated }
 OrionMergeFamixChangeVisitor >> createAddInheritance: aFamixAddChange [
 	aFamixAddChange entity to isStub
 		ifTrue: [ self orionVersionedModel addInheritanceFrom: aFamixAddChange entity from toStub: aFamixAddChange entity to ]
 		ifFalse: [ self orionVersionedModel addInheritanceFrom: aFamixAddChange entity from to: aFamixAddChange entity to ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deprecated }
 OrionMergeFamixChangeVisitor >> createAddLocalVariable: aFamixAddChange [ 
 	self flag: 'Not yet implemented!'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deprecated }
 OrionMergeFamixChangeVisitor >> createAddMethod: aFamixAddChange [
 	(self orionVersionedModel entityNamed: aFamixAddChange entity belongsTo mooseName)
 		addMethodNamed: aFamixAddChange entityName
@@ -96,39 +96,39 @@ OrionMergeFamixChangeVisitor >> createAddMethod: aFamixAddChange [
 		inModel: self orionVersionedModel
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deprecated }
 OrionMergeFamixChangeVisitor >> createAddNamespace: aFamixAddChange [
 	self orionVersionedModel
 		addNamespaceNamed: aFamixAddChange entity name
 		inORNamespace: (self orionVersionedModel entityNamed: aFamixAddChange entity parentScope mooseName)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deprecated }
 OrionMergeFamixChangeVisitor >> createAddParameter: aFamixAddChange [ 
 	self flag: 'Not yet implemented!'.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deprecated }
 OrionMergeFamixChangeVisitor >> createAddParameterType: aFamixAddChange [
 	self flag: 'Not yet implemented!'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deprecated }
 OrionMergeFamixChangeVisitor >> createAddParameterizableClass: aFamixAddChange [
 		^ self createAddType: aFamixAddChange
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deprecated }
 OrionMergeFamixChangeVisitor >> createAddParameterizedType: aFamixAddChange [
 		^ self createAddType: aFamixAddChange
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deprecated }
 OrionMergeFamixChangeVisitor >> createAddPrimitiveType: aFamixAddChange [
 	self flag: #'Not Implemted yet!'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #deprecated }
 OrionMergeFamixChangeVisitor >> createAddType: aFamixAddChange [
 	aFamixAddChange entity parentPackage
 		ifNotNil: [ (self orionVersionedModel entityNamed: aFamixAddChange entity parentPackage mooseName)
@@ -141,18 +141,43 @@ OrionMergeFamixChangeVisitor >> createAddType: aFamixAddChange [
 				inModel: self orionVersionedModel ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'generic actions' }
 OrionMergeFamixChangeVisitor >> createDel: descr entity: aFamixRemovalChange [
 	| entity changeAction |
 	entity := aFamixRemovalChange entity.
 	changeAction := ('ORActionRemove' , descr superclass name) asClass new.
 	changeAction orionModel: self orionVersionedModel.
 	descr allAttributesNotDerived do: [ :e | self setProperty: e from: entity to: changeAction ].
-	changeAction entity: aFamixRemovalChange entity.
+	changeAction entity: entity.
 	changeAction manualRun; postRun
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'generic actions' }
+OrionMergeFamixChangeVisitor >> createMov: descr entity: aFamixMoveChange [
+	| changeAction entity |
+	entity := aFamixMoveChange entity.
+	changeAction := ('ORActionMove' , descr superclass name) asClass new.
+	changeAction orionModel: self orionVersionedModel.
+	descr allContainerAttributes do: [ :e | self setProperty: e from: entity to: changeAction ].
+	changeAction entity: entity.
+	changeAction
+		manualRun;
+		postRun
+]
+
+{ #category : #'generic actions' }
+OrionMergeFamixChangeVisitor >> createRen: descr entity: aFamixRenameChange [
+	| changeAction |
+	changeAction := ('ORActionRename' , descr superclass name) asClass new.
+	changeAction orionModel: self orionVersionedModel.
+	changeAction newName: aFamixRenameChange targetEntity name.
+	changeAction entity: aFamixRenameChange entity.
+	changeAction
+		manualRun;
+		postRun
+]
+
+{ #category : #private }
 OrionMergeFamixChangeVisitor >> findEntityInOrionModel: entity [
 	entity mooseName = #noname
 		ifTrue: [ self halt ].
@@ -167,12 +192,12 @@ OrionMergeFamixChangeVisitor >> initialize [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 OrionMergeFamixChangeVisitor >> orionVersionedModel [
 	^ orionVersionedModel
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 OrionMergeFamixChangeVisitor >> orionVersionedModel: anORModel [
 	orionVersionedModel := anORModel
 ]
@@ -213,9 +238,21 @@ OrionMergeFamixChangeVisitor >> visitChange: aFamixAddChange [
 ]
 
 { #category : #visiting }
+OrionMergeFamixChangeVisitor >> visitMoveChange: aMoveChange [
+	famixAddVisitor currentEntity: aMoveChange.
+	aMoveChange entity accept: famixAddVisitor
+]
+
+{ #category : #visiting }
 OrionMergeFamixChangeVisitor >> visitRemovalChange: aFamixAddChange [
 	famixAddVisitor currentEntity: aFamixAddChange.
 	aFamixAddChange entity accept: famixAddVisitor
+]
+
+{ #category : #visiting }
+OrionMergeFamixChangeVisitor >> visitRenameChange: aRenameChange [ 
+	famixAddVisitor currentEntity: aRenameChange.
+	aRenameChange entity accept: famixAddVisitor
 ]
 
 { #category : #visiting }
