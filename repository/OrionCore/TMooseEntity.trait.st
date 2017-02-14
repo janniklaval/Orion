@@ -133,7 +133,9 @@ TMooseEntity >> versionIn: anOrionModel [
 	| upEntity |
 	upEntity := anOrionModel entityStorage
 		atID: self mooseID
-		ifAbsent: [ "ORNotFoundInModel signal: self model: anOrionModel."
+		ifAbsent: [ 
+			(ORNotFoundInModelAndTryPreviousVersionInstead signal: self model: anOrionModel)
+				ifTrue: [ anOrionModel parentModel ifNotNil: [ :parentModel | ^ self versionIn: parentModel ] ].
 			^ nil ].
 	upEntity currentContext: anOrionModel.
 	^ upEntity
