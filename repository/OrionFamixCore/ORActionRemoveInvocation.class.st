@@ -18,18 +18,6 @@ ORActionRemoveInvocation class >> scope [
 	^self
 ]
 
-{ #category : #'method execution' }
-ORActionRemoveInvocation >> printOn:stream [ 
-
-		stream nextPutAll:  '>', self class description, '>> ', ' from ', entity sender mooseName, ' to ', entity receiver mooseName
-]
-
-{ #category : #'method execution' }
-ORActionRemoveInvocation >> printWorkspace [
-
-	^ '>', self class description, '>> ', ' from ', entity sender mooseName, ' to ', entity receiver mooseName
-]
-
 { #category : #'method execution - generated' }
 ORActionRemoveInvocation >> run [
 	<generated: true>
