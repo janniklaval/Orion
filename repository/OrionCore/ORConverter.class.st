@@ -36,10 +36,7 @@ ORConverter class >> convertFromMooseModel: aMooseModel [
 	aMooseModel entities
 		do: [ :anEntity | 
 			| myNewClass newAtt |
-			myNewClass := self mapping
-				at: anEntity class
-				ifAbsent: [ anEntity class asLog emit.
-					nil ].
+			myNewClass := self mapping at: anEntity class ifAbsent: [ nil ].
 			myNewClass
 				ifNotNil: [ anEntity primitiveChangeClassTo: myNewClass new.
 					state := anEntity privateState.

@@ -136,7 +136,7 @@ TMooseEntity >> versionIn: anOrionModel [
 		ifAbsent: [ 
 			(ORNotFoundInModelAndTryPreviousVersionInstead signal: self model: anOrionModel)
 				ifTrue: [ anOrionModel parentModel ifNotNil: [ :parentModel | ^ self versionIn: parentModel ] ].
-			^ nil ].
+			^ nil "should never happen..." ].
 	upEntity currentContext: anOrionModel.
 	^ upEntity
 ]
