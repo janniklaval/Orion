@@ -24,6 +24,11 @@ ORActionMove class >> isMove [
 	^ true
 ]
 
+{ #category : #testing }
+ORActionMove >> isPairedChange [
+	^ true
+]
+
 { #category : #accessing }
 ORActionMove >> newContainer [
 	self 

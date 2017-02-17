@@ -2,7 +2,7 @@
 This exception is triggered when a method is not found in the current version of the model. Consequently, we are looking into the parent model of the entity... 
 "
 Class {
-	#name : #ORNotFoundInModel,
+	#name : #OREntityNotFoundInCurrentModel,
 	#superclass : #NotFound,
 	#instVars : [
 		'model'
@@ -10,20 +10,20 @@ Class {
 	#category : #'OrionCore-Exceptions'
 }
 
-{ #category : #'as yet unclassified' }
-ORNotFoundInModel class >> signal: anObject model: aModel [ 
+{ #category : #signalling }
+OREntityNotFoundInCurrentModel class >> signal: anObject model: aModel [ 
 	^ self new
 		object: anObject;
 		model: aModel ;
 		signal
 ]
 
-{ #category : #testing }
-ORNotFoundInModel >> isResumable [
+{ #category : #private }
+OREntityNotFoundInCurrentModel >> isResumable [
 	^ true
 ]
 
-{ #category : #'as yet unclassified' }
-ORNotFoundInModel >> model: anORModel [ 
+{ #category : #accessing }
+OREntityNotFoundInCurrentModel >> model: anORModel [ 
 	model := anORModel
 ]

@@ -12,3 +12,8 @@ Class {
 ORActionAdd class >> isAddition [
 	^ true
 ]
+
+{ #category : #testing }
+ORActionAdd >> belongsToParentModel [
+	^ false
+]

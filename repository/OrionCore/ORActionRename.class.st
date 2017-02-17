@@ -23,6 +23,11 @@ ORActionRename class >> isRename [
 	^ true
 ]
 
+{ #category : #testing }
+ORActionRename >> isPairedChange [
+	^ true
+]
+
 { #category : #accessing }
 ORActionRename >> newName [
 	

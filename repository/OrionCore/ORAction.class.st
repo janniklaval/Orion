@@ -57,6 +57,12 @@ ORAction >> addChildAction: anAction [
 	childrenActions add:  anAction
 ]
 
+{ #category : #testing }
+ORAction >> belongsToParentModel [
+	"True if the entity of the change belongs to the parent model, else false. For the paired change, it is not appliable"
+	^ self subclassResponsibility
+]
+
 { #category : #accessing }
 ORAction >> childrenActions [
 	^ childrenActions
@@ -107,6 +113,11 @@ ORAction >> isManual [
 { #category : #testing }
 ORAction >> isMove [
 	^ self class isMove
+]
+
+{ #category : #testing }
+ORAction >> isPairedChange [
+	^ false
 ]
 
 { #category : #testing }
