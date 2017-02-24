@@ -5,6 +5,7 @@ Class {
 	#name : #ORActionAddAttribute,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
+		'dereferencedInvocations',
 		'declaredType',
 		'comments',
 		'name',

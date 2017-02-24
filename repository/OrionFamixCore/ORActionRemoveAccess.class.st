@@ -28,7 +28,7 @@ ORActionRemoveAccess >> printWorkspace [
 ORActionRemoveAccess >> run [
 	<generated: true>
 	super run.
-	entity comments do: [ :e | e deleteInAction: self ].
+	entity := self orionModel retrieveEntity: entity.
 	entity accessor
 		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity accessor.

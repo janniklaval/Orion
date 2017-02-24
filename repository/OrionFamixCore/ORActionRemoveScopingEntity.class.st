@@ -11,8 +11,8 @@ Class {
 ORActionRemoveScopingEntity >> run [
 	<generated: true>
 	super run.
+	entity := self orionModel retrieveEntity: entity.
 	entity childScopes do: [ :e | e deleteInAction: self ].
-	entity comments do: [ :e | e deleteInAction: self ].
 	entity types do: [ :e | e deleteInAction: self ].
 	entity annotationInstances do: [ :e | e deleteInAction: self ].
 	entity functions do: [ :e | e deleteInAction: self ].

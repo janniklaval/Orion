@@ -28,7 +28,7 @@ ORActionRemoveReference >> printWorkspace [
 ORActionRemoveReference >> run [
 	<generated: true>
 	super run.
-	entity comments do: [ :e | e deleteInAction: self ].
+	entity := self orionModel retrieveEntity: entity.
 	entity source
 		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity source.

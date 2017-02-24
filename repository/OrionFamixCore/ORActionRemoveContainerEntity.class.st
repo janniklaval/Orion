@@ -11,7 +11,7 @@ Class {
 ORActionRemoveContainerEntity >> run [
 	<generated: true>
 	super run.
-	entity comments do: [ :e | e deleteInAction: self ].
+	entity := self orionModel retrieveEntity: entity.
 	entity types do: [ :e | e deleteInAction: self ].
 	entity annotationInstances do: [ :e | e deleteInAction: self ].
 	entity functions do: [ :e | e deleteInAction: self ].

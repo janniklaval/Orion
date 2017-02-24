@@ -11,7 +11,7 @@ Class {
 ORActionRemoveComment >> run [
 	<generated: true>
 	super run.
-	entity comments do: [ :e | e deleteInAction: self ].
+	entity := self orionModel retrieveEntity: entity.
 	entity declaredSourceLanguage
 		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity declaredSourceLanguage.

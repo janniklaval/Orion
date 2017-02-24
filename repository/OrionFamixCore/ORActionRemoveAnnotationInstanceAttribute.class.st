@@ -11,7 +11,7 @@ Class {
 ORActionRemoveAnnotationInstanceAttribute >> run [
 	<generated: true>
 	super run.
-	entity comments do: [ :e | e deleteInAction: self ].
+	entity := self orionModel retrieveEntity: entity.
 	entity parentAnnotationInstance
 		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity parentAnnotationInstance.

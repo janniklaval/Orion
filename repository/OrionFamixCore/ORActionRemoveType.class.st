@@ -11,7 +11,7 @@ Class {
 ORActionRemoveType >> run [
 	<generated: true>
 	super run.
-	entity comments do: [ :e | e deleteInAction: self ].
+	entity := self orionModel retrieveEntity: entity.
 	entity incomingReferences do: [ :e | e deleteInAction: self ].
 	entity types do: [ :e | e deleteInAction: self ].
 	entity annotationInstances do: [ :e | e deleteInAction: self ].
