@@ -249,7 +249,10 @@ ORActionGenerator >> generateRequiredMethods: anAction forARemovedEntity: anOREn
 	oneToNPropsToRemoveOnTheOtherSide := self oneToNProperties: aCollectionOfProperties.
 	childrenPropsToRemoveInCascade := aCollectionOfProperties select: [ :e | e isChildrenProperty or: [ e type isAssociation ] ].
 	self writeMethodHeaderOn: stream withPackage: aFamePackage withDeclaredVariable: nil.
-	stream << 'entity := self orionModel retrieveEntity: entity.'.
+	aFamePackage
+		ifNil: [ stream tab
+				<< 'entity := self orionModel retrieveEntity: entity.';
+				cr ].
 	childrenPropsToRemoveInCascade
 		do: [ :prop | 
 			stream
