@@ -173,8 +173,8 @@ ORModel >> delete [
 
 { #category : #'adding/removing' }
 ORModel >> error [
-
-	Transcript show: 'should not be there'
+	Transcript show: 'should not be there'.
+	super error
 ]
 
 { #category : #'initialize-release' }
@@ -225,8 +225,8 @@ ORModel >> remove [
 { #category : #'adding/removing' }
 ORModel >> remove: anElement [
 	"remove an entity in the version"
-	
-	^self entityStorage remove:anElement ifAbsent:[self error.]
+
+	^ self entityStorage remove: anElement ifAbsent: [ self error ]
 ]
 
 { #category : #creating }

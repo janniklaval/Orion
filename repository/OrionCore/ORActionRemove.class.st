@@ -29,13 +29,6 @@ ORActionRemove >> belongsToParentModel [
 ]
 
 { #category : #'method execution' }
-ORActionRemove >> manualRun [
-	[ super manualRun ]
-		on: OREntityNotFoundInCurrentModel
-		do: [ :e | ('OREntity' , e object printString , ' not found') asLog info; addExtensions: {(#context -> e)}; emit ]
-]
-
-{ #category : #'method execution' }
 ORActionRemove >> run [
 	| oldEntity |
 	oldEntity := entity.

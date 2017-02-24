@@ -67,6 +67,11 @@ ORStorage >> atID: uniqueId ifAbsent: exceptionBlock [
 	^elements at: uniqueId ifAbsent:exceptionBlock.
 ]
 
+{ #category : #'as yet unclassified' }
+ORStorage >> errorKeyNotFound [
+	self error: 'key not found'
+]
+
 { #category : #'initialize-release' }
 ORStorage >> initialize: capacity [ 
 	 
