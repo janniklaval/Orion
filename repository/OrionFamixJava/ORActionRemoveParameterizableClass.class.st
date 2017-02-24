@@ -11,12 +11,12 @@ Class {
 ORActionRemoveParameterizableClass >> run [
 	<generated: true>
 	super run.
+	entity := self orionModel retrieveEntity: entity.
 	entity annotationInstances do: [ :e | e deleteInAction: self ].
 	entity subInheritances do: [ :e | e deleteInAction: self ].
 	entity types do: [ :e | e deleteInAction: self ].
 	entity attributes do: [ :e | e deleteInAction: self ].
 	entity functions do: [ :e | e deleteInAction: self ].
-	entity comments do: [ :e | e deleteInAction: self ].
 	entity incomingReferences do: [ :e | e deleteInAction: self ].
 	entity superInheritances do: [ :e | e deleteInAction: self ].
 	entity receivingInvocations do: [ :e | e deleteInAction: self ].

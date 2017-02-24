@@ -5,9 +5,9 @@ Class {
 	#name : #ORActionAddParameterizableClass,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
-		'instances',
 		'typeAliases',
 		'definedAnnotationTypes',
+		'instances',
 		'declaredSourceLanguage',
 		'container',
 		'annotationInstances',

@@ -5,6 +5,7 @@ Class {
 	#name : #ORActionAddEnumValue,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
+		'dereferencedInvocations',
 		'declaredType',
 		'comments',
 		'parentEnum',

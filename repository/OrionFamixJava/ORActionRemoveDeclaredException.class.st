@@ -11,6 +11,7 @@ Class {
 ORActionRemoveDeclaredException >> run [
 	<generated: true>
 	super run.
+	entity := self orionModel retrieveEntity: entity.
 	entity definingMethod
 		ifNotNil: [ | theEntity |
 			theEntity := self orionModel retrieveEntity: entity definingMethod.
