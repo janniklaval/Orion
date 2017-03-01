@@ -51,8 +51,8 @@ ORActionReplaceInheritance >> run [
 	^ ORActionAddInheritance new 
 			parentAction: self ;
 			orionModel: orionModel; 		
-			from: (orionModel retrieveEntity: self from) ;
-			to: (orionModel retrieveEntity: self to) ;
+			subclass: (orionModel retrieveEntity: self from) ;
+			superclass: (orionModel retrieveEntity: self to) ;
 			run.
 
 ]

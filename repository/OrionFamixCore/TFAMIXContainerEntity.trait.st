@@ -35,7 +35,7 @@ TFAMIXContainerEntity >> addClassNamed: aString isStub: aBoolean withNamespace: 
 	^ aString
 		ifNotNil: [ (ORActionAddClass new
 				orionModel: aModelVersion;
-				parent: self;
+				parentPackage: self;
 				isStub: aBoolean;
 				container: aNamespace;
 				name: aString)
