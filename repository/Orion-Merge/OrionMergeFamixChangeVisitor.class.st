@@ -14,8 +14,11 @@ OrionMergeFamixChangeVisitor >> createAdd: descr entity: aFamixAddChange [
 	entity := aFamixAddChange entity.
 	changeAction := ('ORActionAdd' , descr name) asClass new.
 	changeAction orionModel: self orionVersionedModel.
-	descr allAttributesNotDerived do: [ :e | self setProperty: e from: entity to: changeAction ].
-	changeAction manualRun; postRun
+	descr allAttributesNotDerived
+		collect: [ :e | e -> (self setProperty: e from: entity to: changeAction) ].
+	changeAction
+		manualRun;
+		postRun
 ]
 
 { #category : #deprecated }
@@ -145,11 +148,15 @@ OrionMergeFamixChangeVisitor >> createAddType: aFamixAddChange [
 OrionMergeFamixChangeVisitor >> createDel: descr entity: aFamixRemovalChange [
 	| entity changeAction |
 	entity := aFamixRemovalChange entity.
+	(self orionVersionedModel contains: entity)
+		ifFalse: [ ^ self ].
 	changeAction := ('ORActionRemove' , descr superclass name) asClass new.
 	changeAction orionModel: self orionVersionedModel.
 	descr allAttributesNotDerived do: [ :e | self setProperty: e from: entity to: changeAction ].
 	changeAction entity: entity.
-	changeAction manualRun; postRun
+	changeAction
+		manualRun;
+		postRun
 ]
 
 { #category : #'generic actions' }
@@ -181,7 +188,7 @@ OrionMergeFamixChangeVisitor >> createRen: descr entity: aFamixRenameChange [
 OrionMergeFamixChangeVisitor >> findEntityInOrionModel: entity [
 	entity mooseName = #noname
 		ifTrue: [ self halt ].
-	^ self orionVersionedModel entityNamed: entity mooseName withType: entity class 
+	^ self orionVersionedModel entityNamed: entity mooseName withType: (self orionClassOf: entity class)
 ]
 
 { #category : #initialization }
@@ -190,6 +197,16 @@ OrionMergeFamixChangeVisitor >> initialize [
 		new
 		changeVisitor: self;
 		yourself
+]
+
+{ #category : #private }
+OrionMergeFamixChangeVisitor >> orionClassOf: aClass [
+	"Fix for Orion: if the entities are sorted by type, the famix type should be the rule. If a package is defined, it is a real class of the model, else it is another kind of class (type Orion)"
+
+	^ (aClass mooseDescription isNil or: [ aClass mooseDescription subclasses isEmptyOrNil ])
+		ifTrue: [ aClass ]
+		ifFalse: [ self
+				orionClassOf: (aClass mooseDescription subclasses detect: [ :e | e implementingClass isOrionClass ] ifNone: [ ^ aClass ]) implementingClass ]
 ]
 
 { #category : #accessing }
@@ -206,16 +223,21 @@ OrionMergeFamixChangeVisitor >> orionVersionedModel: anORModel [
 OrionMergeFamixChangeVisitor >> setProperty: aFM3PropertyDescription from: aMooseEntity to: anActionClass [
 	| selector fromEntityResult result |
 	selector := aFM3PropertyDescription implementingSelector.
-	fromEntityResult := aMooseEntity perform: selector.
+	fromEntityResult := [ aMooseEntity perform: selector ]
+		on: OREntityNotFoundInCurrentModel
+		do: [ ^ self ].
 	fromEntityResult ifNil: [ ^ self ].
 	result := fromEntityResult.
 	aFM3PropertyDescription type isPrimitive
 		ifFalse: [ aFM3PropertyDescription isMultivalued
-				ifTrue: [ result := fromEntityResult collect: [ :e | self findEntityInOrionModel: e ] thenSelect: [ :e | e isNotNil ] ]
+				ifTrue: [ result := fromEntityResult
+						collect: [ :e | self findEntityInOrionModel: e ]
+						thenSelect: [ :e | e isNotNil ] ]
 				ifFalse: [ result := self findEntityInOrionModel: fromEntityResult ] ].
 	[ anActionClass perform: selector asMutator with: result ]
 		on: MessageNotUnderstood
-		do: [ :e | Transcript logCr: e printString ]
+		do: [ :e | Transcript logCr: e printString ].
+	^ result
 ]
 
 { #category : #visiting }
