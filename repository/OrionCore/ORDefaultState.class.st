@@ -160,9 +160,8 @@ ORDefaultState >> model [
 ]
 
 { #category : #accessing }
-ORDefaultState >> model: anObject [ 
-	 
-	^attributes at: #privateModel put: anObject
+ORDefaultState >> model: anObject [
+	^ attributes at: #privateModel put: anObject
 ]
 
 { #category : #accessing }

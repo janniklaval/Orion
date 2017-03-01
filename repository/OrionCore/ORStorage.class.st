@@ -15,16 +15,12 @@ ORStorage class >> new [
 ]
 
 { #category : #adding }
-ORStorage >> add: anElement [ 
-
+ORStorage >> add: anElement [
 	| key group |
-
 	key := anElement class.
-	group := byType 
-		at: key
-		ifAbsentPut: [ OrderedCollection new ].
+	group := byType at: key ifAbsentPut: [ OrderedCollection new ].
 	group add: anElement.
-	elements add: (anElement mooseID -> anElement).
+	elements add: anElement mooseID -> anElement.
 	^ anElement
 ]
 
@@ -91,17 +87,14 @@ ORStorage >> model: anObject [
 ]
 
 { #category : #removing }
-ORStorage >> remove: anElement ifAbsent: exceptionBlock [ 
-	 
-	| key group | 
-	key := anElement class. 
-	group := byType 
-		at: key 
-		ifAbsent: [OrderedCollection new]. 
-	group remove: anElement ifAbsent:[]. 
-	byName 
-		removeKey: (byName keyAtValue: anElement ifAbsent:[])
-		ifAbsent: []. 
-	elements removeKey: anElement mooseID ifAbsent: exceptionBlock. 
-	^anElement
+ORStorage >> remove: anElement ifAbsent: exceptionBlock [
+	| key group |
+	key := anElement class.
+	group := byType at: key ifAbsent: [ OrderedCollection new ].
+	group remove: anElement ifAbsent: [  ].
+	byName
+		removeKey: (byName keyAtValue: anElement ifAbsent: [  ])
+		ifAbsent: [  ].
+	elements removeKey: anElement mooseID ifAbsent: exceptionBlock.
+	^ anElement
 ]
