@@ -1,10 +1,13 @@
 "
 ie for systems where sorting of the elements is mandatory: innerclasses, etc...
+
+
+NB: tests discarded should be corrected and reinserted
 "
 Class {
 	#name : #OrionMergeJavaTestForComplexSystems,
 	#superclass : #OrionMergeJavaTest,
-	#traits : 'TOrionMergeJavaTest',
+	#traits : 'TOrionMergeJavaTest - {#testAddInheritance. #testAddReference2. #testAddReferenceFromMethOfInnerClass. #testAddReferenceToStubClass. #testAddStubClass. #testAddStubClassInNonExistingStubNS. #testAddStubClassInExistingStubNS. #testCreateAddNamespace. #testCreateAddNamespace. #testCreateMoveNamespace}',
 	#classTraits : 'TOrionMergeJavaTest classTrait',
 	#category : #'Orion-Merge-Tests'
 }

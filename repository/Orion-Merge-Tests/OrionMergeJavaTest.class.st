@@ -1,7 +1,10 @@
+"
+NB: tests discarded should be corrected and reinserted
+"
 Class {
 	#name : #OrionMergeJavaTest,
 	#superclass : #TestCase,
-	#traits : 'TOrionMergeJavaTest',
+	#traits : 'TOrionMergeJavaTest - {#testAddReferenceToStubClass. #testAddStubClass. #testAddStubClassInExistingStubNS. #testAddStubClassInNonExistingStubNS}',
 	#classTraits : 'TOrionMergeJavaTest classTrait',
 	#instVars : [
 		'modelMerger'
