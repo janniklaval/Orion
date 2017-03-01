@@ -934,5 +934,8 @@ ORJavaModelTest >> testJavaModelWithInnerclasses [
 		collect: [ :prop | 
 			{(mooseModel perform: prop).
 			(orionModel perform: prop)} ].
-	self assert: (res allSatisfy: [ :e | e first = e second ])
+	res
+		collect: [ :e | 
+			e first isCollection
+				ifTrue: [ self assert: e first size equals: e second size ] ]
 ]
