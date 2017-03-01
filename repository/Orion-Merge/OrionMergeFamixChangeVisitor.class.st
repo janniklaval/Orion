@@ -148,15 +148,17 @@ OrionMergeFamixChangeVisitor >> createAddType: aFamixAddChange [
 OrionMergeFamixChangeVisitor >> createDel: descr entity: aFamixRemovalChange [
 	| entity changeAction |
 	entity := aFamixRemovalChange entity.
-	(self orionVersionedModel contains: entity)
+	(self orionVersionedModel includes: entity)
 		ifFalse: [ ^ self ].
 	changeAction := ('ORActionRemove' , descr superclass name) asClass new.
 	changeAction orionModel: self orionVersionedModel.
 	descr allAttributesNotDerived do: [ :e | self setProperty: e from: entity to: changeAction ].
 	changeAction entity: entity.
-	changeAction
+	[ changeAction
 		manualRun;
-		postRun
+		postRun ]
+		on: OREntityNotFoundInCurrentModel
+		do: [ :e | e resume ]
 ]
 
 { #category : #'generic actions' }
