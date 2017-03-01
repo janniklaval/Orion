@@ -55,8 +55,8 @@ ORClass >> changeSuperClassTo: newSuperClass inModel: aModelVersion [
 	[(ORActionReplaceInheritance new 
 			orionModel: aModelVersion; 
 			entity: self;
-			subclass: self ;
-			superclass: newSuperClass) 
+			from: self ;
+			to: newSuperClass) 
 			manualRun;
 			postRun ]
 		orBrowserExceptionsLauncher: newSuperClass 
