@@ -14,8 +14,6 @@ TFAMIXType >> addMethodNamed: aString withSignature: aSignature inModel: aModelV
 
 { #category : #'*OrionBrowser' }
 TFAMIXType >> addMethodNamed: aString withSignature: aSignature withBodyHash: anHash inModel: aModelVersion [
-	Halt
-		if: [ self mooseName= 'org::infinitest::QueueAggregator::AggregatingQueueListener' ].
 	aString
 		ifNotNil: [ (ORActionAddMethodWithBodyHash new
 				orionModel: aModelVersion;
