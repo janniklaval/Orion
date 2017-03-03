@@ -15,7 +15,7 @@ OrionMergeFamixChangeVisitor >> createAdd: descr entity: aFamixAddChange [
 	changeAction := ('ORActionAdd' , descr name) asClass new.
 	changeAction orionModel: self orionVersionedModel.
 	descr allAttributesNotDerived
-		collect: [ :e | e -> (self setProperty: e from: entity to: changeAction) ].
+		do: [ :e | self setProperty: e from: entity to: changeAction ].
 	changeAction
 		manualRun;
 		postRun
@@ -148,17 +148,11 @@ OrionMergeFamixChangeVisitor >> createAddType: aFamixAddChange [
 OrionMergeFamixChangeVisitor >> createDel: descr entity: aFamixRemovalChange [
 	| entity changeAction |
 	entity := aFamixRemovalChange entity.
-	(self orionVersionedModel includes: entity)
-		ifFalse: [ ^ self ].
 	changeAction := ('ORActionRemove' , descr superclass name) asClass new.
 	changeAction orionModel: self orionVersionedModel.
 	descr allAttributesNotDerived do: [ :e | self setProperty: e from: entity to: changeAction ].
 	changeAction entity: entity.
-	[ changeAction
-		manualRun;
-		postRun ]
-		on: OREntityNotFoundInCurrentModel
-		do: [ :e | e resume ]
+	changeAction manualRun; postRun
 ]
 
 { #category : #'generic actions' }
@@ -190,7 +184,7 @@ OrionMergeFamixChangeVisitor >> createRen: descr entity: aFamixRenameChange [
 OrionMergeFamixChangeVisitor >> findEntityInOrionModel: entity [
 	entity mooseName = #noname
 		ifTrue: [ self halt ].
-	^ self orionVersionedModel entityNamed: entity mooseName withType: (self orionClassOf: entity class)
+	^ self orionVersionedModel entityNamed: entity mooseName withType: entity class 
 ]
 
 { #category : #initialization }
@@ -199,16 +193,6 @@ OrionMergeFamixChangeVisitor >> initialize [
 		new
 		changeVisitor: self;
 		yourself
-]
-
-{ #category : #private }
-OrionMergeFamixChangeVisitor >> orionClassOf: aClass [
-	"Fix for Orion: if the entities are sorted by type, the famix type should be the rule. If a package is defined, it is a real class of the model, else it is another kind of class (type Orion)"
-
-	^ (aClass mooseDescription isNil or: [ aClass mooseDescription subclasses isEmptyOrNil ])
-		ifTrue: [ aClass ]
-		ifFalse: [ self
-				orionClassOf: (aClass mooseDescription subclasses detect: [ :e | e implementingClass isOrionClass ] ifNone: [ ^ aClass ]) implementingClass ]
 ]
 
 { #category : #accessing }
@@ -225,21 +209,16 @@ OrionMergeFamixChangeVisitor >> orionVersionedModel: anORModel [
 OrionMergeFamixChangeVisitor >> setProperty: aFM3PropertyDescription from: aMooseEntity to: anActionClass [
 	| selector fromEntityResult result |
 	selector := aFM3PropertyDescription implementingSelector.
-	fromEntityResult := [ aMooseEntity perform: selector ]
-		on: OREntityNotFoundInCurrentModel
-		do: [ ^ self ].
+	fromEntityResult := aMooseEntity perform: selector.
 	fromEntityResult ifNil: [ ^ self ].
 	result := fromEntityResult.
 	aFM3PropertyDescription type isPrimitive
 		ifFalse: [ aFM3PropertyDescription isMultivalued
-				ifTrue: [ result := fromEntityResult
-						collect: [ :e | self findEntityInOrionModel: e ]
-						thenSelect: [ :e | e isNotNil ] ]
+				ifTrue: [ result := fromEntityResult collect: [ :e | self findEntityInOrionModel: e ] thenSelect: [ :e | e isNotNil ] ]
 				ifFalse: [ result := self findEntityInOrionModel: fromEntityResult ] ].
 	[ anActionClass perform: selector asMutator with: result ]
 		on: MessageNotUnderstood
-		do: [ :e | Transcript logCr: e printString ].
-	^ result
+		do: [ :e | Transcript logCr: e printString ]
 ]
 
 { #category : #visiting }
@@ -248,12 +227,16 @@ OrionMergeFamixChangeVisitor >> visitAddChange: aFamixAddChange [
 	aFamixAddChange entity accept: famixAddVisitor
 ]
 
-{ #category : #visiting }
+{ #category : #'generic actions' }
 OrionMergeFamixChangeVisitor >> visitBodyChange: aBodyChange [
-	self flag: #TODO.
-	"Create a new  action in orion that is a method body change that modify only the hash of the method."
-
-	
+	| changeAction |
+	changeAction := ORActionAddMethodWithBodyHash new.
+	changeAction orionModel: self orionVersionedModel.
+	changeAction entity: aBodyChange entity.
+	changeAction bodyHash: aBodyChange targetEntity bodyHash.
+	changeAction
+		manualRun;
+		postRun
 ]
 
 { #category : #visiting }
