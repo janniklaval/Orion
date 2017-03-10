@@ -21,6 +21,18 @@ OrionMergeIntegrationTestWithFullModelsOrion2FX >> addAllFromMseString: mse [
 ]
 
 { #category : #adding }
+OrionMergeIntegrationTestWithFullModelsOrion2FX >> delAllFromMseString: mse [
+	| model1 |
+	model1 := MooseModel new.
+	model1 importFromMSEStream: mse readStream.
+	model1 name: 'base01'.
+	model2 := MooseModel new.
+	model2 name: 'baseEmpty'.
+	modelMerger := FXDiff baseModel: model1 targetModel: model2 convertToOrion.
+	modelMerger run
+]
+
+{ #category : #adding }
 OrionMergeIntegrationTestWithFullModelsOrion2FX >> mseFromVerveineJTest [
 	^ VerveineJTestResource current mse
 ]
@@ -36,6 +48,15 @@ OrionMergeIntegrationTestWithFullModelsOrion2FX >> test0AddAndDiffAllFromOrionMe
 ]
 
 { #category : #adding }
+OrionMergeIntegrationTestWithFullModelsOrion2FX >> test0DelAndDiffAllFromOrionMergeJavaTest [
+	| res |
+	self delAllFromMseString: OrionMergeJavaTest wholeMSE.
+	res := modelMerger result.
+	self assert: res size equals: 29.
+	res do: [ :e | self assert: e isRemoval ]
+]
+
+{ #category : #adding }
 OrionMergeIntegrationTestWithFullModelsOrion2FX >> test1AddAndDiffAllFromVerveineJTest [
 	| res numberOfEntities |
 	self addAllFromMseString: self mseFromVerveineJTest.
@@ -44,4 +65,13 @@ OrionMergeIntegrationTestWithFullModelsOrion2FX >> test1AddAndDiffAllFromVervein
 	self deny: res isEmpty.
 	self assert: res numberOfEntities equals: 781.
 	res do: [ :e | self assert: e isAddition ]
+]
+
+{ #category : #adding }
+OrionMergeIntegrationTestWithFullModelsOrion2FX >> test1DelAndDiffAllFromVerveineJTest [
+	| res |
+	self delAllFromMseString: self mseFromVerveineJTest.
+	res := modelMerger result.
+	self assert: res size equals: 781.
+	res do: [ :e | self assert: e isRemoval ]
 ]
