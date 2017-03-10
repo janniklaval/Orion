@@ -82,12 +82,12 @@ ORMethod >> moveTo: aClass inAction: anAction [
 
 { #category : #'*OrionBrowser' }
 ORMethod >> moveTo: aClass inModel: aModelVersion [
-[ 
-	^(ORActionMoveMethod new
-		orionModel: aModelVersion ;
-		entity: self ;
-		newContainer: aClass )
-	manualRun; postRun ] orBrowserExceptionsLauncher: aClass.
+	[ ^ (ORActionMoveMethod new
+		orionModel: aModelVersion;
+		entity: self;
+		parentType: aClass)
+		manualRun;
+		postRun ] orBrowserExceptionsLauncher: aClass
 ]
 
 { #category : #'*OrionBrowser' }
