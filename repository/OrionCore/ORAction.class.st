@@ -134,8 +134,7 @@ ORAction >> isRename [
 ORAction >> manualRun [
 
 	self parentAction: nil.
-	self run.
-	^self
+	self run
 ]
 
 { #category : #accessing }

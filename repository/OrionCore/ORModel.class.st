@@ -216,6 +216,11 @@ ORModel >> populateModel [
 	self parentModel entityStorage do: [ :anElement | self entityStorage add: anElement ]
 ]
 
+{ #category : #diff }
+ORModel >> prepareToDiff [
+	self setAsCurrentContextForAllContainedEntities
+]
+
 { #category : #'adding/removing' }
 ORModel >> remove [
 

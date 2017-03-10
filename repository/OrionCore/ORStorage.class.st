@@ -33,7 +33,9 @@ ORStorage >> at: key [
 
 { #category : #accessing }
 ORStorage >> at: uniqueName ifAbsent: exceptionBlock [
+
 	| entity na |
+	self halt.
 	na := uniqueName asSymbol.
 	entity := byName at: na ifAbsent: nil.
 	entity
@@ -59,7 +61,6 @@ ORStorage >> at: uniqueName withType: aType ifAbsent: exceptionBlock [
 
 { #category : #accessing }
 ORStorage >> atID: uniqueId ifAbsent: exceptionBlock [ 
-	 
 	^elements at: uniqueId ifAbsent:exceptionBlock.
 ]
 
