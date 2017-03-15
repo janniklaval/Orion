@@ -28,5 +28,5 @@ OrionMergeWithVisitor >> run [
 	orionVersionedModel := self baseModel createNewChildVersion.
 	visitor := OrionMergeFamixChangeVisitor new.
 	visitor orionVersionedModel: orionVersionedModel.
-	self result do: [ :aResult | aResult accept: visitor ]
+	self result do: [ :aResult | aResult  accept: visitor]
 ]
