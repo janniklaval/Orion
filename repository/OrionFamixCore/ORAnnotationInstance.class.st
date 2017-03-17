@@ -16,7 +16,7 @@ ORAnnotationInstance class >> isOrionClass [
 
 { #category : #'as yet unclassified' }
 ORAnnotationInstance >> deleteInAction: anAction [
-	ORActionRemoveAnnotationInstance new parentAction: anAction; orionModel: anAction orionModel; entity: self; run
+	ORActionRemoveAnnotationInstance new parentAction: anAction; orionModel: anAction orionModel; entity: self; run ; postRun
 ]
 
 { #category : #'as yet unclassified' }

@@ -20,5 +20,5 @@ ORAnnotationInstanceAttribute >> deleteInAction: anAction [
 		parentAction: anAction;
 		orionModel: anAction orionModel;
 		entity: self;
-		run
+		run; postRun
 ]
