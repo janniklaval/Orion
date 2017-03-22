@@ -53,7 +53,7 @@ ORActionMoveMethod >> run [
 		
 		"---------------- Pharo specificities --------------------"
 		"The following lines are added to un extend method if it is move to a class belonging to the same package than the extended package. The new parent package is put to nil and the method is removed from the childNamedEntities of the package. This cannot be generated"
-		(theEntity parentPackage = theNewContainer parentPackage) ifTrue: [ | theOldContainer |
+		(theEntity parentPackage notNil and: [theEntity parentPackage = theNewContainer parentPackage] ) ifTrue: [ | theOldContainer |
 				theOldContainer := self orionModel retrieveEntity: entity parentPackage.
 				theOldContainer privateChildNamedEntities: (theOldContainer privateChildNamedEntities orionCopy orionRemove: theEntity).
 				theEntity privateParentPackage: nil  ]
