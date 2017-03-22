@@ -38,7 +38,7 @@ ORActionMoveMethod >> parentType: aValue [
 
 { #category : #'method execution - generated' }
 ORActionMoveMethod >> run [
-	<generated: true>
+	<generated: false>
 	| theEntity |
 	theEntity := self orionModel retrieveEntity: entity.
 	self parentType ifNotNil: [
@@ -49,7 +49,15 @@ ORActionMoveMethod >> run [
 				theOldContainer privateMethods: (theOldContainer privateMethods orionCopy orionRemove: theEntity) ].
 		theNewContainer := self orionModel retrieveEntity: self parentType.
 		theEntity privateParentType: theNewContainer.
-		theNewContainer privateMethods: (theNewContainer privateMethods orionCopy unsafeAdd: theEntity)
+		theNewContainer privateMethods: (theNewContainer privateMethods orionCopy unsafeAdd: theEntity).
+		
+		"---------------- Pharo specificities --------------------"
+		"The following lines are added to un extend method if it is move to a class belonging to the same package than the extended package. The new parent package is put to nil and the method is removed from the childNamedEntities of the package. This cannot be generated"
+		(theEntity parentPackage = theNewContainer parentPackage) ifTrue: [ | theOldContainer |
+				theOldContainer := self orionModel retrieveEntity: entity parentPackage.
+				theOldContainer privateChildNamedEntities: (theOldContainer privateChildNamedEntities orionCopy orionRemove: theEntity).
+				theEntity privateParentPackage: nil  ]
+		"------------- end of Pharo specificities ----------------"	
 	].
 	self parentPackage ifNotNil: [
 		| theNewContainer |
