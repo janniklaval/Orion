@@ -14,7 +14,6 @@ Class {
 
 { #category : #running }
 OrionMergeTest >> setUp [
-	self skip.
 	model1 := self importModelNamed: 'base' fromPackages: #(#'Moose-TestResources-ModelDiff-P4' #'Moose-TestResources-ModelDiff-P3').
 	model1 := model1 convertToOrion.
 	model1 install.	"required by convertToOrion, otherwise useless"

@@ -29,8 +29,18 @@ OrionMergeAbstractTest >> model1 [
 ]
 
 { #category : #accessing }
+OrionMergeAbstractTest >> model1: aModel [
+	model1 := aModel
+]
+
+{ #category : #accessing }
 OrionMergeAbstractTest >> model2 [
 	^ model2
+]
+
+{ #category : #accessing }
+OrionMergeAbstractTest >> model2: aModel [
+	model2 := aModel
 ]
 
 { #category : #accessing }
