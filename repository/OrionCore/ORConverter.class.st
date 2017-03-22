@@ -29,11 +29,10 @@ ORConverter class >> convertFromMooseModel: aMooseModel [
 	"take a MooseModel and convert it in a ORModel"
 
 	| model state |
-	aMooseModel allPackages do: #createPackagesFromCategories.
 	model := ORModel new.
 	model name: aMooseModel name.
 	model sourceLanguage: aMooseModel sourceLanguage.
-	aMooseModel entities
+	aMooseModel entities copy
 		do: [ :anEntity | 
 			| myNewClass newAtt |
 			myNewClass := self mapping at: anEntity class ifAbsent: [ nil ].
