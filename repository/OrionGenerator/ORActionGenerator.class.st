@@ -222,7 +222,7 @@ ORActionGenerator >> generateRequiredMethods: anAction forAMovedEntity: anOREnti
 					<< ' theNewContainer.'; cr.
 			stream tab; tab; << 'theNewContainer private'; << aContainerProp opposite implementingSelector capitalized asMutator; 
 					<< ' (theNewContainer private'; << aContainerProp opposite implementingSelector capitalized; 
-					<< ' unsafeAdd: theEntity)'; cr.
+					<< ' orionCopy unsafeAdd: theEntity)'; cr.
 			stream tab; << '].'; cr ].
 	stream tab << 'theEntity resetMooseName.'.
 	stream cr tab; << '^ theEntity'.
