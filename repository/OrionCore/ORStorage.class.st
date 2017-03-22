@@ -35,7 +35,6 @@ ORStorage >> at: key [
 ORStorage >> at: uniqueName ifAbsent: exceptionBlock [
 
 	| entity na |
-	self halt.
 	na := uniqueName asSymbol.
 	entity := byName at: na ifAbsent: nil.
 	entity
