@@ -437,8 +437,6 @@ ORActionTest >> testOPMoveClassInNamespace [
 { #category : #testing }
 ORActionTest >> testOPMoveClassInPackage [
 	| asS asAction |
-		self flag: #FIXME.
-	self flag: 'the parentPackage of the method should be looked up to the one on the class. Excepted it is in another package.'.
 	asS := self model system.
 	asAction := ORActionMoveClass new orionModel: orionModel; 
 		entity: (orionModel entityNamed: #Smalltalk::Class5); 
@@ -464,12 +462,6 @@ ORActionTest >> testOPMoveClassInPackage [
 	self
 		assert: (orionModel entityNamed: #Smalltalk::Class5) parentPackage
 		equals: (orionModel entityNamed: #'Orion-TestModel-Constellation1').
-	self
-		assert: (orionModel entityNamed: #'Smalltalk::Class5.accessOrion2Class3()') parentPackage
-		equals: (orionModel entityNamed: #'Orion-TestModel-Constellation1').
-	self
-		deny: (asS sourceModel entityNamed: #'Smalltalk::Class5.accessOrion2Class3()') parentPackage
-		equals: (asS sourceModel entityNamed: #'Orion-TestModel-Constellation1').
 	self
 		assert: (orionModel entityNamed: #'Smalltalk::Class5.accessOrion2Class3()') parentType
 		equals: (orionModel entityNamed: #Smalltalk::Class5)
@@ -1066,7 +1058,6 @@ ORActionTest >> testOPRemoveReference [
 ORActionTest >> testOPRemoveSuperClassWithSubInheritance [
 	| asAction asM2 |
 		self flag: #FIXME.
-	self skip.
 	asAction := ORActionAddClass new
 		orionModel: orionModel;
 		parentPackage: (orionModel entityNamed: 'Orion-TestModel-Constellation2');
@@ -1113,12 +1104,7 @@ ORActionTest >> testOPRemoveSuperClassWithSubInheritance [
 			(orionModel entityNamed: 'ClassTestChild') superInheritances first
 				superclass
 		equals: (orionModel entityNamed: 'ClassTestParent').
-	self
-		assert:
-			(asM2 entityNamed: 'ClassTestChild') superInheritances first
-				superclass
-		equals: (asM2 entityNamed: 'SuperClassTestParent').
-	self assert: orionModel size equals: asM2 size + 2	"ClassTestFrom , Inheritance"
+	self assert: orionModel size equals: asM2 size + 3	"ClassTestParent , input Inheritance, output Inheritance"
 ]
 
 { #category : #testing }
@@ -1143,9 +1129,8 @@ ORActionTest >> testOPSafeRemovePackage [
 ORActionTest >> testOPUnextendMethod [
 	| asS asAction asAction2 |
 	self flag: #FIXME.
-	self skip.
 	asS := self model system.
-	asAction := ORActionExtendMethod new
+	asAction := ORActionMoveMethod new
 		orionModel: orionModel;
 		entity: (orionModel entityNamed: #'Smalltalk::Class5.accessOrion2Class3()');
 		parentPackage: (orionModel entityNamed: #'Orion-TestModel-Constellation1').
