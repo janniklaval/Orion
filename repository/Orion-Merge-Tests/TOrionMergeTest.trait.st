@@ -28,11 +28,11 @@ Trait {
 { #category : #'tests-create' }
 TOrionMergeTest >> testAddAllFromStModel [
 
-	model1 := MooseModel new.
-	model1 name: 'baseEmpty'.
-	modelMerger := FXDiff baseModel: model1 convertToOrion targetModel: model2 diffTransformers: {OrionMerge}.
-	modelMerger run.
-	self assert: modelMerger baseModel system orionModels size equals: 2
+	self model1: MooseModel new.
+	self model1 name: 'baseEmpty'.
+	self modelMerger: (FXDiff baseModel: self model1 convertToOrion targetModel: self model2 diffTransformers: {OrionMergeWithVisitor}).
+	self modelMerger run.
+	self assert: self modelMerger baseModel system orionModels size equals: 2
 ]
 
 { #category : #'tests-create' }
@@ -95,16 +95,15 @@ TOrionMergeTest >> testCreateAddAttribute [
 	| diff |
 	(self modelMerger targetModel entityNamed: 'Smalltalk::A3diff') addAttributeNamed: 'attAdded' inModel: self modelMerger targetModel.
 	diff := self diff.
-	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createAddScopingEntity.
+	"self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion."
+	"self mooseModelMerge createAddScopingEntity.
 	self mooseModelMerge createAddType.
 	self mooseModelMerge createAddAttribute.
 	self mooseModelMerge createAddMethod.
 	self mooseModelMerge createAddAnnotationType.
-	self mooseModelMerge createAddAnnotationInstance.
+	self mooseModelMerge createAddAnnotationInstance."
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.attAdded') isNil.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.attAdded') isNotNil.
-	self assert: self modelMerger orionVersionedModel changes size equals: diff numberOfAdds
 ]
 
 { #category : #'tests-create' }
@@ -143,16 +142,8 @@ TOrionMergeTest >> testCreateAddMethod [
 	self modelMerger targetModel add: meth.
 	(self modelMerger targetModel entityNamed: 'Smalltalk::A3diff') addMethod: meth.
 	self diff.
-	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createAddScopingEntity.
-	self mooseModelMerge createAddType.
-	self mooseModelMerge createAddMethod.
-	self mooseModelMerge createAddAttribute.
-	self mooseModelMerge createAddAnnotationType.
-	self mooseModelMerge createAddAnnotationInstance.
-	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.toto()') isNil.
-	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.toto()') notNil.
-	self assert: self modelMerger orionVersionedModel changes size equals: self diff numberOfAdds
+	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.toto') isNil.
+	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.toto') notNil.
 ]
 
 { #category : #'tests-create' }

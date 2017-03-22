@@ -18,5 +18,5 @@ OrionMergeTest >> setUp [
 	model1 := model1 convertToOrion.
 	model1 install.	"required by convertToOrion, otherwise useless"
 	model2 := self importModelNamed: 'target' fromPackages: #(#'Moose-TestResources-ModelDiff-P2' #'Moose-TestResources-ModelDiff-P3').
-	self modelMerger: (FXDiff baseModel: model1 targetModel: model2 diffTransformers: {OrionMerge})
+	self modelMerger: (FXDiff baseModel: model1 targetModel: model2 diffTransformers: {OrionMergeWithVisitor})
 ]
