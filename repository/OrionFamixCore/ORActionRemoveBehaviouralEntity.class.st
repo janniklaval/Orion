@@ -14,8 +14,8 @@ ORActionRemoveBehaviouralEntity >> run [
 	entity := self orionModel retrieveEntity: entity.
 	entity accesses do: [ :e | e deleteInAction: self ].
 	entity parameters do: [ :e | e deleteInAction: self ].
-	entity incomingInvocations do: [ :e | e deleteInAction: self ].
 	entity outgoingReferences do: [ :e | e deleteInAction: self ].
+	entity incomingInvocations do: [ :e | e deleteInAction: self ].
 	entity types do: [ :e | e deleteInAction: self ].
 	entity annotationInstances do: [ :e | e deleteInAction: self ].
 	entity localVariables do: [ :e | e deleteInAction: self ].

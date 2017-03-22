@@ -49,7 +49,7 @@ ORActionMovePackage >> run [
 				theOldContainer privateChildScopes: (theOldContainer privateChildScopes orionCopy orionRemove: theEntity) ].
 		theNewContainer := self orionModel retrieveEntity: self parentScope.
 		theEntity privateParentScope: theNewContainer.
-		theNewContainer privateChildScopes: (theNewContainer privateChildScopes unsafeAdd: theEntity)
+		theNewContainer privateChildScopes: (theNewContainer privateChildScopes orionCopy unsafeAdd: theEntity)
 	].
 	self parentPackage ifNotNil: [
 		| theNewContainer |
@@ -59,7 +59,7 @@ ORActionMovePackage >> run [
 				theOldContainer privateChildNamedEntities: (theOldContainer privateChildNamedEntities orionCopy orionRemove: theEntity) ].
 		theNewContainer := self orionModel retrieveEntity: self parentPackage.
 		theEntity privateParentPackage: theNewContainer.
-		theNewContainer privateChildNamedEntities: (theNewContainer privateChildNamedEntities unsafeAdd: theEntity)
+		theNewContainer privateChildNamedEntities: (theNewContainer privateChildNamedEntities orionCopy unsafeAdd: theEntity)
 	].
 	theEntity resetMooseName.
 	^ theEntity

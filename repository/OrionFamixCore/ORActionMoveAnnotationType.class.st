@@ -44,7 +44,7 @@ ORActionMoveAnnotationType >> run [
 				theOldContainer privateChildNamedEntities: (theOldContainer privateChildNamedEntities orionCopy orionRemove: theEntity) ].
 		theNewContainer := self orionModel retrieveEntity: self parentPackage.
 		theEntity privateParentPackage: theNewContainer.
-		theNewContainer privateChildNamedEntities: (theNewContainer privateChildNamedEntities unsafeAdd: theEntity)
+		theNewContainer privateChildNamedEntities: (theNewContainer privateChildNamedEntities orionCopy unsafeAdd: theEntity)
 	].
 	self container ifNotNil: [
 		| theNewContainer |
@@ -54,7 +54,7 @@ ORActionMoveAnnotationType >> run [
 				theOldContainer privateDefinedAnnotationTypes: (theOldContainer privateDefinedAnnotationTypes orionCopy orionRemove: theEntity) ].
 		theNewContainer := self orionModel retrieveEntity: self container.
 		theEntity privateContainer: theNewContainer.
-		theNewContainer privateDefinedAnnotationTypes: (theNewContainer privateDefinedAnnotationTypes unsafeAdd: theEntity)
+		theNewContainer privateDefinedAnnotationTypes: (theNewContainer privateDefinedAnnotationTypes orionCopy unsafeAdd: theEntity)
 	].
 	theEntity resetMooseName.
 	^ theEntity

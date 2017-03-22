@@ -44,7 +44,7 @@ ORActionMoveParameter >> run [
 				theOldContainer privateParameters: (theOldContainer privateParameters orionCopy orionRemove: theEntity) ].
 		theNewContainer := self orionModel retrieveEntity: self parentBehaviouralEntity.
 		theEntity privateParentBehaviouralEntity: theNewContainer.
-		theNewContainer privateParameters: (theNewContainer privateParameters unsafeAdd: theEntity)
+		theNewContainer privateParameters: (theNewContainer privateParameters orionCopy unsafeAdd: theEntity)
 	].
 	self parentPackage ifNotNil: [
 		| theNewContainer |
@@ -54,7 +54,7 @@ ORActionMoveParameter >> run [
 				theOldContainer privateChildNamedEntities: (theOldContainer privateChildNamedEntities orionCopy orionRemove: theEntity) ].
 		theNewContainer := self orionModel retrieveEntity: self parentPackage.
 		theEntity privateParentPackage: theNewContainer.
-		theNewContainer privateChildNamedEntities: (theNewContainer privateChildNamedEntities unsafeAdd: theEntity)
+		theNewContainer privateChildNamedEntities: (theNewContainer privateChildNamedEntities orionCopy unsafeAdd: theEntity)
 	].
 	theEntity resetMooseName.
 	^ theEntity

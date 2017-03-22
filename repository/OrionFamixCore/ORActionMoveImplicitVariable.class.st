@@ -44,7 +44,7 @@ ORActionMoveImplicitVariable >> run [
 				theOldContainer privateImplicitVariables: (theOldContainer privateImplicitVariables orionCopy orionRemove: theEntity) ].
 		theNewContainer := self orionModel retrieveEntity: self parentBehaviouralEntity.
 		theEntity privateParentBehaviouralEntity: theNewContainer.
-		theNewContainer privateImplicitVariables: (theNewContainer privateImplicitVariables unsafeAdd: theEntity)
+		theNewContainer privateImplicitVariables: (theNewContainer privateImplicitVariables orionCopy unsafeAdd: theEntity)
 	].
 	self parentPackage ifNotNil: [
 		| theNewContainer |
@@ -54,7 +54,7 @@ ORActionMoveImplicitVariable >> run [
 				theOldContainer privateChildNamedEntities: (theOldContainer privateChildNamedEntities orionCopy orionRemove: theEntity) ].
 		theNewContainer := self orionModel retrieveEntity: self parentPackage.
 		theEntity privateParentPackage: theNewContainer.
-		theNewContainer privateChildNamedEntities: (theNewContainer privateChildNamedEntities unsafeAdd: theEntity)
+		theNewContainer privateChildNamedEntities: (theNewContainer privateChildNamedEntities orionCopy unsafeAdd: theEntity)
 	].
 	theEntity resetMooseName.
 	^ theEntity
