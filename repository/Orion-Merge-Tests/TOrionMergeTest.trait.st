@@ -384,7 +384,7 @@ TOrionMergeTest >> testCreateRemoveAnnotation [
 		name: 'newAnnotationType') run.
 	(ORActionAddAnnotationInstance new
 		orionModel: self modelMerger baseModel;
-		container: method;
+		parentType: method;
 		type: 'newAnnotationType') run.
 	self modelMerger run.
 	self modelMerger
