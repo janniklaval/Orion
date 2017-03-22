@@ -36,6 +36,12 @@ ORGenerator class >> runOnOrionExistingJavaClasses [
 ]
 
 { #category : #running }
+ORGenerator class >> runOnOrionExistingSourceAnchorClasses [
+	^ self
+		makeORForClasses: (RPackage organizer packageNamed: 'Famix-SourceAnchor') definedClasses
+]
+
+{ #category : #running }
 ORGenerator class >> runOnOrionSQLClasses [
 	^ self
 		makeORForClasses:
