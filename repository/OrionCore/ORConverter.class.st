@@ -85,6 +85,12 @@ ORConverter class >> initConverter [
 		"association at: FAMIXFile put: ORFile.
 		association at: FAMIXFolder put: ORFolder."
 		association at: FAMIXThrownException put: ORThrownException. 
+		association at: FAMIXPharoAnchor put: ORPharoAnchor.
+		association at: FAMIXFileAnchor put: ORFileAnchor .
+		association at: FAMIXSourceTextAnchor put: ORSourceTextAnchor .
+		association at: FAMIXIndexedFileAnchor put: ORIndexedFileAnchor .
+		association at: FAMIXMultipleFileAnchor put: ORMultipleFileAnchor .
+		association at: FAMIXAbstractFileAnchor put: ORAbstractFileAnchor .
 		^association
 ]
 
