@@ -432,18 +432,12 @@ ORActionTest >> testOPMoveClassInNamespace [
 	self
 		assert: (orionModel entityNamed: 'NamespaceTest::Class5') parentPackage
 		equals: (orionModel entityNamed: 'Orion-TestModel-Constellation2').
-	self
-		assert:
-			(orionModel entityNamed: 'NamespaceTest::Class5.accessOrion2Class3()')
-				parentPackage
-		equals: (orionModel entityNamed: 'Orion-TestModel-Constellation2')
 ]
 
 { #category : #testing }
 ORActionTest >> testOPMoveClassInPackage [
 	| asS asAction |
 		self flag: #FIXME.
-	self skip.
 	self flag: 'the parentPackage of the method should be looked up to the one on the class. Excepted it is in another package.'.
 	asS := self model system.
 	asAction := ORActionMoveClass new orionModel: orionModel; 
@@ -1029,7 +1023,6 @@ ORActionTest >> testOPRemoveNamespace [
 ORActionTest >> testOPRemovePackage [
 	| asM2 asAction2 pckg |
 	self flag: #FIXME.
-	self skip.
 	pckg := orionModel entityNamed: 'Orion-TestModel-Constellation1'.
 	asM2 := (ORModel withParent: orionModel) name: 'AsM2'.
 	asAction2 := ORActionRemovePackage new
