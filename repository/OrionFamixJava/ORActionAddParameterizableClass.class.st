@@ -5,8 +5,8 @@ Class {
 	#name : #ORActionAddParameterizableClass,
 	#superclass : #ORActionAddEntity,
 	#instVars : [
-		'typeAliases',
 		'definedAnnotationTypes',
+		'typeAliases',
 		'instances',
 		'declaredSourceLanguage',
 		'container',

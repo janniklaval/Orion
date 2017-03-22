@@ -44,7 +44,7 @@ ORActionMoveParameterizableClass >> run [
 				theOldContainer privateTypes: (theOldContainer privateTypes orionCopy orionRemove: theEntity) ].
 		theNewContainer := self orionModel retrieveEntity: self container.
 		theEntity privateContainer: theNewContainer.
-		theNewContainer privateTypes: (theNewContainer privateTypes unsafeAdd: theEntity)
+		theNewContainer privateTypes: (theNewContainer privateTypes orionCopy unsafeAdd: theEntity)
 	].
 	self parentPackage ifNotNil: [
 		| theNewContainer |
@@ -54,7 +54,7 @@ ORActionMoveParameterizableClass >> run [
 				theOldContainer privateChildNamedEntities: (theOldContainer privateChildNamedEntities orionCopy orionRemove: theEntity) ].
 		theNewContainer := self orionModel retrieveEntity: self parentPackage.
 		theEntity privateParentPackage: theNewContainer.
-		theNewContainer privateChildNamedEntities: (theNewContainer privateChildNamedEntities unsafeAdd: theEntity)
+		theNewContainer privateChildNamedEntities: (theNewContainer privateChildNamedEntities orionCopy unsafeAdd: theEntity)
 	].
 	theEntity resetMooseName.
 	^ theEntity

@@ -44,7 +44,7 @@ ORActionMoveEnumValue >> run [
 				theOldContainer privateValues: (theOldContainer privateValues orionCopy orionRemove: theEntity) ].
 		theNewContainer := self orionModel retrieveEntity: self parentEnum.
 		theEntity privateParentEnum: theNewContainer.
-		theNewContainer privateValues: (theNewContainer privateValues unsafeAdd: theEntity)
+		theNewContainer privateValues: (theNewContainer privateValues orionCopy unsafeAdd: theEntity)
 	].
 	self parentPackage ifNotNil: [
 		| theNewContainer |
@@ -54,7 +54,7 @@ ORActionMoveEnumValue >> run [
 				theOldContainer privateChildNamedEntities: (theOldContainer privateChildNamedEntities orionCopy orionRemove: theEntity) ].
 		theNewContainer := self orionModel retrieveEntity: self parentPackage.
 		theEntity privateParentPackage: theNewContainer.
-		theNewContainer privateChildNamedEntities: (theNewContainer privateChildNamedEntities unsafeAdd: theEntity)
+		theNewContainer privateChildNamedEntities: (theNewContainer privateChildNamedEntities orionCopy unsafeAdd: theEntity)
 	].
 	theEntity resetMooseName.
 	^ theEntity
