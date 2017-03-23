@@ -194,7 +194,7 @@ OrionMergeFamixChangeVisitor >> findEntityInOrionModel: entity [
 			| fm3Description parent |
 			fm3Description := (entity mooseDescription allAttributes select: #isContainer) first.
 			1halt.
-			parent := self orionVersionedModel entityNamed: (entity perform: fm3Description implementingSelector) name withType: (self orionClassOf: fm3Description mmClass implementingClass).
+			parent := self orionVersionedModel entityNamed: (entity perform: fm3Description implementingSelector) name withType: (entity perform: fm3Description implementingSelector) class.
 			(parent notNil and: [ fm3Description opposite isMultivalued false ]) ifTrue: [ ^ parent perform: fm3Description opposite ].
 			1halt ].
 	^ self orionVersionedModel entityNamed: entity mooseName withType: (self orionClassOf: entity class)
