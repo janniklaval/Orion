@@ -96,7 +96,8 @@ ORConverter class >> initConverter [
 
 { #category : #'initialize-release' }
 ORConverter class >> initialize [
-	modelShouldHaveOnlyOrionClasses := false
+	modelShouldHaveOnlyOrionClasses := false.
+	association := nil.
 ]
 
 { #category : #'initialize-release' }
