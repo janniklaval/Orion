@@ -136,6 +136,8 @@ ConfigurationOfOrionMerge >> baseline01: spec [
 			package: 'OrionFamixCore' with: [
 				spec requires: #('Orion' ). ];
 			package: 'OrionFamixJava' with: [
+				spec requires: #('Orion' 'OrionFamixCore' ). ];
+			package: 'OrionFamixSourceAnchor' with: [
 				spec requires: #('Orion' 'OrionFamixCore' ). ]. ].
 
 ]
