@@ -32,7 +32,6 @@ Class {
 { #category : #running }
 OrionMergeOnlyOrionModelsTest >> setUp [
 	super setUp.
-	self skip.
 	model2 := model2 convertToOrion.
-	self modelMerger: (FXDiff baseModel: model1 targetModel: model2 diffTransformers: {OrionMerge})
+	self modelMerger: (FXDiff baseModel: model1 targetModel: model2 diffTransformers: {OrionMergeWithVisitor})
 ]

@@ -39,17 +39,18 @@ TOrionMergeTest >> testAddAllFromStModel [
 TOrionMergeTest >> testAddAndDiffAllFromStModel [
 	<expectedFailure>
 	| modelDiff res |
-	model1 := MooseModel new.
-	model1 name: 'baseEmpty'.
-	modelMerger := FXDiff baseModel: model1 convertToOrion targetModel: model2 diffTransformers: {OrionMerge}.
-	modelMerger run.
-	self assert: modelMerger baseModel system orionModels size equals: 2.
-	modelDiff := FXDiff baseModel: modelMerger baseModel system orionModels second targetModel: model2 diffTransformers: {}.
+	self model1: MooseModel new.
+	self model1 name: 'baseEmpty'.
+	self modelMerger: (FXDiff baseModel: self model1 convertToOrion targetModel: self model2 diffTransformers: {OrionMergeWithVisitor}).
+	self modelMerger run.
+	self assert: self modelMerger baseModel system orionModels size equals: 2.
+	modelDiff := FXDiff baseModel: self modelMerger baseModel system orionModels second targetModel: self model2 diffTransformers: {}.
 	res := modelDiff run result.
-	self assert: res isEmpty
+	self assert: res isEmpty.
+	
 ]
 
-{ #category : #'tests-create' }
+{ #category : #'as yet unclassified' }
 TOrionMergeTest >> testCreateAddAccess [
 	| var2 access |
 	var2 := self modelMerger targetModel entityNamed: 'Smalltalk::A3diff.att1'.
@@ -58,9 +59,10 @@ TOrionMergeTest >> testCreateAddAccess [
 		accessor: (self modelMerger targetModel entityNamed: 'Smalltalk::A3diff.b3()').
 	self modelMerger targetModel add: access.
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.att1') incomingAccesses isEmpty.
-	self modelMerger run.
+	"self modelMerger run.
 	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createAddAccess.
+	self mooseModelMerge createAddAccess."
+	self diff.
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.att1') incomingAccesses size equals: 0.
 	self
 		assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.att1') incomingAccesses first accessor
@@ -79,13 +81,7 @@ TOrionMergeTest >> testCreateAddAnnotation [
 				annotatedEntity: method;
 				annotationType: annotationType;
 				yourself).
-	self modelMerger run.
-	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createAddScopingEntity.
-	self mooseModelMerge createAddType.
-	self mooseModelMerge createAddMethod.
-	self mooseModelMerge createAddAnnotationType.
-	self mooseModelMerge createAddAnnotationInstance.
+	self diff.
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.c3()') annotationInstances size equals: 0.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.c3()') annotationInstances size equals: 1
 ]
@@ -95,13 +91,6 @@ TOrionMergeTest >> testCreateAddAttribute [
 	| diff |
 	(self modelMerger targetModel entityNamed: 'Smalltalk::A3diff') addAttributeNamed: 'attAdded' inModel: self modelMerger targetModel.
 	diff := self diff.
-	"self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion."
-	"self mooseModelMerge createAddScopingEntity.
-	self mooseModelMerge createAddType.
-	self mooseModelMerge createAddAttribute.
-	self mooseModelMerge createAddMethod.
-	self mooseModelMerge createAddAnnotationType.
-	self mooseModelMerge createAddAnnotationInstance."
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.attAdded') isNil.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.attAdded') isNotNil.
 ]
@@ -117,10 +106,7 @@ TOrionMergeTest >> testCreateAddInvocation [
 		candidates:
 			(self modelMerger targetModel entityNamed: 'Smalltalk::B3diff.c3()')
 				asOrderedCollection.
-	self modelMerger run.
-	self modelMerger
-		orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createAddInvocation.
+	self diff.
 	self
 		assert:
 			(self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.b3()')
@@ -154,13 +140,7 @@ TOrionMergeTest >> testCreateAddReference [
 	FAMIXReference new
 		source: meth;
 		target: (self modelMerger targetModel entityNamed: 'Smalltalk::B2diff').
-	self modelMerger run.
-	self modelMerger
-		orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createAddScopingEntity.
-	self mooseModelMerge createAddType.
-	self mooseModelMerge createAddMethod.
-	self mooseModelMerge createAddReference.
+	self diff.
 	self
 		assert:
 			(self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.b3()')
@@ -175,10 +155,7 @@ TOrionMergeTest >> testCreateAddReference [
 
 { #category : #'tests-create' }
 TOrionMergeTest >> testCreateAddScopingEntity [
-	self modelMerger run.
-	self modelMerger
-		orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createAddScopingEntity.
+	self diff.
 	self
 		assert:
 			(self modelMerger baseModel
@@ -191,11 +168,7 @@ TOrionMergeTest >> testCreateAddScopingEntity [
 
 { #category : #'tests-create' }
 TOrionMergeTest >> testCreateAddType [
-	self modelMerger run.
-	self modelMerger
-		orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createAddScopingEntity.
-	self mooseModelMerge createAddType.
+	self diff.
 	self
 		assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A2diff') isNil.
 	self
@@ -229,9 +202,7 @@ TOrionMergeTest >> testCreateMoveAttribute [
 	(self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.b3()') addAccessTo: (self modelMerger baseModel entityNamed: 'Smalltalk::A4diff.attAdded') inModel: self modelMerger baseModel.
 	(self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.c3()') addAccessTo: (self modelMerger baseModel entityNamed: 'Smalltalk::A4diff.attAdded') inModel: self modelMerger baseModel.
 	(self modelMerger baseModel entityNamed: 'Smalltalk::B3diff.c3()') addAccessTo: (self modelMerger baseModel entityNamed: 'Smalltalk::A4diff.attAdded') inModel: self modelMerger baseModel.
-	self modelMerger run.
-	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createMoveAttribute.
+	self diff.
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A4diff.attAdded') notNil.
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.attAdded') isNil.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.attAdded') notNil.
@@ -248,14 +219,7 @@ TOrionMergeTest >> testCreateMoveClass [
 		parentPackage:
 			(self modelMerger targetModel
 				entityNamed: 'Moose-TestResources-ModelDiff-P2').
-	self modelMerger run.
-	self modelMerger
-		orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createAddScopingEntity.
-	self
-		assert: self modelMerger orionVersionedModel changes size
-		equals: 1.
-	self mooseModelMerge createMoveClass.
+	self diff.
 	self
 		assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff') notNil.
 	self
@@ -277,11 +241,9 @@ TOrionMergeTest >> testCreateMoveClass [
 { #category : #'tests-create' }
 TOrionMergeTest >> testCreateMoveExtendedMethod [
 	| orAction meth extendedMeth |
-	self flag: #FIXME.
-	self fail.
 	(self modelMerger baseModel entityNamed: 'Smalltalk::A3diff') addMethodNamed: 'extendedMeth' inModel: self modelMerger baseModel.
-	extendedMeth := self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.extendedMeth()'.
-	orAction := ORActionExtendMethod new
+	extendedMeth := self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.extendedMeth'.
+	orAction := ORActionMoveMethod new
 		orionModel: self modelMerger baseModel;
 		entity: extendedMeth;
 		parentPackage: (self modelMerger baseModel entityNamed: #'Moose-TestResources-ModelDiff-P4').
@@ -301,11 +263,11 @@ TOrionMergeTest >> testCreateMoveExtendedMethod [
 	meth parentPackage: (self modelMerger targetModel entityNamed: 'Moose-TestResources-ModelDiff-P2').
 	"	Halt now."
 	self diff.
-	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
+	"self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
 	self mooseModelMerge createAddScopingEntity.
 	self mooseModelMerge createAddType.
 	self mooseModelMerge createAddMethod.
-	self mooseModelMerge createMoveMethod.
+	self mooseModelMerge createMoveMethod."
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.extendedMeth()') notNil.
 	self
 		assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.extendedMeth()') parentPackage mooseName
@@ -316,14 +278,14 @@ TOrionMergeTest >> testCreateMoveExtendedMethod [
 TOrionMergeTest >> testCreateMoveMethod [
 
 	(self modelMerger targetModel entityNamed: 'Smalltalk::A3diff.c3()') parentType: (self modelMerger  targetModel entityNamed: 'Smalltalk::C3diff').
-	self diff.
-	self modelMerger orionVersionedModel: (self modelMerger baseModel createNewChildVersion).
 
-	self mooseModelMerge createMoveMethod.
+	self modelMerger orionVersionedModel: (self modelMerger baseModel createNewChildVersion).
+	self diff.
+	"self mooseModelMerge createMoveMethod."
 	
 	
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.c3()') isNotNil.
-	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::C3diff.c3()') isNotNil.
+	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::C3diff.c3') isNotNil.
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.c3()') belongsTo mooseName equals:  'Smalltalk::A3diff'.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::C3diff.c3()') belongsTo mooseName equals:  'Smalltalk::C3diff'.
 	self assert: self modelMerger orionVersionedModel changes size equals: 1.
@@ -337,8 +299,8 @@ TOrionMergeTest >> testCreateMoveMethod [
 TOrionMergeTest >> testCreateRemove [
 	
 	self diff.
-	self modelMerger orionVersionedModel: (self modelMerger baseModel createNewChildVersion).
-	self mooseModelMerge createRemove.
+	"self modelMerger orionVersionedModel: (self modelMerger baseModel createNewChildVersion).
+	self mooseModelMerge createRemove."
 	
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A4diff.b3()') isNotNil.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A4diff.b3()') isNil.
@@ -357,9 +319,7 @@ TOrionMergeTest >> testCreateRemoveAccess [
 		accessor: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.b3()');
 		variable: var1;
 		run.
-	self modelMerger run.
-	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createRemoveAccess.
+		self diff.
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.att1') incomingAccesses notEmpty.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.att1') incomingAccesses isEmpty
 ]
@@ -375,18 +335,9 @@ TOrionMergeTest >> testCreateRemoveAnnotation [
 		name: 'newAnnotationType') run.
 	(ORActionAddAnnotationInstance new
 		orionModel: self modelMerger baseModel;
-		parentType: method;
-		type: 'newAnnotationType') run.
-	self modelMerger run.
-	self modelMerger
-		orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createAddScopingEntity.
-	self mooseModelMerge createAddType.
-	self mooseModelMerge createAddMethod.
-	self mooseModelMerge createAddAnnotationType.
-	self mooseModelMerge createAddAnnotationInstance.
-	self mooseModelMerge createRemoveAnnotationInstance.
-	self mooseModelMerge createRemoveAnnotationType.
+		annotatedEntity: method;
+		annotationType: 'newAnnotationType') run.
+		self diff.
 	annotationsInstancesBaseModel := (self modelMerger baseModel
 		entityNamed: 'Smalltalk::A3diff.c3()') annotationInstances.
 	self assert: annotationsInstancesBaseModel size equals: 1.
@@ -408,11 +359,9 @@ TOrionMergeTest >> testCreateRemoveAnnotation [
 TOrionMergeTest >> testCreateRemoveAttribute [
 	(self modelMerger baseModel entityNamed: 'Smalltalk::A4diff') addAttributeNamed: 'toto' inModel: self modelMerger baseModel.
 	self diff.
-	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createRemoveAttribute.
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A4diff.toto') isNotNil.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A4diff.toto') isNil.
-	self assert: self modelMerger orionVersionedModel changes size equals: (self diff count: [ :e | e isRemoval and: [ e entity isAttribute ] ])
+
 ]
 
 { #category : #'tests-create' }
@@ -430,9 +379,6 @@ TOrionMergeTest >> testCreateRemoveInvocation [
 		candidates: cand;
 		run.
 	self diff.
-	self modelMerger
-		orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createRemoveInvocation.
 	self
 		assert:
 			(self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.b3()')
@@ -446,8 +392,6 @@ TOrionMergeTest >> testCreateRemoveInvocation [
 { #category : #'tests-create' }
 TOrionMergeTest >> testCreateRemoveMethod [
 	self diff.
-	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createRemoveMethod.
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A4diff.b3()') isNotNil.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A4diff.b3()') isNil
 ]
@@ -463,10 +407,10 @@ TOrionMergeTest >> testCreateRemoveReference [
 		run.
 	self diff.
 	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createAddScopingEntity.
+	"self mooseModelMerge createAddScopingEntity.
 	self mooseModelMerge createAddType.
 	self mooseModelMerge createAddMethod.
-	self mooseModelMerge createRemoveReference.
+	self mooseModelMerge createRemoveReference."
 	self
 		assert:
 			((self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.b3()') outgoingReferences select: [ :ref | ref target mooseID = (self modelMerger baseModel entityNamed: 'Smalltalk::A4diff') mooseID ])
@@ -479,17 +423,14 @@ TOrionMergeTest >> testCreateRemoveReference [
 
 { #category : #'tests-expected failures' }
 TOrionMergeTest >> testCreateRename [
-	<expectedFailure>
 	(self modelMerger targetModel entityNamed: 'Smalltalk::B3diff') name: 'X3diff'.
 	(self modelMerger targetModel entityNamed: 'Smalltalk::A3diff.c3()') name: 'd3()'.
 	self diff.
-	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self modelMerger createRename.
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.c3()') notNil.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.c3()') name equals: 'd3()'.
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::B3diff') notNil.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::X3diff') notNil.
-	self assert: self modelMerger orionVersionedModel changes size equals: 2
+
 ]
 
 { #category : #'tests-create' }
@@ -502,22 +443,19 @@ TOrionMergeTest >> testCreateRenameAttribute [
 	(self modelMerger targetModel entityNamed: 'Smalltalk::B3diff.c3()') addAccessToVarNamed: 'Smalltalk::A3diff.att1' inModel: self modelMerger targetModel.
 	(self modelMerger targetModel entityNamed: 'Smalltalk::A3diff.att1') name: 'toto'.
 	self diff.
-	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createRenameAttribute.
+	"self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
+	self mooseModelMerge createRenameAttribute."
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.att1') isNotNil.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.toto') isNotNil.
-	self assert: self modelMerger orionVersionedModel changes size equals: 1
 ]
 
 { #category : #'tests-create' }
 TOrionMergeTest >> testCreateRenameClass [
 	(self modelMerger targetModel entityNamed: 'Smalltalk::A3diff') name: 'X3diff'.
 	self diff.
-	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self mooseModelMerge createRenameClass.
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff') notNil.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::X3diff') isNotNil.
-	self assert: self modelMerger orionVersionedModel changes size equals: 1
+
 ]
 
 { #category : #'tests-expected failures' }
@@ -525,30 +463,23 @@ TOrionMergeTest >> testCreateRenameMethod [
 	<expectedFailure>
 	(self modelMerger targetModel entityNamed: 'Smalltalk::A3diff.c3()') name: 'd3()'.
 	self diff.
-	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self modelMerger createRenameMethod.
 	self assert: (self modelMerger baseModel entityNamed: 'Smalltalk::A3diff.c3()') isNotNil.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Smalltalk::A3diff.c3()') name equals: 'd3()'.
-	self assert: self modelMerger orionVersionedModel changes size equals: 1
 ]
 
 { #category : #'tests-expected failures' }
 TOrionMergeTest >> testCreateRenamePackage [
-	<expectedFailure>
 	(self modelMerger targetModel entityNamed: 'Moose-TestResources-ModelDiff-P3') name: 'totoPackage'.
 	self diff.
-	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self modelMerger createRenamePackage.
 	self assert: (self modelMerger baseModel entityNamed: 'Moose-TestResources-ModelDiff-P3') isNotNil.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'Moose-TestResources-ModelDiff-P3') isNotNil.
 	self assert: (self modelMerger orionVersionedModel entityNamed: 'totoPackage') isNotNil.
-	self assert: self modelMerger orionVersionedModel changes size equals: 1
 ]
 
 { #category : #'tests-create' }
 TOrionMergeTest >> testCreateVersion [
 
-	self mooseModelMerge createVersion.
+	self diff.
 	
 	self assert: self modelMerger orionVersionedModel notNil.
 	
@@ -854,14 +785,13 @@ TOrionMergeTest >> testSetOfRenameClassChanges [
 
 { #category : #'tests-expected failures' }
 TOrionMergeTest >> testSetOfRenameMethodChanges [
-	<expectedFailure>
 	(self modelMerger targetModel entityNamed: 'Smalltalk::A3diff.c3()') name: 'd3()'.
 	self diff.
 	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self assert: self modelMerger setOfRenameMethodChanges notNil.
-	self assert: self modelMerger setOfRenameMethodChanges size equals: (self diff changes count: [ :e | e isRemoval and: [ e entity isMethod ] ]).
-	self assert: (self modelMerger setOfRenameMethodChanges collect: [ :e | e entity name = 'c3' ]) isNotNil.
-	self assert: (self modelMerger setOfRenameMethodChanges collect: [ :e | e targetEntity name = 'd3()' ]) isNotNil
+	self assert: self modelMerger result setOfRenameMethodChanges notNil.
+	self assert: self modelMerger result setOfRenameMethodChanges size equals: (self diff count: [ :e | e isRemoval and: [ e entity isMethod ] ]).
+	self assert: (self modelMerger result setOfRenameMethodChanges collect: [ :e | e entity name = 'c3' ]) isNotNil.
+	self assert: (self modelMerger result setOfRenameMethodChanges collect: [ :e | e targetEntity name = 'd3()' ]) isNotNil
 ]
 
 { #category : #'tests-expected failures' }
@@ -870,8 +800,8 @@ TOrionMergeTest >> testSetOfRenamePackageChanges [
 	(self modelMerger targetModel entityNamed: 'Moose-TestResources-ModelDiff-P3') name: 'totoPackage'.
 	self diff.
 	self modelMerger orionVersionedModel: self modelMerger baseModel createNewChildVersion.
-	self assert: self modelMerger setOfRenamePackageChanges isNotNil.
-	self assert: self modelMerger setOfRenamePackageChanges size equals: (self diff changes count: [ :e | e isRemoval and: [ e entity isPackage ] ]).
-	self assert: (self modelMerger setOfRenamePackageChanges collect: [ :e | e entity name = 'Moose-TestResources-ModelDiff-P3' ]) isNotNil.
-	self assert: (self modelMerger setOfRenamePackageChanges collect: [ :e | e targetEntity name = 'totoPackage' ]) isNotNil
+	self assert: self modelMerger result setOfRenamePackageChanges isNotNil.
+	self assert: self modelMerger result setOfRenamePackageChanges size equals: (self diff count: [ :e | e isRemoval and: [ e entity isPackage ] ]).
+	self assert: (self modelMerger result setOfRenamePackageChanges collect: [ :e | e entity name = 'Moose-TestResources-ModelDiff-P3' ]) isNotNil.
+	self assert: (self modelMerger result setOfRenamePackageChanges collect: [ :e | e targetEntity name = 'totoPackage' ]) isNotNil
 ]
