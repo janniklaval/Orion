@@ -12,7 +12,7 @@ Class {
 	#category : #'Orion-Merge-Tests'
 }
 
-{ #category : #running }
+{ #category : #initialization }
 OrionMergeTest >> setUp [
 	model1 := self importModelNamed: 'base' fromPackages: #(#'Moose-TestResources-ModelDiff-P4' #'Moose-TestResources-ModelDiff-P3').
 	model1 := model1 convertToOrion.
