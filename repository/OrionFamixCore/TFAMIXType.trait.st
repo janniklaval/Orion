@@ -102,13 +102,3 @@ TFAMIXType >> superInheritances [
 TFAMIXType >> superInheritancesOR: aVersion [
 	^ self privateSuperInheritances versionIn: aVersion
 ]
-
-{ #category : #accessing }
-TFAMIXType >> typeAliases [
-	^ self typeAliasesOR: self currentContext
-]
-
-{ #category : #accessing }
-TFAMIXType >> typeAliasesOR: aVersion [
-	^ self privateTypeAliases versionIn: aVersion
-]
