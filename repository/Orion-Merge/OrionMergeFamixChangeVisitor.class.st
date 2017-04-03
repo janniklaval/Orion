@@ -10,9 +10,10 @@ Class {
 
 { #category : #'generic actions' }
 OrionMergeFamixChangeVisitor >> createAdd: descr entity: aFamixAddChange [
-	| entity changeAction |
+	| entity changeAction className |
 	entity := aFamixAddChange entity.
-	changeAction := ('ORActionAdd' , descr name) asClass new.
+	descr implementingClass isOrionClass ifTrue: [ className := descr superclass name ] ifFalse: [ className := descr name ].
+	changeAction := ('ORActionAdd' , className) asClass new.
 	changeAction orionModel: self orionVersionedModel.
 	descr allAttributesNotDerived
 		collect: [ :e | e -> (self setProperty: e from: entity to: changeAction) ].
@@ -189,7 +190,12 @@ OrionMergeFamixChangeVisitor >> createRen: descr entity: aFamixRenameChange [
 { #category : #private }
 OrionMergeFamixChangeVisitor >> findEntityInOrionModel: entity [
 	entity mooseName = #noname
-		ifTrue: [ self halt ].
+		ifTrue: [ 
+			"Retrieve the parent and then the entity"
+			| fm3Description parent |
+			fm3Description := (entity mooseDescription allContainerAttributes) first.
+			parent := self orionVersionedModel entityNamed: (entity perform: fm3Description implementingSelector) mooseName withType: (entity perform: fm3Description implementingSelector) class.
+			(parent notNil and: [ fm3Description opposite isMultivalued not ]) ifTrue: [ ^ parent perform: fm3Description opposite implementingSelector ]].
 	^ self orionVersionedModel entityNamed: entity mooseName withType: (self orionClassOf: entity class)
 ]
 
