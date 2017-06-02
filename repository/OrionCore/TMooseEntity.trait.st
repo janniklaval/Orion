@@ -12,6 +12,11 @@ TMooseEntity classSide >> isOrionClass [
 ]
 
 { #category : #accessing }
+TMooseEntity >> addModel: aModel [
+	^self privateState addModel: aModel
+]
+
+{ #category : #accessing }
 TMooseEntity >> currentContext [
 	"Answers the model containing the current entity"
 	^ self privateState currentContext
@@ -59,13 +64,9 @@ TMooseEntity >> isModifiedBetween: anOrionModel and: anotherOrionModel [
 
 { #category : #testing }
 TMooseEntity >> isModifiedIn: anOrionModel [
-		|parent|
-		parent := anOrionModel parentModel.
-		parent isNil 
-			ifTrue:[^false]
-			ifFalse:[
-				^(parent entityStorage atID: self mooseID ifAbsent:[nil]) isNil.
-			]
+	| parent |
+	parent := anOrionModel parentModel.
+	parent ifNil: [ ^ false ] ifNotNil: [ ^ (parent entityStorage atID: self mooseID ifAbsent: [ nil ]) isNil ]
 ]
 
 { #category : #testing }
@@ -75,20 +76,15 @@ TMooseEntity >> isOrionEntity [
 
 { #category : #testing }
 TMooseEntity >> isRemovedBetween: anOrionModel and: anotherOrionModel [
-		
-		^(anOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) notNil
-			and:[(anotherOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) isNil].
+	^ (anOrionModel entityStorage atID: self mooseID ifAbsent: [ nil ]) notNil and: [ (anotherOrionModel entityStorage atID: self mooseID ifAbsent: [ nil ]) isNil ]
 ]
 
 { #category : #testing }
 TMooseEntity >> isRemovedIn: anOrionModel [
-		|parent|
-		parent := anOrionModel parentModel.
-		parent ifNil:[
-			^(anOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) isNil
-		].
-		^(parent entityStorage atID: self mooseID ifAbsent:[nil]) notNil
-			and:[(anOrionModel entityStorage atID: self mooseID ifAbsent:[nil]) isNil].
+	| parent |
+	parent := anOrionModel parentModel.
+	parent ifNil: [ ^ (anOrionModel entityStorage atID: self mooseID ifAbsent: [ nil ]) isNil ].
+	^ (parent entityStorage atID: self mooseID ifAbsent: [ nil ]) notNil and: [ (anOrionModel entityStorage atID: self mooseID ifAbsent: [ nil ]) isNil ]
 ]
 
 { #category : #accessing }
@@ -106,6 +102,17 @@ TMooseEntity >> orionModel [
 TMooseEntity >> orionModel: aModel [
 	"Answers the model containing the current entity"
 	^ self mooseModel: aModel
+]
+
+{ #category : #accessing }
+TMooseEntity >> orionModels [
+	"Answers the model containing the current entity"
+	^ self privateState models
+]
+
+{ #category : #accessing }
+TMooseEntity >> removeModel: aModel [
+	^ self privateState removeModel: aModel
 ]
 
 { #category : #accessing }

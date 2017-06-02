@@ -4,6 +4,14 @@ Class {
 	#category : #OrionCore
 }
 
+{ #category : #adding }
+ORDefaultState >> addModel: anORModel [
+	^ attributes
+		at: #privateModels
+		ifPresent: [ :e | e add: anORModel ]
+		ifAbsentPut: [ OrderedCollection with: anORModel ]
+]
+
 { #category : #accessing }
 ORDefaultState >> allProperties [ 
 	 
@@ -161,7 +169,13 @@ ORDefaultState >> model [
 
 { #category : #accessing }
 ORDefaultState >> model: anObject [
+	self addModel: anObject.
 	^ attributes at: #privateModel put: anObject
+]
+
+{ #category : #accessing }
+ORDefaultState >> models [
+	^ attributes at: #privateModels ifAbsent: [ OrderedCollection new ]
 ]
 
 { #category : #accessing }
@@ -228,4 +242,9 @@ ORDefaultState >> propertyAt: name put: value OR: aVersion [
 { #category : #accessing }
 ORDefaultState >> queryCache [
 	^self entityCache
+]
+
+{ #category : #'as yet unclassified' }
+ORDefaultState >> removeModel: anORModel [
+	^ attributes at: #privateModels ifPresent: [ :e | e remove: anORModel ] ifAbsentPut: [ OrderedCollection new ]
 ]

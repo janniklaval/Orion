@@ -83,7 +83,7 @@ ORSystem >> name: anObject [
 	name := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ORSystem >> orionModels [
 	^ orionModels
 ]

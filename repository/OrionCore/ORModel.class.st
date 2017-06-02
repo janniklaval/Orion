@@ -140,11 +140,10 @@ ORModel >> createEntityFrom: anEntity [
 
 { #category : #creating }
 ORModel >> createNewChildVersion [
-	|newModel|
+	| newModel |
 	newModel := ORModel withParent: self.
-	
-	newModel name: (self baseName, '_', Date current yyyymmdd, '_', Time current print24).
-	^newModel
+	newModel name: self baseName , '_' , Date current yyyymmdd , '_' , Time current print24.
+	^ newModel
 ]
 
 { #category : #'initialize-release' }
@@ -213,7 +212,10 @@ ORModel >> parentModel: anObject [
 { #category : #creating }
 ORModel >> populateModel [
 	self sourceLanguage: self parentModel sourceLanguage.
-	self parentModel entityStorage do: [ :anElement | self entityStorage add: anElement ]
+	self parentModel entityStorage
+		do: [ :anElement | 
+			self entityStorage add: anElement.
+			anElement addModel: self ]
 ]
 
 { #category : #diff }
@@ -231,6 +233,7 @@ ORModel >> remove [
 ORModel >> remove: anElement [
 	"remove an entity in the version"
 
+	anElement removeModel: self.
 	^ self entityStorage remove: anElement ifAbsent: [ self error ]
 ]
 
