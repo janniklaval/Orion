@@ -1,6 +1,6 @@
 Class {
 	#name : #ORDefaultState,
-	#superclass : #MooseDefaultState,
+	#superclass : #MooseDevelopmentState,
 	#category : #OrionCore
 }
 

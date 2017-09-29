@@ -29,6 +29,11 @@ ORModel class >> asMooseDescription [
 ]
 
 { #category : #'class initialization' }
+ORModel class >> initialize [
+	self defaultState: MooseDevelopmentState
+]
+
+{ #category : #'class initialization' }
 ORModel class >> withParent: aModel [
 
 	^ self new withParent:aModel
