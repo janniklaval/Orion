@@ -17,7 +17,7 @@ BaselineOfOrion >> baseline: spec [
 		spec package: 'Orion-TestModel-Constellation1' with: [ spec requires: 'OrionCore' ].
 		spec package: 'Orion-TestModel-Constellation2' with: [ spec requires: 'OrionCore' ].
 		spec package: 'OrionFamixJava' with: [ spec requires: 'OrionFamixCore' ].
-		spec package: 'Famix-Diff-Orion' with: [ spec requires: #('OrionCore') ].
+		"spec package: 'Famix-Diff-Orion' with: [ spec requires: #('OrionCore') ]."
 		
 	spec baseline: 'Moose' 
                             with: [ spec
