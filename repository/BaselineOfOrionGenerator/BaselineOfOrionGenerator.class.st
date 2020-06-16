@@ -12,8 +12,8 @@ BaselineOfOrionGenerator >> baseline: spec [
 		
 		spec package: 'OrionCore' with: [ spec requires: 'Moose' ].
 		spec package: 'OrionGenerator' with: [ spec requires: #('OrionCore') ].
-	].
-	spec baseline: 'Moose' 
+	
+		spec baseline: 'Moose' 
                             with: [ spec
                                 className: 'BaselineOfMoose';
                                 repository: "'github://moosetechnology/Moose:development/src' "'github://moosetechnology/Moose:v7.0.2/src'.
